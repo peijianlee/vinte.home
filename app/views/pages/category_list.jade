@@ -1,0 +1,38 @@
+extends ../layout
+
+block content
+	.container
+		.row
+			table.table.table-hover.table-bordered
+				thead
+					tr
+						th 名字
+						th 时间
+						th 查看
+						th 更新
+						th 删除
+				tbody
+					if categories && categories.length > 0
+						each item in categories
+							tr(class="item-id-#{item._id}")
+								td 
+									a(href='/results?cat=#{item._id}&p=0',target="_blank").btn.btn-info #{item.name} &nbsp;
+										b.badge #{item.movies.length}
+								td #{moment(item.meta.updateAt).format('YYYY/MM/DD HH:mm:ss')}
+								td: a(href='/results?cat=#{item._id}&p=0',target="_blank") 查看
+								td: a(target="_blank", href="../admin/update/#{item._id}") 修改
+								td
+									if item.movies.length == 0
+										button.btn.btn-danger.categorydel(type="button", data-id="#{item._id}") 删除
+									else
+										span.btn.btn-danger.categorydel(disabled="disabled") 删除
+					else
+						tr
+							td.lead.bg-info.text-info(colspan="5")
+								strong 
+									i.glyphicon.glyphicon-info-sign(style="margin-left:10px;margin-right:5px")
+									| 没有任何电影分类！
+				tfood
+					td(colspan="10")
+						a.btn.btn-primary(href="/admin/category/new") 新增分类
+	script(src="/js/admin.js")
