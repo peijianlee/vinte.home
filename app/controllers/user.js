@@ -44,15 +44,23 @@ exports.signup = function(req, res){
 
 // signin
 exports.signin = function(req, res){
-	var _user=req.body.user
-	var name=_user.name
-	var password=_user.password
+	// var _user=req.body.user
+
+	var name=req.query.name
+	var password=req.query.password
+
+	console.log('-------------------')
+	console.log(password)
+	console.log(name)
+	console.log('-------------------')
 
 	User.findOne({name: name},function(err, user){
 		if(err) console.log(err)
 		if(!user){
 			console.log('undefined user')
-			return res.redirect('/signup')
+			return res.json({success:2})
+
+			// return res.redirect('/signup')
 		}
 
 		user.comparePassword(password, function(err, isMatch){
@@ -61,10 +69,12 @@ exports.signin = function(req, res){
 				console.log('Password is matched')
 				// 登录信息存储在session
 				req.session.user = user
-				return res.redirect('/')
+				// return res.redirect('/')
+				res.json({success:1})
 			}else{
 				console.log('Password is not matched')
-				return res.redirect('/signin?name='+name+'&password=notmatched')
+				// return res.redirect('/signin?name='+name+'&password=notmatched')
+				res.json({success:0})
 			}
 		})
 	})

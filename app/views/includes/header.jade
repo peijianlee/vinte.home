@@ -20,8 +20,7 @@
 				span &nbsp;&nbsp;|&nbsp;&nbsp;
 				a.navbar-link(href="/logout") 退出登录
 			else
-				a.navbar-link(href="#", data-toggle="modal", data-target="#signupModal")
-					i.glyphicon.glyphicon-info-sign &nbsp;注册
+				a.navbar-link(href="#", data-toggle="modal", data-target="#signupModal") 注册
 				span &nbsp;&nbsp;|&nbsp;&nbsp;
 				a.navbar-link(href="#", data-toggle="modal", data-target="#signinModal") 登录
 #signupModal.modal.fade
@@ -42,15 +41,16 @@
 #signinModal.modal.fade
 	.modal-dialog
 		.modal-content
-			form(method="POST", action="/user/signin")
-				.modal-header 登录
-				.modal-body
-					.form-group
-						label(for="signinName") 用户名
-						input#signinName.form-control(name="user[name]", type="text")
-					.form-group
-						label(for="signinPassword") 密码
-						input#signupPassword.form-control(name="user[password]", type="text")
-				.modal-footer
-					button.btn.btn-default(type="button", data-dismiss="modal") 关闭
-					button.btn.btn-success(type="submit") 提交
+			//- form(method="POST", action="/user/signin")
+			.modal-header 登录
+			.modal-body
+				.form-group
+					label(for="signinName") 用户名
+					input#signinName.signinName.form-control(name="user[name]", type="text")
+				.form-group
+					label(for="signinPassword") 密码
+					input#signinPassword.signinPassword.form-control(name="user[password]", type="text")
+			.modal-footer
+				button.btn.btn-default(type="button", data-dismiss="modal") 关闭
+				button.btn.btn-success.dialog-signin-success(type="submit") 提交
+	script(src="/js/admin.js")

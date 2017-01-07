@@ -1,11 +1,13 @@
 // 引入controllers的控制器
 var _ = require('underscore')
 var Index = require('../app/controllers/index')
+var News = require('../app/controllers/news')
 var User = require('../app/controllers/user')
 var Movie = require('../app/controllers/movie')
 var Comment = require('../app/controllers/comment')
 var Category = require('../app/controllers/category')
 var Banner = require('../app/controllers/banner')
+
 
 module.exports = function(app){
 	// pre handle user
@@ -17,7 +19,22 @@ module.exports = function(app){
 
 	//Index
 	app.get('/', Index.index)
-	app.get('/404', Index.err)
+
+	app.use(function (err, req, res, next) {
+	    res.status(err.status || 500);
+	    res.render('error', {
+	        message: err.message,
+	        error: {}
+	    });
+	});
+
+	// news
+	app.get('/news/:id', News.detail)
+	app.get('/news', News.indexlist)
+	app.get('/admin/news/new', News.news)
+	app.post('/admin/news', News.save)
+	app.post('/admin/news/uedel', News.uedel)
+	app.get('/admin/news/list', News.list)
 
 	//User
 	app.post('/user/signup', User.signup)

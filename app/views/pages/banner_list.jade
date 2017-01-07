@@ -8,6 +8,7 @@ block content
 					tr
 						th 图片
 						th 标题
+						th 背景颜色
 						th 描述
 						th 更新
 						th 删除
@@ -16,10 +17,13 @@ block content
 						each item in banners
 							tr(class="item-id-#{item._id}")
 								td 
-									img(src="/banner/#{item.imgsrc}")
+									img(src="/banner/#{item.imgsrc}", style="width:150px;height:auto;")
 								td #{item.title}
+								td 
+									div(style='width:60px;height:40px;background-color:#{item.bgcolor}')
 								td #{item.description}
-								td: a(target="_blank", href="/admin/banner/update/#{item._id}") 修改
+								td
+									a.btn.btn-info(target="_blank", href="/admin/banner/update/#{item._id}") 修改
 								td
 									button.btn.btn-danger.bannerdel(type="button", data-id="#{item._id}", data-src="#{item.imgsrc}") 删除
 					else

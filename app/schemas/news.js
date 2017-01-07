@@ -1,16 +1,13 @@
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema
-var ObjectId = Schema.Types.ObjectId
 
-var BannerSchema = new Schema({
+var UserSchema = new Schema({
 	title: String,
-	description: String,
-	bgcolor:{
-		type: String,
-		default: '#000'
-	},
-	link: String,
-	imgsrc: String,
+	content: String,
+	text: String,
+	img: [{
+		src: String
+	}],
 	meta:{
 		createAt:{
 			type: Date,
@@ -24,7 +21,7 @@ var BannerSchema = new Schema({
 })
 
 // 判断保存的数据是否是新增的
-BannerSchema.pre('save', function(next){
+UserSchema.pre('save', function(next){
 	if(this.isNew){
 		this.meta.createAt = this.meta.updateAt = Date.now()
 	}else{
@@ -34,7 +31,7 @@ BannerSchema.pre('save', function(next){
 	next()
 })
 
-BannerSchema.statics = {
+UserSchema.statics = {
 	fetch: function(cb) {
 		return this
 			.find({})
@@ -48,4 +45,4 @@ BannerSchema.statics = {
 	}
 }
 
-module.exports = BannerSchema
+module.exports = UserSchema

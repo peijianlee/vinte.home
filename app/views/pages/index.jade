@@ -1,8 +1,25 @@
 extends ../layout
 
 block content
+
 	.container
 		.row
+			if banners && banners.length > 0
+				.bannerFrame
+					//- div.loadingFrame
+					//- 	dl.loading
+					//- 		dt now loading
+					//- 		dd
+					//- 		dd
+					//- 		dd
+					ul.banner
+						each item in banners
+							li
+								.txtBg(style="background-color:#{item.bgcolor}")
+								h3 #{item.title}
+								.JDT
+								p #{item.description}
+								img(src="/banner/#{item.imgsrc}")
 			each cat in categories
 				.panel.panel-default
 					.panel-heading
@@ -26,3 +43,4 @@ block content
 								strong 
 									i.glyphicon.glyphicon-info-sign(style="margin-right:5px")
 									| 该分类没有任何电影数据！
+		script(src="/js/index.js")

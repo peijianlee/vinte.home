@@ -81,7 +81,7 @@ exports.save = function(req,res){
 
 }
 
-// banner update movie
+// banner update page
 exports.update = function(req,res){
 	var id = req.params.id
 

@@ -2,7 +2,8 @@
 =================
 简介
 ---------------
-本项目是通过[慕课网](http://www.google.com) , [node建站攻略](http://www.imooc.com/learn/637) 的教程搭建的，版本为windows node.js v0.10.26
+
+
 
 项目结构:
 ---------------
