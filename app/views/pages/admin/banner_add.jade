@@ -1,0 +1,46 @@
+extends ../../layout_admin
+
+block content
+	.admin_wrap
+		h2.pageheader
+			i.icon-picture
+			| #{title}
+		.contentpanel
+			form.form_horizontal(method="post", action="/admin/banner", enctype="multipart/form-data")
+				if banner._id
+					input(type="hidden", name="banner[_id]", value=banner._id)
+				.form_group
+					label.control_label 海报标题
+					div
+						input.form_control(type="text", name="banner[title]", value=banner.title)
+				.form_group
+					label.control_label 海报描述
+					div
+						input.form_control(type="text", name="banner[description]", value=banner.description)
+				.form_group
+					label.control_label 背景颜色
+					.col-sm-1
+						input.form_control(type="color", name="banner[bgcolor]", value=banner.bgcolor)
+				.form_group
+					label.control_label 海报链接
+					div
+						input.form_control(type="text", name="banner[link]", value=banner.link)
+				.form_group
+					label.control_label 海报地址
+					div
+						input.form_control(type="text", name="banner[imgsrc]", value=banner.imgsrc)
+				.form_group
+					label.control_label 海报上传
+					div
+						input(type="file", name="uploadPoster")
+				.form_group
+					label.control_label
+					div
+						if banner._id
+							button.button.button-royal.button-rounded(type="sumbit")
+								b.glyphicon.glyphicon-refresh
+								&nbsp;&nbsp;更 新
+						else
+							button.button.button-primary.button-rounded(type="sumbit")
+								b.glyphicon.glyphicon-save
+								&nbsp;&nbsp;录 入

@@ -1,0 +1,19 @@
+extends ../../layout_admin
+
+block content
+	.admin_wrap
+		h2.pageheader
+			i.icon-picture
+			| #{title}
+		.contentpanel
+			form.form_horizontal(method="post", action="/admin/movie/category")
+				if category._id
+					input(type="hidden", name="category[_id]", value=category._id)
+				.form_group
+					label.control_label(for="inputCategory") 电影分类
+					div
+						input#inputCategory.form_control(type="text", name="category[name]", value=category.name)
+				.form_group
+					label.control_label
+					div
+						button.button.button-raised.button-primary(type="sumbit") 录入

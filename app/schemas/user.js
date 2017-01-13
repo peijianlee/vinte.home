@@ -7,7 +7,7 @@ var UserSchema = new mongoose.Schema({
 		unique: true,
 		type: String
 	},
-	avater:{
+	avatar:{
 		type: String,
 		default: 'http://www.easyicon.net/api/resizeApi.php?id=1132617&size=128'
 	},

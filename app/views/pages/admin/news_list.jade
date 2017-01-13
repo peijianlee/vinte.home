@@ -1,0 +1,63 @@
+extends ../../layout_admin
+
+block content
+	.admin_wrap
+		h2.pageheader
+			i.icon-list-alt
+			| #{title}
+		.contentpanel
+			.col-md-12(style="padding-bottom:15px;")
+				a.button.button-raised.button-primary.button-small(href="/admin/news/new") 新增文章
+				a.button.button-raised.button-royal.button-small(href="/news",style="margin-left:15px;") 文章列表
+			table.table.table_hover.table_bordered.table_striped
+				thead
+					tr
+						th 更新时间
+						th 文章标题
+						th 文章内容
+						th 更新
+						th 删除
+				tbody
+					- console.log(news)
+					if news && news.length > 0
+						each item in news
+							tr(id="item-id-#{item._id}")
+								td.tc
+									| #{moment(item.meta.updateAt).format('YYYY/MM/DD')}
+									br
+									| #{moment(item.meta.updateAt).format('HH:mm:ss')}
+								td 
+									a(target="_blank", href="/news/#{item._id}") #{item.title}
+								td
+									p.admin_news_list_content #{item.text}
+									if item.img && item.img.length > 0
+										ul.news_img_list
+											each imgsrc in item.img
+												li
+													img(src="#{imgsrc}")
+									else
+										div
+											b !!!没有图片!!!
+								td.tc
+									a.button.button-highlight.button-rounded.button-small(target="_blank", href="/admin/news/update/#{item._id}") 修改
+								td.tc
+									button.button.button-caution.button-rounded.button-small(type="button", data-id="#{item._id}", data-src="#{item.imgsrc}") 删除
+					else
+						tr
+							td.lead.bg-info.text-info(colspan="5")
+								strong 
+									i.glyphicon.glyphicon-info-sign(style="margin-left:10px;margin-right:5px")
+									| 没有任何文章！
+			.button-group
+				- if(totalPage>1){
+					-	for(var i=0;i<totalPage; i++){
+						-	if(currentPage == (i+1)){
+								span.button.disabled.button-rounded.button-raised.button-small
+									| #{currentPage}
+						-	}else{
+								a.button.button-primary.button-rounded.button-raised.button-small(href='/admin/news/list?p=#{i+1}') #{i+1}
+						-	}
+					-	}
+				- }
+	script(src="/js/admin.js")
+

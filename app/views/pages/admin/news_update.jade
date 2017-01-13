@@ -1,14 +1,15 @@
-extends ../layout
+extends ../../layout
 
 block content
 	.container
 		.row
 			form.form-horizontal(method="post", action="/admin/news", enctype="multipart/form-data")
+				input(type="hidden", name="news[_id]", value=news._id)
 				.form-group
 					label.col-sm-1.control-label 文章标题
 					.col-sm-10
-						input.newsTitle.form-control(type="text", name="news[title]")
-						input.newsContent.form-control(type="text", name="news[content]",style="display:none;")
+						input.newsTitle.form-control(type="text", name="news[title]", value=news.title)
+						input.newsContent.form-control(type="text", name="news[content]",style="display:none;",value=news.content)
 				.form-group
 					label.col-sm-1.control-label 文章内容
 					.col-sm-10
@@ -17,14 +18,11 @@ block content
 						script(type="text/javascript",src="/libs/ueditor/lang/zh-cn/zh-cn.js")
 						script#editor(type="text/plain",style="width:100%;height:500px;")
 
-						#btns
-							button(onclick="getContent()") 获得内容
-
 				.form-group
 					.col-sm-offset-1.col-sm-1
-						button.btn.btn-mg.btn-danger(type="sumbit")
+						button.btn.btn-mg.btn-danger.btn_save(type="sumbit")
 							b.glyphicon.glyphicon-refresh
-							&nbsp;&nbsp;录 入
+							&nbsp;&nbsp;更 新
 				script.
 					//实例化编辑器
 					//建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
@@ -40,7 +38,7 @@ block content
 					}
 
 					//- 录入按键
-					$('.btn-danger').click(function(){
+					$('.btn_save').click(function(){
 						var newsTitle = $('.newsTitle').val();
 						if(newsTitle.replace(/\s/g, "")===''){
 							alert('标题不能为空，或空格符')
@@ -48,4 +46,15 @@ block content
 						}
 						getContent();
 						$('.newsContent').val(newsContent);
+					});
+
+					
+					$(function(){
+						var content = $('.newsContent').val();
+						//判断ueditor 编辑器是否创建成功
+						ue.addListener("ready", function () {
+							// editor准备好之后才可以使用
+							ue.setContent(content);
+						
+						});
 					});

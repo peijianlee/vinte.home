@@ -5,7 +5,8 @@ html
 		title #{title}
 		link(href="/css/style.css",rel="stylesheet")
 
-		body
+		body.news_index
+			.bg_fixed
 			.time_line
 				h5 2017
 			.news_list_frame
@@ -16,7 +17,8 @@ html
 								span
 								| #{moment(item.meta.updateAt).format('YYYY/MM/DD HH:mm:ss')}
 							.news_list_content
-								h2 #{item.title}
+								h2
+									a(target="_blank", href="/news/#{item._id}") #{item.title}
 								p #{item.text}
 									if item.img && item.img.length > 0
 										ul.news_img_list

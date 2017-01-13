@@ -14,12 +14,15 @@ module.exports = function(app){
 	app.use(function(req,res,next){
 		var _user = req.session.user
 		app.locals.user = _user
+
 		next()
 	})
 
 	//Index
 	app.get('/', Index.index)
-
+	// results
+	app.get('/results', Index.search)
+	// 错误页
 	app.use(function (err, req, res, next) {
 	    res.status(err.status || 500);
 	    res.render('error', {
@@ -34,6 +37,7 @@ module.exports = function(app){
 	app.get('/admin/news/new', News.news)
 	app.post('/admin/news', News.save)
 	app.post('/admin/news/uedel', News.uedel)
+	app.get('/admin/news/update/:id', News.update)
 	app.get('/admin/news/list', News.list)
 
 	//User
@@ -57,9 +61,11 @@ module.exports = function(app){
 	app.post('/user/comment', User.signinRequired, Comment.save)
 
 	// category
-	app.get('/admin/category/new', User.signinRequired, User.adminRequired, Category.new)
-	app.post('/admin/category', User.signinRequired, User.adminRequired, Category.save)
-	app.get('/admin/category/list', User.signinRequired, User.adminRequired, Category.list)
+	app.get('/admin/movie/category/new', User.signinRequired, User.adminRequired, Category.new)
+	app.post('/admin/movie/category', User.signinRequired, User.adminRequired, Category.save)
+	app.get('/admin/movie/category/list', User.signinRequired, User.adminRequired, Category.list)
+	app.get('/admin/movie/category/update/:id', User.signinRequired, User.adminRequired, Category.update)
+	app.delete('/admin/movie/category/list', User.signinRequired, User.adminRequired, Category.del)
 
 	// banner
 	app.get('/admin/banner/new', User.signinRequired, User.adminRequired, Banner.new)
@@ -68,6 +74,4 @@ module.exports = function(app){
 	app.get('/admin/banner/update/:id', User.signinRequired, User.adminRequired, Banner.update)
 	app.delete('/admin/banner/list', User.signinRequired, User.adminRequired, Banner.del)
 
-	// results
-	app.get('/results', Index.search)
 }

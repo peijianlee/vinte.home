@@ -6,7 +6,7 @@ var path = require('path')
 
 //banner new page
 exports.new = function(req,res){
-	res.render('banner_add',{
+	res.render('admin/banner_add',{
 		title:'nodeJS 首页海报上传',
 		banner:{}
 	})
@@ -87,7 +87,7 @@ exports.update = function(req,res){
 
 	if(id){
 		Banner.findById(id,function(err,banners){
-			res.render('banner_add',{
+			res.render('admin/banner_add',{
 				title: 'nodeJS 首页海报更新',
 				banner: banners
 			})
@@ -100,7 +100,7 @@ exports.list = function(req,res){
 	Banner.fetch(function(err,banners){
 		if(err)console.log(err)
 
-		res.render('banner_list', {
+		res.render('admin/banner_list', {
 			title: 'imooc 首页海报列表页',
 			banners: banners
 		})

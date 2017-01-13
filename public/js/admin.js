@@ -1,6 +1,8 @@
 $(function(){
 	// 电影删除
 	del('del','movie');
+	// 电影分类删除
+	del('categorydel','movie/category')
 	// 用户删除
 	del('userdel','user');
 	// 海报删除
@@ -138,7 +140,7 @@ $(function(){
 			});
 			$('.artalert').animate({'opacity':0,'top':'-10%'},300,function(){
 				$(this).remove();
-				if(url!==undefined)window.location.href=url;
+				if(url!==undefined)location.href=document.referrer;
 			});
 		});
 

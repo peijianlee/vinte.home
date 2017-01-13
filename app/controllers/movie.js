@@ -195,8 +195,8 @@ exports.save = function(req,res){
 //admin new page
 exports.new = function(req,res){
 	Category.find({}, function(err, categories){
-		res.render('admin',{
-			title:'nodeJS 后台录入页',
+		res.render('admin/movie_add',{
+			title:'电影录入页',
 			categories: categories,
 			movie: {}
 		})
@@ -210,8 +210,8 @@ exports.update = function(req,res){
 	if(id){
 		Movie.findById(id,function(err,movie){
 			Category.find({}, function(err, categories){
-				res.render('admin',{
-					title: 'nodeJS 后台更新页',
+				res.render('admin/movie_add',{
+					title: '电影更新页',
 					movie: movie,
 					categories: categories
 				})
@@ -227,7 +227,7 @@ exports.list = function(req, res) {
 	.exec(function(err, movies) {
 		if (err) console.log(err)
 
-		res.render('list', {
+		res.render('admin/movie_list', {
 			title: 'imooc 电影列表页',
 			movies: movies
 		})

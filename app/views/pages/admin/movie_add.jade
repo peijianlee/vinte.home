@@ -1,0 +1,79 @@
+extends ../../layout_admin
+
+block content
+	.admin_wrap
+		h2.pageheader
+			i.icon-film
+			| #{title}
+		.contentpanel
+			form.form_horizontal(method="post", action="/admin/movie", enctype="multipart/form_data")
+				if movie._id
+					input(type="hidden", name="movie[_id]", value=movie._id)
+				else
+					.form_group
+						label.control_label(for="douban") 豆瓣同步
+						div
+							input#douban.form_control(type="text")
+				if !movie._id
+					.form_group
+						label.control_label(for="inputCategory") 电影分类
+						div
+							input#inputCategory.form_control(type="text", name="movie[categoryName]", value=movie.categoryName)
+				.form_group
+					label.control_label 分类选择
+					div
+						each cat in categories
+							label.readio-inline(style="margin:0 15px 0 5px;cursor: pointer;")
+								if movie._id
+									input(type="radio", name="movie[category]", value=cat._id, checked=cat._id.toString()==movie.category.toString())
+								else
+									input(type="radio", name="movie[category]", value=cat._id)
+								| #{cat.name}
+				.form_group
+					label.control_label(for="inputTitle") 电影名字
+					div
+						input#inputTitle.form_control(type="text", name="movie[title]", value=movie.title)
+				.form_group
+					label.control_label(for="inputDoctor") 电影导演
+					div
+						input#inputDoctor.form_control(type="text", name="movie[doctor]", value=movie.doctor)
+				.form_group
+					label.control_label(for="inputCountry") 国家
+					div
+						input#inputCountry.form_control(type="text", name="movie[country]", value=movie.country)
+				.form_group
+					label.control_label(for="inputLanguage") 语言
+					div
+						input#inputLanguage.form_control(type="text", name="movie[language]", value=movie.language)
+				.form_group
+					label.control_label(for="inputPoster") 海报地址
+					div
+						input#inputPoster.form_control(type="text", name="movie[poster]", value=movie.poster)
+				.form_group
+					label.control_label(for="uploadPoster") 海报上传
+					div
+						input#uploadPoster(type="file", name="uploadPoster")
+				.form_group
+					label.control_label(for="inputFlash") 片源地址
+					div
+						input#inputFlash.form_control(type="text", name="movie[flash]", value=movie.flash)
+				.form_group
+					label.control_label(for="inputYear") 上映年份
+					div
+						input#inputYear.form_control(type="text", name="movie[year]", value=movie.year)
+				.form_group
+					label.control_label(for="inputSummary") 电影简介
+					div
+						textarea#inputSummary.form_control(type="text", name="movie[summary]")= movie.summary
+				.form_group
+					label.control_label
+					div
+						if movie._id
+							button.button.button-royal.button-rounded(type="sumbit")
+								b.icon-repeat
+								&nbsp;&nbsp; 更 新
+						else
+							button.button.button-primary.button-rounded(type="sumbit")
+								b.icon-upload
+								&nbsp;&nbsp;录 入
+	script(src="/js/admin.js")

@@ -92,8 +92,8 @@ exports.list = function(req,res){
 	User.fetch(function(err,users){
 		if(err)console.log(err)
 
-		res.render('userlist', {
-			title: 'imooc 用户列表页',
+		res.render('admin/user_list', {
+			title: '用户列表页',
 			users: users
 		})
 	})
