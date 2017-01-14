@@ -2,17 +2,37 @@ var User = require('../models/user')
 
 
 exports.showSignup = function(req, res){
+	// 随机背景图
+	var bgsrc = [
+		'http://i4.piimg.com/11340/7f638e192b9079e6.jpg',
+		'http://tupian.enterdesk.com/2013/mxy/12/10/15/3.jpg',
+		'http://tupian.enterdesk.com/2014/mxy/02/11/4/4.jpg',
+		'http://www.pp3.cn/uploads/allimg/111111/092019C09-12.jpg',
+		'http://tupian.enterdesk.com/2012/1030/gha/2/enterdesk%20%284%29.jpg',
+		'http://www.pp3.cn/uploads/201608/201608192.jpg']
+	var bgsrc = bgsrc[Math.floor(Math.random()*bgsrc.length)]
 	res.render('signup',{
-		title: '注册页面'
+		title: '注册页面',
+		bgsrc: bgsrc
 	})
 }
 exports.showSignin = function(req, res){
 	var name = req.query.name
 	var password = req.query.password
+	// 随机背景图
+	var bgsrc = [
+		'http://i4.piimg.com/11340/7f638e192b9079e6.jpg',
+		'http://tupian.enterdesk.com/2013/mxy/12/10/15/3.jpg',
+		'http://tupian.enterdesk.com/2014/mxy/02/11/4/4.jpg',
+		'http://www.pp3.cn/uploads/allimg/111111/092019C09-12.jpg',
+		'http://tupian.enterdesk.com/2012/1030/gha/2/enterdesk%20%284%29.jpg',
+		'http://www.pp3.cn/uploads/201608/201608192.jpg']
+	var bgsrc = bgsrc[Math.floor(Math.random()*bgsrc.length)]
 	res.render('signin',{
 		title: '登录页面',
 		name: name,
-		password: password
+		password: password,
+		bgsrc: bgsrc
 	})
 }
 // signup

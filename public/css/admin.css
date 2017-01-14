@@ -1,17 +1,4 @@
-html,body,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,p{padding:0;margin:0;}
 
-body{
-	font-family:"Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","WenQuanYi Micro Hei",sans-serif;
-	background-color:#e4e7ea;
-	line-height:1.42857;
-}
-a{text-decoration:none;}
-.tc{text-align:center;}
-ul,ol,li{list-style-type:none;}
-
-.block{display:block;}
-.fb{font-weight:bold;}
-.fn{font-weight:normal;}
 
 
 .user_avatar{
@@ -115,68 +102,6 @@ span.menuBtn.Active:before{content:"-";}
 }
 
 
-/*---------表单------------*/
-.form_horizontal{
-	background-color:white;
-	padding:2% 1.5% 1.5%;
-	border:1px solid #ddd;border-radius:4px;
-	box-shadow:1px 1px 3px rgba(0,0,0,0.1);
-}
-.form_group{min-height:36px;margin-bottom:15px;}
-.control_label{
-	min-height:32px;padding-top:4px;
-	float:left;width:15%;padding-right:2%;
-	text-align:right;
-	font-size:14px;font-weight:700;
-}
-.form_horizontal .form_group div{
-	width:83%;
-	min-height:1px;
-}
-.form_horizontal .form_group input[type=text],
-.form_horizontal .form_group textarea{
-	background-color: #fff;
-    background-image: none;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-    color: #555;
-    display: block;
-    font-size: 14px;
-    padding: 6px 12px;
-    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
-    width:96%;
-}
-.form_horizontal .form_group input[type=text]{height:18px;line-height:18px;}
-.form_horizontal .form_group textarea{line-height:24px;height:144px;resize:none;}
-.form_horizontal .form_group input[type=text]:focus{
-  border-color: #66afe9;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);
-  outline: 0 none;
-}
-table{
-	max-width: 100%;
-	width: 100%;
-	border-collapse: collapse;
-	border-spacing: 0;
-	font-size:14px;
-	color:#333;
-	line-height: 1.42857;
-	background-color:white;
-	box-shadow:2px 2px 2px rgba(0,0,0,0.1);
-}
-.table_striped > tbody > tr:nth-of-type(2n+1) {
-    background-color: #f9f9f9;
-}
-.table_bordered,
-.table_bordered th,
-.table_bordered td{
-    border: 1px solid #ddd;
-}
-table th,
-table td{
-	padding:10px;
-}
 
 .news_img_list li {
 	background-color: white;

@@ -1,16 +1,30 @@
-extends ../layout
+extends ../layout_index
 
 block content
-	.container
-		.row
-			.col-md-5
-				form(method="POST", action="/user/signup")
-					.modal-body
-						.form-group
-							label(for="signupName") 用户名
-							input#signupName.form-control(name="user[name]", type="text")
-						.form-group
-							label(for="signupPassword") 密码
-							input#signupPassword.form-control(name="user[password]",type="text")
-					.modal-footer
-						button.btn.btn-success(type="submit") 提交
+	.sign_bg.blur(style="background-image:url(#{bgsrc})")
+	.sign_form
+		.sign_form_head &nbsp;
+			i.icon-edit
+			span #{title}
+		form(method="POST", action="/user/signup")
+			ul.sign_form_content
+				li
+					label(for="signupName") &nbsp;
+						i.icon-user 
+						| &nbsp;用户名
+					input#signupName.form-control(name="user[name]", type="text")
+				li
+					label(for="signupPassword") &nbsp;
+						i.icon-key
+						| &nbsp; 密码
+					input#signupPassword.form-control(name="user[password]",type="text")
+				li.sign_tip
+					i.icon-question-sign 
+					| &nbsp;已经注册了会员？
+					a.cBlue.textUnderline(href="signin") 点击登录
+			
+			.sign_form_foot
+				button.button.button-raised.button-primary(type="submit") 注 册
+				.sign_form_foot_info
+					h6 IMOOC
+					p 基于NodeJs+MongoDB搭建的电影网站 <br /> 备案编号:110105000501 Copyright © 2006-2017
