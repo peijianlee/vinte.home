@@ -12,16 +12,16 @@ block content
 				else
 					.form_group
 						label.control_label(for="douban") 豆瓣同步
-						div
+						.control_div
 							input#douban.form_control(type="text")
 				if !movie._id
 					.form_group
 						label.control_label(for="inputCategory") 电影分类
-						div
+						.control_div
 							input#inputCategory.form_control(type="text", name="movie[categoryName]", value=movie.categoryName)
 				.form_group
 					label.control_label 分类选择
-					div
+					.control_div
 						each cat in categories
 							label.readio-inline(style="margin:0 15px 0 5px;cursor: pointer;")
 								if movie._id
@@ -31,43 +31,43 @@ block content
 								| #{cat.name}
 				.form_group
 					label.control_label(for="inputTitle") 电影名字
-					div
+					.control_div
 						input#inputTitle.form_control(type="text", name="movie[title]", value=movie.title)
 				.form_group
 					label.control_label(for="inputDoctor") 电影导演
-					div
+					.control_div
 						input#inputDoctor.form_control(type="text", name="movie[doctor]", value=movie.doctor)
 				.form_group
 					label.control_label(for="inputCountry") 国家
-					div
+					.control_div
 						input#inputCountry.form_control(type="text", name="movie[country]", value=movie.country)
 				.form_group
 					label.control_label(for="inputLanguage") 语言
-					div
+					.control_div
 						input#inputLanguage.form_control(type="text", name="movie[language]", value=movie.language)
 				.form_group
 					label.control_label(for="inputPoster") 海报地址
-					div
+					.control_div
 						input#inputPoster.form_control(type="text", name="movie[poster]", value=movie.poster)
 				.form_group
 					label.control_label(for="uploadPoster") 海报上传
-					div
-						input#uploadPoster(type="file", name="uploadPoster")
+					.control_div
+						input#uploadPoster(type="file", name="movie[uploadPoster]")
 				.form_group
 					label.control_label(for="inputFlash") 片源地址
-					div
+					.control_div
 						input#inputFlash.form_control(type="text", name="movie[flash]", value=movie.flash)
 				.form_group
 					label.control_label(for="inputYear") 上映年份
-					div
+					.control_div
 						input#inputYear.form_control(type="text", name="movie[year]", value=movie.year)
 				.form_group
 					label.control_label(for="inputSummary") 电影简介
-					div
+					.control_div
 						textarea#inputSummary.form_control(type="text", name="movie[summary]")= movie.summary
 				.form_group
 					label.control_label
-					div
+					.control_div
 						if movie._id
 							button.button.button-royal.button-rounded(type="sumbit")
 								b.icon-repeat

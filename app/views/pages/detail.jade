@@ -14,7 +14,7 @@ block content
 								li.media
 									.pull-left
 										a.comment(href="#commentsForm", data-cid="#{item._id}", data-tid="#{item.from._id}")
-											img.media-object(src="http://www.easyicon.net/api/resizeApi.php?id=1132617&size=128",style="width:64px;height:64px;")
+											img.media-object(src="http://www.easyicon.net/api/resizeApi.php?id=1132617&size=64" )
 									.media-body
 										h4.media-heading #{item.from.name}
 											small.pull-right #{moment(item.meta.createAt).format('YYYY/MM/DD HH:mm:ss')}
@@ -25,12 +25,12 @@ block content
 												.media
 													.pull-left
 														a.comment(href="#commentsForm", data-cid="#{item._id}", data-tid="#{reply.from._id}")
-															img.media-object(src="http://www.easyicon.net/api/resizeApi.php?id=1132617&size=128",style="width:64px;height:64px;")
+															img.media-object(src="http://www.easyicon.net/api/resizeApi.php?id=1132617&size=64" )
 													.media-body
 														h4.media-heading
 															small.pull-right #{moment(reply.date).format('YYYY/MM/DD HH:mm:ss')}
 															| #{reply.from.name}
-															small.text-info.glyphicon.glyphicon-share-alt(style="margin:0 10px",title="回复")
+															small.text-info.icon-share-alt(style="margin:0 10px",title="回复")
 															| #{reply.to.name}
 														p #{reply.content}
 									hr

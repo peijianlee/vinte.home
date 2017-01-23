@@ -34,7 +34,7 @@ exports.detail = function(req,res){
 
 // admin poster
 exports.savePoster = function(req,res,next){
-	var posterData = req.files.uploadPoster
+	var posterData = req.body.movie.uploadPoster
 	var filePath = posterData.path
 	var originalFilename = posterData.originalFilename
 

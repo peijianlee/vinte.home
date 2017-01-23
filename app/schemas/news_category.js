@@ -2,27 +2,12 @@ var mongoose = require('mongoose')
 var Schema = mongoose.Schema
 var ObjectId = Schema.Types.ObjectId
 
-var UserSchema = new Schema({
-	title: String,
-	content: String,
-	text: String,
-	img: [{
-		src: String
+var CategorySchema = new Schema({
+	name: String,
+	news: [{
+		type: ObjectId,
+		ref: 'News'
 	}],
-	pv:{
-		type:Number,
-		default:0
-	},
-	uid:{
-		type: ObjectId,
-		ref: 'User'
-	},
-	uname: String,
-	newscategory: {
-		type: ObjectId,
-		ref: 'Newscategory'
-	},
-	newscategoryname: String,
 	meta:{
 		createAt:{
 			type: Date,
@@ -36,7 +21,7 @@ var UserSchema = new Schema({
 })
 
 // 判断保存的数据是否是新增的
-UserSchema.pre('save', function(next){
+CategorySchema.pre('save', function(next){
 	if(this.isNew){
 		this.meta.createAt = this.meta.updateAt = Date.now()
 	}else{
@@ -46,7 +31,7 @@ UserSchema.pre('save', function(next){
 	next()
 })
 
-UserSchema.statics = {
+CategorySchema.statics = {
 	fetch: function(cb) {
 		return this
 			.find({})
@@ -60,4 +45,4 @@ UserSchema.statics = {
 	}
 }
 
-module.exports = UserSchema
+module.exports = CategorySchema

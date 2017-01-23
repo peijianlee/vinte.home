@@ -12,16 +12,20 @@ block content
 			table.table.table_hover.table_bordered.table_striped
 				thead
 					tr
+						th 分类
 						th 更新时间
 						th 文章标题
 						th 文章内容
-						th 更新
-						th 删除
+						th 发布人
+						th PV
+						th(style="width:100px;") 更新
+						th(style="width:100px;") 删除
 				tbody
 					- console.log(news)
 					if news && news.length > 0
 						each item in news
-							tr(id="item-id-#{item._id}")
+							tr(class="item-id-#{item._id}")
+								td.tc #{item.newscategoryname}
 								td.tc
 									| #{moment(item.meta.updateAt).format('YYYY/MM/DD')}
 									br
@@ -38,26 +42,44 @@ block content
 									else
 										div
 											b !!!没有图片!!!
+								td.tc #{item.uname}
+								td.tc #{item.pv}
 								td.tc
-									a.button.button-highlight.button-rounded.button-small(target="_blank", href="/admin/news/update/#{item._id}") 修改
+									a.button.button-highlight.button-rounded.button-small(href="/admin/news/update/#{item._id}") 修改
 								td.tc
-									button.button.button-caution.button-rounded.button-small(type="button", data-id="#{item._id}", data-src="#{item.imgsrc}") 删除
+									button.newsdel.button.button-caution.button-rounded.button-small(type="button", data-id="#{item._id}", data-src="#{item.imgsrc}") 删除
 					else
 						tr
 							td.lead.bg-info.text-info(colspan="5")
 								strong 
-									i.glyphicon.glyphicon-info-sign(style="margin-left:10px;margin-right:5px")
+									i.icon-info-sign(style="margin-left:10px;margin-right:5px")
 									| 没有任何文章！
-			.button-group
+			.page(style="margin-top:15px;margin-bottom:30px;")
 				- if(totalPage>1){
+					- if(currentPage-1 == 0){
+							span.page_unclick: i.icon-double-angle-left
+							span.page_unclick: i.icon-angle-left
+					-	}else{
+							a(href='/admin/news/list?p=1',csstip-top='第一页'): i.icon-double-angle-left
+							a(href='/admin/news/list?p=#{currentPage-1}',csstip-top='上一页'): i.icon-angle-left
+					-	}
 					-	for(var i=0;i<totalPage; i++){
 						-	if(currentPage == (i+1)){
-								span.button.disabled.button-rounded.button-raised.button-small
-									| #{currentPage}
+								span.page_stand #{currentPage}
 						-	}else{
-								a.button.button-primary.button-rounded.button-raised.button-small(href='/admin/news/list?p=#{i+1}') #{i+1}
+								a(href='/admin/news/list?p=#{i+1}') #{i+1}
 						-	}
 					-	}
+					- if(currentPage < totalPage){
+							a(href='/admin/news/list?p=#{currentPage+1}',csstip-top='下一页'): i.icon-angle-right
+							a(href='/admin/news/list?p=#{totalPage}',csstip-top='最后一页'): i.icon-double-angle-right
+					-	}else{
+							span.page_unclick: i.icon-angle-right
+							span.page_unclick: i.icon-double-angle-right
+					-	}
 				- }
-	script(src="/js/admin.js")
+			script(src="/js/admin_delete.js")
+			//- 文章删除
+			script.
+				del('newsdel','news');
 

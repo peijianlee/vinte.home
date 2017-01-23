@@ -40,4 +40,7 @@ block content
 				tfood
 					td(colspan="10")
 						a.button.button-raised.button-primary(href="/admin/movie/category/new") 新增分类
-	script(src="/js/admin.js")
+	script(src="/js/admin_delete.js")
+	//- 电影分类删除
+	script.
+		del('categorydel','movie/category')

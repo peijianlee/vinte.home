@@ -1,20 +1,45 @@
+"use strict"
 var News = require('../models/news')
+var Newscategory = require('../models/news_category')
 var _ = require('underscore')
 var fs = require('fs')
 
 //新建文章
 exports.news = function(req,res){
-	res.render('admin/news_add',{
-		title:'新建文章编辑页'
+	Newscategory.find({}, function(err, newscategories){
+		if(err)console.log(err)
+		res.render('admin/news_add',{
+			title:'新建文章编辑页',
+			newscategories: newscategories,
+			news: {}
+		})
 	})
+}
+
+// news update page
+exports.update = function(req,res){
+	var id = req.params.id
+
+	if(id){
+		Newscategory.find({}, function(err, newscategories){
+			News.findById(id,function(err,news){
+				if(err)console.log(err)
+				res.render('admin/news_update',{
+					title: '修改文章详情页',
+					newscategories: newscategories,
+					news: news
+				})
+			})
+		})
+	}
 }
 
 //news post page
 exports.save = function(req,res){
 	var newsObj = req.body.news
 	var id = newsObj._id
+	var newscategoryId = newsObj.newscategory
 
-	var	news = new News(newsObj)
 
 	
 	if(id){
@@ -22,58 +47,88 @@ exports.save = function(req,res){
 		News.findById(id, function(err, _news){
 			if(err)console.log(err)
 
-			// 如果都未修改过的则不更新直接跳转到列表
-			if(_news.title==newsObj.title && _news.content==newsObj.content){
+			if(_news.title==newsObj.title && _news.content==newsObj.content && newsObj.newscategory.toString()==_news.newscategory.toString()){
+				console.log('没有更新')
 				res.redirect('/admin/news/list')
-			}else{
-				// 使用underscore模块的extend函数更新变化的属性
-				_news = _.extend(_news, newsObj)
-				// 清除所有标签
-				var _content = _news.content
-				_content = _content.replace(/<\/?[^>]*>/g,''); //去除HTML tag
-				_content = _content.replace(/[ | ]*\n/g,'\n'); //去除行尾空白
-				_content=_content.replace(/ /ig,'');//去掉
-				_news.text = _content
-
-				_news.save(function(err,_news){
-					if(err)console.log(err)
-					res.redirect('/admin/news/list')
-				})
+				return false
 			}
-		})
-	}else{
-		// 新增文章
-		// 清除所有标签
-		var _content = news.content
-		_content = _content.replace(/<\/?[^>]*>/g,''); //去除HTML tag
-		_content = _content.replace(/[ | ]*\n/g,'\n'); //去除行尾空白
-		_content=_content.replace(/ /ig,'');//去掉 
-		news.text = _content
 
-		news.save(function(err,newsObj){
-			if(err)console.log(err)
-			res.redirect('/admin/news/list')
-		})
+			// 如果修改文章分类
+			if(newsObj.newscategory.toString() !== _news.newscategory.toString()){
+				// 找到文章对应的原文章分类
+				Newscategory.findById(_news.newscategory,function(err,_oldCat){
+					if(err) console.log(err)
 
-	}
-}
+					// 在原文章分类的news属性中找到该文章的id值并将其删除
+					var index = _oldCat.news.indexOf(id)
+					_oldCat.news.splice(index,1)
+					_oldCat.save(function(err){
+						if(err) console.log(err)
+					})
+				})
+
+			 	// 找到文章对应的新文章分类
+			 	Newscategory.findById(newsObj.newscategory,function(err,_newCat){
+			 		if(err) console.log(err)
+
+					// 添加类别名称
+					_news.newscategoryname = _newCat.name
+			 		// 将其id值添加到文章分类的news属性中并保存
+			 		_newCat.news.push(id)
+			 		_newCat.save(function(err){
+			 			if(err) console.log(err)
+			 		})
+			 	})
+			}
 
 
+			// 使用underscore模块的extend函数更新变化的属性
+			_news = _.extend(_news, newsObj)
+			// 清除所有标签
+			var _content = _news.content
+			_content = _content.replace(/<\/?[^>]*>/g,''); //去除HTML tag
+			_content = _content.replace(/[ | ]*\n/g,'\n'); //去除行尾空白
+			_content=_content.replace(/ /ig,'');//去掉
+			_news.text = _content
 
-// news update page
-exports.update = function(req,res){
-	var id = req.params.id
-
-	if(id){
-		News.findById(id,function(err,news){
-			if(err)console.log(err)
-			res.render('admin/news_update',{
-				title: '修改文章详情页',
-				news: news
+			_news.save(function(err,_news){
+				if(err)console.log(err)
+				res.redirect('/admin/news/list')
 			})
 		})
+	}else{
+		// 创建新文章
+		var	news = new News(newsObj)
+
+		// 找到对应分类插入文章ID
+		Newscategory.findById(newscategoryId,function(err,_newscategory){
+			if(err) console.log(err)
+
+			// 添加类别名称
+			news.newscategoryname = _newscategory.name
+			// 清除所有标签并保存在text
+			var _content = news.content
+			_content = _content.replace(/<\/?[^>]*>/g,''); //去除HTML tag
+			_content = _content.replace(/[ | ]*\n/g,'\n'); //去除行尾空白
+			_content=_content.replace(/ /ig,'');//去掉 
+			news.text = _content
+			// 保存文章数据
+			news.save(function(err,_newNews){
+				if(err) console.log(err)
+
+				// 在文章分类添加选中的类别
+				_newscategory.news.push(_newNews._id)
+				_newscategory.save(function(err){
+					if(err) console.log(err)
+					res.redirect('/admin/news/list')
+				})
+			})
+		})
+
 	}
 }
+
+
 
 //index news list page
 exports.indexlist = function(req,res){
@@ -88,10 +143,17 @@ exports.indexlist = function(req,res){
 			var _text = news[i].text
 			_text.substring(0,50)
 			news[i].text = news[i].text.substring(0,200)
+
+			console.log('---------------------')
+			console.log(news[i].newscategory)
+			console.log('---------------------')
 		}
-		res.render('news_index', {
-			title: 'icoom文章列表页',
-			news: news
+		Newscategory.find({}, function(err, newscategories){
+			res.render('news_index', {
+				title: 'icoom文章列表页',
+				news: news,
+				newscategories: newscategories
+			})
 		})
 	})
 }
@@ -100,6 +162,10 @@ exports.detail = function(req,res){
 	var id=req.params.id
 	console.log(id)
 	
+	News.update({_id:id},{$inc:{pv:1}},function(err){
+		if(err) console.log(err)
+	})
+
 	News.findById(id,function(err,news){
 		res.render('news_detail',{
 			title: '文章详情页',
@@ -114,7 +180,7 @@ exports.detail = function(req,res){
 exports.list = function(req,res){
 	// .query找到路由上的值
 	var page = parseInt(req.query.p,10) || 1 
-	var count = 6
+	var count = 2
 	var page = page-1
 	var index = page*count
 
@@ -125,7 +191,7 @@ exports.list = function(req,res){
 		.exec(function(err, news){
 			if(err)console.log(err)
 
-			// 截取当前电影总数
+			// 截取当前文章总数
 			var results = news.slice(index, index + count)
 
 			for(var i=0; i<news.length; i++){
@@ -171,4 +237,38 @@ exports.uedel = function(req,res){
 		res.json({success:1})
 		console.log("文件删除成功！")
 	});
+}
+
+//news delete category
+exports.del = function(req,res){
+	var id = req.query.id
+
+	if(id){
+		News.findById(id,function(err,news){
+			if(err) console.log(err)
+			// 查找包含这条文章的分类
+			Newscategory.findById(news.newscategory,function(err,newscategory){
+				if(err) console.log(err)
+
+				if(newscategory){
+					// 在文章分类movies数组中查找该值所在位置
+					var index = newscategory.news.indexOf(id);
+					// 从分类中删除
+					newscategory.news.splice(index,1);
+					newscategory.save(function(err){
+						if(err) console.log(err);
+					})
+				}
+			})
+			// 删除
+			News.remove({_id: id},function(err,news){
+				if(err){
+					console.log(err)
+					res.json({success:0})
+				}else{
+					res.json({success:1})
+				}
+			})
+		})
+	}
 }

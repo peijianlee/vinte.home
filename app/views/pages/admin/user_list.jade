@@ -37,4 +37,7 @@ block content
 									button.button.button-caution.button-rounded.button-small.userdel(type="button", data-id="#{item._id}") 删除
 								else
 									span.button.button-caution.button-rounded.button-small(disabled="disabled") 删除
-	script(src="/js/admin.js")
+	script(src="/js/admin_delete.js")
+	script.
+		//- 用户删除
+		del('userdel','user');

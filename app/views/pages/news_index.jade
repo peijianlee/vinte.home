@@ -3,30 +3,37 @@ html
 	head
 		meta(charset="utf-8")
 		title #{title}
+		link(href="/css/base.css",rel="stylesheet")
 		link(href="/css/style.css",rel="stylesheet")
 
 		body.news_index
+			.bg_zindex
+				.header
+					.wrap
+						h1 ICOOMTEST
+						ul.hmenu
+							if newscategories && newscategories.length>0
+								each cat in newscategories
+									li: a(href="###") #{cat.name}
+				.news_list_frame.wrap
+					if news && news.length > 0
+						each item in news
+							.news_list(id="item-id-#{item._id}")
+								.news_list_time
+									span.tag #{item.newscategory}
+									span #{moment(item.meta.updateAt).format('YYYY/MM/DD HH:mm:ss')}
+								.news_list_content
+									h2
+										a(target="_blank", href="/news/#{item._id}") #{item.title}
+									p #{item.text}
+										if item.img && item.img.length > 0
+											ul.news_img_list
+												each imgsrc in item.img
+													li
+														img(src="#{imgsrc}")
+										else
+											div
+												b !!!没有图片!!!
 			.bg_fixed
-			.time_line
-				h5 2017
-			.news_list_frame
-				if news && news.length > 0
-					each item in news
-						.news_list(id="item-id-#{item._id}")
-							.news_list_time
-								span
-								| #{moment(item.meta.updateAt).format('YYYY/MM/DD HH:mm:ss')}
-							.news_list_content
-								h2
-									a(target="_blank", href="/news/#{item._id}") #{item.title}
-								p #{item.text}
-									if item.img && item.img.length > 0
-										ul.news_img_list
-											each imgsrc in item.img
-												li
-													img(src="#{imgsrc}")
-									else
-										div
-											b !!!没有图片!!!
 	
 

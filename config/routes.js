@@ -2,6 +2,7 @@
 var _ = require('underscore')
 var Index = require('../app/controllers/index')
 var News = require('../app/controllers/news')
+var Newscategory = require('../app/controllers/news_category')
 var User = require('../app/controllers/user')
 var Movie = require('../app/controllers/movie')
 var Comment = require('../app/controllers/comment')
@@ -34,11 +35,19 @@ module.exports = function(app){
 	// news
 	app.get('/news/:id', News.detail)
 	app.get('/news', News.indexlist)
-	app.get('/admin/news/new', News.news)
-	app.post('/admin/news', News.save)
-	app.post('/admin/news/uedel', News.uedel)
-	app.get('/admin/news/update/:id', News.update)
-	app.get('/admin/news/list', News.list)
+	app.get('/admin/news/new', User.signinRequired, User.adminRequired, News.news)
+	app.post('/admin/news', User.signinRequired, User.adminRequired, News.save)
+	app.post('/admin/news/uedel', User.signinRequired, User.adminRequired, News.uedel)
+	app.get('/admin/news/update/:id', User.signinRequired, User.adminRequired, News.update)
+	app.get('/admin/news/list', User.signinRequired, User.adminRequired, News.list)
+	app.delete('/admin/news/list', User.signinRequired, User.adminRequired, News.del)
+	// newscategory
+	app.get('/admin/news/category/new', User.signinRequired, User.adminRequired, Newscategory.new)
+	app.post('/admin/news/category', User.signinRequired, User.adminRequired, Newscategory.save)
+	app.post('/admin/news/category/update', User.signinRequired, User.adminRequired, Newscategory.updatesave)
+	app.get('/admin/news/category/list', User.signinRequired, User.adminRequired, Newscategory.list)
+	app.get('/admin/news/category/update/:id', User.signinRequired, User.adminRequired, Newscategory.update)
+	app.delete('/admin/news/category/list', User.signinRequired, User.adminRequired, Newscategory.del)
 
 	//User
 	app.post('/user/signup', User.signup)
@@ -57,15 +66,15 @@ module.exports = function(app){
 	app.get('/admin/movie/list', User.signinRequired, User.adminRequired, Movie.list)
 	app.delete('/admin/movie/list', User.signinRequired, User.adminRequired, Movie.del)
 
-	// Comment
-	app.post('/user/comment', User.signinRequired, Comment.save)
-
-	// category
+	// Moviecategory
 	app.get('/admin/movie/category/new', User.signinRequired, User.adminRequired, Category.new)
 	app.post('/admin/movie/category', User.signinRequired, User.adminRequired, Category.save)
 	app.get('/admin/movie/category/list', User.signinRequired, User.adminRequired, Category.list)
 	app.get('/admin/movie/category/update/:id', User.signinRequired, User.adminRequired, Category.update)
 	app.delete('/admin/movie/category/list', User.signinRequired, User.adminRequired, Category.del)
+
+	// Comment
+	app.post('/user/comment', User.signinRequired, Comment.save)
 
 	// banner
 	app.get('/admin/banner/new', User.signinRequired, User.adminRequired, Banner.new)
