@@ -1,6 +1,7 @@
 "use strict"
 var News = require('../models/news')
 var Newscategory = require('../models/news_category')
+var Banner = require('../models/banner')
 var _ = require('underscore')
 var fs = require('fs')
 
@@ -72,7 +73,7 @@ exports.save = function(req,res){
 			 		if(err) console.log(err)
 
 					// 添加类别名称
-					_news.newscategoryname = _newCat.name
+					// _news.newscategoryname = _newCat.name
 			 		// 将其id值添加到文章分类的news属性中并保存
 			 		_newCat.news.push(id)
 			 		_newCat.save(function(err){
@@ -144,43 +145,26 @@ exports.indexlist = function(req,res){
 			_text.substring(0,50)
 			news[i].text = news[i].text.substring(0,200)
 
-			console.log('---------------------')
-			console.log(news[i].newscategory)
-			console.log('---------------------')
 		}
 		Newscategory.find({}, function(err, newscategories){
-			res.render('news_index', {
-				title: 'icoom文章列表页',
-				news: news,
-				newscategories: newscategories
+			if(err) console.log(err)
+			Banner.find({}, function(err, banners){
+				res.render('news_index', {
+					title: 'icoom文章列表页',
+					news: news,
+					newscategories: newscategories,
+					banners: banners
+				})
 			})
 		})
 	})
 }
 
-exports.detail = function(req,res){
-	var id=req.params.id
-	console.log(id)
-	
-	News.update({_id:id},{$inc:{pv:1}},function(err){
-		if(err) console.log(err)
-	})
-
-	News.findById(id,function(err,news){
-		res.render('news_detail',{
-			title: '文章详情页',
-			news: news
-		})
-	})
-}
-
-
-
-//后台文章列表页
+//admin news list page
 exports.list = function(req,res){
 	// .query找到路由上的值
 	var page = parseInt(req.query.p,10) || 1 
-	var count = 2
+	var count = 6
 	var page = page-1
 	var index = page*count
 
@@ -206,6 +190,24 @@ exports.list = function(req,res){
 			})
 		})
 }
+
+exports.detail = function(req,res){
+	var id=req.params.id
+	console.log(id)
+	
+	News.update({_id:id},{$inc:{pv:1}},function(err){
+		if(err) console.log(err)
+	})
+
+	News.findById(id,function(err,news){
+		res.render('news_detail',{
+			title: '文章详情页',
+			news: news
+		})
+	})
+}
+
+
 
 // 查找到该内容下的图片
 function findIMAGE(obj,i){

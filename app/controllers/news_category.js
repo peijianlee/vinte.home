@@ -1,5 +1,6 @@
 
 var Newscategory = require('../models/news_category')
+var News = require('../models/news')
 var _ = require('underscore')
 
 //category new page
@@ -33,14 +34,19 @@ exports.save = function(req,res){
 	var id = newsCategoryObj._id
 	var	newsCategory = new Newscategory(newsCategoryObj)
 
-	console.log('-----------------------')
-	console.log(id)
-	console.log('-----------------------')
-
 	if(id){
 		// 更新
 		Newscategory.findById(id, function(err, _newsCategory){
 			if(err)console.log(err)
+			// 批量更新分类名称
+			News.update(
+				{"newscategoryname":newsCategoryObj.oldname},
+				{$set :{"newscategoryname":newsCategoryObj.name}},
+				{multi: true},
+				function(err){
+					if(err) console.log(err)
+				}
+			)
 
 			// 使用underscore模块的extend函数更新电影变化的属性
 			_newsCategory = _.extend(_newsCategory, newsCategoryObj)

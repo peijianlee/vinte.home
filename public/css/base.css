@@ -17,6 +17,12 @@ ul,ol,li{list-style-type:none;}
 
 .textUnderline{text-decoration:underline;}
 .textUnderline:hover{text-decoration:none;}
+
+/*边距*/
+.ml5{margin-left:5px;}
+.ml10{margin-left:10px;}
+.mr5{margin-right:5px;}
+.mr10{margin-right:10px;}
 /*字体颜色*/
 .cGray{color:gray;}
 .cRed{color:#c8181e;}

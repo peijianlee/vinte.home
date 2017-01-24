@@ -26,10 +26,7 @@ block content
 						each item in news
 							tr(class="item-id-#{item._id}")
 								td.tc #{item.newscategoryname}
-								td.tc
-									| #{moment(item.meta.updateAt).format('YYYY/MM/DD')}
-									br
-									| #{moment(item.meta.updateAt).format('HH:mm:ss')}
+								td.tc #{moment(item.meta.updateAt).format('YYYY/MM/DD')}
 								td 
 									a(target="_blank", href="/news/#{item._id}") #{item.title}
 								td

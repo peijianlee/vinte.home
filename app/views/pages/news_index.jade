@@ -3,8 +3,10 @@ html
 	head
 		meta(charset="utf-8")
 		title #{title}
+		script(src="/libs/jquery/dist/jquery.min.js")
 		link(href="/css/base.css",rel="stylesheet")
 		link(href="/css/style.css",rel="stylesheet")
+		link(href="/css/font-awesome.css",rel="stylesheet")
 
 		body.news_index
 			.bg_zindex
@@ -16,12 +18,28 @@ html
 								each cat in newscategories
 									li: a(href="###") #{cat.name}
 				.news_list_frame.wrap
+					//- if banners && banners.length > 0
+						.bannerFrame
+							ul.banner
+								each item in banners
+									li
+										.txtBg(style="background-color:#{item.bgcolor}")
+										h3 #{item.title}
+										.JDT
+										p #{item.description}
+										img(src="/banner/#{item.imgsrc}")
+					script(src="/js/index.js")
 					if news && news.length > 0
 						each item in news
 							.news_list(id="item-id-#{item._id}")
-								.news_list_time
-									span.tag #{item.newscategory}
+								.news_list_info
+									span.news_list_tag #{item.newscategoryname}
+									| by
+									i.icon-user.ml10.mr5
+									| #{item.uname} at 
+									i.icon-time.ml5.mr5
 									span #{moment(item.meta.updateAt).format('YYYY/MM/DD HH:mm:ss')}
+								.news_list_info_line
 								.news_list_content
 									h2
 										a(target="_blank", href="/news/#{item._id}") #{item.title}

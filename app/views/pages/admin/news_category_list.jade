@@ -55,7 +55,8 @@ block content
 					span.button.button-raised.button-small.modal_close(style="margin-left:15px;") 取消
 	#catChangeModal.imodal
 		form(method="post", action="/admin/news/category")
-			input#newscategoryid(type="hidden", name="newscategory[_id]", value="58808aa21c58371980017bd8")
+			input#newscategoryid(type="hidden", name="newscategory[_id]")
+			input#newscategoryoldname(type="hidden", name="newscategory[oldname]")
 			.imodal-header 文章分类名称修改
 			.imodal-body
 				.form_group
@@ -84,6 +85,7 @@ block content
 			changeCategory.value = catName;
 			catId = $(this).attr('value');
 			document.getElementById('newscategoryid').value = catId;
+			document.getElementById('newscategoryoldname').value = catName;
 		});
 		$('.newscategoryBtn').click(function(){
 			if($('#inputCategory').val().replace(/\s/g, "")==""){
