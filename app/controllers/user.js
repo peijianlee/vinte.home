@@ -1,38 +1,49 @@
 var User = require('../models/user')
 
 
+// 随机背景图
+var bgsrc = [
+	'http://i4.piimg.com/11340/7f638e192b9079e6.jpg',
+	'http://tupian.enterdesk.com/2013/mxy/12/10/15/3.jpg',
+	'http://tupian.enterdesk.com/2014/mxy/02/11/4/4.jpg',
+	'http://www.pp3.cn/uploads/allimg/111111/092019C09-12.jpg',
+	'http://tupian.enterdesk.com/2012/1030/gha/2/enterdesk%20%284%29.jpg',
+	'http://www.pp3.cn/uploads/201608/201608192.jpg']
+// 随机背景图
+var bgwords = [
+	"Genius only means hard-working all one's life.",
+	"Cease to struggle and you cease to live.",
+	"A strong man will struggle with the storms of fate.",
+	"Living without an aim is like sailing without a compass.",
+	"Live a noble and honest life. Reviving past times in your old age will help you to enjoy your life again.",
+	"Accept what was and what is, and you’ll have more positive energy to pursue what will be.",
+	"Behind every successful man there's a lot u unsuccessful years. ",
+	"Enrich your life today,. yesterday is history.tomorrow is mystery.",
+	"You have to believe in yourself. That's the secret of success."]
 exports.showSignup = function(req, res){
-	// 随机背景图
-	var bgsrc = [
-		'http://i4.piimg.com/11340/7f638e192b9079e6.jpg',
-		'http://tupian.enterdesk.com/2013/mxy/12/10/15/3.jpg',
-		'http://tupian.enterdesk.com/2014/mxy/02/11/4/4.jpg',
-		'http://www.pp3.cn/uploads/allimg/111111/092019C09-12.jpg',
-		'http://tupian.enterdesk.com/2012/1030/gha/2/enterdesk%20%284%29.jpg',
-		'http://www.pp3.cn/uploads/201608/201608192.jpg']
-	var bgsrc = bgsrc[Math.floor(Math.random()*bgsrc.length)]
+	var bgword = bgwords
+	var bgword = bgword[Math.floor(Math.random()*bgword.length)]
+	var bgimg = bgsrc
+	var bgimg = bgimg[Math.floor(Math.random()*bgimg.length)]
 	res.render('signup',{
-		title: '注册页面',
-		bgsrc: bgsrc
+		title: '用户注册',
+		bgword: bgword,
+		bgsrc: bgimg
 	})
 }
 exports.showSignin = function(req, res){
 	var name = req.query.name
 	var password = req.query.password
-	// 随机背景图
-	var bgsrc = [
-		'http://i4.piimg.com/11340/7f638e192b9079e6.jpg',
-		'http://tupian.enterdesk.com/2013/mxy/12/10/15/3.jpg',
-		'http://tupian.enterdesk.com/2014/mxy/02/11/4/4.jpg',
-		'http://www.pp3.cn/uploads/allimg/111111/092019C09-12.jpg',
-		'http://tupian.enterdesk.com/2012/1030/gha/2/enterdesk%20%284%29.jpg',
-		'http://www.pp3.cn/uploads/201608/201608192.jpg']
-	var bgsrc = bgsrc[Math.floor(Math.random()*bgsrc.length)]
+	var bgword = bgwords
+	var bgword = bgword[Math.floor(Math.random()*bgword.length)]
+	var bgimg = bgsrc
+	var bgimg = bgimg[Math.floor(Math.random()*bgimg.length)]
 	res.render('signin',{
-		title: '登录页面',
+		title: '用户登陆',
 		name: name,
 		password: password,
-		bgsrc: bgsrc
+		bgword: bgword,
+		bgsrc: bgimg
 	})
 }
 // signup

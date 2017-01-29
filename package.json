@@ -35,5 +35,13 @@
     "movie"
   ],
   "author": "lpjsteel <lpjsteel@hotmail.com>",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peijianlee/lpj_movie.git"
+  },
+  "bugs": {
+    "url": "https://github.com/peijianlee/lpj_movie/issues"
+  },
+  "homepage": "https://github.com/peijianlee/lpj_movie#readme"
 }
