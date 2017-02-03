@@ -18,7 +18,7 @@ html
 								each cat in newscategories
 									li: a(href="###") #{cat.name}
 				.news_list_frame.wrap
-					//- if banners && banners.length > 0
+					if banners && banners.length > 0
 						.bannerFrame
 							ul.banner
 								each item in banners

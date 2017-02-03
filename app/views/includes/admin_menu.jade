@@ -10,7 +10,8 @@
 		b.fn#system-time 0000-00-00 星期一 00:00:00
 .menu
 	.menuHead
-		h1 imooc
+		h1
+			a.block(href="/") imooc
 		span.menutoggle
 			i.icon-reorder
 	dl
@@ -46,6 +47,31 @@
 				span 用户列表
 
 script.
+	function GetQueryString(name)
+	{
+		var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+		var r = window.location.search.substr(1).match(reg);
+		if(r!=null)return  unescape(r[2]); return null;
+	}
+	$('.menu').find('a').each(function(){
+		var $t = $(this);
+		var url = window.location.pathname;
+		var href = $t.attr('href');
+
+		var s = url.indexOf(href);
+		if(s == 0){
+			$t.addClass('Stand');
+			var $par = $t.parents('ul');
+			//- alert($par.html())
+
+			if($par.hasClass('sMenu')){
+				$par.show().prev('span').addClass('Stand Active')
+			}
+			return false;
+		}
+		//- alert()
+	});
+
 
 	(function(){
 	    var system_timestamp=parseInt('{{$system_timestamp}}');
