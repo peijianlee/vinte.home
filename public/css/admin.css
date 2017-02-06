@@ -24,10 +24,11 @@
 }
 .menutoggle:hover{background-color:#f7f7f7;}
 .menuHead{
-	background-color:white;color:#1caf9a;
+	background-color:white;
 	font-size:16px;text-align:center;
 	font-weight:bold;position:relative;
 }
+.menuHead a{color:#1caf9a;}
 .menutoggle{
 	position:absolute;top:0;right:-50px;
 	width:48px;

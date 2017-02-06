@@ -11,7 +11,7 @@
 .menu
 	.menuHead
 		h1
-			a.block(href="/") imooc
+			a.block(href="/",target="_blank") imooc
 		span.menutoggle
 			i.icon-reorder
 	dl
@@ -53,7 +53,7 @@ script.
 		var r = window.location.search.substr(1).match(reg);
 		if(r!=null)return  unescape(r[2]); return null;
 	}
-	$('.menu').find('a').each(function(){
+	$('.menu dl').find('a').each(function(){
 		var $t = $(this);
 		var url = window.location.pathname;
 		var href = $t.attr('href');
