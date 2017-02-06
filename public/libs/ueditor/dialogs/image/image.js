@@ -907,7 +907,6 @@
                     domUtils.addClass(del,'del');
                     del.setAttribute('href','javascript:;');
                     del.setAttribute('imgsrc',list[i].url);
-
                     domUtils.on(img, 'load', (function(image){
                         return function(){
                             _this.scale(image, image.parentNode.offsetWidth, image.parentNode.offsetHeight);
@@ -918,9 +917,11 @@
                     img.setAttribute('_src', urlPrefix + list[i].url);
                     domUtils.addClass(icon, 'icon');
 
-                    item.appendChild(del);
+                    
                     item.appendChild(img);
                     item.appendChild(icon);
+					item.appendChild(del);
+
                     this.list.insertBefore(item, this.clearFloat);
                 }
             }
