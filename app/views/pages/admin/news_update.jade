@@ -30,6 +30,7 @@ block content
 						b.glyphicon.glyphicon-refresh
 						&nbsp;&nbsp;更 新
 				script.
+					$('#newscategoryname').val($('.newscategory:checked').parent().text())
 					$('.newscategory').click(function(){
 						$('#newscategoryname').val($(this).parent('label').text())
 					})

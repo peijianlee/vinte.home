@@ -230,7 +230,27 @@
 	line-height:1.7em;
 }
 .news_list_content p{padding-top:10px;}
-
+.loadMore{
+	border:1px solid #ddd;
+	border-radius:5px;
+	text-align:center;
+	background-color:#f2f2f2;
+	line-height:2.4em;
+	font-size:14px;
+	margin-top:15px;
+	text-shadow:1px 1px white;
+	box-shadow:inset 1px 1px white;
+	color:#333;cursor:pointer;
+}
+.loadMore:hover{
+	background-color:#efefef;
+	border-color:#ccc;
+	box-shadow:inset 1px 1px white,2px 2px 2px rgba(0,0,0,0.1);
+}
+.loadMore:active{
+	background-color:#f9f9f9;
+	box-shadow:inset 1px 1px white
+}
 /*----------登录框----------*/
 .sign_bg{
 	position:absolute;left:0;top:0;

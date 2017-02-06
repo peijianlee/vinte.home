@@ -17,8 +17,8 @@ html
 							if newscategories && newscategories.length>0
 								each cat in newscategories
 									li: a(href="###") #{cat.name}
-				.news_list_frame.wrap
-					if banners && banners.length > 0
+				.news_list_frame.wrap.pb20
+					//- if banners && banners.length > 0
 						.bannerFrame
 							ul.banner
 								each item in banners
@@ -28,7 +28,7 @@ html
 										.JDT
 										p #{item.description}
 										img(src="/banner/#{item.imgsrc}")
-					script(src="/js/index.js")
+					//- script(src="/js/index.js")
 					if news && news.length > 0
 						each item in news
 							.news_list(id="item-id-#{item._id}")
@@ -44,14 +44,52 @@ html
 									h2
 										a(target="_blank", href="/news/#{item._id}") #{item.title}
 									p #{item.text}
-										if item.img && item.img.length > 0
-											ul.news_img_list
-												each imgsrc in item.img
-													li
-														img(src="#{imgsrc}")
-										else
-											div
-												b !!!没有图片!!!
+									if item.img && item.img.length > 0
+										ul.news_img_list
+											each imgsrc in item.img
+												li
+													img(src="#{imgsrc}")
+									else
+										div
+											b !!!没有图片!!!
+						.loadMore(skip="1") 点击加载
 			.bg_fixed
+			script.
+				$('.loadMore').click(function(){
+					var $t = $(this),
+						skip=parseInt($t.attr('skip'));
+					$.ajax({
+						type:'get',
+						url:'/news?skip='+skip
+					})
+					.done(function(results){
+						if(results.success===0){
+							console.log('加载失败')
+						}else{
+							//- console.log(results.news)
+							if(results.news.length<2) $t.remove()
+							for(var i=0;i<results.news.length;i++){
+								$t.attr('skip',skip++)
+								console.log(results.news[i].content)
+								var content = 
+									'<div class="news_list hide" id="'+
+									'item-id-'+results.news[i]._id+
+									'"><div class="news_list_info">'+
+									'<span class="news_list_tag">'+results.news[i].newscategoryname+
+									'</span>by<i class="icon-user ml10 mr5"></i>'+results.news[i].umane+
+									' at <i class="icon-time ml5 mr5"></i>'+
+									'<span>2017/01/23 12:33:44</span></div>'+
+									'<div class="news_list_info_line"></div>'+
+									'<div class="news_list_content"><h2>'+
+									'<a href="/news/'+results.news[i]._id+'" target="_blank">'+
+									results.news[i].title+'</a></h2>'+
+									'<p>'+results.news[i].content+'</p>'+
+									'<div><b>!!!没有图片!!!</b></div></div></div>'
+								$('.news_list:last').after(content);
+								$('.news_list:last').fadeIn();
+							}
+						}
+					})
+				})
 	
 

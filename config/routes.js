@@ -35,6 +35,7 @@ module.exports = function(app){
 	// news
 	app.get('/news/:id', News.detail)
 	app.get('/news', News.indexlist)
+	// app.get('/news/upload', News.indexlistLoad)
 	app.get('/admin/news/new', User.signinRequired, User.adminRequired, News.news)
 	app.post('/admin/news', User.signinRequired, User.adminRequired, News.save)
 	app.post('/admin/news/uedel', User.signinRequired, User.adminRequired, News.uedel)

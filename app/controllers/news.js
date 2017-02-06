@@ -51,6 +51,7 @@ exports.save = function(req,res){
 			if(_news.title==newsObj.title && _news.content==newsObj.content && newsObj.newscategory.toString()==_news.newscategory.toString()){
 				console.log('没有更新')
 				res.redirect('/admin/news/list')
+
 				return false
 			}
 
@@ -85,6 +86,11 @@ exports.save = function(req,res){
 
 			// 使用underscore模块的extend函数更新变化的属性
 			_news = _.extend(_news, newsObj)
+			console.log('###---------###')
+			console.log(_news)
+			console.log('###---------###')
+			console.log(newsObj)
+			console.log('###---------###')
 			// 清除所有标签
 			var _content = _news.content
 			_content = _content.replace(/<\/?[^>]*>/g,''); //去除HTML tag
@@ -133,31 +139,46 @@ exports.save = function(req,res){
 
 //index news list page
 exports.indexlist = function(req,res){
-	News.fetch(function(err,news){
-		if(err)console.log(err)
+	var skip = parseInt(req.query.skip) || 0
+	var limit = 2
+	News
+		.find({}).limit(limit).skip(skip*limit)
+		.exec(function(err,news){
+			if(err)console.log(err)
+			// 查找到该内容下的图片
+			for(var i=0; i<news.length; i++){
+				findIMAGE(news,i)
 
-		// 查找到该内容下的图片
-		for(var i=0; i<news.length; i++){
-			findIMAGE(news,i)
+				// 截取字符
+				var _text = news[i].text
+				_text.substring(0,50)
+				news[i].text = news[i].text.substring(0,200)
 
-			// 截取字符
-			var _text = news[i].text
-			_text.substring(0,50)
-			news[i].text = news[i].text.substring(0,200)
-
-		}
-		Newscategory.find({}, function(err, newscategories){
-			if(err) console.log(err)
-			Banner.find({}, function(err, banners){
-				res.render('news_index', {
-					title: 'icoom文章列表页',
-					news: news,
-					newscategories: newscategories,
-					banners: banners
+			}
+			// 初始加载
+			if(skip == 0){
+				Newscategory.find({}, function(err, newscategories){
+					if(err) console.log(err)
+					Banner.find({}, function(err, banners){
+						res.render('news_index', {
+							title: 'icoom文章列表页',
+							news: news,
+							newscategories: newscategories,
+							banners: banners
+						})
+					})
 				})
-			})
+			// 加载更多
+			}else{
+				if(err){
+					console.log(err)
+					res.json({success:0})
+				}else{
+					res.json({news:news})
+				}
+
+			}
 		})
-	})
 }
 
 //admin news list page
