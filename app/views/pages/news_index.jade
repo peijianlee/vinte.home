@@ -66,25 +66,35 @@ html
 						if(results.success===0){
 							console.log('加载失败')
 						}else{
-							//- console.log(results.news)
+							console.log(results.news)
 							if(results.news.length<2) $t.remove()
+							$t.attr('skip',skip+1)
 							for(var i=0;i<results.news.length;i++){
-								$t.attr('skip',skip++)
 								console.log(results.news[i].content)
+								if(results.news[i].img.length>0){
+									var imgHTML = '<ul class="news_img_list">'
+									for(var j=0;j<results.news[i].img.length;j++){
+										imgHTML += '<li><img src="'+results.news[i].img[j]+'" /></li>'
+									}
+									imgHTML +='</ul>'
+								}else{
+									var imgHTML = '<div><b>!!!没有图片!!!</b></div>'
+								}
 								var content = 
 									'<div class="news_list hide" id="'+
 									'item-id-'+results.news[i]._id+
 									'"><div class="news_list_info">'+
 									'<span class="news_list_tag">'+results.news[i].newscategoryname+
-									'</span>by<i class="icon-user ml10 mr5"></i>'+results.news[i].umane+
+									'</span>by<i class="icon-user ml10 mr5"></i>'+results.news[i].uname+
 									' at <i class="icon-time ml5 mr5"></i>'+
-									'<span>2017/01/23 12:33:44</span></div>'+
+									'<span>'+results.news[i].meta.updateAt+
+									'</span></div>'+
 									'<div class="news_list_info_line"></div>'+
 									'<div class="news_list_content"><h2>'+
 									'<a href="/news/'+results.news[i]._id+'" target="_blank">'+
 									results.news[i].title+'</a></h2>'+
-									'<p>'+results.news[i].content+'</p>'+
-									'<div><b>!!!没有图片!!!</b></div></div></div>'
+									'<p>'+results.news[i].text+'</p>'+
+									imgHTML+'</div></div>'
 								$('.news_list:last').after(content);
 								$('.news_list:last').fadeIn();
 							}

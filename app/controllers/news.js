@@ -4,6 +4,7 @@ var Newscategory = require('../models/news_category')
 var Banner = require('../models/banner')
 var _ = require('underscore')
 var fs = require('fs')
+var moment = require('moment')
 
 //新建文章
 exports.news = function(req,res){
@@ -86,11 +87,6 @@ exports.save = function(req,res){
 
 			// 使用underscore模块的extend函数更新变化的属性
 			_news = _.extend(_news, newsObj)
-			console.log('###---------###')
-			console.log(_news)
-			console.log('###---------###')
-			console.log(newsObj)
-			console.log('###---------###')
 			// 清除所有标签
 			var _content = _news.content
 			_content = _content.replace(/<\/?[^>]*>/g,''); //去除HTML tag
@@ -153,6 +149,13 @@ exports.indexlist = function(req,res){
 				var _text = news[i].text
 				_text.substring(0,50)
 				news[i].text = news[i].text.substring(0,200)
+
+				// 显示时间
+				// #{moment(item.meta.updateAt).format('YYYY/MM/DD HH:mm:ss')}
+				var time = news[i].meta.updateAt
+
+				news[i].meta.updateAt = '2017-02-06 06:40:04'
+				console.log(news[i].meta.updateAt)
 
 			}
 			// 初始加载
