@@ -1,0 +1,44 @@
+.h60
+#singn_menu
+	.wrap
+		//- h1.fl ICOOMTEST
+		div.fr
+			if user
+				img(src='#{user.avatar}')
+				span #{user.name}
+				span &nbsp;&nbsp;|&nbsp;&nbsp;
+				a.navbar-link(href="/logout")
+					i.icon-signout.mr5
+					| 退出登录
+			else
+				a.navbar-link(href="#", data-toggle="modal", data-target="#signupModal")
+					i.icon-pencil.mr5
+					| 注册
+				span &nbsp;&nbsp;|&nbsp;&nbsp;
+				a.navbar-link(href="#", data-toggle="modal", data-target="#signinModal")
+					i.icon-user.mr5
+					| 登录
+
+script.
+	var standScroll = 0;
+	$(window).scroll(function(){
+		var scroll = $(this).scrollTop();
+
+		if(standScroll<scroll){
+			$('#singn_menu').stop(true,false).animate({'bottom':-60},100);
+		}else{
+			$('#singn_menu').stop(true,false).animate({'bottom':0},100);
+		}
+		standScroll = scroll
+	});
+	//- var standScroll = 0
+	//- window.onscroll=function(){
+	//- 	var menu = document.getElementById('singn_menu');
+	//- 	var scrollTop = window.pageYOffset|| document.documentElement.scrollTop || document.body.scrollTop;
+	//- 	//- console.log(scrollTop)
+	//- 	if()
+
+	//- }
+
+
+

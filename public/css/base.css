@@ -10,6 +10,9 @@ a{text-decoration:none;color:#333;}
 .tc{text-align:center;}
 ul,ol,li{list-style-type:none;}
 
+.fl{float:left;}
+.fr{float:right;}
+
 .hide{display:none;}
 .block{display:block;}
 .inlineBlock{display:inline-block;}
@@ -36,6 +39,9 @@ ul,ol,li{list-style-type:none;}
 .pt20{padding-top:20px;}
 .pb10{padding-bottom:10px;}
 .pb20{padding-bottom:20px;}
+.pb50{padding-bottom:50px;}
+/*布局*/
+.h60{height:60px;}
 /*字体颜色*/
 .cGray{color:gray;}
 .cRed{color:#c8181e;}
