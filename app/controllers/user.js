@@ -132,7 +132,6 @@ exports.signinRequired = function(req,res,next){
 		console.log('未登录')
 		return res.redirect('/signin')
 	}
-
 	next()
 }
 
@@ -141,9 +140,10 @@ exports.adminRequired = function(req,res,next){
 
 	if(user.role <=10){
 		console.log('没有权限')
-		return res.redirect('/signin')
+		return res.render('prompt',{
+			message:'你的权限不够，无法访问该页面！'
+		})
 	}
-
 	next()
 }
 

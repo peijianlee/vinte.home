@@ -17,6 +17,13 @@ ul,ol,li{list-style-type:none;}
 .fb{font-weight:bold;}
 .fn{font-weight:normal;}
 
+.textUnSelect{
+    -webkit-user-select: none; 
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
 .textUnderline{text-decoration:underline;}
 .textUnderline:hover{text-decoration:none;}
 
