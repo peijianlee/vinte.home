@@ -12,12 +12,12 @@ block content
 					label(for="signupName") &nbsp;
 						i.icon-user 
 						| &nbsp;用户名
-					input#signupName.form-control(name="user[name]", type="text")
+					input#signupName.form-control(name="user[name]", type="text", placeholder="请输入用户名")
 				li
 					label(for="signupPassword") &nbsp;
 						i.icon-key
 						| &nbsp; 密码
-					input#signupPassword.form-control(name="user[password]",type="password")
+					input#signupPassword.form-control(name="user[password]",type="password", placeholder="请输入密码")
 				li.sign_tip
 					i.icon-question-sign 
 					| &nbsp;已经注册了会员？
@@ -31,4 +31,3 @@ block content
 	h3.bgword
 		i.icon-quote-left.icon-3x.pull-left
 		| #{bgword}
-	script(src="/js/admin.js")

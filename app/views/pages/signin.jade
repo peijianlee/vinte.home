@@ -12,7 +12,7 @@ block content
 					i.icon-user 
 					| &nbsp;用户名
 				if name
-					input#signinName.signinName.form_control(name="user[name]", type="text" value="#{name}")
+					input#signinName.signinName.form_control(name="user[name]", type="text", value="#{name}", placeholder="请输入用户名")
 					if !password
 						.sign_tip.inlineBlock
 							i.icon-info-sign
@@ -20,27 +20,29 @@ block content
 							strong #{name}
 							|&nbsp;” 已经存在了
 				else
-					input#signinName.signinName.form_control(name="user[name]", type="text")
+					input#signinName.signinName.form_control(name="user[name]", type="text", placeholder="请输入用户名")
 			li
 				label(for="signinPassword") &nbsp;
 					i.icon-key 
 					| &nbsp;密码
-				input#signinPassword.signinPassword.form_control(name="user[password]",type="password")
+				input#signinPassword.signinPassword.form_control(name="user[password]",type="password", placeholder="请输入密码")
 				if password
 					.alert.alert-warning.alert-dismissible(style="margin-top:5px;")
 						strong 密码错误
 						|&nbsp; 请重新输入
 			li.sign_tip
-				i.icon-question-sign 
+				i.icon-question-sign
 				| &nbsp;还没有注册会员？
 				a.cBlue.textUnderline(href="signup") 点击注册
 			
 		.sign_form_foot
-			span.button.button-raised.button-primary.signin-success 登 录
+			span.bsubmit.button.button-raised.button-primary.signin-success 登 录
 			.sign_form_foot_info
 				h6 IMOOC
 				p 基于NodeJs+MongoDB搭建的电影网站 <br /> 备案编号:110105000501 Copyright © 2006-2017
 	h3.bgword
 		i.icon-quote-left.icon-3x.pull-left
 		| #{bgword}
-	script(src="/js/admin.js")
+
+	script(src="js/sign.js")
+

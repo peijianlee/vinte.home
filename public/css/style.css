@@ -321,8 +321,7 @@
 	border-right:1px solid rgba(255,255,255,.8);
 }
 .sign_form_foot{background-color:rgba(255,255,255,.3);}
-.sign_form_content input[type=text],
-.sign_form_content input[type=password]{
+.sign_form_content input{
 	background-color: #fff;
     background-image: none;
     border: 1px solid #ccc;
@@ -335,30 +334,65 @@
     transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
     width:96%;
 }
-.sign_form_content input[type=text]:focus,
-.sign_form_content input[type=password]:focus{
-  border-color: #66afe9;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);
-  outline: 0 none;
+.sign_form_content input:focus{
+	border-color: #66afe9;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);
+	outline: 0 none;
+}
+.sign_form_content input.input_error{
+	border-color:#f38379;
+	color:#f38379;
+	box-shadow:inset 1px 1px 3px rgba(0,0,0,0.3);
 }
 
 .sign_form_content label{
+	font-weight:500;
 	font-size:14px;display:block;margin-bottom:3px;
-	color:#555;text-shadow:1px 1px white;
+	color:#777;text-shadow:1px 1px white;
 }
-.sign_form_content li{margin-bottom:15px;}
+.sign_form_content li{
+	margin-bottom:15px;
+	position:relative;
+}
 .sign_form_foot_info{
 	color:white;text-align:right;
 }
 .sign_form_foot_info h6{font-size:28px;line-height:50px;height:50px;margin-top:-40px;}
 .sign_form_foot_info p{font-size:12px;}
 .sign_tip{
-	border:1px solid #a9a46f;border-radius:3px;
-	background-color:#fffecd;
-	color:#716c3a;text-shadow:1px 1px white;
+	border-style:solid;
+	border-width:1px;
+	border-radius:3px;
+	text-shadow:1px 1px white;
 	margin-top:5px;
 	font-size:12px;
 	padding:5px 2%;
+}
+.sign_tip{
+	border-color:#a9a46f;
+	background-color:#fffecd;
+	color:#716c3a;
+}
+.sign_tip.error{
+	border-color:#f38379;
+	background-color:#feeeed;
+	color:#ff6d60;
+	position:relative;
+}
+.sign_tip.error:after,
+.sign_tip.error:before{
+	content:"";
+	position:absolute;left:10px;
+	border-style:solid;
+	border-width:0 4px 4px;
+}
+.sign_tip.error:before{
+	border-color:#f38379 transparent;
+	top:-4px;
+}
+.sign_tip.error:after{
+	border-color:#feeeed transparent;
+	top:-3px;
 }
 
 .bgword{
@@ -366,6 +400,6 @@
 	color:#333;
 	font-size:20px;
 	max-width:450px;
-	bottom:4%;right:2%;
+	bottom:70px;right:2%;
 }
 .bgword i{color:#999;}

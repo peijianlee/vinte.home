@@ -20,27 +20,4 @@ $(function(){
 			}
 		})
 	})
-
-
-	$('.signin-success,.dialog-signin-success').click(function(){
-		// alert('dd')
-		var par = $(this).parent('div').parent('div')
-		var Na = par.find('.signinName').val()
-		var Ps = par.find('.signinPassword').val()
-		$.ajax({
-			type: 'POST',
-			url: '/user/signin?name='+Na+'&password='+Ps
-		})
-		.done(function(results){
-			if(results.success===1){
-				artalert('登录成功','success','/');
-				
-			}
-			else if(results.success===2){
-				artalert('用户不存在')
-			}else{
-				artalert('密码错误','error')
-			}
-		})
-	});
 })

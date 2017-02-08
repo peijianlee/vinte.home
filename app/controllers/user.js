@@ -31,6 +31,16 @@ exports.showSignup = function(req, res){
 		bgsrc: bgimg
 	})
 }
+// 判断用户是否已经登录
+exports.userRequired = function(req,res,next){
+	var user = req.session.user
+
+	if(user){
+		console.log('用户已登录')
+		return res.redirect('/news')
+	}
+	next()
+}
 exports.showSignin = function(req, res){
 	var name = req.query.name
 	var password = req.query.password
@@ -62,9 +72,7 @@ exports.signup = function(req, res){
 			var user = new User(_user)
 
 			user.save(function(err, user) {
-				if(err){
-					console.log(err)
-				}
+				if(err) console.log(err)
 				console.log(user)
 
 				res.redirect('/')
@@ -110,7 +118,7 @@ exports.signin = function(req, res){
 exports.logout = function(req, res){
 	delete req.session.user
 	// delete app.locals.user
-	res.redirect('/')
+	res.redirect('/news')
 }
 
 //userlist page
