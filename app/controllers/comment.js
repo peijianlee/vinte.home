@@ -5,6 +5,9 @@ var Comment = require('../models/comment')
 // comment
 exports.save = function(req,res){
 	var _comment = req.body.comment
+	console.log('###----------------')
+	console.log(_comment)
+	console.log('###----------------')
 	var movieId = _comment.movie
 
 	// 是否是要回复
@@ -22,7 +25,7 @@ exports.save = function(req,res){
 
 			comment.save(function(err, comment) {
 				if(err) console.log(err)
-				res.redirect('/movie/'+movieId)
+				res.redirect('/')
 			})
 		})
 	}else{
@@ -30,7 +33,8 @@ exports.save = function(req,res){
 		var comment = new Comment(_comment) 
 		comment.save(function(err, comment){
 			if(err)console.log(err)
-			res.redirect('/movie/'+movieId)
+			// res.redirect('/movie/'+movieId)
+			res.redirect('/')
 		})
 	}
 }

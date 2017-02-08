@@ -1,8 +1,7 @@
-$('.comment').click(function(e){
+$('.commentBtn').click(function(e){
 	var $t = $(this),
 		toId = $t.data('tid'),
 		commentId = $t.data('cid');
-
 	if($('#toId').length>0){
 		$('#toId').val(toId)
 	}else{

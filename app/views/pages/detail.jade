@@ -24,7 +24,7 @@ block content
 											each reply in item.reply
 												.media
 													.pull-left
-														a.comment(href="#commentsForm", data-cid="#{item._id}", data-tid="#{reply.from._id}")
+														a.commentBtn(href="#commentsForm", data-cid="#{item._id}", data-tid="#{reply.from._id}")
 															img.media-object(src="http://www.easyicon.net/api/resizeApi.php?id=1132617&size=64" )
 													.media-body
 														h4.media-heading

@@ -2,6 +2,7 @@
 var News = require('../models/news')
 var Newscategory = require('../models/news_category')
 var Banner = require('../models/banner')
+var Comment = require('../models/comment')
 var _ = require('underscore')
 var fs = require('fs')
 var moment = require('moment')
@@ -223,11 +224,28 @@ exports.detail = function(req,res){
 		if(err) console.log(err)
 	})
 
+	// News.findById(id,function(err,news){
+	// 	res.render('news_detail',{
+	// 		title: '文章详情页',
+	// 		news: news
+	// 	})
+	// })
+
+	// 查找到news再查下面的评论
 	News.findById(id,function(err,news){
-		res.render('news_detail',{
-			title: '文章详情页',
-			news: news
-		})
+		Comment
+			.find({news: id})
+			.populate('from', 'name')
+			
+			.populate('reply.from reply.to', 'name')
+			.exec(function(err,comments){
+				console.log(comments)
+				res.render('news_detail',{
+					title: 'nodeJS ' + news.title,
+					news: news,
+					comments: comments
+				})
+			})
 	})
 }
 

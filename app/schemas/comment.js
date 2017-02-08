@@ -4,6 +4,7 @@ var ObjectId = Schema.Types.ObjectId
 
 var CommentSchema = new Schema({
 	movie: {type: ObjectId, ref: 'Movie'},
+	news: {type: ObjectId, ref: 'News'},
 	from: {type: ObjectId, ref: 'User'},
 	// 二级评论
 	reply: [{

@@ -3,7 +3,7 @@ html,body,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,p{padding:0;margin:0;}
 
 body{
 	font-family:"Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","WenQuanYi Micro Hei",sans-serif;
-	
+	color:#333;
 	line-height:1.42857;
 }
 a{text-decoration:none;color:#333;}
@@ -188,7 +188,7 @@ table td{
 /*----------csstip----------*/
 *[csstip],
 *[csstip-top]{
-	position:relative;}
+}
 *[csstip]:before,
 *[csstip]:after,
 *[csstip-top]:before,
@@ -205,6 +205,7 @@ table td{
 	left:0;font-size:12px;font-weight:normal;
 	padding:0 10px;border-radius:4px;
 	background-color:black;color:white;
+	min-width:25px;
 }
 *[csstip]:before{content:attr(csstip);bottom:-40px;}
 *[csstip-top]:before{content:attr(csstip-top);top:-40px;}
