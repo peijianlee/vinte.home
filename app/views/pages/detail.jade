@@ -34,7 +34,7 @@ block content
 															| #{reply.to.name}
 														p #{reply.content}
 									hr
-						form#commentsForm.comments(method="POST", action="/user/comment")
+						form#commentsForm.comments(method="POST", action="/user/save")
 							input(type="hidden", name="comment[movie]", value="#{movie._id}")
 							if user
 								input(type="hidden", name="comment[from]", value="#{user._id}")

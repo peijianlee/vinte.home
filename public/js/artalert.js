@@ -80,3 +80,21 @@ $('[data-toggle="modal"]').click(function(){
 		$(Target).fadeOut('fast');
 	})
 });
+
+
+// arttip 提示栏
+function arttip(txt){
+	var $body = $('body');
+	$body.append('<div class="arttipbg"></div><div class="arttip">'+
+		txt+'</div>')
+	$('.arttipbg').fadeIn('200');
+	$('.arttip').animate({'opacity':1,'top':'3%'},200);
+}
+function arttipclose(){
+	$('.arttipbg').fadeIn('200',function(){
+		$(this).remove();
+	});
+	$('.arttip').animate({'top':'-50%'},200,function(){
+		$(this).remove();
+	});
+}

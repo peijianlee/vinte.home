@@ -33,7 +33,8 @@ module.exports = function(app){
 	});
 
 	// news
-	app.get('/news/:id', News.detail)
+	app.get('/news/:id', News.pv, News.detail)
+	app.get('/news/comment', News.detail)
 	app.get('/news', News.indexlist)
 	// app.get('/news/upload', News.indexlistLoad)
 	app.get('/admin/news/new', User.signinRequired, User.adminRequired, News.news)
@@ -75,7 +76,8 @@ module.exports = function(app){
 	app.delete('/admin/movie/category/list', User.signinRequired, User.adminRequired, Category.del)
 
 	// Comment
-	app.post('/user/comment', User.signinRequired, Comment.save)
+	app.post('/user/save', User.signinRequired, Comment.save)
+	app.post('/user/comment', User.signinRequired, Comment.comment)
 
 	// banner
 	app.get('/admin/banner/new', User.signinRequired, User.adminRequired, Banner.new)

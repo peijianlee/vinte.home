@@ -139,7 +139,9 @@ exports.indexlist = function(req,res){
 	var skip = parseInt(req.query.skip) || 0
 	var limit = 2
 	News
-		.find({}).limit(limit).skip(skip*limit)
+		.find({})
+		.limit(limit)
+		.skip(skip*limit)
 		.exec(function(err,news){
 			if(err)console.log(err)
 			// 查找到该内容下的图片
@@ -150,13 +152,6 @@ exports.indexlist = function(req,res){
 				var _text = news[i].text
 				_text.substring(0,50)
 				news[i].text = news[i].text.substring(0,200)
-
-				// 显示时间
-				// #{moment(item.meta.updateAt).format('YYYY/MM/DD HH:mm:ss')}
-				var time = news[i].meta.updateAt
-
-				news[i].meta.updateAt = '2017-02-06 06:40:04'
-				console.log(news[i].meta.updateAt)
 
 			}
 			// 初始加载
@@ -216,35 +211,80 @@ exports.list = function(req,res){
 		})
 }
 
-exports.detail = function(req,res){
+// 浏览量
+exports.pv = function(req,res,next){
 	var id=req.params.id
-	console.log(id)
-	
 	News.update({_id:id},{$inc:{pv:1}},function(err){
 		if(err) console.log(err)
 	})
-
-	// News.findById(id,function(err,news){
-	// 	res.render('news_detail',{
-	// 		title: '文章详情页',
-	// 		news: news
-	// 	})
-	// })
+	next()
+}
+// 文章详情
+exports.detail = function(req,res){
+	console.log(req.query.id)
+	// 显示数量
+	var num = 10
+	if(!req.query.id){
+		var id=req.params.id
+		var skip = 0
+	}else{
+		console.log('是ajax传过来的请求')
+		var isAjaxGet = true
+		var id=req.query.id
+		var totalcomments = req.query.totalcomments
+		var skip = req.query.pagenum*num
+	}
+	var index = 0 + skip
+	var pagenum = num + skip
+	
+	// req.body
+	console.log(id)
 
 	// 查找到news再查下面的评论
 	News.findById(id,function(err,news){
+		if(err)console.log(err)
+		if(!news){
+			console.log('该文章不存在或者已经被删除了。')
+			return res.render('prompt',{
+				message:'该文章不存在或者已经被删除了。'
+			})
+		}
 		Comment
 			.find({news: id})
 			.populate('from', 'name')
-			
 			.populate('reply.from reply.to', 'name')
 			.exec(function(err,comments){
-				console.log(comments)
-				res.render('news_detail',{
-					title: 'nodeJS ' + news.title,
-					news: news,
-					comments: comments
-				})
+				// 截取当前评论总数
+				var totalcomments = comments.length
+				if(!isAjaxGet){
+					// 初始加载
+					if(totalcomments>10){
+						var results = comments.slice(index, pagenum)
+						comments = results
+					}
+
+
+					res.render('news_detail',{
+						title: 'nodeJS ' + news.title,
+						news: news,
+						comments: comments,
+						totalcomments: totalcomments || 0,
+						totalPage: Math.ceil(totalcomments / 10),
+					})
+
+				}else{
+					// ajax加载
+					var results = comments.slice(index, pagenum)
+					comments = results
+					if(err){
+						console.log(err)
+						res.json({success:0})
+					}else{
+						res.json({comments:comments})
+					}
+
+
+				}
 			})
 	})
 }
@@ -303,6 +343,10 @@ exports.del = function(req,res){
 						if(err) console.log(err);
 					})
 				}
+			})
+			// 删除文章下的所以评论
+			Comment.remove({news: id},function(err){
+				if(err) console,log(err)
 			})
 			// 删除
 			News.remove({_id: id},function(err,news){

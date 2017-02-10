@@ -23,28 +23,26 @@ block content
 					.news_content
 						h2 #{news.title}
 						div !{news.content}
-			
-			.comment.wrap
+			input(type="hidden",value="#{news.id}",name="newsId")
+
+
+			.comment.wrap(totalcomments="#{totalcomments}")
 				//- h6 评论区
-				.comment_list
+				ul.comment_list
 					each item in comments
 						li.c_body
 							a.c_avatar.commentBtn(href="#commentsForm", data-cid="#{item._id}", data-tid="#{item.from._id}")
-								span(csstip-top="回复")
-									img(src="http://www.easyicon.net/api/resizeApi.php?id=1132617&size=32")
+								img(src="http://www.easyicon.net/api/resizeApi.php?id=1132617&size=32")
 							div.c_comment
 								h5 
 									small.fr #{moment(item.meta.createAt).format('YYYY/MM/DD HH:mm:ss')}
-									if item.from.name == user.name
-										| #{item.from.name}
-										small.fs12.cGray &nbsp;&nbsp;(发布者)
-									else
-										| #{item.from.name}
-								p #{item.content}
+									| #{item.from.name}
+								p !{item.content}
 								if item.reply && item.reply.length > 0
 									each reply in item.reply
 										.c_body
-											img.c_avatar(src="http://www.easyicon.net/api/resizeApi.php?id=1132617&size=32")
+											a.c_avatar.commentBtn(href="#commentsForm", data-cid="#{item._id}", data-tid="#{reply.from._id}")
+												img(src="http://www.easyicon.net/api/resizeApi.php?id=1132617&size=32")
 											div.c_comment
 												h5 
 													small.fr #{moment(reply.date).format('YYYY/MM/DD HH:mm:ss')}
@@ -54,18 +52,112 @@ block content
 														| #{reply.to.name}
 													else
 														| #{reply.from.name}
-												p #{reply.content}
-				form#commentsForm.comments(method="POST", action="/user/comment")
+												p !{reply.content}
+				.page.tc(style="margin-top:15px;margin-bottom:30px;",totalcomments="#{totalcomments}",totalpage="#{totalPage}")
+					- if(totalPage>1){
+						-	for(var i=0;i<totalPage; i++){
+							-	if(i == 0){
+									a.page_stand(href='javascript:;') 1
+							-	}else{
+									a(href='javascript:;') #{i+1}
+							-	}
+						-	}
+							//- a(href='javascript:;',csstip-top='最后一页'): i.icon-double-angle-right
+					- }
+				script.
+					$('.page a').click(function(){
+						var $this = $(this);
+						if($this.hasClass('page_stand'))return false;
+						var totalcomments = $('.page').attr('totalcomments')
+						var pagenum = $this.text() || $('.page').attr('totalpage');
+						var newsId = $('[name="newsId"]').val();
+						$.ajax({
+							type:'get',
+							url:'/news/comment?id='+newsId+'&totalcomments='+totalcomments+'&pagenum='+(pagenum-1)
+						})
+						.done(function(results){
+							if(results.success===0){
+								artalert('获取数据失败，请重新操作。','error')
+							}else{
+								console.log(results.comments.length)
+								var commentHTML = ''
+								for(i=0; i<results.comments.length; i++){
+									console.log(results.comments[i])
+									//- 格式化时间
+									var time = moment(results.comments[i].meta.createAt).format('YYYY-MM-DD HH:mm:ss')
+									commentHTML += '<li class="c_body">'+
+										'<a class="c_avatar commentBtn" data-tid="'+results.comments[i]._id+
+										'" data-cid="'+
+										'" href="#commentsForm">'+
+										'<img src="http://www.easyicon.net/api/resizeApi.php?id=1132617&amp;size=32"></a><div class="c_comment"><h5> '+
+										'<small class="fr">'+time+
+										'</small>'+results.comments[i].from.name+
+										'</h5><p>'+results.comments[i].content+'</p></div></li>'
+								}
+								$('.comment_list').html('').append(commentHTML);
+								$('.page a').removeClass('page_stand');
+								$this.addClass('page_stand');
+
+							}
+						})
+					})
+				div#commentsForm
 					input(type="hidden", name="comment[news]", value="#{news._id}")
 					if user
 						input(type="hidden", name="comment[from]", value="#{user._id}")
 					.form-grounp
-						textarea.form-control(name="comment[content]", row="3")
+						textarea(name="comment[content]")
 					if user
-						button.btn.btn-primary.submitMsn(type="submit") 提交
+						button.button.button-primary.button-longshadow-right.submitMsn(type="submit") 提交
 						//- a.btn.btn-primary.submitMsn(href="javascript:void(0)") 提交
 
 					else
 						a.navbar-link(href="#", data-toggle="modal", data-target="#signinModal") 登录后评论
 		.bg_fixed
 	script(src="/js/detail.js")
+	script.
+		$('.submitMsn').click(function(){
+			var news = $('input[name="comment[news]"]').val()
+			var from = $('input[name="comment[from]"]').val()
+			var content = $('textarea[name="comment[content]"]').val()
+			var tid = $('input[name="comment[tid]"]').val()
+			var cid = $('input[name="comment[cid]"]').val()
+
+			if(tid==undefined||tid==""){
+				var data = {"from":from,"news":news,"content":content}
+			}else{
+				var data = {"from":from,"news":news,"content":content,"tid":tid,"cid":cid}
+			}
+			
+			arttip('<i class="icon-spinner icon-spin"></i>&nbsp;&nbsp;uploading...')
+
+			$.ajax({
+				type:"POST",
+				url:"/user/comment",
+				data:data,
+				dataType:"json",
+				async:false,
+				cache:false,
+				success: function(data){
+					//- var _data = eval("("+data+")");
+					if(data.success.cid==undefined){
+						console.log(data.success)
+						var commentHTML ='<li class="c_body">'+
+							'<a class="c_avatar commentBtn" data-tid="'+data.success.from+
+							'" data-cid="589c2aac544d7e14a8cee16d" '+
+							'href="#commentsForm"><img src="http://www.easyicon.net/api/resizeApi.php?id=1132617&amp;size=32"></a>'+
+							'<div class="c_comment"><h5> '+
+							'<small class="fr">'+data.success.meta.createAt+
+							'</small>'+data.success.from.name+'</small></h5>'+
+							'<p>'+data.success.content+'</p></div></li>'
+						$('.comment_list').append(commentHTML)
+						arttipclose();
+					}
+				},
+				error: function(json){
+					artalert('发送失败，请重新操作。','error')
+				}
+
+			})
+			return false;
+		});

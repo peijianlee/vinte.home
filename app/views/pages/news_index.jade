@@ -45,7 +45,7 @@ block content
 								else
 									div
 										b !!!没有图片!!!
-					.loadMore(skip="1") 点击加载
+				.loadMore(skip="1") 点击加载
 		
 		.bg_fixed
 		script.
@@ -74,6 +74,7 @@ block content
 							}else{
 								var imgHTML = '<div><b>!!!没有图片!!!</b></div>'
 							}
+							var time = moment(results.news[i].meta.updateAt).format('YYYY/MM/DD HH:mm:ss')
 							var content = 
 								'<div class="news_list hide" id="'+
 								'item-id-'+results.news[i]._id+
@@ -81,7 +82,7 @@ block content
 								'<span class="news_list_tag">'+results.news[i].newscategoryname+
 								'</span>by<i class="icon-user ml10 mr5"></i>'+results.news[i].uname+
 								' at <i class="icon-time ml5 mr5"></i>'+
-								'<span>'+results.news[i].meta.updateAt+
+								'<span>'+time+
 								'</span></div>'+
 								'<div class="news_list_info_line"></div>'+
 								'<div class="news_list_content"><h2>'+
