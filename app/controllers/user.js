@@ -1,5 +1,9 @@
 var User = require('../models/user')
 
+// 登录验证码
+var svgCaptcha = require('svg-captcha')
+	svgCaptcha.options.height = '40'
+	svgCaptcha.options.fontSize = '40'
 
 // 随机背景图
 var bgsrc = [
@@ -20,17 +24,6 @@ var bgwords = [
 	"Behind every successful man there's a lot u unsuccessful years. ",
 	"Enrich your life today,. yesterday is history.tomorrow is mystery.",
 	"You have to believe in yourself. That's the secret of success."]
-exports.showSignup = function(req, res){
-	var bgword = bgwords
-	var bgword = bgword[Math.floor(Math.random()*bgword.length)]
-	var bgimg = bgsrc
-	var bgimg = bgimg[Math.floor(Math.random()*bgimg.length)]
-	res.render('signup',{
-		title: '用户注册',
-		bgword: bgword,
-		bgsrc: bgimg
-	})
-}
 // 判断用户是否已经登录
 exports.userRequired = function(req,res,next){
 	var user = req.session.user
@@ -41,7 +34,39 @@ exports.userRequired = function(req,res,next){
 	}
 	next()
 }
+// 创建验证码
+exports.createCaptcha = function(req, res, next){
+	var captcha = svgCaptcha.create({
+		'size': 2,
+		'ignoreChars': '0oO1iIlL',
+		'noise': 3,
+		'color': false
+	})
+	req.session.captcha = captcha
+	if(req.query.changecaptcha){
+		console.log(req.session.captcha.text)
+		return res.json({
+			success:1,
+			captcha: req.session.captcha
+		})
+	}else{
+		next()
+	}
+}
+// 判断验证码
+exports.checkedCaptcha = function(req, res, next){
+	var captcha=req.query.captcha
+	// 全部转为小写进行验证
+	if((captcha).toLowerCase() !== (req.session.captcha.text).toLowerCase()){
+		console.log('验证码错误，请重新输入。')
+		return res.json({success:3})
+	}else{
+		next()
+	}
+}
+// 登录界面
 exports.showSignin = function(req, res){
+
 	var name = req.query.name
 	var password = req.query.password
 	var bgword = bgwords
@@ -53,7 +78,21 @@ exports.showSignin = function(req, res){
 		name: name,
 		password: password,
 		bgword: bgword,
-		bgsrc: bgimg
+		bgsrc: bgimg,
+		captcha: req.session.captcha
+	})
+}
+// 注册界面
+exports.showSignup = function(req, res){
+	var bgword = bgwords
+	var bgword = bgword[Math.floor(Math.random()*bgword.length)]
+	var bgimg = bgsrc
+	var bgimg = bgimg[Math.floor(Math.random()*bgimg.length)]
+	res.render('signup',{
+		title: '用户注册',
+		bgword: bgword,
+		bgsrc: bgimg,
+		captcha: req.session.captcha
 	})
 }
 // signup
@@ -66,14 +105,14 @@ exports.signup = function(req, res){
 		}
 		if(user && user.name!==''){
 			console.log('用户名已经存在')
-		console.log(user)
 			return res.redirect('/signin?name='+user.name)
 		}else{
 			var user = new User(_user)
 
 			user.save(function(err, user) {
 				if(err) console.log(err)
-				console.log(user)
+				// 登录信息存储在session
+				req.session.user = user
 
 				res.redirect('/')
 			})
@@ -93,8 +132,6 @@ exports.signin = function(req, res){
 		if(!user){
 			console.log('undefined user')
 			return res.json({success:2})
-
-			// return res.redirect('/signup')
 		}
 
 		user.comparePassword(password, function(err, isMatch){
@@ -103,11 +140,11 @@ exports.signin = function(req, res){
 				console.log('Password is matched')
 				// 登录信息存储在session
 				req.session.user = user
-				// return res.redirect('/')
+				// 删除验证码信息
+				delete req.session.captcha
 				res.json({success:1})
 			}else{
 				console.log('Password is not matched')
-				// return res.redirect('/signin?name='+name+'&password=notmatched')
 				res.json({success:0})
 			}
 		})

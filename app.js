@@ -1,7 +1,6 @@
 var express = require('express')
 var path = require('path')
 var mongoose = require('mongoose')
-var ueditor = require('ueditor')
 
 var port = process.env.PORT || 3000
 var app = express()
@@ -41,6 +40,7 @@ app.use(session({
 }))
 
 //ueditor
+var ueditor = require('ueditor')
 app.use("/libs/ueditor/ue", ueditor(path.join(__dirname, 'public'), function (req, res, next) {
 
     // ueditor 客户发起上传图片请求
@@ -76,6 +76,7 @@ if('development' === app.get('env')){
 	app.locals.pretty = false
 	mongoose.set('debug',true)
 }
+
 
 // 引入配置文件
 require('./config/routes')(app)

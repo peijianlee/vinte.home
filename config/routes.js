@@ -52,10 +52,11 @@ module.exports = function(app){
 	app.delete('/admin/news/category/list', User.signinRequired, User.adminRequired, Newscategory.del)
 
 	//User
+	app.get('/captcha',User.createCaptcha)
 	app.post('/user/signup', User.signup)
-	app.post('/user/signin', User.signin)
-	app.get('/signin', User.userRequired, User.showSignin)
-	app.get('/signup', User.userRequired, User.showSignup)
+	app.post('/user/signin', User.checkedCaptcha, User.signin)
+	app.get('/signup', User.userRequired, User.createCaptcha, User.showSignup)
+	app.get('/signin', User.userRequired, User.createCaptcha, User.showSignin)
 	app.get('/logout', User.logout)
 	app.get('/admin/user/list', User.signinRequired, User.adminRequired, User.list)
 	app.delete('/admin/user/list', User.signinRequired, User.adminRequired, User.del)
