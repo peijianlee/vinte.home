@@ -304,6 +304,37 @@
 	position:relative;
 	border-bottom:1px dashed #ddd;
 }
+.c_bing{
+	background-color:rgba(230,255,255,0.3);
+	transform:translateY(-30%);
+	animation: twinkling 1s infinite ease-in-out;
+	animation-iteration-count: 1;
+	animation-fill-mode:forwards;
+	-webkit-transform:translateY(-30%);
+	-webkit-animation: twinkling 1s infinite ease-in-out;
+	-webkit-animation-iteration-count: 1;
+	-webkit-animation-fill-mode:forwards;
+}
+@keyframes twinkling{
+	0%{
+		opacity:0;
+		transform:translateY(-30%);
+	}
+	100%{
+		opacity:1;
+		transform:translateY(0);
+	}
+}
+@-webkit-keyframes twinkling{
+	0%{
+		opacity:0;
+		-webkit-transform:translateY(-30%);
+	}
+	100%{
+		opacity:1;
+		-webkit-transform:translateY(0);
+	}
+}
 div.c_body{
 	border:1px solid #85c8c7;
 	background-color:#f3fefe;

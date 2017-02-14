@@ -23,10 +23,14 @@ block content
 					.news_content
 						h2 #{news.title}
 						div !{news.content}
+			//- input(type="hidden",value="#{news.id}",name="newsId")
+			//- input(type="hidden",value="#{news.uname}",name="uname")
+			//- input(type="hidden",value="#{totalPage}",name="totalpage")
+			//- input(type="hidden",value="#{totalcomments}",name="totalcomments")
 			input(type="hidden",value="#{news.id}",name="newsId")
-			input(type="hidden",value="#{news.uname}",name="uname")
-			input(type="hidden",value="#{totalPage}",name="totalpage")
-			input(type="hidden",value="#{totalcomments}",name="totalcomments")
+			span(class="hide", name="uname") #{news.uname}
+			span(class="hide", name="totalpage") #{totalPage}
+			span(class="hide", name="totalcomments") #{totalcomments}
 
 
 			.comment.wrap
@@ -73,10 +77,10 @@ block content
 		.bg_fixed
 	script(src="/js/detail.js")
 	script.
-
-		var totalPage = document.getElementsByName("totalpage")[0].value
-		var totalcomments = document.getElementsByName("totalcomments")[0].value
+		var $totalPage = document.getElementsByName("totalpage")[0]
+		var $totalcomments = document.getElementsByName("totalcomments")[0]
 		var newsId = document.getElementsByName("newsId")[0].value
+		//- var newsId = $newsId.innerHTML
 
 		//----------------------- 评论翻页
 		$('.page').delegate('a','click',function(){
@@ -97,23 +101,34 @@ block content
 				if(results.success===0){
 					artalert('获取数据失败，请重新操作。','error')
 				}else{
+					var totalPage = parseInt($totalPage.innerHTML)
+					var totalcomments = parseInt($totalcomments.innerHTML)
 					//- 判读当前总页和服务器总页是否相同
-					console.log(results.totalPage+','+totalPage);
+					//- console.log(results.totalPage+','+totalPage);
 					if(results.totalPage==totalPage){
 						$('.page a').removeClass('page_stand').eq(pagenum).addClass('page_stand');
 					}else{
-						addPageBtn(results.totalPage,pagenum)
-						document.getElementsByName("totalpage")[0].value = results.totalPage
-						totalPage = results.totalPage
+						$totalPage.innerHTML = results.totalPage
+						addPageBtn(pagenum)
 					}
-
+					var coments_length = parseInt(results.comments.length)
 					var commentHTML = ''
-					for(i=0; i<results.comments.length; i++){
-						//- console.log(results.comments[i])
+					for(i=0; i<coments_length; i++){
 						//- 格式化时间
 						var time = moment(results.comments[i].meta.createAt).format('YYYY-MM-DD HH:mm:ss')
+						var commentLI = '<li class="c_body">'
+						//- 如果当前总数不等于服务器总数时，且点击的是第一页
+						if(totalcomments!=results.totalcomments && pagenum == 0){
+							var less=results.totalcomments-totalcomments
+							if(i>less-1){
+								console.log(i)
+							}else{
+								commentLI = '<li class="c_body c_bing">'
+							}
+							$totalcomments.innerHTML = results.totalcomments
+						}
 						
-						commentHTML += '<li class="c_body">'+
+						commentHTML += commentLI+
 							'<a class="c_avatar commentBtn" data-tid="'+results.comments[i]._id+
 							'" data-cid="'+
 							'" href="#commentsForm">'+
@@ -125,14 +140,16 @@ block content
 					$('#comment_list').html('').append(commentHTML);
 
 				}
+
+				
 			})
 
 		}
 
 		//- 添加翻页按键
-		function addPageBtn(totalPage,pageNum){
+		function addPageBtn(pageNum){
+			var totalPage = parseInt($totalPage.innerHTML)
 			var page = document.getElementById('page')
-			alert(pageNum)
 			var btn = ''
 			if(totalPage>1){
 				for(var i=0;i<totalPage; i++){
@@ -144,8 +161,9 @@ block content
 				}
 			}
 			document.getElementById('page').innerHTML=btn
+
 		}
-		addPageBtn(totalPage,0)
+		addPageBtn(0)
 
 		//--------------------- 留言提交
 		$('.msgSubmitMsn').click(function(){

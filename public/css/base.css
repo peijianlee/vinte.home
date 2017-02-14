@@ -84,6 +84,9 @@ ul,ol,li{list-style-type:none;}
 .pb50{padding-bottom:50px;}
 /*布局*/
 .h60{height:60px;}
+/*背景色*/
+.bgBule{background-color:rgba(230,255,255,0.5);}
+.bgYellow{background-color:#f8fed7;}
 /*字体颜色*/
 .cGray{color:gray;}
 .cRed{color:#c8181e;}
@@ -201,8 +204,8 @@ table td{
 }
 .page a.page_stand,
 .page_stand{
-	background-color:#85a8cb;
-	border:1px solid #6095c9;
+	background-color:#38b6b4;
+	border:1px solid #38b6b4;
 	color:white;cursor:default;
 	text-shadow:1px 1px #6095c9;
 }
@@ -218,7 +221,7 @@ table td{
 }
 .page > *[csstip]:before,
 .page > *[csstip-top]:before{
-	background-color:#85a8cb;
+	background-color:#38b6b4;
 	box-shadow:
 		inset 1px 1px #6095c9,
 		inset -1px -1px #6095c9,
