@@ -224,12 +224,13 @@ exports.detail = function(req,res){
 	console.log(req.query.id)
 	// 显示数量
 	var num = 5
+	var isAjaxGet = false
 	if(!req.query.id){
 		var id=req.params.id
 		var skip = 0
 	}else{
 		console.log('是ajax传过来的请求')
-		var isAjaxGet = true
+		isAjaxGet = true
 		var id=req.query.id
 		// var totalcomments = parseInt(req.query.totalcomments)+1
 		var skip = req.query.pagenum*num
@@ -261,8 +262,8 @@ exports.detail = function(req,res){
 				var page = totalcomments / num
 				var totalPage = Math.ceil(page)
 				// 判断是否需要再新增翻页
-				console.log('---------------')
-				console.log(parseInt(page)==totalPage)
+				// console.log('---------------')
+				// console.log(parseInt(page)==totalPage)
 
 				if(!isAjaxGet){
 					// 初始加载
@@ -293,6 +294,7 @@ exports.detail = function(req,res){
 							totalcomments:totalcomments,
 							totalPage:totalPage
 						})
+						isAjaxGet = false
 					}
 
 

@@ -37,28 +37,28 @@ block content
 				//- h6 评论区
 				ul#comment_list
 					each item in comments
-						li.c_body
+						li.c_body(replynum="#{item.reply.length}")
 							a.c_avatar.commentBtn(href="#commentsForm", data-cid="#{item._id}", data-tid="#{item.from._id}")
 								img(src="http://www.easyicon.net/api/resizeApi.php?id=1132617&size=32")
 							div.c_comment
 								h5 
 									small.fr #{moment(item.meta.createAt).format('YYYY/MM/DD HH:mm:ss')}
-									| #{item.from.name}
+									span #{item.from.name}
 								p !{item.content}
 								if item.reply && item.reply.length > 0
 									each reply in item.reply
 										.c_body
-											a.c_avatar.commentBtn(href="#commentsForm", data-cid="#{item._id}", data-tid="#{reply.from._id}")
+											a.c_avatar.commentBtn(href="#commentsForm", data-cid="#{item._id}", data-tid="#{reply.from._id}", infotype="reply")
 												img(src="http://www.easyicon.net/api/resizeApi.php?id=1132617&size=32")
 											div.c_comment
 												h5 
 													small.fr #{moment(reply.date).format('YYYY/MM/DD HH:mm:ss')}
 													if reply.from.name !== reply.to.name
-														| #{reply.from.name}
-														small.text-info.icon-share-alt(style="margin:0 10px",title="回复")
-														| #{reply.to.name}
+														span #{reply.from.name}
+														small.ml10 回复：
+														span #{reply.to.name}
 													else
-														| #{reply.from.name}
+														span #{reply.from.name}
 												p !{reply.content}
 				.page#page.tc.mt10
 				script.
@@ -77,148 +77,3 @@ block content
 		.bg_fixed
 	script(src="/js/detail.js")
 	script.
-		var $totalPage = document.getElementsByName("totalpage")[0]
-		var $totalcomments = document.getElementsByName("totalcomments")[0]
-		var newsId = document.getElementsByName("newsId")[0].value
-		//- var newsId = $newsId.innerHTML
-
-		//----------------------- 评论翻页
-		$('.page').delegate('a','click',function(){
-
-			var $this = $(this);
-			if($this.hasClass('page_stand'))return false;
-
-			var pagenum = parseInt($this.text())-1;
-			addCommentHTML(pagenum)
-		})
-		//- 更新评论列表
-		function addCommentHTML(pagenum){
-			$.ajax({
-				type:'get',
-				url:'/news/comment?id='+newsId+'&pagenum='+pagenum
-			})
-			.done(function(results){
-				if(results.success===0){
-					artalert('获取数据失败，请重新操作。','error')
-				}else{
-					var totalPage = parseInt($totalPage.innerHTML)
-					var totalcomments = parseInt($totalcomments.innerHTML)
-					//- 判读当前总页和服务器总页是否相同
-					//- console.log(results.totalPage+','+totalPage);
-					if(results.totalPage==totalPage){
-						$('.page a').removeClass('page_stand').eq(pagenum).addClass('page_stand');
-					}else{
-						$totalPage.innerHTML = results.totalPage
-						addPageBtn(pagenum)
-					}
-					var coments_length = parseInt(results.comments.length)
-					var commentHTML = ''
-					for(i=0; i<coments_length; i++){
-						//- 格式化时间
-						var time = moment(results.comments[i].meta.createAt).format('YYYY-MM-DD HH:mm:ss')
-						var commentLI = '<li class="c_body">'
-						//- 如果当前总数不等于服务器总数时，且点击的是第一页
-						if(totalcomments!=results.totalcomments && pagenum == 0){
-							var less=results.totalcomments-totalcomments
-							if(i>less-1){
-								console.log(i)
-							}else{
-								commentLI = '<li class="c_body c_bing">'
-							}
-							$totalcomments.innerHTML = results.totalcomments
-						}
-						
-						commentHTML += commentLI+
-							'<a class="c_avatar commentBtn" data-tid="'+results.comments[i]._id+
-							'" data-cid="'+
-							'" href="#commentsForm">'+
-							'<img src="http://www.easyicon.net/api/resizeApi.php?id=1132617&amp;size=32"></a><div class="c_comment"><h5> '+
-							'<small class="fr">'+time+
-							'</small>'+results.comments[i].from.name+
-							'</h5><p>'+results.comments[i].content+'</p></div></li>'
-					}
-					$('#comment_list').html('').append(commentHTML);
-
-				}
-
-				
-			})
-
-		}
-
-		//- 添加翻页按键
-		function addPageBtn(pageNum){
-			var totalPage = parseInt($totalPage.innerHTML)
-			var page = document.getElementById('page')
-			var btn = ''
-			if(totalPage>1){
-				for(var i=0;i<totalPage; i++){
-					if(i==pageNum){
-						btn += '<a class="page_stand" href="javascript:;" >'+(i+1)+'</a>'
-					}else{
-						btn += '<a href="javascript:;" >'+(i+1)+'</a>'
-					}
-				}
-			}
-			document.getElementById('page').innerHTML=btn
-
-		}
-		addPageBtn(0)
-
-		//--------------------- 留言提交
-		$('.msgSubmitMsn').click(function(){
-			var news = $('input[name="comment[news]"]').val()
-			var from = $('input[name="comment[from]"]').val()
-			var uname = $('input[name="uname"]').val()
-			var content = $('textarea[name="comment[content]"]').val()
-			var tid = $('input[name="comment[tid]"]').val()
-			var cid = $('input[name="comment[cid]"]').val()
-
-			if(content==""){
-				artalert('评论不能为空！')
-				return false;
-			}
-
-			if(tid==undefined||tid==""){
-				//- 评论
-				var data = {"from":from,"news":news,"content":content}
-			}else{
-				//- 回复
-				var data = {"from":from,"news":news,"content":content,"tid":tid,"cid":cid}
-			}
-			
-			//- arttip('<i class="icon-spinner icon-spin"></i>&nbsp;&nbsp;uploading...')
-
-			$.ajax({
-				type:"POST",
-				url:"/user/comment",
-				data:data,
-				dataType:"json",
-				async:false,
-				cache:false,
-				success: function(data){
-					//- var _data = eval("("+data+")");
-					if(data.success.cid==undefined){
-
-						//- console.log(data.success)
-						//- var commentHTML ='<li class="c_body">'+
-						//- 	'<a class="c_avatar commentBtn" data-tid="'+data.success.from+
-						//- 	'" data-cid="589c2aac544d7e14a8cee16d" '+
-						//- 	'href="#commentsForm"><img src="http://www.easyicon.net/api/resizeApi.php?id=1132617&amp;size=32"></a>'+
-						//- 	'<div class="c_comment"><h5> '+
-						//- 	'<small class="fr">'+data.success.meta.createAt+
-						//- 	'</small>'+uname+'</small></h5>'+
-						//- 	'<p>'+data.success.content+'</p></div></li>'
-						//- $('#comment_list').prepend(commentHTML)
-						//- arttipclose();
-
-						addCommentHTML(0)
-					}
-				},
-				error: function(json){
-					artalert('发送失败，请重新操作。','error')
-				}
-
-			})
-			return false;
-		});
