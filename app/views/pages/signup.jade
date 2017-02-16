@@ -9,14 +9,12 @@ block content
 		form(method="POST", action="/user/signup")
 			ul.sign_form_content
 				li
-					label(for="signupName") &nbsp;
+					label(for="signupName")
 						i.icon-user 
-						| &nbsp;用户名
 					input#signupName.form-control(name="user[name]", type="text", placeholder="请输入用户名")
 				li
-					label(for="signupPassword") &nbsp;
+					label(for="signupPassword")
 						i.icon-key
-						| &nbsp; 密码
 					input#signupPassword.form-control(name="user[password]",type="password", placeholder="请输入密码")
 				li.sign_tip
 					i.icon-question-sign 

@@ -8,9 +8,8 @@ block content
 			span #{title}
 		ul.sign_form_content
 			li
-				label(for="signinName") &nbsp;
-					i.icon-user 
-					| &nbsp;用户名
+				label(for="signName")
+					i.icon-user
 				if name
 					input#signName.signName.form_control(name="user[name]", type="text", value="#{name}", placeholder="请输入用户名")
 					if !password
@@ -22,19 +21,14 @@ block content
 				else
 					input#signName.signName.form_control(name="user[name]", type="text", placeholder="请输入用户名")
 			li
-				label(for="signinPassword") &nbsp;
+				label(for="signPassword")
 					i.icon-key 
-					| &nbsp;密码
 				input#signPassword.signPassword.form_control(type="password", placeholder="请输入密码")
-				if password
-					.alert.alert-warning.alert-dismissible(style="margin-top:5px;")
-						strong 密码错误
-						|&nbsp; 请重新输入
 			li
-				label(for="captcha") &nbsp;验证码
-				input#captcha.captcha.form_control(type="text", placeholder="请输入验证码",maxlength="4")
-				div.mt5
-					span.cp.changeCaptcha !{captcha.data}
+				label(for="captcha")
+					i.icon-lock
+				input#captcha.captcha.form_control.fl(type="text", placeholder="请输入验证码",maxlength="4",style="width:30%")
+				span.cp.changeCaptcha.inlineBlock.ml10 !{captcha.data}
 			li.sign_tip
 				i.icon-question-sign
 				| &nbsp;还没有注册会员？
