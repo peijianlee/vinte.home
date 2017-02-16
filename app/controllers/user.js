@@ -2,7 +2,7 @@ var User = require('../models/user')
 
 // 登录验证码
 var svgCaptcha = require('svg-captcha')
-	svgCaptcha.options.height = '40'
+	svgCaptcha.options.height = '30'
 	svgCaptcha.options.fontSize = '40'
 
 // 随机背景图
@@ -37,7 +37,7 @@ exports.userRequired = function(req,res,next){
 // 创建验证码
 exports.createCaptcha = function(req, res, next){
 	var captcha = svgCaptcha.create({
-		'size': 2,
+		'size': 4,
 		'ignoreChars': '0oO1iIlL',
 		'noise': 3,
 		'color': false

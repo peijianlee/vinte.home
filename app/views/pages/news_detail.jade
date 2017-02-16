@@ -5,7 +5,8 @@ block content
 		.bg_zindex
 			.header
 				.wrap
-					h1 ICOOMTEST
+					h1
+						a(href="/news") ICOOMTEST
 					ul.hmenu
 						if newscategories && newscategories.length>0
 							each cat in newscategories
@@ -42,7 +43,7 @@ block content
 						each item in comments
 							li.c_body(replynum="#{item.reply.length}")
 								a.c_avatar.commentBtn(href="#commentsForm", data-cid="#{item._id}", data-tid="#{item.from._id}")
-									img(src="http://www.easyicon.net/api/resizeApi.php?id=1132617&size=32")
+									img(src="#{item.from.avatar}")
 								div.c_comment
 									h5 
 										small.fr #{moment(item.meta.createAt).format('YYYY/MM/DD HH:mm:ss')}
@@ -52,7 +53,7 @@ block content
 										each reply in item.reply
 											.c_body
 												a.c_avatar.commentBtn(href="#commentsForm", data-cid="#{item._id}", data-tid="#{reply.from._id}", infotype="reply")
-													img(src="http://www.easyicon.net/api/resizeApi.php?id=1132617&size=32")
+													img(src="#{reply.from.avatar}")
 												div.c_comment
 													h5 
 														small.fr #{moment(reply.date).format('YYYY/MM/DD HH:mm:ss')}
@@ -73,7 +74,7 @@ block content
 					input(type="hidden", name="comment[news]", value="#{news._id}")
 					if user
 						.commentsHead
-							img(src="http://www.easyicon.net/api/resizeApi.php?id=1132617&size=32")
+							img(src="#{user.avatar}")
 							span #{user.name} 
 							.replyUserInfo.inlineBlock
 								small 发表评论：

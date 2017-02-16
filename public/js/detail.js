@@ -2,6 +2,7 @@
 // 新闻页面-用户评论
 var replynum = 0;
 var commentObj;
+var avatar = "";
 var uname = document.getElementsByName('uname')[0].value;
 $('.comment').delegate('.commentBtn','click',function(){
 	var $t = $(this),
@@ -13,6 +14,7 @@ $('.comment').delegate('.commentBtn','click',function(){
 	replynum = commentObj.attr('replynum');
 
 	// 当前回复用户名称
+	avatar = $t.children('img').attr('src');
 	var toname = $t.next('div.c_comment').children('h5').children('span:first').html();
 	document.getElementsByName('toname')[0].value = toname;
 
@@ -114,7 +116,7 @@ $('.submitMsn').click(function(){
 							for(j=0; j<c_reply.length; j++){
 								// 判断是否回复自己
 								if(c_reply[j].from.name==c_reply[j].to.name){
-									var replyUser = c_reply[j].from.name
+									var replyUser = '<span>'+c_reply[j].from.name+'</span>'
 								}else{
 									var replyUser = '<span>'+c_reply[j].from.name+'</span>'+
 											'<small class="ml10">回复：</small>'+
@@ -125,7 +127,7 @@ $('.submitMsn').click(function(){
 									'<a class="c_avatar commentBtn" data-cid="'+results.comments[i]._id+'" '+
 									'data-tid="'+c_reply[j].from._id+'" '+
 									'href="#commentsForm">'+
-									'<img src="http://www.easyicon.net/api/resizeApi.php?id=1132617&amp;size=32"></a>'+
+									'<img src="'+c_reply[j].from.avatar+'"></a>'+
 									'<div class="c_comment"><h5> '+
 									'<small class="fr">'+replytime+'</small>'+
 									replyUser+
@@ -149,7 +151,7 @@ $('.submitMsn').click(function(){
 							'<a class="c_avatar commentBtn" data-cid="'+results.comments[i]._id+
 							'" data-tid="'+results.comments[i].from._id+
 							'" href="#commentsForm">'+
-							'<img src="http://www.easyicon.net/api/resizeApi.php?id=1132617&amp;size=32"></a><div class="c_comment"><h5> '+
+							'<img src="'+results.comments[i].from.avatar+'"></a><div class="c_comment"><h5> '+
 							'<small class="fr">'+time+'</small>'+
 							'<span>'+results.comments[i].from.name+'</span>'+
 							'</h5><p>'+results.comments[i].content+'</p>'+replyHTML+'</div></li>'
@@ -233,7 +235,7 @@ $('.submitMsn').click(function(){
 						for(j=0; j<data.reply.length; j++){
 							// 判断是否回复自己
 							if(uname==toname){
-								var replyUser = uname
+								var replyUser = '<span>'+uname+'</span>'
 							}else{
 								var replyUser = '<span>'+uname+'</span>'+
 										'<small class="ml10">回复：</small>'+
@@ -244,7 +246,7 @@ $('.submitMsn').click(function(){
 								'<a class="c_avatar commentBtn" data-cid="'+data.reply[j]._id+'" '+
 								'data-tid="'+data.reply[j].from+'" '+
 								'href="#commentsForm">'+
-								'<img src="http://www.easyicon.net/api/resizeApi.php?id=1132617&amp;size=32"></a>'+
+								'<img src="'+avatar+'"></a>'+
 								'<div class="c_comment"><h5> '+
 								'<small class="fr">'+replytime+'</small>'+
 								replyUser+

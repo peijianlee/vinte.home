@@ -221,7 +221,6 @@ exports.pv = function(req,res,next){
 }
 // 文章详情
 exports.detail = function(req,res){
-	console.log(req.query.id)
 	// 显示数量
 	var num = 5
 	var isAjaxGet = false
@@ -229,18 +228,13 @@ exports.detail = function(req,res){
 		var id=req.params.id
 		var skip = 0
 	}else{
-		console.log('是ajax传过来的请求')
 		isAjaxGet = true
 		var id=req.query.id
-		// var totalcomments = parseInt(req.query.totalcomments)+1
 		var skip = req.query.pagenum*num
-		// console.log('...'+totalcomments)
 	}
 	var index = 0 + skip
 	var pagenum = num + skip
 	
-	// req.body
-	console.log(id)
 
 	// 查找到news再查下面的评论
 	News.findById(id,function(err,news){
@@ -254,16 +248,13 @@ exports.detail = function(req,res){
 		Comment
 			.find({news: id})
 			.sort({_id: -1})
-			.populate('from', 'name')
-			.populate('reply.from reply.to', 'name')
+			.populate('from', 'name avatar')
+			.populate('reply.from reply.to', 'name avatar')
 			.exec(function(err,comments){
 				// 截取当前评论总数
 				var totalcomments = comments.length
 				var page = totalcomments / num
 				var totalPage = Math.ceil(page)
-				// 判断是否需要再新增翻页
-				// console.log('---------------')
-				// console.log(parseInt(page)==totalPage)
 
 				if(!isAjaxGet){
 					// 初始加载
@@ -285,6 +276,7 @@ exports.detail = function(req,res){
 					// ajax加载
 					var results = comments.slice(index, pagenum)
 					comments = results
+					console.log(comments)
 					if(err){
 						console.log(err)
 						res.json({success:0})

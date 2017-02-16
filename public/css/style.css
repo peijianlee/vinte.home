@@ -30,11 +30,11 @@
 	font-size:14px;color:#004c4b;
 }
 #singn_menu img{
-	width:50px;height:50px;
+	width:45px;height:45px;
 	border-radius:50%;
 	display:inline-block;
 	background-color:white;
-	border:2px solid #b9d5d5;
+	border:5px solid #b9d5d5;
 	float:left;
 	margin-top:-15px;margin-right:10px;
 }
@@ -358,12 +358,17 @@ div.c_body:after{
 	top:-9px;
 }
 .c_avatar{
-	width:32px;height:32px;
-	padding:2px;border-radius:22px;
+	width:34px;height:34px;
+	overflow:hidden;
+	border-radius:22px;
 	background-color:white;
-	border:1px solid #bbb;
+	border:1px solid #25a6a4;
 	position:absolute;
 	left:10px;top:15px;
+}
+.c_avatar img{
+	height:32px;
+	width:32px;
 }
 .c_comment{
 	line-height:24px;
@@ -442,7 +447,7 @@ div.c_body:after{
     filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=5, MakeShadow=false); /* IE6~IE9 */
 }
 .sign_form{
-	margin:10% auto 0;max-width:500px;overflow:hidden;
+	margin:10% auto 0;max-width:400px;overflow:hidden;
 	position:relative;z-index:1;
 	box-shadow:0 0 8px rgba(0,0,0,0.1);
 }
@@ -469,18 +474,31 @@ div.c_body:after{
 	border-right:1px solid rgba(255,255,255,.8);
 }
 .sign_form_foot{background-color:rgba(255,255,255,.3);}
+
+.sign_form_content label{
+	display:inline-block;
+	font-size:14px;margin-bottom:3px;
+	color:#777;text-shadow:1px 1px white;
+	width:9%;text-align:center;
+	background-color:#eee;
+	border:1px solid #ccc;
+	border-radius:4px 0 0 4px;
+    padding:5px 0;
+    float:left;
+}
 .sign_form_content input{
+    margin-left:-1px;
 	background-color: #fff;
     background-image: none;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius:0 4px 4px 0;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
     color: #555;
-    display: block;
+    display: inline-block;
     font-size: 14px;
     padding: 6px 2%;
     transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
-    width:96%;
+    width:86%;
 }
 .sign_form_content input:focus{
 	border-color: #66afe9;
@@ -492,13 +510,8 @@ div.c_body:after{
 	color:#f38379;
 	box-shadow:inset 1px 1px 3px rgba(0,0,0,0.3);
 }
-
-.sign_form_content label{
-	font-weight:500;
-	font-size:14px;display:block;margin-bottom:3px;
-	color:#777;text-shadow:1px 1px white;
-}
 .sign_form_content li{
+	margin-top:5px;
 	margin-bottom:15px;
 	position:relative;
 }
