@@ -28,52 +28,64 @@ block content
 			//- input(type="hidden",value="#{totalPage}",name="totalpage")
 			//- input(type="hidden",value="#{totalcomments}",name="totalcomments")
 			input(type="hidden",value="#{news.id}",name="newsId")
-			span(class="hide", name="uname") #{news.uname}
+			input(type="hidden",value="#{news.uname}", name="uname")
+			input(type="hidden", name="toname")
 			span(class="hide", name="totalpage") #{totalPage}
 			span(class="hide", name="totalcomments") #{totalcomments}
 
 
 			.comment.wrap
 				//- h6 评论区
-				ul#comment_list
-					each item in comments
-						li.c_body(replynum="#{item.reply.length}")
-							a.c_avatar.commentBtn(href="#commentsForm", data-cid="#{item._id}", data-tid="#{item.from._id}")
-								img(src="http://www.easyicon.net/api/resizeApi.php?id=1132617&size=32")
-							div.c_comment
-								h5 
-									small.fr #{moment(item.meta.createAt).format('YYYY/MM/DD HH:mm:ss')}
-									span #{item.from.name}
-								p !{item.content}
-								if item.reply && item.reply.length > 0
-									each reply in item.reply
-										.c_body
-											a.c_avatar.commentBtn(href="#commentsForm", data-cid="#{item._id}", data-tid="#{reply.from._id}", infotype="reply")
-												img(src="http://www.easyicon.net/api/resizeApi.php?id=1132617&size=32")
-											div.c_comment
-												h5 
-													small.fr #{moment(reply.date).format('YYYY/MM/DD HH:mm:ss')}
-													if reply.from.name !== reply.to.name
-														span #{reply.from.name}
-														small.ml10 回复：
-														span #{reply.to.name}
-													else
-														span #{reply.from.name}
-												p !{reply.content}
+				ul#comment_list.mt10
+					//- each item in comments
+					if comments.length > 0
+						each item in comments
+							li.c_body(replynum="#{item.reply.length}")
+								a.c_avatar.commentBtn(href="#commentsForm", data-cid="#{item._id}", data-tid="#{item.from._id}")
+									img(src="http://www.easyicon.net/api/resizeApi.php?id=1132617&size=32")
+								div.c_comment
+									h5 
+										small.fr #{moment(item.meta.createAt).format('YYYY/MM/DD HH:mm:ss')}
+										span #{item.from.name}
+									p !{item.content}
+									if item.reply && item.reply.length > 0
+										each reply in item.reply
+											.c_body
+												a.c_avatar.commentBtn(href="#commentsForm", data-cid="#{item._id}", data-tid="#{reply.from._id}", infotype="reply")
+													img(src="http://www.easyicon.net/api/resizeApi.php?id=1132617&size=32")
+												div.c_comment
+													h5 
+														small.fr #{moment(reply.date).format('YYYY/MM/DD HH:mm:ss')}
+														if reply.from.name !== reply.to.name
+															span #{reply.from.name}
+															small.ml10 回复：
+															span #{reply.to.name}
+														else
+															span #{reply.from.name}
+													p !{reply.content}
+					else
+						li#comment_list_empty_tip
+							i.icon-comments.mr10
+							| 当前没有任何的用户评论。
 				.page#page.tc.mt10
 				script.
-				div#commentsForm
+				div#commentsForm.mt15
 					input(type="hidden", name="comment[news]", value="#{news._id}")
 					if user
+						.commentsHead
+							img(src="http://www.easyicon.net/api/resizeApi.php?id=1132617&size=32")
+							span #{user.name} 
+							.replyUserInfo.inlineBlock
+								small 发表评论：
 						input(type="hidden", name="comment[from]", value="#{user._id}")
-					.form-grounp
-						textarea(name="comment[content]")
-					if user
+						.form-grounp
+							textarea(name="comment[content]")
 						button.button.button-primary.button-longshadow-right.msgSubmitMsn(type="submit") 提交
 						//- a.btn.btn-primary.msgSubmitMsn(href="javascript:void(0)") 提交
 
 					else
-						a.navbar-link(href="#", data-toggle="modal", data-target="#signinModal") 登录后评论
+						//- a.navbar-link(href="#", data-toggle="modal", data-target="#signinModal") 登录后评论
+						a.button.button-highlight.button-longshadow-right(href="/signin") 登录后评论
 		.bg_fixed
 	script(src="/js/detail.js")
 	script.

@@ -361,7 +361,7 @@ div.c_body:after{
 	width:32px;height:32px;
 	padding:2px;border-radius:22px;
 	background-color:white;
-	border:1px solid #aaa;
+	border:1px solid #bbb;
 	position:absolute;
 	left:10px;top:15px;
 }
@@ -372,14 +372,56 @@ div.c_body:after{
 .c_comment h5{font-size:18px;color:#25a6a4;}
 .c_comment small{font-size:12px;color:gray;font-weight:normal;}
 #commentsForm textarea{
-	margin-top:15px;margin-bottom:15px;
-	padding:1%;
+	margin-top:8px;margin-bottom:15px;
+	padding:0.5% 1%;
 	font-size:14px;line-height:24px;min-height:120px;
 	color:#333;
 	width:98%;
 	border:1px solid #ddd;border-radius:3px;
 	resize:none;
+	position:relative;
 }
+#commentsForm textarea:before{
+	content:'dfdf';
+	width:10px;height:10px;background-color:black;
+	position:absolute;
+	top:0;left:0;
+}
+#commentsForm textarea:focus{
+	border-color:#85c8c7;
+	box-shadow:2px 2px 2px rgba(0,0,0,0.1)
+}
+#comment_list_empty_tip{
+	background-color:rgba(150,150,150,0.1);
+	line-height:50px;height:50px;
+	text-align:center;
+	color:#ccc;text-shadow:1px 1px white;
+	font-size:14px;font-weight:bold;
+	border:1px solid #dfdfdf;
+	border-radius:5px;
+	cursor:default;
+}
+.commentsHead{
+	height:34px;line-height:34px;
+}
+.commentsHead img{
+	width:32px;height:32px;
+	border:1px solid #bbb;
+	border-radius:50%;
+	margin:0 10px 0 5px;
+	float:left;
+}
+.commentsHead span{
+	color: #25a6a4;
+	font-weight:bold;
+	font-size:18px;
+}
+.commentsHead small{color: #aaa;}
+.commentsHead i{
+	cursor:pointer;
+	color:#eee;
+}
+.commentsHead i:hover{color: #25a6a4;}
 /*----------登录框----------*/
 .sign_bg{
 	position:absolute;left:0;top:0;

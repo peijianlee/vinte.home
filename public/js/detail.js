@@ -2,17 +2,31 @@
 // 新闻页面-用户评论
 var replynum = 0;
 var commentObj;
+var uname = document.getElementsByName('uname')[0].value;
 $('.comment').delegate('.commentBtn','click',function(){
 	var $t = $(this),
 		toId = $t.data('tid'),
 	commentId = $t.data('cid');
 	commentObj = $t.parents('li.c_body');
 
+	// 当前显示内容
 	replynum = commentObj.attr('replynum');
 
+	// 当前回复用户名称
+	var toname = $t.next('div.c_comment').children('h5').children('span:first').html();
+	document.getElementsByName('toname')[0].value = toname;
 
+	// 显示回复状态
+	if(toname==uname){
+		var replyUserInfo = '<small>回复 <b>自己</b> ：</small>'+
+			'<i class="icon-remove" title="取消对自己的回复"></i>'
+	}else{
+		var replyUserInfo = '<small>回复 </small><span>'+toname+
+			'</span><small>：</small>'+
+			'<i class="icon-remove" title="取消对'+toname+'的回复"></i>'
+	}
+	$('.replyUserInfo').html(replyUserInfo)
 
-	console.log(replynum)
 
 	if($('#toId').length>0){
 		$('#toId').val(toId)
@@ -36,6 +50,12 @@ $('.comment').delegate('.commentBtn','click',function(){
 		}).appendTo('#commentsForm');
 
 	}
+});
+// 取消回复
+$('.replyUserInfo').delegate('i','click',function(){
+	$(this).parent().html('<small>发表评论：</small>');
+	$('#toId').remove();
+	$('#commentId').remove();
 });
 
 // 提交评论
@@ -164,10 +184,10 @@ $('.submitMsn').click(function(){
 
 		//--------------------- 留言提交
 		$('.msgSubmitMsn').click(function(){
-			var news = $('input[name="comment[news]"]').val()
-			var from = $('input[name="comment[from]"]').val()
-			var uname = $('input[name="uname"]').val()
-			var content = $('textarea[name="comment[content]"]').val()
+			var news = document.getElementsByName('comment[news]')[0].value;
+			var from = document.getElementsByName('comment[from]')[0].value;
+			var toname = document.getElementsByName('toname')[0].value;
+			var content = document.getElementsByName('comment[content]')[0].value;
 			var tid = $('input[name="comment[tid]"]').val()
 			var cid = $('input[name="comment[cid]"]').val()
 
@@ -184,7 +204,7 @@ $('.submitMsn').click(function(){
 				var data = {"from":from,"news":news,"content":content,"tid":tid,"cid":cid ,"replynum":replynum}
 			}
 			
-			//- arttip('<i class="icon-spinner icon-spin"></i>&nbsp;&nbsp;uploading...')
+			arttip('<i class="icon-spinner icon-spin"></i>&nbsp;&nbsp;uploading...')
 
 			$.ajax({
 				type:"POST",
@@ -194,6 +214,7 @@ $('.submitMsn').click(function(){
 				async:false,
 				cache:false,
 				success: function(data){
+					arttipclose()
 					//- var _data = eval("("+data+")");
 					//- 用户评论
 					if(data.success===0){
@@ -210,6 +231,14 @@ $('.submitMsn').click(function(){
 						replynum = data.replynum
 						var replyHTML = "";
 						for(j=0; j<data.reply.length; j++){
+							// 判断是否回复自己
+							if(uname==toname){
+								var replyUser = uname
+							}else{
+								var replyUser = '<span>'+uname+'</span>'+
+										'<small class="ml10">回复：</small>'+
+										'<span>'+toname+'</span>'
+							}
 							var replytime = moment(data.reply[j].date).format('YYYY-MM-DD HH:mm:ss')
 							replyHTML += '<div class="c_body c_bing">'+
 								'<a class="c_avatar commentBtn" data-cid="'+data.reply[j]._id+'" '+
@@ -218,7 +247,7 @@ $('.submitMsn').click(function(){
 								'<img src="http://www.easyicon.net/api/resizeApi.php?id=1132617&amp;size=32"></a>'+
 								'<div class="c_comment"><h5> '+
 								'<small class="fr">'+replytime+'</small>'+
-								'<span>'+data.reply[j].from.name+'</span>'+
+								replyUser+
 								'</h5><p>'+data.reply[j].content+'</p></div></div>'
 						}
 						// 删除所有激活状态
