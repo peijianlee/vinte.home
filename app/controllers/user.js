@@ -192,6 +192,28 @@ exports.adminRequired = function(req,res,next){
 	next()
 }
 
+// 用户中心
+exports.detail = function(req,res){
+	var id=req.params.id
+	console.log(id)
+	User.findById(id,function(err,user){
+
+		if(err) console.log(err)
+
+		if(!user){
+			console.log('非法路径或该用户不存在。')
+			return res.render('prompt',{
+				message:'非法路径或该用户不存在。'
+			})
+		}
+		res.render('user',{
+			title: user.name+'的用户中心',
+			user: user
+		})
+
+	})
+}
+
 //userlist delete user
 exports.del = function(req,res){
 	var id = req.query.id

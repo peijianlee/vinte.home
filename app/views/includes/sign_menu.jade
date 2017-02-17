@@ -4,12 +4,18 @@
 		//- h1.fl ICOOMTEST
 		div.fr
 			if user
-				img(src='#{user.avatar}')
+				a(href="/user/#{user._id}")
+					img(src='#{user.avatar}')
 				span #{user.name}
 				span &nbsp;&nbsp;|&nbsp;&nbsp;
 				a.navbar-link(href="/logout")
 					i.icon-signout.mr5
 					| 退出登录
+				if user.role > 50
+					span &nbsp;&nbsp;|&nbsp;&nbsp;
+						a(href="/admin/news/list")
+							i.icon-cog.mr5
+							| 后台管理
 			else
 				//- a.navbar-link(href="/signup", data-toggle="modal", data-target="#signupModal")
 				a.navbar-link(href="/signup")
@@ -33,14 +39,6 @@ script.
 		}
 		standScroll = scroll
 	});
-	//- var standScroll = 0
-	//- window.onscroll=function(){
-	//- 	var menu = document.getElementById('singn_menu');
-	//- 	var scrollTop = window.pageYOffset|| document.documentElement.scrollTop || document.body.scrollTop;
-	//- 	//- console.log(scrollTop)
-	//- 	if()
-
-	//- }
 
 
 

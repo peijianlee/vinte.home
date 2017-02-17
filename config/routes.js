@@ -52,6 +52,7 @@ module.exports = function(app){
 	app.delete('/admin/news/category/list', User.signinRequired, User.adminRequired, Newscategory.del)
 
 	//User
+	app.get('/user/:id', User.signinRequired, User.detail)
 	app.get('/captcha',User.createCaptcha)
 	app.post('/user/signup', User.signup)
 	app.post('/user/signin', User.checkedCaptcha, User.signin)

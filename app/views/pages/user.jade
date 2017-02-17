@@ -1,0 +1,37 @@
+extends ../layout_index
+
+block content
+	body.user_index
+		.bg_zindex
+			.header
+				.wrap
+					h1
+						a(href="/news") ICOOMTEST
+					ul.hmenu
+						if newscategories && newscategories.length>0
+							each cat in newscategories
+								li: a(href="###") #{cat.name}
+			.user_frame.wrap
+				.user_info
+					img(src="#{user.avatar}")
+					h3.mt5 #{user.name}
+					.user_role.mt15
+						span
+							if user.role > 50
+								| 超级管理员
+							else
+								| 注册会员
+					.user_role.mt15
+						span 注册时间：#{moment(user.meta.createAt).format('YYYY/MM/DD')}
+				.user_action
+					ul.user_details
+						li 
+							lable.fb 注册时间：
+							input.inputStyle(value="#{moment(user.meta.createAt).format('YYYY/MM/DD HH:mm:ss')}")
+						li 
+							lable.fb 地址邮箱：
+							input.inputStyle(value="#{user.emaill}")
+						li.user_edit
+							span.icon-edit(title="编辑个人信息")
+				
+		.bg_fixed

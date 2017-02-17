@@ -66,7 +66,7 @@ function addErrorTip(obj,text){
 	if(signTip.length>0) signTip.remove();
 	obj
 		.addClass('input_error')
-		.after('<div class="sign_tip error inlineBlock">'+
+		.parent('li').append('<div class="sign_tip error inlineBlock">'+
 			'<i class="icon-exclamation-sign"> '+
 			text+'</div>');
 
