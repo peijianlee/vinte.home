@@ -2,21 +2,30 @@ var mongoose = require('mongoose')
 var Schema = mongoose.Schema
 var ObjectId = Schema.Types.ObjectId
 
-var CategorySchema = new Schema({
-	name: String,
-	type: String,
-	products: [{
-		type: ObjectId,
-		ref: 'Product'
+var ProductSchema = new Schema({
+	title: String,
+	content: String,
+	text: String,
+	cover: String,
+	size: String,
+	material: String,
+	img: [{
+		src: String
 	}],
-	news: [{
+	pv:{
+		type:Number,
+		default:0
+	},
+	uid:{
 		type: ObjectId,
-		ref: 'News'
-	}],
-	movies: [{
+		ref: 'User'
+	},
+	// uname: String,
+	category: {
 		type: ObjectId,
-		ref: 'Movie'
-	}],
+		ref: 'Category'
+	},
+	// newscategoryname: String,
 	meta:{
 		createAt:{
 			type: Date,
@@ -30,7 +39,7 @@ var CategorySchema = new Schema({
 })
 
 // 判断保存的数据是否是新增的
-CategorySchema.pre('save', function(next){
+ProductSchema.pre('save', function(next){
 	if(this.isNew){
 		this.meta.createAt = this.meta.updateAt = Date.now()
 	}else{
@@ -40,7 +49,7 @@ CategorySchema.pre('save', function(next){
 	next()
 })
 
-CategorySchema.statics = {
+ProductSchema.statics = {
 	fetch: function(cb) {
 		return this
 			.find({})
@@ -54,4 +63,4 @@ CategorySchema.statics = {
 	}
 }
 
-module.exports = CategorySchema
+module.exports = ProductSchema

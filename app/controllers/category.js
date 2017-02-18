@@ -5,8 +5,9 @@ var _ = require('underscore')
 //category new page
 exports.new = function(req,res){
 	res.render('admin/category_add',{
-		title:'nodeJS 分类录入页',
-		category:{}
+		title:'电影分类录入页',
+		category:{},
+		category_type:'news'
 	})
 }
 
@@ -56,12 +57,24 @@ exports.update = function(req,res){
 
 //category list page
 exports.list = function(req,res){
+	var href=req._parsedOriginalUrl.href
+	if(href=='/admin/movie/category/list'){
+		var title = '电影分类列表页'
+		var categories_type = 'movie'
+	}else if(href=='/admin/news/category/list'){
+		var title = '新闻分类列表页'
+		var categories_type = 'news'
+	}else if(href=='/admin/product/category/list'){
+		var title = '产品分类列表页'
+		var categories_type = 'product'
+	}
 	Category.fetch(function(err,categories){
 		if(err)console.log(err)
 
 		res.render('admin/category_list', {
-			title: 'imooc 分类列表页',
-			categories: categories
+			title: title,
+			categories: categories,
+			categories_type: categories_type
 		})
 	})
 }

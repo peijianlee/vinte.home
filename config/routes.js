@@ -2,6 +2,7 @@
 var _ = require('underscore')
 var Index = require('../app/controllers/index')
 var News = require('../app/controllers/news')
+var Product = require('../app/controllers/product')
 var Newscategory = require('../app/controllers/news_category')
 var User = require('../app/controllers/user')
 var Movie = require('../app/controllers/movie')
@@ -36,6 +37,12 @@ module.exports = function(app){
 	app.get('/news/:id', News.pv, News.detail)
 	app.get('/news/comment', News.detail)
 	app.get('/news', News.indexlist)
+
+	// product
+	app.get('/product', Product.list)
+	app.get('/admin/product/category/list', User.signinRequired, User.adminRequired, Category.list)
+	
+	
 	// app.get('/news/upload', News.indexlistLoad)
 	app.get('/admin/news/new', User.signinRequired, User.adminRequired, News.news)
 	app.post('/admin/news', User.signinRequired, User.adminRequired, News.save)
@@ -69,12 +76,12 @@ module.exports = function(app){
 	app.get('/admin/movie/new', User.signinRequired, User.adminRequired, Movie.new)
 	app.get('/admin/movie/list', User.signinRequired, User.adminRequired, Movie.list)
 	app.delete('/admin/movie/list', User.signinRequired, User.adminRequired, Movie.del)
-
-	// Moviecategory
-	app.get('/admin/movie/category/new', User.signinRequired, User.adminRequired, Category.new)
-	app.post('/admin/movie/category', User.signinRequired, User.adminRequired, Category.save)
 	app.get('/admin/movie/category/list', User.signinRequired, User.adminRequired, Category.list)
-	app.get('/admin/movie/category/update/:id', User.signinRequired, User.adminRequired, Category.update)
+
+	// category
+	// app.get('/admin/movie/category/new', User.signinRequired, User.adminRequired, Category.new)
+	app.post('/admin/category/save', User.signinRequired, User.adminRequired, Category.save)
+	// app.get('/admin/movie/category/update/:id', User.signinRequired, User.adminRequired, Category.update)
 	app.delete('/admin/movie/category/list', User.signinRequired, User.adminRequired, Category.del)
 
 	// Comment

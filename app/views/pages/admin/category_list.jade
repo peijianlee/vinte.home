@@ -19,13 +19,14 @@ block content
 						each item in categories
 							tr(class="item-id-#{item._id}")
 								td 
-									a(href='/results?cat=#{item._id}&p=0',target="_blank").btn.btn-info #{item.name}
+									a(href='/results?cat=#{item._id}&p=0',target="_blank").btn.btn-info
+										span.catName #{item.name}
 										b &nbsp;( #{item.movies.length} )
 								td #{moment(item.meta.updateAt).format('YYYY/MM/DD HH:mm:ss')}
 								td
 									a.button.button-primary.button-rounded.button-small(href='/results?cat=#{item._id}&p=0',target="_blank") 查看
 								td
-									a.button.button-highlight.button-rounded.button-small(target="_blank", href="../category/update/#{item._id}") 修改
+									span.button.button-highlight.button-rounded.button-small.catChange(data-toggle="modal", data-target="#catChangeModal", value="#{item._id}") 修改
 								td
 									if item.movies.length == 0
 										button.button.button-caution.button-rounded.button-small.categorydel(type="button", data-id="#{item._id}") 删除
@@ -36,11 +37,70 @@ block content
 							td.lead.bg-info.text-info(colspan="5")
 								strong 
 									i.glyphicon.glyphicon-info-sign(style="margin-left:10px;margin-right:5px")
-									| 没有任何电影分类！
+									| #{title}为空！
 				tfood
 					td(colspan="10")
-						a.button.button-raised.button-primary(href="/admin/movie/category/new") 新增分类
+						//- a.button.button-raised.button-primary(href="/admin/news/category/new") 新增分类
+						span.button.button-raised.button-primary(data-toggle="modal", data-target="#catModal") 新增分类
+	#catModal.imodal
+		form(method="post", action="/admin/category/save")
+			input(type="hidden", name="category[type]", value="#{categories_type}")
+			.imodal-header 新增分类
+			.imodal-body
+				.form_group
+					label.control_label(for="inputCategory") 分类
+					.control_div
+						input#inputCategory.form_control(type="text", name="category[name]")
+			.imodal-footer
+				.form_group(style="margin:0")
+					label.control_label
+					button.categoryBtn.button.button-raised.button-primary.button-small(type="sumbit") 录入
+					span.button.button-raised.button-small.modal_close(style="margin-left:15px;") 取消
+	#catChangeModal.imodal
+		form(method="post", action="/admin/category/save")
+			input(type="hidden", name="category[type]", value="#{categories_type}")
+			input#categoryid(type="hidden", name="category[_id]")
+			input#categoryoldname(type="hidden", name="category[oldname]")
+			.imodal-header 分类名称修改
+			.imodal-body
+				.form_group
+					label.control_label(for="changeCategory") 分类名称
+					.control_div
+						input#changeCategory.form_control(type="text", name="category[name]")
+			.imodal-footer
+				.form_group(style="margin:0")
+					label.control_label
+					button.catChangeBtn.button.button-raised.button-primary.button-small(type="sumbit") 修改
+					span.button.button-raised.button-small.modal_close(style="margin-left:15px;") 取消
 	script(src="/js/admin_delete.js")
-	//- 电影分类删除
 	script.
-		del('categorydel','movie/category')
+		//- 分类删除
+		del('categorydel','news/category');
+
+		
+		var catName;
+		var changeCatName;
+		var catId;
+		var changeCategory = document.getElementById('changeCategory')
+		$('.catChange').click(function(){
+			var $t = $(this),
+				$tr = $t.parents('tr');
+			catName = $tr.find('.catName').text();
+			changeCategory.value = catName;
+			catId = $(this).attr('value');
+			document.getElementById('categoryid').value = catId;
+			document.getElementById('categoryoldname').value = catName;
+		});
+		$('.categoryBtn').click(function(){
+			if($('#inputCategory').val().replace(/\s/g, "")==""){
+				artalert('分类名称不能为空！')
+				return false;
+			}
+			artalert('添加成功!')
+		});
+		$('.catChangeBtn').click(function(){
+			if(catName==$('#changeCategory').val()){
+				return false;
+			}
+			artalert('分类名称修改成功!')
+		});

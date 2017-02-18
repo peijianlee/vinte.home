@@ -281,11 +281,6 @@
 }
 /*评论区*/
 .comment{
-/*	background-color:white;
-	border:1px solid #ccc;
-	box-shadow:2px 2px 3px rgba(0,0,0,0.1);
-	border-radius:3px;
-	margin-top:15px;*/
 }
 .comment h6{
 	background-color:#eaffff;
@@ -583,6 +578,7 @@ div.c_body:after{
 		rgba(150,150,150,0.1) 50%,rgba(150,150,150,0.1) 75%,transparent 75%,
 		#25a6a4 75%,#25a6a4 100%,transparent);
 	background-size:6px 6px;
+	box-shadow:10px 10px 1px rgba(0,0,0,0.2);
 }
 .user_info{
 	width:30%;

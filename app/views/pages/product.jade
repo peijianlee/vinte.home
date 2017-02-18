@@ -1,0 +1,35 @@
+extends ../layout_index
+
+block content
+	body
+		link(href="/css/product.css",rel="stylesheet")
+		.bg_zindex
+			.header
+				.wrap
+					h1
+						a(href="/news") ICOOMTEST
+					ul.hmenu
+						if newscategories && newscategories.length>0
+							each cat in newscategories
+								li: a(href="###") #{cat.name}
+			.wrap.iproduct_list
+				h3
+					a.fr(href="###")
+						| 更多
+						i.icon-double-angle-right
+					i.icon-magnet.mr10
+					| 椅子
+				div.iproduct
+					a
+						img(src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1152475150,17716899&fm=23")
+						div.ip_bg
+						ul.ip_description
+							li.ip_title 壁挂式家具 横板 水曲柳 宽44×深4×高9cm / 棕色
+							li
+								span.ip_tag 特价商品
+								span.ip_tag 新品
+							li
+								small.ip_price ￥80.00
+								small.ip_old_price ￥100.00
+			
+		.bg_fixed
