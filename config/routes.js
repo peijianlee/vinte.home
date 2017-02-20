@@ -34,29 +34,33 @@ module.exports = function(app){
 	});
 
 	// news
+
+	// product
+	app.get('/product', Product.indexlist)
+	app.get('/admin/product/category/list', User.signinRequired, User.adminRequired, Category.list)
+	app.get('/admin/product/list', User.signinRequired, User.adminRequired, Product.list)
+	app.post('/admin/product', User.signinRequired, User.adminRequired, Product.save)
+	app.get('/admin/product/new', User.signinRequired, User.adminRequired, Product.new)
+	
+	
+	// news
 	app.get('/news/:id', News.pv, News.detail)
 	app.get('/news/comment', News.detail)
 	app.get('/news', News.indexlist)
-
-	// product
-	app.get('/product', Product.list)
-	app.get('/admin/product/category/list', User.signinRequired, User.adminRequired, Category.list)
-	
-	
-	// app.get('/news/upload', News.indexlistLoad)
 	app.get('/admin/news/new', User.signinRequired, User.adminRequired, News.news)
 	app.post('/admin/news', User.signinRequired, User.adminRequired, News.save)
 	app.post('/admin/news/uedel', User.signinRequired, User.adminRequired, News.uedel)
 	app.get('/admin/news/update/:id', User.signinRequired, User.adminRequired, News.update)
 	app.get('/admin/news/list', User.signinRequired, User.adminRequired, News.list)
 	app.delete('/admin/news/list', User.signinRequired, User.adminRequired, News.del)
+
 	// newscategory
 	app.get('/admin/news/category/new', User.signinRequired, User.adminRequired, Newscategory.new)
 	app.post('/admin/news/category', User.signinRequired, User.adminRequired, Newscategory.save)
 	app.post('/admin/news/category/update', User.signinRequired, User.adminRequired, Newscategory.updatesave)
-	app.get('/admin/news/category/list', User.signinRequired, User.adminRequired, Newscategory.list)
+	app.get('/admin/news/category/list', User.signinRequired, User.adminRequired, Category.list)
 	app.get('/admin/news/category/update/:id', User.signinRequired, User.adminRequired, Newscategory.update)
-	app.delete('/admin/news/category/list', User.signinRequired, User.adminRequired, Newscategory.del)
+	app.delete('/admin/category/list', User.signinRequired, User.adminRequired, Category.del)
 
 	//User
 	app.get('/user/:id', User.signinRequired, User.detail)

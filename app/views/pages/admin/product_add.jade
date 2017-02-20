@@ -3,27 +3,45 @@ extends ../../layout_admin
 block content
 	.admin_wrap
 		h2.pageheader
-			i.icon-film
+			i.icon-magnet
 			| #{title}
 		.contentpanel
-			form.form_horizontal(method="post", action="/admin/news", enctype="multipart/form-data")
-				if news._id
-					input(type="hidden", name="news[_id]", value=news._id)
+			form.form_horizontal(method="post", action="/admin/product", enctype="multipart/form-data")
+				if product._id
+					input(type="hidden", name="product[_id]", value=product._id)
 				.form_group
-					label.control_label 分类选择
+					label.control_label 商品名称：
+					.control_div
+						input(type="text", name="product[title]",placeholder="请输入文章标题", value=product.title)
+				.form_group
+					label.control_label 分类选择：
 					#radio_list.control_div
 						each cat in categories
 							label(style="margin:0 15px 0 5px;cursor: pointer;")
-								if news._id
-									input.category(type="radio", name="news[category]", value=cat._id, checked=cat._id.toString()==news.category.toString())
+								if product._id
+									input.category(type="radio", name="product[category]", value=cat._id, checked=cat._id.toString()==product.category.toString())
 									| #{cat.name}
 								else
-									input(type="radio", name="news[category]", value=cat._id)
+									input(type="radio", name="product[category]", value=cat._id)
 									| #{cat.name}
 				.form_group
-					input#newsTitle(type="text", name="news[title]",placeholder="文章标题", value=news.title)
-					input#newsContent(type="hidden", name="news[content]",value=news.content)
+					label.control_label 商品尺寸：
+					.control_div.product_size_input
+						label 长
+						input(type="text", name="product[size].h", value=product.size)
+						label *
+						label 宽
+						input(type="text", name="product[size].w", value=product.size)
+						label *
+						label 高
+						input(type="text", name="product[size].d", value=product.size)
+						label (CM)
 				.form_group
+					label.control_label 销售价格：
+					.control_div
+						input(style="width:150px;", type="text", name="product[price]",placeholder="请输入价格", value=product.price)
+				//- .form_group
+					input#productContent(type="hidden", name="product[content]",value=product.content)
 					script(type="text/javascript",src="/libs/ueditor/ueditor.config.js")
 					script(type="text/javascript",src="/libs/ueditor/ueditor.all.min.js")
 					script(type="text/javascript",src="/libs/ueditor/lang/en/en.js")
@@ -31,7 +49,7 @@ block content
 
 				.form_group
 					.col-sm-offset-1.col-sm-1
-						if news._id
+						if product._id
 							button#btn_save.button.button-royal.button-primary(type="sumbit")
 								b.icon-upload
 								&nbsp;&nbsp;更 新
@@ -39,15 +57,15 @@ block content
 							button#btn_save.button.button-royal.button-primary(type="sumbit")
 								b.icon-hdd
 								&nbsp;&nbsp;录 入
-				input(type="hidden", name="news[uid]", value="#{user._id}")
-		script.
+				input(type="hidden", name="product[uid]", value="#{user._id}")
+		//- script.
 			//实例化编辑器
 			//建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
 			var ue = UE.getEditor('editor'),
-				newsContent;
+				productContent;
 
 			$(function(){
-				var content = $('#newsContent').val();
+				var content = $('#productContent').val();
 				//判断ueditor 编辑器是否创建成功
 				ue.addListener("ready", function () {
 					// editor准备好之后才可以使用
@@ -60,13 +78,13 @@ block content
 				//- arr.push("使用editor.getContent()方法可以获得编辑器的内容");
 				//- arr.push("内容为：");
 				arr.push(UE.getEditor('editor').getContent());
-				newsContent = arr.join("\n");
+				productContent = arr.join("\n");
 			}
 
 			//- 录入按键
 			var btn_save = document.getElementById('btn_save')
-			var newsTitleInput = document.getElementById('newsTitle')
-			var newsContentInput = document.getElementById('newsContent')
+			var productTitleInput = document.getElementById('productTitle')
+			var productContentInput = document.getElementById('productContent')
 
 			btn_save.onclick = function(){
 				findRadioChecked()
@@ -74,17 +92,17 @@ block content
 					artalert('请选择文章分类')
 					return false;
 				}
-				var newsTitle = newsTitleInput.value;
-				if(newsTitle.replace(/\s/g, "")===''){
+				var productTitle = productTitleInput.value;
+				if(productTitle.replace(/\s/g, "")===''){
 					artalert('标题不能为空，或空格符')
 					return false;
 				}
 				getContent();
-				newsContentInput.value = newsContent;
+				productContentInput.value = productContent;
 			};
 
 			//- 判断分类是否有选择
-			var input_radio = document.getElementsByName('news[category]')
+			var input_radio = document.getElementsByName('product[category]')
 			var radioChecked = false;
 			function findRadioChecked(){
 				for(var i=0;i<input_radio.length;i++){

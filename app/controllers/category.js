@@ -14,8 +14,12 @@ exports.new = function(req,res){
 //category post page
 exports.save = function(req,res){
 	var categoryObj=req.body.category
+	var type = categoryObj.type
 	var id = categoryObj._id
 	var	category = new Category(categoryObj)
+
+	console.log('--------------')
+	console.log('--------------')
 
 	if(id){
 		// 更新
@@ -26,7 +30,7 @@ exports.save = function(req,res){
 			_category = _.extend(_category, categoryObj)
 			_category.save(function(err,_category){
 				if(err)console.log(err)
-				res.redirect('/admin/movie/category/list')
+				res.redirect('/admin/'+type+'/category/list')
 			})
 		})
 	}else{
@@ -34,7 +38,7 @@ exports.save = function(req,res){
 		category.save(function(err,category){
 			if(err)console.log(err)
 
-			res.redirect('/admin/movie/category/list')
+			res.redirect('/admin/'+type+'/category/list')
 		})
 
 	}
@@ -60,23 +64,27 @@ exports.list = function(req,res){
 	var href=req._parsedOriginalUrl.href
 	if(href=='/admin/movie/category/list'){
 		var title = '电影分类列表页'
+		var type = 'movie'
 		var categories_type = 'movie'
 	}else if(href=='/admin/news/category/list'){
-		var title = '新闻分类列表页'
+		var title = '文章分类列表页'
+		var type = 'news'
 		var categories_type = 'news'
 	}else if(href=='/admin/product/category/list'){
 		var title = '产品分类列表页'
+		var type = 'product'
 		var categories_type = 'product'
 	}
-	Category.fetch(function(err,categories){
-		if(err)console.log(err)
-
-		res.render('admin/category_list', {
-			title: title,
-			categories: categories,
-			categories_type: categories_type
+	Category
+		.find({type:type})
+		.exec(function(err, categories){
+			if(err)console.log(err)
+			res.render('admin/category_list',{
+				title: title,
+				categories: categories,
+				categories_type: categories_type
+			})
 		})
-	})
 }
 
 

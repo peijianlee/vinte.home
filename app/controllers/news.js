@@ -1,6 +1,6 @@
 "use strict"
 var News = require('../models/news')
-var Newscategory = require('../models/news_category')
+var Category = require('../models/category')
 var Banner = require('../models/banner')
 var Comment = require('../models/comment')
 var _ = require('underscore')
@@ -9,11 +9,11 @@ var moment = require('moment')
 
 //新建文章
 exports.news = function(req,res){
-	Newscategory.find({}, function(err, newscategories){
+	Category.find({type:'news'}, function(err, categories){
 		if(err)console.log(err)
 		res.render('admin/news_add',{
 			title:'新建文章编辑页',
-			newscategories: newscategories,
+			categories: categories,
 			news: {}
 		})
 	})
@@ -22,14 +22,15 @@ exports.news = function(req,res){
 // news update page
 exports.update = function(req,res){
 	var id = req.params.id
+	console.log(id)
 
 	if(id){
-		Newscategory.find({}, function(err, newscategories){
+		Category.find({type:'news'}, function(err, categories){
 			News.findById(id,function(err,news){
 				if(err)console.log(err)
-				res.render('admin/news_update',{
+				res.render('admin/news_add',{
 					title: '修改文章详情页',
-					newscategories: newscategories,
+					categories: categories,
 					news: news
 				})
 			})
@@ -41,7 +42,7 @@ exports.update = function(req,res){
 exports.save = function(req,res){
 	var newsObj = req.body.news
 	var id = newsObj._id
-	var newscategoryId = newsObj.newscategory
+	var categoryId = newsObj.category
 
 
 	
@@ -50,7 +51,7 @@ exports.save = function(req,res){
 		News.findById(id, function(err, _news){
 			if(err)console.log(err)
 
-			if(_news.title==newsObj.title && _news.content==newsObj.content && newsObj.newscategory.toString()==_news.newscategory.toString()){
+			if(_news.title==newsObj.title && _news.content==newsObj.content && newsObj.category.toString()==_news.category.toString()){
 				console.log('没有更新')
 				res.redirect('/admin/news/list')
 
@@ -58,9 +59,9 @@ exports.save = function(req,res){
 			}
 
 			// 如果修改文章分类
-			if(newsObj.newscategory.toString() !== _news.newscategory.toString()){
+			if(newsObj.category.toString() !== _news.category.toString()){
 				// 找到文章对应的原文章分类
-				Newscategory.findById(_news.newscategory,function(err,_oldCat){
+				Category.findById(_news.category,function(err,_oldCat){
 					if(err) console.log(err)
 
 					// 在原文章分类的news属性中找到该文章的id值并将其删除
@@ -72,11 +73,11 @@ exports.save = function(req,res){
 				})
 
 			 	// 找到文章对应的新文章分类
-			 	Newscategory.findById(newsObj.newscategory,function(err,_newCat){
+			 	Category.findById(newsObj.category,function(err,_newCat){
 			 		if(err) console.log(err)
 
 					// 添加类别名称
-					// _news.newscategoryname = _newCat.name
+					// _news.categoryname = _newCat.name
 			 		// 将其id值添加到文章分类的news属性中并保存
 			 		_newCat.news.push(id)
 			 		_newCat.save(function(err){
@@ -105,11 +106,11 @@ exports.save = function(req,res){
 		var	news = new News(newsObj)
 
 		// 找到对应分类插入文章ID
-		Newscategory.findById(newscategoryId,function(err,_newscategory){
+		Category.findById(categoryId,function(err,_category){
 			if(err) console.log(err)
 
 			// 添加类别名称
-			news.newscategoryname = _newscategory.name
+			news.categoryname = _category.name
 			// 清除所有标签并保存在text
 			var _content = news.content
 			_content = _content.replace(/<\/?[^>]*>/g,''); //去除HTML tag
@@ -121,8 +122,8 @@ exports.save = function(req,res){
 				if(err) console.log(err)
 
 				// 在文章分类添加选中的类别
-				_newscategory.news.push(_newNews._id)
-				_newscategory.save(function(err){
+				_category.news.push(_newNews._id)
+				_category.save(function(err){
 					if(err) console.log(err)
 					res.redirect('/admin/news/list')
 				})
@@ -156,13 +157,13 @@ exports.indexlist = function(req,res){
 			}
 			// 初始加载
 			if(skip == 0){
-				Newscategory.find({}, function(err, newscategories){
+				Category.find({type:'news'}, function(err, categories){
 					if(err) console.log(err)
 					Banner.find({}, function(err, banners){
 						res.render('news_index', {
 							title: 'icoom文章列表页',
 							news: news,
-							newscategories: newscategories,
+							categories: categories,
 							banners: banners
 						})
 					})
@@ -192,9 +193,10 @@ exports.list = function(req,res){
 	News
 		.find({})
 		.sort({_id: -1})
+		.populate('category', 'name')
+		.populate('uid', 'name')
 		.exec(function(err, news){
 			if(err)console.log(err)
-
 			// 截取当前文章总数
 			var results = news.slice(index, index + count)
 
@@ -337,15 +339,15 @@ exports.del = function(req,res){
 		News.findById(id,function(err,news){
 			if(err) console.log(err)
 			// 查找包含这条文章的分类
-			Newscategory.findById(news.newscategory,function(err,newscategory){
+			Category.findById(news.category,function(err,category){
 				if(err) console.log(err)
 
-				if(newscategory){
+				if(category){
 					// 在文章分类movies数组中查找该值所在位置
-					var index = newscategory.news.indexOf(id);
+					var index = category.news.indexOf(id);
 					// 从分类中删除
-					newscategory.news.splice(index,1);
-					newscategory.save(function(err){
+					category.news.splice(index,1);
+					category.save(function(err){
 						if(err) console.log(err);
 					})
 				}

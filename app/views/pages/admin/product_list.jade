@@ -3,19 +3,19 @@ extends ../../layout_admin
 block content
 	.admin_wrap
 		h2.pageheader
-			i.icon-list-alt
+			i.icon-magnet
 			| #{title}
 		.contentpanel
 			.col-md-12(style="padding-bottom:15px;")
-				a.button.button-raised.button-primary.button-small(href="/admin/news/new") 新增文章
-				a.button.button-raised.button-royal.button-small(href="/news",style="margin-left:15px;") 前台文章列表
+				a.button.button-raised.button-primary.button-small(href="/admin/product/new") 新增产品
+				a.button.button-raised.button-royal.button-small.ml10(href="/product") 前台产品列表
 			table.table.table_hover.table_bordered.table_striped
 				thead
 					tr
 						th 分类
 						th 更新时间
-						th 文章标题
-						th 文章内容
+						th 产品标题
+						th 产品内容
 						th 发布人
 						th PV
 						th(style="width:100px;") 更新
@@ -49,7 +49,7 @@ block content
 							td.lead.bg-info.text-info(colspan="5")
 								strong 
 									i.icon-info-sign(style="margin-left:10px;margin-right:5px")
-									| 没有任何文章！
+									| 没有任何产品！
 			.page(style="margin-top:15px;margin-bottom:30px;")
 				- if(totalPage>1){
 					- if(currentPage-1 == 0){
@@ -75,7 +75,7 @@ block content
 					-	}
 				- }
 			script(src="/js/admin_delete.js")
-			//- 文章删除
+			//- 产品删除
 			script.
 				del('newsdel','news');
 

@@ -17,12 +17,10 @@ var UserSchema = new Schema({
 		type: ObjectId,
 		ref: 'User'
 	},
-	uname: String,
-	newscategory: {
+	category: {
 		type: ObjectId,
-		ref: 'Newscategory'
+		ref: 'Category'
 	},
-	newscategoryname: String,
 	meta:{
 		createAt:{
 			type: Date,

@@ -3,7 +3,7 @@ extends ../../layout_admin
 block content
 	.admin_wrap
 		h2.pageheader
-			i.icon-film
+			i.icon-tags
 			| #{title}
 		.contentpanel
 			table.table.table_hover.table_bordered.table_striped
@@ -21,17 +21,17 @@ block content
 								td 
 									a(href='/results?cat=#{item._id}&p=0',target="_blank").btn.btn-info
 										span.catName #{item.name}
-										b &nbsp;( #{item.movies.length} )
+										b &nbsp;( #{item.news.length} )
 								td #{moment(item.meta.updateAt).format('YYYY/MM/DD HH:mm:ss')}
 								td
 									a.button.button-primary.button-rounded.button-small(href='/results?cat=#{item._id}&p=0',target="_blank") 查看
 								td
 									span.button.button-highlight.button-rounded.button-small.catChange(data-toggle="modal", data-target="#catChangeModal", value="#{item._id}") 修改
 								td
-									if item.movies.length == 0
+									if item.news.length == 0
 										button.button.button-caution.button-rounded.button-small.categorydel(type="button", data-id="#{item._id}") 删除
 									else
-										span.button.button-caution.button-rounded.button-small(disabled="disabled") 删除
+										span.cGray --
 					else
 						tr
 							td.lead.bg-info.text-info(colspan="5")
@@ -75,7 +75,7 @@ block content
 	script(src="/js/admin_delete.js")
 	script.
 		//- 分类删除
-		del('categorydel','news/category');
+		del('categorydel','category');
 
 		
 		var catName;

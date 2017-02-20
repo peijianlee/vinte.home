@@ -7,7 +7,21 @@ var ProductSchema = new Schema({
 	content: String,
 	text: String,
 	cover: String,
-	size: String,
+	price: Number,
+	size: {
+		h: {
+			type: Number,
+			default: 0
+		},
+		w: {
+			type: Number,
+			default: 0
+		},
+		d: {
+			type: Number,
+			default: 0
+		}
+	},
 	material: String,
 	img: [{
 		src: String

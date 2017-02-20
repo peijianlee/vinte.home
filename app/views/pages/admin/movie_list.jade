@@ -28,7 +28,7 @@ block content
 										img(src="#{item.poster}", alt="#{item.title}", style="width:100px;height:auto;padding:5px;border:1px solid #ddd")
 									else
 										img(src="/upload/#{item.poster}", alt="#{item.title}", style="width:100px;height:auto;padding:5px;border:1px solid #ddd")
-								td #{item.category.name}
+								td #{item.category}
 								td: a(target="_blank", href="/movie/#{item._id}") #{item.title}
 								td #{item.doctor}
 								td #{item.country}
