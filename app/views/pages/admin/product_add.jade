@@ -31,15 +31,27 @@ block content
 				.form_group
 					label.control_label 商品尺寸：
 					.control_div.product_size_input
-						label 长
-						input(type="text", name="product[size].h", value=product.size)
-						label *
-						label 宽
-						input(type="text", name="product[size].w", value=product.size)
-						label *
-						label 高
-						input(type="text", name="product[size].d", value=product.size)
-						label (CM)
+						if product._id
+							label 长
+							input(type="text", name="product[size].h", value=product.size.h)
+							label *
+							label 宽
+							input(type="text", name="product[size].w", value=product.size.w)
+							label *
+							label 高
+							input(type="text", name="product[size].d", value=product.size.d)
+							label (CM)
+						else
+							label 长
+							input(type="text", name="product[size].h")
+							label *
+							label 宽
+							input(type="text", name="product[size].w")
+							label *
+							label 高
+							input(type="text", name="product[size].d")
+							label (CM)
+
 				.form_group
 					label.control_label 销售价格：
 					.control_div

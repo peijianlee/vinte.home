@@ -33,14 +33,13 @@ module.exports = function(app){
 	    });
 	});
 
-	// news
-
 	// product
 	app.get('/product', Product.indexlist)
 	app.get('/admin/product/list', User.signinRequired, User.adminRequired, Product.list)
 	app.get('/admin/product/category/list', User.signinRequired, User.adminRequired, Category.list)
 	app.post('/admin/product', User.signinRequired, User.adminRequired, Product.save)
-	app.get('/admin/product/new', User.signinRequired, User.adminRequired, Product.new)
+	app.get('/admin/product/add', User.signinRequired, User.adminRequired, Product.new)
+	app.get('/admin/product/update/:id', User.signinRequired, User.adminRequired, Product.update)
 	
 	
 	// news

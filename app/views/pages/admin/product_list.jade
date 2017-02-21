@@ -7,7 +7,7 @@ block content
 			| #{title}
 		.contentpanel
 			.col-md-12(style="padding-bottom:15px;")
-				a.button.button-raised.button-primary.button-small(href="/admin/product/new") 新增产品
+				a.button.button-raised.button-primary.button-small(href="/admin/product/add") 新增产品
 				a.button.button-raised.button-royal.button-small.ml10(href="/product") 前台产品列表
 			table.table.table_hover.table_bordered.table_striped
 				thead
@@ -28,8 +28,9 @@ block content
 									a(target="_blank", href="/products/#{item._id}") #{item.title}
 								td #{item.price}
 								td.tc
-									a.button.button-highlight.button-rounded.button-small(href="/admin/news/update/#{item._id}") 基本信息
-									a.button.button-highlight.button-rounded.button-small.ml10(href="/admin/news/update/#{item._id}") 商品详情
+									a.button.button-highlight.button-rounded.button-small(href="/admin/product/update/#{item._id}?edit=info") 基本信息
+									a.button.button-highlight.button-rounded.button-small.ml10(href="/admin/product/update/#{item._id}?edit=photo") 图片管理
+									a.button.button-highlight.button-rounded.button-small.ml10(href="/admin/product/update/#{item._id}?edit=content") 商品详情
 								td.tc
 									button.newsdel.button.button-caution.button-rounded.button-small(type="button", data-id="#{item._id}", data-src="#{item.imgsrc}") 删除
 					else
