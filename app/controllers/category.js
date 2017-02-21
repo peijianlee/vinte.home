@@ -64,21 +64,19 @@ exports.list = function(req,res){
 	var href=req._parsedOriginalUrl.href
 	if(href=='/admin/movie/category/list'){
 		var title = '电影分类列表页'
-		var type = 'movie'
 		var categories_type = 'movie'
 	}else if(href=='/admin/news/category/list'){
 		var title = '文章分类列表页'
-		var type = 'news'
 		var categories_type = 'news'
 	}else if(href=='/admin/product/category/list'){
 		var title = '产品分类列表页'
-		var type = 'product'
 		var categories_type = 'product'
 	}
 	Category
-		.find({type:type})
+		.find({type:categories_type})
 		.exec(function(err, categories){
 			if(err)console.log(err)
+			console.log(categories.type)
 			res.render('admin/category_list',{
 				title: title,
 				categories: categories,

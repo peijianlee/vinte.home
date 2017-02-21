@@ -17,11 +17,37 @@ exports.indexlist = function(req,res){
 
 // admin porduct list
 exports.list = function(req,res){
-	// var user = req.session.user
+	// .query找到路由上的值
+	var page = parseInt(req.query.p,10) || 1 
+	var count = 6
+	var page = page-1
+	var index = page*count
 
-	res.render('admin/product_list',{
-		title: '后台产品列表'
-	})
+
+	// var user = req.session.user
+	// Product.find({},function(err, products){
+	// 	res.render('admin/product_list',{
+	// 		title: '后台产品列表',
+	// 		products: products
+	// 	})
+
+	// })
+	Product
+		.find({})
+		.sort({_id: -1})
+		.populate('category', 'name')
+		.exec(function(err, products){
+			if(err)console.log(err)
+			// 截取当前文章总数
+			// var results = products.slice(index, index + count)
+
+			res.render('admin/product_list',{
+				title:'后台产品列表',
+				currentPage: (page + 1),
+				totalPage: Math.ceil(products.length / count),
+				products: products
+			})
+		})
 }
 // admin new porduct
 exports.new = function(req,res){
@@ -43,41 +69,22 @@ exports.save = function(req,res){
 
 	// 创建新文章
 	var	product = new Product(productObj)
-		console.log('----------------')
-		console.log(productObj)
-		console.log('----------------')
-		console.log(product)
-		console.log('----------------')
-
-
-	product.save(function(err){
-		res.redirect('/admin/product/list')
-	})
 
 	// 找到对应分类插入ID
-	// Category.findById(categoryId,function(err,_category){
-	// 	if(err) console.log(err)
+	Category.findById(categoryId,function(err,_category){
+		if(err) console.log(err)
+		// 保存文章数据
+		product.save(function(err,_newcategory){
+			if(err) console.log(err)
 
-
-
-	// 	// 清除所有标签并保存在text
-	// 	// var _content = product.content
-	// 	// _content = _content.replace(/<\/?[^>]*>/g,''); //去除HTML tag
-	// 	// _content = _content.replace(/[ | ]*\n/g,'\n'); //去除行尾空白
-	// 	// _content=_content.replace(/ /ig,'');//去掉 
-	// 	// product.text = _content
-	// 	// 保存文章数据
-	// 	productObj.save(function(err,_newcategory){
-	// 		if(err) console.log(err)
-
-	// 		// 在文章分类添加选中的类别
-	// 		_category.products.push(_newcategory._id)
-	// 		_category.save(function(err){
-	// 			if(err) console.log(err)
-	// 			res.redirect('/admin/product/list')
-	// 		})
-	// 	})
-	// })
+			// 在文章分类添加选中的类别
+			_category.products.push(_newcategory._id)
+			_category.save(function(err){
+				if(err) console.log(err)
+				res.redirect('/admin/product/list')
+			})
+		})
+	})
 
 	
 

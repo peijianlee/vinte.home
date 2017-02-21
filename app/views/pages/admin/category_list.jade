@@ -17,21 +17,27 @@ block content
 				tbody.tc
 					if categories && categories.length > 0
 						each item in categories
+							- if(categories_type == 'product'){
+							- 	var len = item.products.length
+							- }else if(categories_type == 'news'){
+							-	var len = item.news.length
+							- }
+								
 							tr(class="item-id-#{item._id}")
 								td 
 									a(href='/results?cat=#{item._id}&p=0',target="_blank").btn.btn-info
 										span.catName #{item.name}
-										b &nbsp;( #{item.news.length} )
+										b &nbsp;( #{len} )
 								td #{moment(item.meta.updateAt).format('YYYY/MM/DD HH:mm:ss')}
 								td
 									a.button.button-primary.button-rounded.button-small(href='/results?cat=#{item._id}&p=0',target="_blank") 查看
 								td
 									span.button.button-highlight.button-rounded.button-small.catChange(data-toggle="modal", data-target="#catChangeModal", value="#{item._id}") 修改
 								td
-									if item.news.length == 0
+									if len == 0
 										button.button.button-caution.button-rounded.button-small.categorydel(type="button", data-id="#{item._id}") 删除
 									else
-										span.cGray --
+										span.button.disabled.button-caution.button-rounded.button-small 删除
 					else
 						tr
 							td.lead.bg-info.text-info(colspan="5")
@@ -40,7 +46,7 @@ block content
 									| #{title}为空！
 				tfood
 					td(colspan="10")
-						//- a.button.button-raised.button-primary(href="/admin/news/category/new") 新增分类
+						//- a.button.button-raised.button-primary(href="/admin/products/category/new") 新增分类
 						span.button.button-raised.button-primary(data-toggle="modal", data-target="#catModal") 新增分类
 	#catModal.imodal
 		form(method="post", action="/admin/category/save")

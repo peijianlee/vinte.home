@@ -15,33 +15,21 @@ block content
 						th 分类
 						th 更新时间
 						th 产品标题
-						th 产品内容
-						th 发布人
-						th PV
-						th(style="width:100px;") 更新
+						th 价格
+						th 更新
 						th(style="width:100px;") 删除
 				tbody
-					if news && news.length > 0
-						each item in news
+					if products && products.length > 0
+						each item in products
 							tr(class="item-id-#{item._id}")
 								td.tc #{item.category.name}
 								td.tc #{moment(item.meta.updateAt).format('YYYY/MM/DD')}
 								td 
-									a(target="_blank", href="/news/#{item._id}") #{item.title}
-								td
-									p.admin_news_list_content #{item.text}
-									if item.img && item.img.length > 0
-										ul.news_img_list
-											each imgsrc in item.img
-												li
-													img(src="#{imgsrc}")
-									else
-										div
-											b !!!没有图片!!!
-								td.tc #{item.uid.name}
-								td.tc #{item.pv}
+									a(target="_blank", href="/products/#{item._id}") #{item.title}
+								td #{item.price}
 								td.tc
-									a.button.button-highlight.button-rounded.button-small(href="/admin/news/update/#{item._id}") 修改
+									a.button.button-highlight.button-rounded.button-small(href="/admin/news/update/#{item._id}") 基本信息
+									a.button.button-highlight.button-rounded.button-small.ml10(href="/admin/news/update/#{item._id}") 商品详情
 								td.tc
 									button.newsdel.button.button-caution.button-rounded.button-small(type="button", data-id="#{item._id}", data-src="#{item.imgsrc}") 删除
 					else

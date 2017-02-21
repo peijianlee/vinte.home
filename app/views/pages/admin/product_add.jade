@@ -5,6 +5,10 @@ block content
 		h2.pageheader
 			i.icon-magnet
 			| #{title}
+		.button-group.pl20.pt20
+			button.button.button-royal.button-rounded.button-raised.button-small(type="button") 基本信息
+			button.button.button-rounded.button-raised.button-small(type="button") 图片管理
+			button.button.button-rounded.button-raised.button-small(type="button") 商品详情
 		.contentpanel
 			form.form_horizontal(method="post", action="/admin/product", enctype="multipart/form-data")
 				if product._id
@@ -50,11 +54,11 @@ block content
 				.form_group
 					.col-sm-offset-1.col-sm-1
 						if product._id
-							button#btn_save.button.button-royal.button-primary(type="sumbit")
+							button#btn_save.button.button-primary.button-primary.button-longshadow-right(type="sumbit")
 								b.icon-upload
 								&nbsp;&nbsp;更 新
 						else
-							button#btn_save.button.button-royal.button-primary(type="sumbit")
+							button#btn_save.button.button-primary.button-primary.button-longshadow-right(type="sumbit")
 								b.icon-hdd
 								&nbsp;&nbsp;录 入
 				input(type="hidden", name="product[uid]", value="#{user._id}")

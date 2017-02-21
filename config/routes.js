@@ -3,7 +3,7 @@ var _ = require('underscore')
 var Index = require('../app/controllers/index')
 var News = require('../app/controllers/news')
 var Product = require('../app/controllers/product')
-var Newscategory = require('../app/controllers/news_category')
+// var Newscategory = require('../app/controllers/news_category')
 var User = require('../app/controllers/user')
 var Movie = require('../app/controllers/movie')
 var Comment = require('../app/controllers/comment')
@@ -37,8 +37,8 @@ module.exports = function(app){
 
 	// product
 	app.get('/product', Product.indexlist)
-	app.get('/admin/product/category/list', User.signinRequired, User.adminRequired, Category.list)
 	app.get('/admin/product/list', User.signinRequired, User.adminRequired, Product.list)
+	app.get('/admin/product/category/list', User.signinRequired, User.adminRequired, Category.list)
 	app.post('/admin/product', User.signinRequired, User.adminRequired, Product.save)
 	app.get('/admin/product/new', User.signinRequired, User.adminRequired, Product.new)
 	
@@ -52,15 +52,8 @@ module.exports = function(app){
 	app.post('/admin/news/uedel', User.signinRequired, User.adminRequired, News.uedel)
 	app.get('/admin/news/update/:id', User.signinRequired, User.adminRequired, News.update)
 	app.get('/admin/news/list', User.signinRequired, User.adminRequired, News.list)
-	app.delete('/admin/news/list', User.signinRequired, User.adminRequired, News.del)
-
-	// newscategory
-	app.get('/admin/news/category/new', User.signinRequired, User.adminRequired, Newscategory.new)
-	app.post('/admin/news/category', User.signinRequired, User.adminRequired, Newscategory.save)
-	app.post('/admin/news/category/update', User.signinRequired, User.adminRequired, Newscategory.updatesave)
 	app.get('/admin/news/category/list', User.signinRequired, User.adminRequired, Category.list)
-	app.get('/admin/news/category/update/:id', User.signinRequired, User.adminRequired, Newscategory.update)
-	app.delete('/admin/category/list', User.signinRequired, User.adminRequired, Category.del)
+	app.delete('/admin/news/list', User.signinRequired, User.adminRequired, News.del)
 
 	//User
 	app.get('/user/:id', User.signinRequired, User.detail)
@@ -83,10 +76,8 @@ module.exports = function(app){
 	app.get('/admin/movie/category/list', User.signinRequired, User.adminRequired, Category.list)
 
 	// category
-	// app.get('/admin/movie/category/new', User.signinRequired, User.adminRequired, Category.new)
 	app.post('/admin/category/save', User.signinRequired, User.adminRequired, Category.save)
-	// app.get('/admin/movie/category/update/:id', User.signinRequired, User.adminRequired, Category.update)
-	app.delete('/admin/movie/category/list', User.signinRequired, User.adminRequired, Category.del)
+	app.delete('/admin/category/list', User.signinRequired, User.adminRequired, Category.del)
 
 	// Comment
 	app.post('/user/save', User.signinRequired, Comment.save)
