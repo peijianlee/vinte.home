@@ -1,1 +1,73 @@
-product_add_photo.jade
+extends ../../layout_admin
+
+block content
+	style.
+		.img_view{
+			max-width:300px;max-height:300px;
+			background-size:300px 300px;margin-top:10px;margin-bottom:10px;
+			border:1px solid #ddd;
+			padding:10px;
+		}
+		.img_view img{width:300px;height:300px;}
+	.admin_wrap
+		h2.pageheader
+			i.icon-magnet
+			| #{title}
+		.button-group.pl20.pt20
+			button.button.button-rounded.button-raised.button-small(type="button") 基本信息
+			button.button.button-royal.button-rounded.button-raised.button-small(type="button") 图片管理
+			button.button.button-rounded.button-raised.button-small(type="button") 商品详情
+		.contentpanel
+			form.form_horizontal(method="post", action="/admin/product/update/photo", enctype="multipart/form-data")
+				input(type="hidden", name="product[_id]", value=product._id)
+				.form_group
+					label.control_label 封面：
+					.control_div
+						input#img_btn.mr10(type="file", onchange="setImagePreview('img_btn','img_view','img_ie_view');", name="productCover")
+						span.button.button-caution.button-jumbo.button-small 删除
+						#img_ie_view.img_view
+							img#img_view
+				.form_group
+					label.control_label
+					.control_div
+						input#img_btn_1.mr10(type="file", onchange="setImagePreview('img_btn_1','img_view_1','img_ie_view_1');", name="productCover")
+						span.button.button-caution.button-jumbo.button-small 删除
+						#img_ie_view_1.img_view
+							img#img_view_1
+				.form_group
+				button#fileSubmit.upload_submit_btn(type="sumbit") 确认上传图片
+				//- .form_group
+					.col-sm-offset-1.col-sm-1
+						button#btn_save.button.button-primary.button-primary.button-longshadow-right(type="sumbit")
+							b.icon-upload
+							&nbsp;&nbsp;更 新
+				input(type="hidden", name="product[uid]", value="#{user._id}")
+		script.
+			//下面用于图片上传预览功能
+			function setImagePreview(btnId,viewId,IEviewId) {
+				var docObj=document.getElementById(btnId);
+				var imgObjPreview=document.getElementById(viewId);
+				if(docObj.files &&docObj.files[0]){
+					//火狐7以上版本不能用上面的getAsDataURL()方式获取，需要一下方式
+					imgObjPreview.src = window.URL.createObjectURL(docObj.files[0]);
+				}else{
+					//IE下，使用滤镜
+					docObj.select();
+					var imgSrc = document.selection.createRange().text;
+					var localImagId = document.getElementById(IEviewId);
+					//图片异常的捕捉，防止用户修改后缀来伪造图片
+					try{
+						localImagId.style.filter="progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+						localImagId.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = imgSrc;
+					}catch(e){
+						popTip("您上传的图片格式不正确，请重新选择!",6);
+						return false;
+					}
+					imgObjPreview.style.display = 'none';
+					document.selection.empty();
+				}
+				return true;
+			}
+
+
+

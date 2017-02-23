@@ -10,6 +10,7 @@ var Comment = require('../app/controllers/comment')
 var Category = require('../app/controllers/category')
 var Banner = require('../app/controllers/banner')
 
+var path = require('path')
 
 module.exports = function(app){
 	// pre handle user
@@ -40,9 +41,12 @@ module.exports = function(app){
 	app.post('/admin/product', User.signinRequired, User.adminRequired, Product.save)
 	app.get('/admin/product/add', User.signinRequired, User.adminRequired, Product.new)
 	app.get('/admin/product/update/:id', User.signinRequired, User.adminRequired, Product.update)
+	app.post('/admin/product/update/photo', User.signinRequired, User.adminRequired, Product.updatephoto)
 	
 	
 	// news
+	var ueditor = require('ueditor')
+	app.use("/libs/ueditor/ue", ueditor(path.join(__dirname, '../public'), News.ue))
 	app.get('/news/:id', News.pv, News.detail)
 	app.get('/news/comment', News.detail)
 	app.get('/news', News.indexlist)
@@ -53,6 +57,7 @@ module.exports = function(app){
 	app.get('/admin/news/list', User.signinRequired, User.adminRequired, News.list)
 	app.get('/admin/news/category/list', User.signinRequired, User.adminRequired, Category.list)
 	app.delete('/admin/news/list', User.signinRequired, User.adminRequired, News.del)
+
 
 	//User
 	app.get('/user/:id', User.signinRequired, User.detail)
