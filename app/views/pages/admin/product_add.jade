@@ -6,9 +6,14 @@ block content
 			i.icon-magnet
 			| #{title}
 		.button-group.pl20.pt20
-			button.button.button-royal.button-rounded.button-raised.button-small(type="button") 基本信息
-			button.button.button-rounded.button-raised.button-small(type="button") 图片管理
-			button.button.button-rounded.button-raised.button-small(type="button") 商品详情
+			if product._id
+				button.button.button-royal.button-rounded.button-raised.button-small(type="button") 基本信息
+				a.button.button-rounded.button-raised.button-small(type="button", href="/admin/product/update/"+product._id+"?edit=photo") 图片管理
+				a.button.button-rounded.button-raised.button-small(type="button", href="/admin/product/update/"+product._id+"?edit=content") 商品详情
+			else
+				button.button.button-royal.button-rounded.button-raised.button-small(type="button") 基本信息
+				button.button.button-rounded.button-raised.button-small(type="button", disabled="") 图片管理
+				button.button.button-rounded.button-raised.button-small(type="button", disabled="") 商品详情
 		.contentpanel
 			form.form_horizontal(method="post", action="/admin/product", enctype="multipart/form-data")
 				if product._id
@@ -55,7 +60,11 @@ block content
 				.form_group
 					label.control_label 销售价格：
 					.control_div
-						input(style="width:150px;", type="text", name="product[price]",placeholder="请输入价格", value=product.price)
+						input(style="width:150px;", type="text", name="product[price]",placeholder="请输入销售价格", value=product.price)
+				.form_group
+					label.control_label 促销价格：
+					.control_div
+						input(style="width:150px;", type="text", name="product[price]",placeholder="请输入促销价格", value=product.saleprice)
 
 				.form_group
 					.col-sm-offset-1.col-sm-1

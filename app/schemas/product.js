@@ -8,6 +8,7 @@ var ProductSchema = new Schema({
 	text: String,
 	cover: String,
 	price: Number,
+	saleprice: Number,
 	size: {
 		h: {
 			type: Number,

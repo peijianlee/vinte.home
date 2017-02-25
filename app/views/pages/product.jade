@@ -12,7 +12,7 @@ block content
 						if newscategories && newscategories.length>0
 							each cat in newscategories
 								li: a(href="###") #{cat.name}
-			.wrap.iproduct_list
+			//- .wrap.iproduct_list
 				h3
 					a.fr(href="###")
 						| 更多
@@ -31,5 +31,34 @@ block content
 							li
 								small.ip_price ￥80.00
 								small.ip_old_price ￥100.00
+			each cat in categories
+				if cat.products && cat.products.length > 0
+					.wrap.iproduct_list
+						h3
+							a.fr(href="###")
+								| 更多
+								i.icon-double-angle-right
+							i.icon-magnet.mr10
+							| #{cat.name}
+						div.iproduct
+							each item in cat.products
+								a
+									img(src='/images_data/'+item.id+'/'+item.cover)
+									div.ip_bg
+									ul.ip_description
+										li.ip_title
+											|#{item.title} 水曲柳
+											|宽#{item.size.w}×深#{item.size.d}×高#{item.size.h}cm
+											|/ 棕色
+										li
+											span.ip_tag 特价商品
+											span.ip_tag 新品
+										li
+											if item.saleprice
+												small.ip_price ￥#{item.price}.00
+												small.ip_old_price ￥100.00
+											else
+												small.ip_price ￥#{item.price}.00
+
 			
 		.bg_fixed

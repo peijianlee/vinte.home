@@ -13,6 +13,10 @@ var moment = require('moment')
 //ueditor
 exports.ue = function (req, res, next) {
 
+	console.log('-----------------------')
+	console.log(req)
+	console.log('-----------------------')
+
     // ueditor 客户发起上传图片请求
     if (req.query.action === 'uploadimage') {
         var foo = req.ueditor;

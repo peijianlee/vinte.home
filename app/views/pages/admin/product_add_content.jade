@@ -1,0 +1,82 @@
+extends ../../layout_admin
+
+block content
+
+	.admin_wrap
+		h2.pageheader
+			i.icon-magnet
+			| #{title}
+		.button-group.pl20.pt20
+			a.button.button-rounded.button-raised.button-small(type="button", href="/admin/product/update/"+product._id+"?edit=info") 基本信息
+			a.button.button-raised.button-small(type="button", href="/admin/product/update/"+product._id+"?edit=photo") 商品详情
+			button.button.button-royal.button-rounded.button-rounded.button-raised.button-small(type="button") 商品详情
+		.contentpanel
+			form.form_horizontal(name="photoform",method="post", action="/admin/product/update/photo", enctype="multipart/form-data")
+				input(type="hidden", name="product[_id]", value=product._id)
+				script.
+					//- var id = document.getElementsByName('product[_id]')[0].value
+					//- window.UEDITOR_HOME_URL = "/product/ueditor/ue/"+id
+				.form_group
+					script(type="text/javascript",src="/libs/ueditor/ueditor.config.js")
+					script(type="text/javascript",src="/libs/ueditor/ueditor.all.min.js")
+					script(type="text/javascript",src="/libs/ueditor/lang/en/en.js")
+					script#editor(type="text/plain",style="width:100%;height:500px;")
+				.form_group
+					.col-sm-offset-1.col-sm-1
+						button#btn_save.button.button-primary.button-primary.button-longshadow-right(type="sumbit")
+							b.icon-upload
+							&nbsp;&nbsp;保 存
+		script.
+			//实例化编辑器
+			//建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+			var ue = UE.getEditor('editor'),
+				newsContent;
+
+			$(function(){
+				var content = $('#newsContent').val();
+				//判断ueditor 编辑器是否创建成功
+				ue.addListener("ready", function () {
+					// editor准备好之后才可以使用
+					ue.setContent(content);
+				
+				});
+			});
+			function getContent() {
+				var arr = [];
+				//- arr.push("使用editor.getContent()方法可以获得编辑器的内容");
+				//- arr.push("内容为：");
+				arr.push(UE.getEditor('editor').getContent());
+				newsContent = arr.join("\n");
+			}
+
+			//- 录入按键
+			var btn_save = document.getElementById('btn_save')
+			var newsTitleInput = document.getElementById('newsTitle')
+			var newsContentInput = document.getElementById('newsContent')
+
+			btn_save.onclick = function(){
+				findRadioChecked()
+				if(radioChecked==false){
+					artalert('请选择文章分类')
+					return false;
+				}
+				var newsTitle = newsTitleInput.value;
+				if(newsTitle.replace(/\s/g, "")===''){
+					artalert('标题不能为空，或空格符')
+					return false;
+				}
+				getContent();
+				newsContentInput.value = newsContent;
+			};
+
+			//- 判断分类是否有选择
+			var input_radio = document.getElementsByName('news[category]')
+			var radioChecked = false;
+			function findRadioChecked(){
+				for(var i=0;i<input_radio.length;i++){
+					if(input_radio.item(i).checked){
+						radioChecked = true;
+						return false;
+					}
+				}
+			}

@@ -4,15 +4,60 @@ var Category = require('../models/category')
 var Comment = require('../models/comment')
 var _ = require('underscore')
 var fs = require('fs')
+var path = require('path')
 var moment = require('moment')
 
 // 前台首页
 exports.indexlist = function(req,res){
 	// var user = req.session.user
 
-	res.render('product',{
-		title: 'IMOOC 产品列表'
-	})
+	// res.render('product',{
+	// 	title: 'IMOOC 产品列表'
+	// })
+	// Category.find({type:'product'}, function(err, categories){
+	Category
+		.find({type:'product'})
+		.sort({_id: 1})
+		.populate('products')
+		.exec(function(err, categories){
+			if(err)console.log(err)
+			res.render('product',{
+				title:'IMOOC 产品列表',
+				categories: categories
+			})
+		})
+		
+}
+
+//ueditor
+exports.ue = function (req, res, next) {
+	var id = req.params.id
+
+	console.log('---------------')
+	console.log(req.params.id)
+	console.log('---------------')
+
+    // ueditor 客户发起上传图片请求
+    if (req.query.action === 'uploadimage') {
+        var foo = req.ueditor;
+        var date = new Date();
+        var imgname = req.ueditor.filename;
+
+        var img_url = '/images_data';
+        res.ue_up(img_url); //你只要输入要保存的地址 。保存操作交给ueditor来做
+    }
+
+    //  客户端发起图片列表请求
+    else if (req.query.action === 'listimage') {
+        var dir_url = '/images_data';
+        res.ue_list(dir_url);  // 客户端会列出 dir_url 目录下的所有图片
+    }
+    // 客户端发起其它请求
+    else {
+        res.setHeader('Content-Type', 'application/json');
+        res.redirect('/libs/ueditor/nodejs/config.json')
+    }
+
 }
 
 // admin porduct list
@@ -62,14 +107,6 @@ exports.save = function(req,res){
 		// 更新
 		Product.findById(id, function(err, _product){
 			if(err)console.log(err)
-
-			console.log('---------------------')
-			console.log(productObj)
-			console.log('---------------------')
-			console.log(_product)
-			console.log('---------------------')
-			console.log(_product==productObj)
-			console.log('---------------------')
 
 			// 如果修改商品分类
 			if(productObj.category.toString() !== _product.category.toString()){
@@ -144,12 +181,24 @@ exports.update = function(req,res){
 	var id = req.params.id
 	var edittype = req.query.edit
 	
+	console.log(edittype)
+
+
 
 	if(edittype=='photo'){
 		Product.findById(id,function(err,product){
 			if(err)console.log(err)
 			res.render('admin/product_add_photo',{
 				title: '商品<'+product.title+'> - 图片管理',
+				product: product
+			})
+		})
+		return false
+	}else if(edittype=='content'){
+		Product.findById(id,function(err,product){
+			if(err)console.log(err)
+			res.render('admin/product_add_content',{
+				title: '商品<'+product.title+'> - 商品详情',
 				product: product
 			})
 		})
@@ -174,10 +223,34 @@ exports.update = function(req,res){
 
 
 exports.updatephoto = function(req,res){
+	var id = req.body.product._id
 	var files = req.files.productCover
-	console.log(files)
-	for(var i=0;i<files.length;i++){
-		console.log(files[i].name)
-	}
+	var filePath = files.path
+	console.log(id)
+
+
+	// for(var i=0;i<files.length;i++){
+	// 	console.log(files[i].name)
+	// }
+	fs.readFile(filePath,function(err,data){
+		var timestamp = Date.now()
+		var type = files.type.split('/')[1]
+		var imgsrc = timestamp + '.' +type
+		// fs.mkdir(__dirname + '/../../public/images_data/'+filename,function(err){
+		var newPath = path.join(__dirname, '../../', '/public/images_data/'+id+'/'+imgsrc)
+
+		fs.writeFile(newPath, data, function(err){
+			if(err)console.log(err)
+			req.imgsrc = imgsrc
+			Product.findById(id,function(err,_product){
+				if(err)console.log(err)
+				_product.cover = imgsrc
+				_product.save(function(err){
+					if(err)console.log(err)
+					res.redirect('/admin/product/update/'+id+'?edit=photo')
+				})
+			})
+		})
+	})
 	return false;
 }

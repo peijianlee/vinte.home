@@ -15,8 +15,6 @@ exports.detail = function(req,res){
 		if(err) console.log(err)
 	})
 
-
-
 	// 查找到movie再查下面的评论
 	Movie.findById(id,function(err,movie){
 		Comment
