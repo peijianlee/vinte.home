@@ -13,8 +13,11 @@ var moment = require('moment')
 //ueditor
 exports.ue = function (req, res, next) {
 
+	// console.log('-----------------------')
+	// console.log(req)
+	// console.log('-----------------------')
 	console.log('-----------------------')
-	console.log(req)
+	console.log(req.query.action)
 	console.log('-----------------------')
 
     // ueditor 客户发起上传图片请求
@@ -23,7 +26,8 @@ exports.ue = function (req, res, next) {
         var date = new Date();
         var imgname = req.ueditor.filename;
 
-        var img_url = '/ue_images';
+        var img_url = '../../ue_images';
+
         res.ue_up(img_url); //你只要输入要保存的地址 。保存操作交给ueditor来做
     }
 

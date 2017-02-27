@@ -45,8 +45,8 @@ module.exports = function(app){
 	
 	
 	// news
-	var ueditor = require('ueditor')
-	app.use("/libs/ueditor/ue", ueditor(path.join(__dirname, '../public'), News.ue))
+	// var ueditor = require('ueditor')
+	// app.use("/libs/ueditor/ue", ueditor(path.join(__dirname, '../public'), News.ue))
 	app.get('/news/:id', News.pv, News.detail)
 	app.get('/news/comment', News.detail)
 	app.get('/news', News.indexlist)

@@ -14,8 +14,8 @@ block content
 			form.form_horizontal(name="photoform",method="post", action="/admin/product/update/photo", enctype="multipart/form-data")
 				input(type="hidden", name="product[_id]", value=product._id)
 				script.
-					//- var id = document.getElementsByName('product[_id]')[0].value
-					//- window.UEDITOR_HOME_URL = "/product/ueditor/ue/"+id
+					var id = document.getElementsByName('product[_id]')[0].value
+					window.UEDITOR_HOME_URL = "/product/ueditor/ue/"+id
 				.form_group
 					script(type="text/javascript",src="/libs/ueditor/ueditor.config.js")
 					script(type="text/javascript",src="/libs/ueditor/ueditor.all.min.js")

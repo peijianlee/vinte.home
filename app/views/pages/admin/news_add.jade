@@ -24,6 +24,8 @@ block content
 					input#newsTitle(type="text", name="news[title]",placeholder="文章标题", value=news.title)
 					input#newsContent(type="hidden", name="news[content]",value=news.content)
 				.form_group
+					script.
+						window.UEDITOR_HOME_URL = '/libs/ueditor/'
 					script(type="text/javascript",src="/libs/ueditor/ueditor.config.js")
 					script(type="text/javascript",src="/libs/ueditor/ueditor.all.min.js")
 					script(type="text/javascript",src="/libs/ueditor/lang/en/en.js")
