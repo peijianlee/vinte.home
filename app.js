@@ -41,9 +41,6 @@ app.use(session({
 
 //ueditor
 var ueditor = require('ueditor')
-console.log('------------------')
-console.log(__dirname, '/public')
-console.log('------------------')
 app.use("/libs/ueditor/ue", ueditor(path.join(__dirname, 'public'), function (req, res, next) {
 
     // ueditor 客户发起上传图片请求

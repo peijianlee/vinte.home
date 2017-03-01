@@ -79,3 +79,58 @@
 	transform:translateY(0);
 	-webkit-transform:translateY(0);
 }
+/*产品详情*/
+.p_picture{
+	width:400px;
+}
+.p_picture_cover img{width:400px;height:400px;}
+.p_panel{
+	overflow:hidden;
+	padding-left:15px;
+}
+.p_panel dl{border-top:2px solid #25a6a4;}
+.p_panel h1{font-size:16px;}
+.p_panel_info{
+	border-top:3px solid #25a6a4;
+	padding:10px 15px;
+	background-color:rgba(212,225,225,0.5);
+}
+.p_panel_size{
+	background-color: #f7f7f7;
+    border-width:1px 0;border-style:solid;border-color:#ccc;
+    padding:10px 15px;
+}
+.p_panel_size a{
+	font-size:10px;
+	margin-top:5px;
+	padding:2px;display:inline-block;
+	border:2px solid #25a6a4;
+}
+.p_panel_size a span{
+	background-color:#555;
+	color:white;display:inline-block;
+	text-align:center;
+	padding:5px 12px;
+
+}
+
+.p_panel_add_cart{
+	margin-top:15px;
+	border:1px solid #ccc;
+	padding:4px;
+}
+.p_panel_add_cart div{
+	padding:10px;text-align:center;
+	height:32px;
+	display:block;
+	background-color:rgba(212,225,225,0.8);
+}
+.p_panel_add_cart div a{
+	display:inline-block;
+	background-color:#222;font-weight:bold;
+	padding:4px 25px;border-radius:3px;
+	color:white;font-size:14px;
+}
+.p_panel_price{
+	float:left;line-height:32px;
+}

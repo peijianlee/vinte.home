@@ -56,7 +56,14 @@ block content
 							label 高
 							input(type="text", name="product[size].d")
 							label (CM)
-
+				.form_group
+					label.control_label 使用材质：
+					.control_div
+						input(style="width:150px;", type="text", name="product[material]",placeholder="请输入使用材质", value=product.material)
+				.form_group
+					label.control_label 主体颜色：
+					.control_div
+						input(style="width:150px;", type="text", name="product[colour]",placeholder="请输入主体颜色", value=product.colour)
 				.form_group
 					label.control_label 销售价格：
 					.control_div
@@ -64,7 +71,7 @@ block content
 				.form_group
 					label.control_label 促销价格：
 					.control_div
-						input(style="width:150px;", type="text", name="product[price]",placeholder="请输入促销价格", value=product.saleprice)
+						input(style="width:150px;", type="text", name="product[sale]",placeholder="请输入促销价格", value=product.sale)
 
 				.form_group
 					.col-sm-offset-1.col-sm-1

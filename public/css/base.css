@@ -4,12 +4,16 @@ html,body,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,p{padding:0;margin:0;}
 body{
 	font-family:"Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","WenQuanYi Micro Hei",sans-serif;
 	color:#333;
-	line-height:1.42857;
+	line-height:1.7;
 }
 a{text-decoration:none;color:#333;}
 .tc{text-align:center;}
 ul,ol,li{list-style-type:none;}
 
+.fs12{font-size:12px;}
+.fs14{font-size:14px;}
+.fs16{font-size:16px;}
+.fs18{font-size:18px;}
 .cd{cursor:default;}
 .cp{cursor:pointer;}
 
@@ -84,6 +88,7 @@ ul,ol,li{list-style-type:none;}
 .pb10{padding-bottom:10px;}
 .pb20{padding-bottom:20px;}
 .pb50{padding-bottom:50px;}
+.pl10{padding-left:10px;}
 .pl20{padding-left:20px;}
 /*布局*/
 .h60{height:60px;}

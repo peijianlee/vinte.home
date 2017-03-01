@@ -8,7 +8,12 @@ var ProductSchema = new Schema({
 	text: String,
 	cover: String,
 	price: Number,
-	saleprice: Number,
+	material: String,
+	colour: String,
+	sale: {
+		type: Number,
+		default: 0
+	},
 	size: {
 		h: {
 			type: Number,
@@ -23,7 +28,6 @@ var ProductSchema = new Schema({
 			default: 0
 		}
 	},
-	material: String,
 	img: [{
 		src: String
 	}],

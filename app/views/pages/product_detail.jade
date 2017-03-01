@@ -1,0 +1,68 @@
+extends ../layout_index
+
+block content
+	body
+		link(href="/css/product.css",rel="stylesheet")
+		.header
+			.wrap
+				h1
+					a(href="/news") ICOOMTEST
+				ul.hmenu
+					if newscategories && newscategories.length>0
+						each cat in newscategories
+							li: a(href="###") #{cat.name}
+		.wrap
+			.nav
+				a(href="/news")
+					i.fs14.icon-home
+				a(href="/product") table
+				span #{product.title}
+			.side_nav
+				h2
+					i.icon-tags.ml5.mr5
+					| 商品分类
+				each cat in categories
+					if cat.products && cat.products.length > 0
+						dl.snCategorylist
+							dt
+								i.icon-magnet.ml5.mr5
+								| #{cat.name}
+							each item in cat.products
+								dd
+									a(href="#{item._id}")
+										i.icon-angle-right.ml10.mr5
+										| #{item.title}
+			.p_picture.fl
+				div.p_picture_cover
+					img(src='/images_data/'+product.id+'/'+product.cover)
+			.p_panel
+				dl
+					dd.p_panel_info
+						h1 
+							|#{product.title}
+							if product.material
+								|&nbsp;#{product.material}
+							else
+								|&nbsp;未知材料
+							if product.colour
+								|&nbsp;（#{product.colour}） 
+							else
+								|&nbsp;（未知颜色） 
+							|&nbsp;宽#{product.size.w}×深#{product.size.d}×高#{product.size.h}cm
+					dd.p_panel_info
+						p.fs14 布匹部分采用了棉丝光斜纹棉布面料。改良了难以扩展的情况，使用了编织材料。可以尽情感受不同材料的不同舒适度。 
+					dd.p_panel_size
+						h6.fs14 尺寸选择
+						p.fs12  尺寸:长65×宽65×高43cm
+						a
+							span
+								| 宽#{product.size.w}×深#{product.size.d}×高#{product.size.h}cm
+					dt.p_panel_add_cart
+						div
+							span.p_panel_price.fs12.pl10 零售价：
+								b.fs18.cRed $#{product.price}.00
+							a.fr
+								i.icon-shopping-cart.mr10
+								| 加入询价单
+			br.clear
+		.bg_fixed
