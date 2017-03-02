@@ -35,8 +35,9 @@ module.exports = function(app){
 	});
 
 	// product
-	app.get('/product/:id', Product.detail)
-	app.get('/product', Product.indexlist)
+	app.get('/store/:goods/:id', Product.detail)
+	app.get('/store', Product.indexlist)
+	app.get('/store/:goods', Product.search)
 	app.get('/admin/product/list', User.signinRequired, User.adminRequired, Product.list)
 	app.get('/admin/product/category/list', User.signinRequired, User.adminRequired, Category.list)
 	app.post('/admin/product', User.signinRequired, User.adminRequired, Product.save)

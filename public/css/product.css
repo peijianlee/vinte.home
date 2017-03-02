@@ -79,6 +79,43 @@
 	transform:translateY(0);
 	-webkit-transform:translateY(0);
 }
+/*分类页面*/
+.goodsHead{
+	min-height:94px;
+	padding:25px 0 25px;
+}
+.goodsHead h2{
+	width:80px;height:80px;line-height:80px;
+	padding:4px;
+	border-radius:20px;float:left;
+	text-align:center;
+	background-color:white;
+	border:3px solid #25a6a4;
+}
+.goodsHead h2 span{
+	background-color:#ddd;color:#25a6a4;
+	display:block;border-radius:50%;
+}
+.goodsHead h3{
+	overflow:hidden;
+	padding:15px 15px 0;
+	font-size:14px;color:#111;
+	text-shadow:0 0 2px white;
+}
+.goodsBg{
+	position:fixed;
+	top:0;left:0;z-index:-1;
+	height:200px;width:100%;
+}
+.goodsBg:before{
+	content:'';
+	width:100%;height:80%;
+	position:absolute;bottom:0;left:0;
+	background-image:filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr='#fff',endColorStr='#000',gradientType='0');
+	background-image:linear-gradient(to bottom, rgba(0, 0, 0, 0), #fff);
+	background-image:-webkit-linear-gradient(to bottom, rgba(0, 0, 0, 0), #fff);
+}
+
 /*产品详情*/
 .p_picture{
 	width:400px;

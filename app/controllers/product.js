@@ -9,12 +9,8 @@ var moment = require('moment')
 
 // 前台首页
 exports.indexlist = function(req,res){
-	// var user = req.session.user
+	var id=req.params.id
 
-	// res.render('product',{
-	// 	title: 'IMOOC 产品列表'
-	// })
-	// Category.find({type:'product'}, function(err, categories){
 	Category
 		.find({type:'product'})
 		.sort({_id: 1})
@@ -28,9 +24,25 @@ exports.indexlist = function(req,res){
 		})
 		
 }
+
+exports.search = function(req,res){
+	var goods=req.params.goods
+	Category
+		.find({name:goods})
+		.sort({_id: -1})
+		.populate('products')
+		.exec(function(err, categories){
+			if(err)console.log(err)
+			res.render('product_type',{
+				title:'IMOOC 产品列表',
+				categories: categories
+			})
+		})
+}
 // 商品详情页
 exports.detail = function(req,res){
 	var id=req.params.id
+	var goods=req.params.goods
 	Category
 		.find({type:'product'})
 		.sort({_id: -1})
@@ -44,7 +56,8 @@ exports.detail = function(req,res){
 				res.render('product_detail',{
 					title: _product.title + ' | IMOOC',
 					categories: categories,
-					product: _product
+					product: _product,
+					goods:goods
 				})
 			})
 
