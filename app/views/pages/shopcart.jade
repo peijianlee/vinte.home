@@ -1,0 +1,59 @@
+extends ../layout_index
+
+block content
+	.wrap
+		div.progress.progress_step_1
+			div.progress_step
+				span 1
+				p SHAPPING CART
+			div.progress_step
+				span 2
+				p YOUR EMAIL
+			div.progress_step
+				span 3
+				p SUCCESS
+			div.progress_line
+			div.progress_step_line
+		table.shopcart_list
+			caption
+				i.icon-shopping-cart.mr10
+				| SHAPPING CART
+			tr
+				th(width="140px") ITEM
+				th.tl DESCRIPTION
+				th PRICE
+				th QUANTITY
+			tr
+				td
+					img(src="http://img.sj33.cn/uploads/allimg/201609/132H5J35-19.jpg")
+				td.shopcart_goods_name
+					ul
+						li
+							h3 测试商品
+						li MATERIAL: 未知材料
+						li COLOR:（未知颜色）
+						li SIZE:  宽123×深1×高123cm适度。 
+						li
+							span.removeBtn
+								i.icon-remove
+								| REMOVE
+				td.tc
+					b.fs16 $100.00
+				td.tc 1-20
+			tr
+				td
+					img(src="http://img.sj33.cn/uploads/allimg/201609/132H5J35-19.jpg")
+				td.shopcart_goods_name
+					ul
+						li
+							h3 测试商品
+						li MATERIAL: 未知材料
+						li COLOR:（未知颜色）
+						li SIZE:  宽123×深1×高123cm适度。 
+				td.tc
+					b.fs16 $100.00
+				td.tc 1-20
+			tr
+				td(colspan="4")
+					a.button.button-royal.button-primary 创建询价单
+	.bg_fixed

@@ -9,6 +9,7 @@ var Movie = require('../app/controllers/movie')
 var Comment = require('../app/controllers/comment')
 var Category = require('../app/controllers/category')
 var Banner = require('../app/controllers/banner')
+var Shopcart = require('../app/controllers/shopcart')
 
 var path = require('path')
 
@@ -45,6 +46,8 @@ module.exports = function(app){
 	app.get('/admin/product/update/:id', User.signinRequired, User.adminRequired, Product.update)
 	app.post('/admin/product/update/photo', User.signinRequired, User.adminRequired, Product.updatephoto)
 	
+	// shopcart
+	app.get('/shopcart', Shopcart.detail)
 	
 	// news
 	// var ueditor = require('ueditor')

@@ -1,32 +1,24 @@
 extends ../layout_index
 
 block content
-	body
-		link(href="/css/product.css",rel="stylesheet")
-		.header
-			.wrap
-				h1
-					a(href="/news") ICOOMTEST
-				ul.hmenu
-					if newscategories && newscategories.length>0
-						each cat in newscategories
-							li: a(href="###") #{cat.name}
-		each cat in categories
-			if cat.products && cat.products.length > 0
-				.wrap.iproduct_list
-					h3
-						a.fr(href="store/"+cat.name)
-							| 更多
-							i.icon-double-angle-right
-						i.icon-magnet.mr10
-						| #{cat.name}
-					div.iproduct
-						each item in cat.products
-							a(href="store/"+cat.name+"/"+item.id)
-								img(src='/images_data/'+item.id+'/'+item.cover)
-								div.ip_bg
-								ul.ip_description
-									li.ip_title
+	link(href="/css/product.css",rel="stylesheet")
+	each cat in categories
+		if cat.products && cat.products.length > 0
+			.wrap.iproduct_list
+				h3
+					a.fr(href="/store/"+cat.name)
+						| 更多
+						i.icon-double-angle-right
+					i.icon-magnet.mr10
+					| #{cat.name}
+				div.iproduct_frame
+					each item in cat.products
+						.iproduct(id=item.id)
+							img(src='/images_data/'+item.id+'/'+item.cover)
+							div.ip_bg
+							ul.ip_description
+								li
+									a(href="/store/"+cat.name+"/"+item.id).ip_title
 										|#{item.title}
 										if item.material
 											|&nbsp;#{item.material}
@@ -37,17 +29,19 @@ block content
 											|&nbsp;/ #{item.colour}
 										else
 											|&nbsp;/ 未知颜色
-									li
-										if item.sale
-											span.ip_tag 特价商品
-										if (moment(item.meta.createAt).add('hour',8).fromNow()).indexOf('ago')<0
-											span.ip_tag 新品
-									li
-										if item.sale
-											small.ip_price ￥#{item.sale}.00
-											small.ip_old_price ￥#{item.price}.00
-										else
-											small.ip_price ￥#{item.price}.00
+								li
+									if item.sale
+										span.ip_tag 特价商品
+									if (moment(item.meta.createAt).add('hour',8).fromNow()).indexOf('ago')<0
+										span.ip_tag 新品
+								li
+									span.iproduct_add_cart_btn.cp
+										i.icon-shopping-cart
+									if item.sale
+										small.ip_price ￥#{item.sale}.00
+										small.ip_old_price ￥#{item.price}.00
+									else
+										small.ip_price ￥#{item.price}.00
 
-			
-		.bg_fixed
+		
+	.bg_fixed

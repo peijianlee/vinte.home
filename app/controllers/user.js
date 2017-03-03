@@ -3,7 +3,10 @@ var User = require('../models/user')
 // 登录验证码
 var svgCaptcha = require('svg-captcha')
 	svgCaptcha.options.height = '30'
-	svgCaptcha.options.fontSize = '40'
+	svgCaptcha.options.fontSize = '35'
+
+
+// req.session.destroy() 
 
 // 随机背景图
 var bgsrc = [
@@ -79,11 +82,13 @@ exports.showSignin = function(req, res){
 		password: password,
 		bgword: bgword,
 		bgsrc: bgimg,
-		captcha: req.session.captcha
+		captcha: req.session.captcha,
+		header_hide: true
 	})
 }
 // 注册界面
 exports.showSignup = function(req, res){
+	var req_path = req.path
 	var bgword = bgwords
 	var bgword = bgword[Math.floor(Math.random()*bgword.length)]
 	var bgimg = bgsrc
@@ -92,7 +97,8 @@ exports.showSignup = function(req, res){
 		title: '用户注册',
 		bgword: bgword,
 		bgsrc: bgimg,
-		captcha: req.session.captcha
+		captcha: req.session.captcha,
+		header_hide: true
 	})
 }
 // signup

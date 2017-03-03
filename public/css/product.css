@@ -15,7 +15,7 @@
 	margin-top:-1px;
 }
 .iproduct_list h3 a{font-size:12px;}
-.iproduct a{
+.iproduct{
 	display:inline-block;
 	width:25%;
 	border:1px solid #d9d9d9;
@@ -24,21 +24,21 @@
 	position:relative;
 	overflow:hidden;
 }
-.iproduct a,
-.iproduct a *{
+.iproduct,
+.iproduct *{
 	transition:all 0.5s;
 	webkit-transition:all 0.5s;
 }
-.iproduct a:first-child{
+.iproduct:first-child{
 	/*margin-left:-1px;*/
 }
-.iproduct a:hover{
+.iproduct:hover{
 	z-index:1;
 	border-color:#25a6a4;
 	box-shadow:1px 1px 5px rgba(0,0,0,0.2);
 }
-.iproduct a img{width:100%;}
-.iproduct a .ip_bg{
+.iproduct img{width:100%;}
+.iproduct .ip_bg{
 	position:absolute;
 	width:100%;height:100%;left:0;top:0;
 	background-image:linear-gradient(to bottom, rgba(0,0,0,0), #fff);
@@ -46,7 +46,7 @@
 	transform:translateY(100%);
 	-webkit-transform:translateY(100%);
 }
-.iproduct a:hover .ip_bg{
+.iproduct:hover .ip_bg{
 	transform:translateY(0);
 	-webkit-transform:translateY(0);
 }
@@ -61,6 +61,7 @@
 	-webkit-transform:translateY(100%);
 }
 .ip_title{font-size:14px;font-weight:bold;text-shadow:1px 1px 1px white;}
+.ip_title:hover{border-bottom:dashed 1px #555;}
 .iproduct .ip_tag{
 	font-size:10px;padding:2px 8px;margin-right:5px;
 	height:20px;line-height:20px;
@@ -75,9 +76,16 @@
 	font-weight:bold;font-size:1em;
 	color:#7f0019;
 }
-.iproduct a:hover .ip_description{
+.iproduct:hover .ip_description{
 	transform:translateY(0);
 	-webkit-transform:translateY(0);
+}
+.iproduct_add_cart_btn{
+	float:right;font-size:12px;
+	width:24px;height:24px;line-height:24px;
+	border-radius:3px;
+	text-align:center;
+	background-color:#a00;color:white;
 }
 /*分类页面*/
 .goodsHead{
