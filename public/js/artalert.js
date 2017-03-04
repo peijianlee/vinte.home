@@ -88,13 +88,19 @@ function arttip(txt){
 	$body.append('<div class="arttipbg"></div><div class="arttip">'+
 		txt+'</div>')
 	$('.arttipbg').fadeIn('200');
-	$('.arttip').animate({'opacity':1,'top':'3%'},200);
+	$('.arttip').animate({'opacity':1,'bottom':'40%'},500);
 }
-function arttipclose(){
-	$('.arttipbg').fadeIn('200',function(){
-		$(this).remove();
-	});
-	$('.arttip').animate({'top':'-50%'},200,function(){
-		$(this).remove();
-	});
+function arttipclose(text,closetime){
+	if(text!=='0'){
+		$('.arttip').html(text)
+	}
+	var closetime = closetime || 2000
+	var time = setTimeout(function(){
+		$('.arttipbg').fadeIn('200',function(){
+			$(this).remove();
+		});
+		$('.arttip').animate({'opacity':0,'bottom':'30%'},400,function(){
+			$(this).remove();
+		});
+	},closetime)
 }

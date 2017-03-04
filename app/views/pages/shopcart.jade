@@ -23,36 +23,25 @@ block content
 				th.tl DESCRIPTION
 				th PRICE
 				th QUANTITY
-			tr
-				td
-					img(src="http://img.sj33.cn/uploads/allimg/201609/132H5J35-19.jpg")
-				td.shopcart_goods_name
-					ul
-						li
-							h3 测试商品
-						li MATERIAL: 未知材料
-						li COLOR:（未知颜色）
-						li SIZE:  宽123×深1×高123cm适度。 
-						li
-							span.removeBtn
-								i.icon-remove
-								| REMOVE
-				td.tc
-					b.fs16 $100.00
-				td.tc 1-20
-			tr
-				td
-					img(src="http://img.sj33.cn/uploads/allimg/201609/132H5J35-19.jpg")
-				td.shopcart_goods_name
-					ul
-						li
-							h3 测试商品
-						li MATERIAL: 未知材料
-						li COLOR:（未知颜色）
-						li SIZE:  宽123×深1×高123cm适度。 
-				td.tc
-					b.fs16 $100.00
-				td.tc 1-20
+			if product && product.length>0
+				each item in product
+					tr
+						td
+							img(src="/images_data/"+item.id+"/"+item.cover)
+						td.shopcart_goods_name
+							ul
+								li
+									h3 #{item.title}
+									li MATERIAL: #{item.material}
+									li COLOR: #{item.colour}
+									li SIZE: 宽#{item.size.w}×深#{item.size.d}×高#{item.size.h}cm
+									li
+										span.removeBtn
+											i.icon-remove
+											| REMOVE
+						td.tc
+							b.fs16 $#{item.price}.00
+						td.tc null
 			tr
 				td(colspan="4")
 					a.button.button-royal.button-primary 创建询价单

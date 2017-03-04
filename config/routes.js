@@ -48,6 +48,7 @@ module.exports = function(app){
 	
 	// shopcart
 	app.get('/shopcart', Shopcart.detail)
+	app.post('/shopcart/add', Shopcart.add)
 	
 	// news
 	// var ueditor = require('ueditor')

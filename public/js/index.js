@@ -1,3 +1,4 @@
+// 首页banner滚动
 var Banner = $('.banner').children('li');
 var BW = Banner.eq(0).outerWidth();
 var bannerNum = Banner.length;
