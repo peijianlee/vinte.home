@@ -6,7 +6,10 @@ if !header_hide
 			a(href="/shopcart").head_shopcart.fr
 				i.icon-shopping-cart.mr10
 				| 询价单
-				b.head_shopcart_num 10
+				if cart_goods_num
+					b.head_shopcart_num #{cart_goods_num}
+				else
+					b.head_shopcart_num 0
 				div.head_shopcart_list
 
 			ul.hmenu
@@ -15,11 +18,15 @@ if !header_hide
 						li: a(href="###") #{cat.name}
 	script.
 		$(function(){
+			//- 添加购物车商品
 			$('.iproduct_add_cart_btn').click(function(){
-				arttip('<i class="icon-spinner icon-spin"></i>&nbsp;&nbsp;uploading...')
 				var $that = $(this)
+				var p_id = $that.find("[name='p[id]']").val()
+				var p_quantity = $that.find("[name='p[quantity]']").val()
+
+				arttip('<i class="icon-spinner icon-spin"></i>&nbsp;&nbsp;uploading...')
 				if($that.hasClass('inCart')){
-					arttipclose('已经存在购物车了',1000)
+					arttipclose('已经存在购物车了',800)
 					return false;
 				}
 
@@ -27,20 +34,41 @@ if !header_hide
 				$.ajax({
 					type:"POST",
 					url:'/shopcart/add',
-					data:{"pid":pid},
+					data:{
+						"_id":p_id,
+						"quantity":p_quantity
+					},
 					dataType:"json",
 					async:false,
 					cache:false,
 					success: function(data){
 						if(data.success===1){
 							$that.addClass('inCart')
-							arttipclose('已经存在购物车了',1000)
+							arttipclose('已经存在购物车了',800)
 						}else if(data.success===2){
-							arttipclose('成功放入购物车了')
+							arttipclose('成功放入购物车了',800)
 							$('.head_shopcart_num').html(data.cart_goods_num)
 
 						}
 					}
 				});
+			});
+			//- 删除购物车商品
+			$('.shopcart_goods_remove').click(function(){
+				arttip('<i class="icon-spinner icon-spin"></i>&nbsp;&nbsp;uploading...')
+				var id = $(this).attr('data-id');
+				$.ajax({
+					type: 'DELETE',
+					url: '/shopcart/del?id='+id
+				})
+				.done(function(results){
+					if(results.success===1){
+						arttipclose('删除成功！',800)
+						$('.head_shopcart_num').html(results.cart_goods_num)
+						$('#'+id).remove();
+					}else{
+						arttipclose('删除失败！',800)
+					}
+				})
 			});
 		})

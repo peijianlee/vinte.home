@@ -5,7 +5,7 @@ block content
 		div.progress.progress_step_1
 			div.progress_step
 				span 1
-				p SHAPPING CART
+				p SHOPPING CART
 			div.progress_step
 				span 2
 				p YOUR EMAIL
@@ -17,7 +17,7 @@ block content
 		table.shopcart_list
 			caption
 				i.icon-shopping-cart.mr10
-				| SHAPPING CART
+				| SHOPPING CART
 			tr
 				th(width="140px") ITEM
 				th.tl DESCRIPTION
@@ -25,9 +25,9 @@ block content
 				th QUANTITY
 			if product && product.length>0
 				each item in product
-					tr
+					tr(id=item._id)
 						td
-							img(src="/images_data/"+item.id+"/"+item.cover)
+							img(src="/images_data/"+item._id+"/"+item.cover)
 						td.shopcart_goods_name
 							ul
 								li
@@ -36,13 +36,20 @@ block content
 									li COLOR: #{item.colour}
 									li SIZE: 宽#{item.size.w}×深#{item.size.d}×高#{item.size.h}cm
 									li
-										span.removeBtn
+										span.removeBtn.shopcart_goods_remove(data-id="#{item._id}")
 											i.icon-remove
 											| REMOVE
 						td.tc
 							b.fs16 $#{item.price}.00
-						td.tc null
-			tr
-				td(colspan="4")
-					a.button.button-royal.button-primary 创建询价单
+						td.tc #{item.quantity}
+				tr
+					td(colspan="4")
+						a.button.button-royal.button-primary 创建询价单
+			else
+				tr
+					td.tc(colspan="4")
+						div.pb20
+							p.fb.pt20.pb10 购物车没有任何商品，请前往商品中心添加。
+							a(href="/store").button.button-royal.button-primary 商品中心
+
 	.bg_fixed

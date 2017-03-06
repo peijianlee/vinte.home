@@ -1,4 +1,5 @@
 var User = require('../models/user')
+var Shopcart = require('../models/shopcart')
 
 // 登录验证码
 var svgCaptcha = require('svg-captcha')
@@ -154,7 +155,24 @@ exports.signin = function(req, res){
 				res.json({success:0})
 			}
 		})
+
+
+		// 新增购物车
+		console.log(user._id)
+		Shopcart.findOne({'uid':user._id},function(err,shopcart){
+			if(err) console.log(err)
+			if(!shopcart){
+				var newShopcart = new Shopcart({"uid":user._id})
+				newShopcart.save(function(err,_newShopcart){
+					if(err) console.log(err)
+				})
+			}
+		})
+
+
 	})
+
+
 }
 
 // logout

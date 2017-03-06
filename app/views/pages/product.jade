@@ -37,11 +37,14 @@ block content
 								li
 									span.iproduct_add_cart_btn.cp
 										i.icon-shopping-cart
+										input(type="hidden",name="p[id]",value=item.id)
+										input(type="hidden",name="p[quantity]",value="1")
 									if item.sale
 										small.ip_price ￥#{item.sale}.00
 										small.ip_old_price ￥#{item.price}.00
 									else
 										small.ip_price ￥#{item.price}.00
+
 
 		
 	.bg_fixed

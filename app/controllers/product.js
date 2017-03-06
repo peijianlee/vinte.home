@@ -2,6 +2,7 @@
 var Product = require('../models/product')
 var Category = require('../models/category')
 var Comment = require('../models/comment')
+var Shopcart = require('../models/shopcart')
 var _ = require('underscore')
 var fs = require('fs')
 var path = require('path')
@@ -9,18 +10,31 @@ var moment = require('moment')
 
 // 前台首页
 exports.indexlist = function(req,res){
+	var user = req.session.user
 	var id=req.params.id
-
 	Category
 		.find({type:'product'})
 		.sort({_id: 1})
 		.populate('products')
 		.exec(function(err, categories){
 			if(err)console.log(err)
-			res.render('product',{
-				title:'IMOOC 产品列表',
-				categories: categories
-			})
+			if(!user){
+				if(!req.session.cart) req.session.cart = []
+				res.render('product',{
+					title:'IMOOC 产品列表',
+					categories: categories,
+					cart_goods_num: req.session.cart.length
+				})
+			}else{
+				Shopcart.findOne({'uid':user._id},function(err,shopcart){
+					if(err)console.log(err)
+					res.render('product',{
+						title:'IMOOC 产品列表',
+						categories: categories,
+						cart_goods_num: shopcart.products.length
+					})
+				})
+			}
 		})
 		
 }
