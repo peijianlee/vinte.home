@@ -47,7 +47,7 @@ module.exports = function(app){
 	app.post('/admin/product/update/photo', User.signinRequired, User.adminRequired, Product.updatephoto)
 	
 	// shopcart
-	app.get('/shopcart', Shopcart.detail)
+	app.get('/shopcart', Shopcart.matchcart, Shopcart.detail)
 	app.post('/shopcart/add', Shopcart.add)
 	app.delete('/shopcart/del', Shopcart.del)
 	
@@ -70,7 +70,7 @@ module.exports = function(app){
 	app.get('/user/:id', User.signinRequired, User.detail)
 	app.get('/captcha',User.createCaptcha)
 	app.post('/user/signup', User.signup)
-	app.post('/user/signin', User.checkedCaptcha, User.signin)
+	app.post('/user/signin', User.checkedCaptcha, User.signin, Shopcart.matchcart)
 	app.get('/signup', User.userRequired, User.createCaptcha, User.showSignup)
 	app.get('/signin', User.userRequired, User.createCaptcha, User.showSignin)
 	app.get('/logout', User.logout)

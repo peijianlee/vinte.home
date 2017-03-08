@@ -18,9 +18,6 @@ exports.save = function(req,res){
 	var id = categoryObj._id
 	var	category = new Category(categoryObj)
 
-	console.log('--------------')
-	console.log('--------------')
-
 	if(id){
 		// 更新
 		Category.findById(id, function(err, _category){

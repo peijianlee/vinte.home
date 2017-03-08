@@ -35,7 +35,7 @@ if !header_hide
 					type:"POST",
 					url:'/shopcart/add',
 					data:{
-						"_id":p_id,
+						"product":p_id,
 						"quantity":p_quantity
 					},
 					dataType:"json",
@@ -66,9 +66,20 @@ if !header_hide
 						arttipclose('删除成功！',800)
 						$('.head_shopcart_num').html(results.cart_goods_num)
 						$('#'+id).remove();
+						console.log(results.cart_goods_num===0)
+						if(results.cart_goods_num===0){
+							var emptyList = '<tr><td class="tc" colspan="4">'+
+											'<div class="pb20">'+
+											'<p class="fb pt20 pb10">购物车没有任何商品，请前往商品中心添加。</p>'+
+											'<a class="button button-royal button-primary" href="/store">商品中心</a>'+
+											'</div></td></tr>'
+							$('.shopcart_list > tbody').html(emptyList)
+						}
 					}else{
 						arttipclose('删除失败！',800)
 					}
 				})
 			});
+
+			//- 判断数量是否为空
 		})

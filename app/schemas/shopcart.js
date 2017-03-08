@@ -3,16 +3,9 @@ var Schema = mongoose.Schema
 var ObjectId = Schema.Types.ObjectId
 
 var ShopcartSchema = new Schema({
-	// products: [{
-	// 	type: ObjectId,
-	// 	ref: 'Product'
-	// }],
 	products: [{
-		_id:{
-			type: ObjectId,
-			ref: 'Product'
-		},
-		quantity:String
+		product: {type: ObjectId,ref: 'Product'},
+		quantity: String
 	}],
 	uid:{
 		type: ObjectId,

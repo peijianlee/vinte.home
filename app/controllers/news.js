@@ -13,13 +13,6 @@ var moment = require('moment')
 //ueditor
 exports.ue = function (req, res, next) {
 
-	// console.log('-----------------------')
-	// console.log(req)
-	// console.log('-----------------------')
-	console.log('-----------------------')
-	console.log(req.query.action)
-	console.log('-----------------------')
-
     // ueditor 客户发起上传图片请求
     if (req.query.action === 'uploadimage') {
         var foo = req.ueditor;
@@ -49,7 +42,6 @@ exports.news = function(req,res){
 	// 生成随机数
 	var count=3000;
 	var originalArray=new Array;
-	console.log('----原数组------')
 	for(var i=0;i<count;i++){
 		originalArray[i]=i+1
 	}
@@ -264,6 +256,8 @@ exports.list = function(req,res){
 			})
 		})
 }
+
+
 
 // 浏览量
 exports.pv = function(req,res,next){

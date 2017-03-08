@@ -128,7 +128,7 @@ exports.signup = function(req, res){
 }
 
 // signin
-exports.signin = function(req, res){
+exports.signin = function(req, res, next){
 	// var _user=req.body.user
 
 	var name=req.query.name
@@ -150,6 +150,7 @@ exports.signin = function(req, res){
 				// 删除验证码信息
 				delete req.session.captcha
 				res.json({success:1})
+				// next()
 			}else{
 				console.log('Password is not matched')
 				res.json({success:0})
@@ -157,17 +158,6 @@ exports.signin = function(req, res){
 		})
 
 
-		// 新增购物车
-		console.log(user._id)
-		Shopcart.findOne({'uid':user._id},function(err,shopcart){
-			if(err) console.log(err)
-			if(!shopcart){
-				var newShopcart = new Shopcart({"uid":user._id})
-				newShopcart.save(function(err,_newShopcart){
-					if(err) console.log(err)
-				})
-			}
-		})
 
 
 	})

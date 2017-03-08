@@ -2,15 +2,22 @@ extends ../layout_index
 
 block content
 	.wrap
+		.nav.mt10
+			a(href="/news")
+				i.fs14.icon-home
+			a(href="/store") store
+			span shopping cart
 		div.progress.progress_step_1
 			div.progress_step
-				span 1
+				span.s_step 1
+					span.s_1
+					span.s_2
 				p SHOPPING CART
 			div.progress_step
-				span 2
+				span.s_step 2
 				p YOUR EMAIL
 			div.progress_step
-				span 3
+				span.s_step 3
 				p SUCCESS
 			div.progress_line
 			div.progress_step_line
@@ -18,38 +25,42 @@ block content
 			caption
 				i.icon-shopping-cart.mr10
 				| SHOPPING CART
-			tr
-				th(width="140px") ITEM
-				th.tl DESCRIPTION
-				th PRICE
-				th QUANTITY
-			if product && product.length>0
-				each item in product
-					tr(id=item._id)
-						td
-							img(src="/images_data/"+item._id+"/"+item.cover)
-						td.shopcart_goods_name
-							ul
-								li
-									h3 #{item.title}
-									li MATERIAL: #{item.material}
-									li COLOR: #{item.colour}
-									li SIZE: 宽#{item.size.w}×深#{item.size.d}×高#{item.size.h}cm
+			thead
+				tr
+					th(width="140px") ITEM
+					th.tl DESCRIPTION
+					th PRICE
+					th QUANTITY
+			tbody
+				if product && product.length>0
+					each item in product
+						tr(id=item.product._id)
+							td
+								a(target="_bank", href="/store/"+item.product.category.name+"/"+item.product._id)
+									img(src="/images_data/"+item.product._id+"/"+item.product.cover)
+							td.shopcart_goods_name
+								ul
 									li
-										span.removeBtn.shopcart_goods_remove(data-id="#{item._id}")
-											i.icon-remove
-											| REMOVE
-						td.tc
-							b.fs16 $#{item.price}.00
-						td.tc #{item.quantity}
-				tr
-					td(colspan="4")
-						a.button.button-royal.button-primary 创建询价单
-			else
-				tr
-					td.tc(colspan="4")
-						div.pb20
-							p.fb.pt20.pb10 购物车没有任何商品，请前往商品中心添加。
-							a(href="/store").button.button-royal.button-primary 商品中心
+										h3
+											a(target="_bank", href="/store/"+item.product.category.name+"/"+item.product._id) #{item.product.title}
+										li MATERIAL: #{item.product.material}
+										li COLOR: #{item.product.colour}
+										li SIZE: 宽#{item.product.size.w}×深#{item.product.size.d}×高#{item.product.size.h}cm
+										li
+											span.removeBtn.shopcart_goods_remove(data-id="#{item.product._id}")
+												i.icon-remove
+												| REMOVE
+							td.tc
+								b.fs16 $#{item.product.price}.00
+							td.tc #{item.quantity}
+					tr
+						td(colspan="4")
+							a.button.button-royal.button-primary 创建询价单
+				else
+					tr
+						td.tc(colspan="4")
+							div.pb20
+								p.fb.pt20.pb10 购物车没有任何商品，请前往商品中心添加。
+								a(href="/store").button.button-royal.button-primary 商品中心
 
 	.bg_fixed

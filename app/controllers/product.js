@@ -67,6 +67,12 @@ exports.detail = function(req,res){
 
 			Product.findById(id,function(err,_product){
 				if(err) console.log(err)
+				if(!_product){
+					console.log('该商品不存在或者已经被删除了。')
+					return res.render('prompt',{
+						message:'该商品不存在或者已经被删除了。'
+					})
+				}
 				res.render('product_detail',{
 					title: _product.title + ' | IMOOC',
 					categories: categories,
