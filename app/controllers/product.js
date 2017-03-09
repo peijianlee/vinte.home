@@ -28,10 +28,15 @@ exports.indexlist = function(req,res){
 			}else{
 				Shopcart.findOne({'uid':user._id},function(err,shopcart){
 					if(err)console.log(err)
+					if(shopcart){
+						var cart_goods_num = shopcart.products.length
+					}else{
+						var cart_goods_num = 0
+					}
 					res.render('product',{
 						title:'IMOOC 产品列表',
 						categories: categories,
-						cart_goods_num: shopcart.products.length
+						cart_goods_num: cart_goods_num
 					})
 				})
 			}

@@ -127,7 +127,7 @@ exports.signup = function(req, res){
 	})
 }
 
-// signin
+// signin 登录
 exports.signin = function(req, res, next){
 	// var _user=req.body.user
 
@@ -150,7 +150,7 @@ exports.signin = function(req, res, next){
 				// 删除验证码信息
 				delete req.session.captcha
 				res.json({success:1})
-				// next()
+				next()
 			}else{
 				console.log('Password is not matched')
 				res.json({success:0})

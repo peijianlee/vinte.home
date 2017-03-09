@@ -31,14 +31,21 @@ exports.detail = function(req,res){
 			.exec(function(err, shopcart){
 				if(err) console.log(err)
 
-				console.log(shopcart.products)
-
-				var cart_goods_num = shopcart.products.length
-				res.render('shopcart',{
-					title: 'dfsdfsdfsdf' + ' | IMOOC',
-					product: shopcart.products,
-					cart_goods_num: shopcart.products.length
-				})
+				// console.log(shopcart.products)
+				if(shopcart){
+					var cart_goods_num = shopcart.products.length
+					res.render('shopcart',{
+						title: 'dfsdfsdfsdf' + ' | IMOOC',
+						product: shopcart.products,
+						cart_goods_num: shopcart.products.length
+					})
+				}else{
+					res.render('shopcart',{
+						title: 'dfsdfsdfsdf' + ' | IMOOC',
+						product: [],
+						cart_goods_num: 0
+					})
+				}
 			})
 
 	}
@@ -126,8 +133,15 @@ exports.del = function(req,res){
 		Shopcart.findOne({'uid':user._id},function(err,shopcart){
 			if(err) console.log(err)
 			if(shopcart){
-				var index = shopcart.products.indexOf(id)
-				shopcart.products.splice(index,1)
+
+				for(var i=0; i<shopcart.products.length; i++){
+					// 查找购物车里对应的product id,并删除
+					if(shopcart.products[i].product==id){
+						shopcart.products.splice(i,1)
+						break
+					}
+				}
+
 				shopcart.save(function(err){
 					if(err) console.log(err)
 					res.json({success:1,cart_goods_num:shopcart.products.length})
@@ -149,6 +163,7 @@ exports.matchcart = function(req,res,next){
 	var user = req.session.user
 
 	if(s_shopcart){
+	// if(user){
 		Shopcart
 			.findOne({'uid':user._id})
 			.populate({
@@ -164,8 +179,15 @@ exports.matchcart = function(req,res,next){
 				if(err) console.log(err)
 				if(!shopcart){
 					console.log('新增并合并缓存数据')
-					var newShopcart = new Shopcart({"uid":user._id})
-					newShopcart = _.extend(newShopcart, s_shopcart)
+					var newShopcart = new Shopcart({"uid":user._id,"products":[]})
+					// newShopcart = _.extend(newShopcart, s_shopcart)
+					if(s_shopcart){
+						for(var i=0; i<s_shopcart.length; i++){
+							newShopcart.products.push(s_shopcart[i])
+						}
+					}
+					// console.log()
+					// console.log(newShopcart)
 					delete req.session.cart
 					newShopcart.save(function(err){
 						if(err) console.log(err)
@@ -174,54 +196,29 @@ exports.matchcart = function(req,res,next){
 					console.log('合并缓存数据')
 
 					var products = shopcart.products
-					// // console.log(products.length<s_shopcart.length)
-					// if(products.length>0){
-					// 	// 找到session.products的所有id
-					// 	var product_obj = []
-					// 	for(var i=0; i<s_shopcart.length; i++){
-					// 		for(var j=0; j<products.length; j++){
-					// 			console.log(s_shopcart[i].product._id + '==' + products[j].product._id)
-					// 			console.log(s_shopcart[i].product._id == products[j].product._id)
-					// 			if(s_shopcart[i].product._id != products[j].product._id){
-					// 				product_obj.push(products[j].product)
-					// 				console.log('-----------')
-					// 				console.log(products[j].product)
-					// 				break
-					// 			}
-					// 		}
-					// 		product_obj.push(s_shopcart[i])
-					// 	}
-					// }else{
-					// 	products = _.extend(products, s_shopcart)
-					// }
-					// console.log('------')
-					// console.log(product_obj)
-					// console.log('------')
-					// console.log('------')
-					// console.log('------')
-					// console.log('------')
 
 					for(var i=0; i<s_shopcart.length; i++){
-						console.log('---------------')
-						console.log('---------------')
-						var newShopcart = new Shopcart({
-							"product":s_shopcart[i].product,
-							"quantity":s_shopcart[i].quantity
-						})
-						products.push(newShopcart)
+						var is_same_id = false
+						for(var j=0; j<products.length; j++){
+							if(s_shopcart[i].product._id==products[j].product._id){
+								is_same_id = true
+								break
+							}
+						}
+						if(!is_same_id){
+							products.push(s_shopcart[i])
+						}
 					}
 					console.log(products)
 
-
-					// products = _.extend(products, s_shopcart)
-					// // delete req.session.cart
-					// shopcart.save(function(err){
-					// 	if(err) console.log(err)
-					// })
+					delete req.session.cart
+					shopcart.save(function(err){
+						if(err) console.log(err)
+					})
 
 				}
 			})
 
 	}
-	next()
+	// next()
 }
