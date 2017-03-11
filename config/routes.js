@@ -27,6 +27,7 @@ module.exports = function(app){
 	// results
 	app.get('/results', Index.search)
 	// 错误页
+	
 	app.use(function (err, req, res, next) {
 	    res.status(err.status || 500);
 	    res.render('error', {

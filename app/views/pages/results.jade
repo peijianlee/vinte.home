@@ -1,30 +1,70 @@
-extends ../layout
+extends ../layout_index
 
 block content
-	.container
-		.row
-			.panel.panel-default
-				.panel-heading
-					h3 #{keyword}
-				.panel-body
-					if movies && movies.length > 0
-						each item in movies
-							.col-md-2
-								.thumbnail
-									a(href="movie/#{item._id}")
-										img(src="#{item.poster}", alt="#{item.title}")
-									.caption
-										h3 #{item.title}
-											p: a.btn.btn-primary(href="/movie/#{item._id}",role="button") 观看预告片
-					else
-						.col-md-2 没有任何电影数据！
-			ul.pagination
-				-	for(var i=0;i<totalPage; i++){
-					-	if(currentPage == (i+1)){
-							li.active
-								span #{currentPage}
+		link(href="/css/product.css",rel="stylesheet")
+		div.search_word_tip.wrap
+			i.icon-quote-left.mr10.ml10
+			| !{keyword}
+		.wrap.iproduct_list
+			div.category_list
+			div.iproduct_frame
+				if products && products.length > 0
+					each item in products
+						.iproduct(id=item.id)
+							img(src='/images_data/'+item.id+'/'+item.cover)
+							div.ip_bg
+							ul.ip_description
+								li
+									a(href="/store/"+item.category.name+"/"+item.id).ip_title
+										|#{item.title}
+										if item.material
+											|&nbsp;#{item.material}
+										else
+											|&nbsp;未知材料
+										|&nbsp;宽#{item.size.w}×深#{item.size.d}×高#{item.size.h}cm
+										if item.colour
+											|&nbsp;/ #{item.colour}
+										else
+											|&nbsp;/ 未知颜色
+								li
+									if item.sale
+										span.ip_tag 特价商品
+									if (moment(item.meta.createAt).add('hour',8).fromNow()).indexOf('ago')<0
+										span.ip_tag 新品
+								li
+									span.iproduct_add_cart_btn.cp
+										i.icon-shopping-cart
+										input(type="hidden",name="p[id]",value=item.id)
+										input(type="hidden",name="p[quantity]",value="1")
+									if item.sale
+										small.ip_price ￥#{item.sale}.00
+										small.ip_old_price ￥#{item.price}.00
+									else
+										small.ip_price ￥#{item.price}.00
+				else
+					.col-md-2 没有任何电影数据！
+			
+			.page(style="margin-top:15px;margin-bottom:30px;")
+				- if(totalPage>1){
+					- if(currentPage-1 == 0){
+							span.page_unclick: i.icon-double-angle-left
+							span.page_unclick: i.icon-angle-left
 					-	}else{
-							li
-								a(href='/results?#{query}&p=#{i}') #{i+1}
+							a(href='/results?#{query}&p=0',csstip-top='第一页'): i.icon-double-angle-left
+							a(href='/results?#{query}&p=#{currentPage-1}',csstip-top='上一页'): i.icon-angle-left
 					-	}
-				-	}
+					-	for(var i=0;i<totalPage; i++){
+						-	if(currentPage == (i+1)){
+								span.page_stand #{currentPage}
+						-	}else{
+								a(href='/results?#{query}&p=#{i}') #{i+1}
+						-	}
+					-	}
+					- if(currentPage < totalPage){
+							a(href='/results?#{query}&p=#{currentPage}',csstip-top='下一页'): i.icon-angle-right
+							a(href='/results?#{query}&p=#{totalPage-1}',csstip-top='最后一页'): i.icon-double-angle-right
+					-	}else{
+							span.page_unclick: i.icon-angle-right
+							span.page_unclick: i.icon-double-angle-right
+					-	}
+				- }

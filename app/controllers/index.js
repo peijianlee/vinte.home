@@ -2,6 +2,7 @@
 var Movie = require('../models/movie')
 var Category = require('../models/category')
 var Banner = require('../models/banner')
+var Product = require('../models/product')
 
 
 //index page
@@ -32,8 +33,10 @@ exports.search = function(req,res){
 	var catId = req.query.cat
 	var page = parseInt(req.query.p,10) || 0 
 	var q = req.query.q
-	var count = 2
+	var count = 10
 	var index = page*count
+
+	console.log(q)
 
 	if(catId){
 		// 在分类上找到路由上对应的值
@@ -52,7 +55,7 @@ exports.search = function(req,res){
 				// 截取当前电影总数
 				var results = movies.slice(index, index + count)
 
-				res.render('results',{
+				res.render('porudct_results',{
 					title:'电影分类列表页',
 					keyword: category.name,
 					currentPage: (page + 1),
@@ -62,20 +65,24 @@ exports.search = function(req,res){
 				})
 			})
 		}else{
-			Movie
+			Product
 				.find({title: new RegExp(q+'.*','i')})
-				.exec(function(err, movies){
+				.populate('category', 'name')
+				.exec(function(err, products){
 					if(err)console.log(err)
 
-					var results = movies.slice(index, index + count)
+					// console.log(products)
+
+					var results = products.slice(index, index + count)
 
 					res.render('results',{
 						title:'搜索结果页',
-						keyword: '搜索到 '+movies.length+' 条关键词为 " '+q+' " 的电影',
+						keyword: '搜索到 '+products.length+' 条关键词为 <b class=cRed>" '+q+' "</b> 的商品',
+						searchword: q,
 						currentPage: (page + 1),
 						query: 'q='+q,
-						totalPage: Math.ceil(movies.length / count),
-						movies: results
+						totalPage: Math.ceil(products.length / count),
+						products: results
 					})
 
 				})

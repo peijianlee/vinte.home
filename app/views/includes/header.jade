@@ -11,6 +11,10 @@ if !header_hide
 				else
 					b.head_shopcart_num 0
 				div.head_shopcart_list
+			form(method="GET", action="/results")
+				.head_search.fr
+					input(type="text",name="q",value=searchword)
+					button.h_search_btn.icon-search(type="submit")
 
 			ul.hmenu
 				if newscategories && newscategories.length>0
