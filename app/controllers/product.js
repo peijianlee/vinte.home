@@ -284,3 +284,38 @@ exports.updatephoto = function(req,res){
 	})
 	return false;
 }
+
+
+//product delete category
+exports.del = function(req,res){
+	var id = req.query.id
+
+	if(id){
+		Product.findById(id,function(err,product){
+			if(err) console.log(err)
+			// 查找包含这条文章的分类
+			Category.findById(product.category,function(err,category){
+				if(err) console.log(err)
+
+				if(category){
+					// 在文章分类movies数组中查找该值所在位置
+					var index = category.products.indexOf(id);
+					// 从分类中删除
+					category.products.splice(index,1);
+					category.save(function(err){
+						if(err) console.log(err);
+					})
+				}
+			})
+			// 删除
+			Product.remove({_id: id},function(err,product){
+				if(err){
+					console.log(err)
+					res.json({success:0})
+				}else{
+					res.json({success:1})
+				}
+			})
+		})
+	}
+}

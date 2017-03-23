@@ -111,6 +111,11 @@
 	text-shadow:0 0 2px white;
 }
 .goodsBg{
+	height:260px;width:100%;
+	margin-top:15px;
+	background-position:center center;
+}
+/*.goodsBg{
 	position:fixed;
 	top:0;left:0;z-index:-1;
 	height:200px;width:100%;
@@ -122,6 +127,39 @@
 	background-image:filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr='#fff',endColorStr='#000',gradientType='0');
 	background-image:linear-gradient(to bottom, rgba(0, 0, 0, 0), #fff);
 	background-image:-webkit-linear-gradient(to bottom, rgba(0, 0, 0, 0), #fff);
+}*/
+
+/*产品搜索*/
+.sarch_nav{
+	margin-top:15px;
+	border-top:3px solid #25a6a4;
+}
+.sarch_nav_type{
+	font-size:14px;line-height:28px;
+	background-color:#f3f3f3;
+	border-bottom:solid #cfcfcf 1px;
+	border-top:solid white 1px;
+}
+.sarch_nav_type dt{
+	padding:6px 0;
+	width:65px;padding-left:15px;
+	float:left;
+}
+.sarch_nav_type dd{
+	padding:6px 0;font-size:12px;
+	margin-left:80px;
+	background-color:white;
+}
+.sarch_nav_type dd span{
+	display:inline-block;
+	padding:0 6px;border-radius:3px;
+	margin:0 10px;cursor:pointer;
+}
+.sarch_nav_type dd span:hover{color:#25a6a4;}
+.sarch_nav_type dd span.On{
+	color:#25a6a4;font-weight:bold;
+	text-shadow:1px 1px white;
+	background-color:#eee;
 }
 
 /*产品详情*/

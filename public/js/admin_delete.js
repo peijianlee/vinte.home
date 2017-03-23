@@ -3,6 +3,7 @@
 
 function del(btn,url){
 	$('.'+btn).click(function(e){
+		arttip('<i class="icon-spinner icon-spin mr5"></i>loading...')
 		$tbody = $(this).parents('tbody')
 		var target = $(e.target)
 		var id = target.data('id')
@@ -23,10 +24,10 @@ function del(btn,url){
 				tr.fadeOut('fast',function(){
 					tr.remove()
 					list_is_empty()
-					artalert('删除成功！')
+					arttipclose('<i class="icon-ok-cicle mr5"></i>删除成功！','100')
 				})
 			}else{
-				artalert('删除失败！')
+				arttipclose('<i class="icon-remove-circle mr5"></i>删除失败！','100')
 			}
 		})
 	})

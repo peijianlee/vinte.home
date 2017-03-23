@@ -8,7 +8,7 @@ block content
 		.contentpanel
 			.col-md-12(style="padding-bottom:15px;")
 				a.button.button-raised.button-primary.button-small(href="/admin/product/add") 新增产品
-				a.button.button-raised.button-royal.button-small.ml10(href="/product") 前台产品列表
+				a.button.button-raised.button-royal.button-small.ml10(href="/store") 前台产品列表
 			table.table.table_hover.table_bordered.table_striped
 				thead
 					tr
@@ -32,7 +32,7 @@ block content
 									a.button.button-highlight.button-rounded.button-small.ml10(href="/admin/product/update/#{item._id}?edit=photo") 图片管理
 									a.button.button-highlight.button-rounded.button-small.ml10(href="/admin/product/update/#{item._id}?edit=content") 商品详情
 								td.tc
-									button.newsdel.button.button-caution.button-rounded.button-small(type="button", data-id="#{item._id}", data-src="#{item.imgsrc}") 删除
+									button.productdel.button.button-caution.button-rounded.button-small(type="button", data-id="#{item._id}", data-src="#{item.imgsrc}") 删除
 					else
 						tr
 							td.lead.bg-info.text-info(colspan="5")
@@ -45,26 +45,27 @@ block content
 							span.page_unclick: i.icon-double-angle-left
 							span.page_unclick: i.icon-angle-left
 					-	}else{
-							a(href='/admin/news/list?p=1',csstip-top='第一页'): i.icon-double-angle-left
-							a(href='/admin/news/list?p=#{currentPage-1}',csstip-top='上一页'): i.icon-angle-left
+							a(href='/admin/product/list?p=1',csstip-top='第一页'): i.icon-double-angle-left
+							a(href='/admin/product/list?p=#{currentPage-1}',csstip-top='上一页'): i.icon-angle-left
 					-	}
 					-	for(var i=0;i<totalPage; i++){
 						-	if(currentPage == (i+1)){
 								span.page_stand #{currentPage}
 						-	}else{
-								a(href='/admin/news/list?p=#{i+1}') #{i+1}
+								a(href='/admin/product/list?p=#{i+1}') #{i+1}
 						-	}
 					-	}
 					- if(currentPage < totalPage){
-							a(href='/admin/news/list?p=#{currentPage+1}',csstip-top='下一页'): i.icon-angle-right
-							a(href='/admin/news/list?p=#{totalPage}',csstip-top='最后一页'): i.icon-double-angle-right
+							a(href='/admin/product/list?p=#{currentPage+1}',csstip-top='下一页'): i.icon-angle-right
+							a(href='/admin/product/list?p=#{totalPage}',csstip-top='最后一页'): i.icon-double-angle-right
 					-	}else{
 							span.page_unclick: i.icon-angle-right
 							span.page_unclick: i.icon-double-angle-right
 					-	}
 				- }
 			script(src="/js/admin_delete.js")
+			script(src="/js/artalert.js")
 			//- 产品删除
 			script.
-				del('newsdel','news');
+				del('productdel','product');
 

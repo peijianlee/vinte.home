@@ -2,9 +2,14 @@ extends ../layout_index
 
 block content
 	link(href="/css/product.css",rel="stylesheet")
-	div.goodsBg(style="background-image:url(https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488452404884&di=da83eb05a7747c1e8dcad8532f48dbc1&imgtype=0&src=http%3A%2F%2Fstatic.fuwo.com%2Fupload%2F63767%2Ff91792267a4911e4a73a2798c47715e5%2F1417542807.jpg)")
+
 	each cat in categories
 		if cat.products && cat.products.length > 0
+			.wrap.nav
+				a(href="/news")
+					i.fs14.icon-home
+				span #{cat.name}
+			div.goodsBg(style="background-image:url(https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488452404884&di=da83eb05a7747c1e8dcad8532f48dbc1&imgtype=0&src=http%3A%2F%2Fstatic.fuwo.com%2Fupload%2F63767%2Ff91792267a4911e4a73a2798c47715e5%2F1417542807.jpg)")
 			.wrap.goodsHead
 				h2 
 					span #{cat.name}

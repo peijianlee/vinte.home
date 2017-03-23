@@ -6,57 +6,94 @@ block content
 			i.icon-tags
 			| #{title}
 		.contentpanel
-			table.table.table_hover.table_bordered.table_striped
-				thead
-					tr
-						th 分类名称
-						th 录入时间
-						th 查看
-						th 更新
-						th 删除
-				tbody.tc
-					if categories && categories.length > 0
-						each item in categories
-							- if(categories_type == 'product'){
-							- 	var len = item.products.length
-							- }else if(categories_type == 'news'){
-							-	var len = item.news.length
-							- }
-								
-							tr(class="item-id-#{item._id}")
-								td 
-									a(href='/results?cat=#{item._id}&p=0',target="_blank").btn.btn-info
-										span.catName #{item.name}
-										b &nbsp;( #{len} )
-								td #{moment(item.meta.updateAt).format('YYYY/MM/DD HH:mm:ss')}
-								td
-									a.button.button-primary.button-rounded.button-small(href='/results?cat=#{item._id}&p=0',target="_blank") 查看
-								td
-									span.button.button-highlight.button-rounded.button-small.catChange(data-toggle="modal", data-target="#catChangeModal", value="#{item._id}") 修改
-								td
-									if len == 0
-										button.button.button-caution.button-rounded.button-small.categorydel(type="button", data-id="#{item._id}") 删除
-									else
-										span.button.disabled.button-caution.button-rounded.button-small 删除
-					else
+			if categories_type == 'product'
+				.button-group.mb10
+					span.addType.button.button-primary.button-raised.button-rounded.button-small(data-toggle="modal", data-target="#catModal", value="#{categories_type}", data-name="scene")
+						i.icon-plus.mr5
+						| 场景分类
+					span.addType.button.button-primary.button-raised.button-rounded.button-small(data-toggle="modal", data-target="#catModal", value="#{categories_type}", data-name="material")
+						i.icon-plus.mr5
+						| 材质分类
+					span.addType.button.button-primary.button-raised.button-rounded.button-small(data-toggle="modal", data-target="#catModal", value="#{categories_type}", data-name="color")
+						i.icon-plus.mr5
+						| 颜色分类
+				each cat in categories
+					-if(cat.name==="scene"){
+					-	var catname = "场景"
+					-}else if(cat.name==="material"){
+					-	var catname = "材质"
+					-}else if(cat.name==="color"){
+					-	var catname = "颜色"
+					-}
+					.admin_sarch_nav
+						dl.admin_sarch_nav_type
+							dt #{catname}：
+							dd
+								each item in cat.attributes 
+									ul
+										li.fb.fs14 #{item.name}
+										li
+											span.button.button-highlight.button-small 修改
+											span.button.button-caution.button-small 删除
+										li.cGray
+											i.icon-time.mr5
+											| #{moment(item.date).format('YYYY / MM / DD HH:mm:ss')}
+								br.clear
+								span.addType.button.button-primary.button-small(data-toggle="modal", data-target="#catModal", data-type="#{categories_type}", data-name=cat.name) 
+									i.icon-plus &nbsp;
+									| 新增
+				script.
+					$('.addType').click(function(){
+						var dataname = $(this).attr('data-name')
+						$('.categoryname').val(dataname)
+					})
+			else
+				table.table.table_hover.table_bordered.table_striped
+					thead
 						tr
-							td.lead.bg-info.text-info(colspan="5")
-								strong 
-									i.glyphicon.glyphicon-info-sign(style="margin-left:10px;margin-right:5px")
-									| #{title}为空！
-				tfood
-					td(colspan="10")
-						//- a.button.button-raised.button-primary(href="/admin/products/category/new") 新增分类
-						span.button.button-raised.button-primary(data-toggle="modal", data-target="#catModal") 新增分类
+							th 分类名称
+							th 录入时间
+							th 查看
+							th 更新
+							th 删除
+					tbody.tc
+						if categories && categories.length > 0
+							each item in categories
+								tr(class="item-id-#{item._id}")
+									td 
+										a(href='/results?cat=#{item._id}&p=0',target="_blank").btn.btn-info
+											span.catName #{item.name}
+											b &nbsp;( #{len} )
+									td #{moment(item.meta.updateAt).format('YYYY/MM/DD HH:mm:ss')}
+									td
+										a.button.button-primary.button-rounded.button-small(href='/results?cat=#{item._id}&p=0',target="_blank") 查看
+									td
+										span.button.button-highlight.button-rounded.button-small.catChange(data-toggle="modal", data-target="#catChangeModal", value="#{item._id}") 修改
+									td
+										if len == 0
+											button.button.button-caution.button-rounded.button-small.categorydel(type="button", data-id="#{item._id}") 删除
+										else
+											span.button.disabled.button-caution.button-rounded.button-small 删除
+						else
+							tr
+								td.lead.bg-info.text-info(colspan="5")
+									strong 
+										i.glyphicon.glyphicon-info-sign(style="margin-left:10px;margin-right:5px")
+										| #{title}为空！
+					tfood
+						td(colspan="10")
+							//- a.button.button-raised.button-primary(href="/admin/products/category/new") 新增分类
+							span.button.button-raised.button-primary(data-toggle="modal", data-target="#catModal", value="#{categories_type}") 新增场景
 	#catModal.imodal
 		form(method="post", action="/admin/category/save")
 			input(type="hidden", name="category[type]", value="#{categories_type}")
+			input(type="hidden", name="category[name]", class="categoryname")
 			.imodal-header 新增分类
 			.imodal-body
 				.form_group
 					label.control_label(for="inputCategory") 分类
 					.control_div
-						input#inputCategory.form_control(type="text", name="category[name]")
+						input#inputCategory.form_control(type="text", name="category[attributes][name]")
 			.imodal-footer
 				.form_group(style="margin:0")
 					label.control_label
@@ -79,6 +116,7 @@ block content
 					button.catChangeBtn.button.button-raised.button-primary.button-small(type="sumbit") 修改
 					span.button.button-raised.button-small.modal_close(style="margin-left:15px;") 取消
 	script(src="/js/admin_delete.js")
+	script(src="/js/artalert.js")
 	script.
 		//- 分类删除
 		del('categorydel','category');
@@ -105,7 +143,9 @@ block content
 			artalert('添加成功!')
 		});
 		$('.catChangeBtn').click(function(){
-			if(catName==$('#changeCategory').val()){
+
+			if(catName==$('#changeCategory').val() || $('#changeCategory').val().replace(/\s/g, "")==""){
+				artalert('分类名称不能为空，或者同名')
 				return false;
 			}
 			artalert('分类名称修改成功!')

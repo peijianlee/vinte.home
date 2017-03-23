@@ -46,6 +46,7 @@ module.exports = function(app){
 	app.get('/admin/product/add', User.signinRequired, User.adminRequired, Product.new)
 	app.get('/admin/product/update/:id', User.signinRequired, User.adminRequired, Product.update)
 	app.post('/admin/product/update/photo', User.signinRequired, User.adminRequired, Product.updatephoto)
+	app.delete('/admin/product/list', User.signinRequired, User.adminRequired, Product.del)
 	
 	// shopcart
 	// app.get('/shopcart', Shopcart.matchcart, Shopcart.detail)

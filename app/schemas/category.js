@@ -5,18 +5,31 @@ var ObjectId = Schema.Types.ObjectId
 var CategorySchema = new Schema({
 	name: String,
 	type: String,
-	products: [{
+	attributes: [{
+		name: String,
+		pid:[{
+			type: ObjectId,
+			ref: 'Product'
+		}],
+		image: String,
+		content: String,
+		date: {
+			type: Date,
+			default: Date.now()
+		}
+	}],
+	pid: [{
 		type: ObjectId,
 		ref: 'Product'
 	}],
-	news: [{
-		type: ObjectId,
-		ref: 'News'
-	}],
-	movies: [{
-		type: ObjectId,
-		ref: 'Movie'
-	}],
+	// news: [{
+	// 	type: ObjectId,
+	// 	ref: 'News'
+	// }],
+	// movies: [{
+	// 	type: ObjectId,
+	// 	ref: 'Movie'
+	// }],
 	meta:{
 		createAt:{
 			type: Date,

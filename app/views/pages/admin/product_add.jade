@@ -56,6 +56,14 @@ block content
 							label 高
 							input(type="text", name="product[size].d")
 							label (CM)
+				
+				each cate in categories
+					- console.log(cate)
+					.form_group
+						label.control_label #{cate.name}：
+						.control_div
+							each item in cate.attributes
+								span #{item.name}
 				.form_group
 					label.control_label 使用材质：
 					.control_div

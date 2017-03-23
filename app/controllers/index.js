@@ -66,12 +66,12 @@ exports.search = function(req,res){
 			})
 		}else{
 			Product
-				.find({title: new RegExp(q+'.*','i')})
+				.find({title: new RegExp(q+'.*','i'),'category':'58afd8b9e0fbe6143423de7b'})
 				.populate('category', 'name')
 				.exec(function(err, products){
 					if(err)console.log(err)
 
-					// console.log(products)
+					console.log(products)
 
 					var results = products.slice(index, index + count)
 

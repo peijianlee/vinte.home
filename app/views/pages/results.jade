@@ -2,17 +2,66 @@ extends ../layout_index
 
 block content
 		link(href="/css/product.css",rel="stylesheet")
-		div.search_word_tip.wrap
+		.search_word_tip.wrap
 			i.icon-quote-left.mr10.ml10
 			| !{keyword}
+		
+		.wrap.sarch_nav
+			dl.sarch_nav_type
+				dt 场景：
+				dd
+					span.On 全部
+					span 客厅
+					span 卧室
+					span 厨房
+					span 洗手间
+					span 客厅
+					span 卧室
+					span 厨房
+					span 洗手间
+					span 客厅
+					span 卧室
+					span 厨房
+					span 洗手间
+					span 客厅
+					span 卧室
+					span 厨房
+					span 洗手间
+			dl.sarch_nav_type
+				dt 类型：
+				dd
+					span.On 全部
+					span 客厅
+					span 卧室
+			dl.sarch_nav_type
+				dt 颜色：
+				dd
+					span.On 全部
+					span 棕色
+					span 褐色
+					span 灰色
+			dl.sarch_nav_type
+				dt 材料：
+				dd
+					span.On 全部
+					span 棕色
+					span 褐色
+					span 灰色
+			dl.sarch_nav_type
+				dt 尺寸：
+				dd
+					span.On 全部
+					span 棕色
+					span 褐色
+					span 灰色
 		.wrap.iproduct_list
-			div.category_list
-			div.iproduct_frame
+			.category_list
+			.iproduct_frame
 				if products && products.length > 0
 					each item in products
 						.iproduct(id=item.id)
 							img(src='/images_data/'+item.id+'/'+item.cover)
-							div.ip_bg
+							.ip_bg
 							ul.ip_description
 								li
 									a(href="/store/"+item.category.name+"/"+item.id).ip_title

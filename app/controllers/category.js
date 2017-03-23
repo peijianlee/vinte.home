@@ -14,31 +14,41 @@ exports.new = function(req,res){
 //category post page
 exports.save = function(req,res){
 	var categoryObj=req.body.category
+	var attr_name = categoryObj.attributes.name
 	var type = categoryObj.type
-	var id = categoryObj._id
-	var	category = new Category(categoryObj)
+	var name = categoryObj.name
 
-	if(id){
-		// 更新
-		Category.findById(id, function(err, _category){
-			if(err)console.log(err)
+	Category.findOne({"name":name},function(err,categories){
+		if(err) console.log(err)
 
-			// 使用underscore模块的extend函数更新电影变化的属性
-			_category = _.extend(_category, categoryObj)
-			_category.save(function(err,_category){
+		if(!categories){
+			// 新增
+			var	category = new Category(categoryObj)
+			category.save(function(err,category){
 				if(err)console.log(err)
 				res.redirect('/admin/'+type+'/category/list')
 			})
-		})
-	}else{
-		// 新增
-		category.save(function(err,category){
-			if(err)console.log(err)
+		}else{
+			// 查找是否有匹配的属性名
+			Category.findOne({"name":name,"attributes.name":attr_name},function(err,catename){
+				if(err) console.log(err)
 
-			res.redirect('/admin/'+type+'/category/list')
-		})
+				if(catename){
+					res.redirect('/admin/'+type+'/category/list')
+				}else{
+					// 添加
+					var newAttributes = {name: attr_name}
+					categories.attributes.push(newAttributes)
+					categories.save(function(err){
+						if(err) console.log(err)
+						res.redirect('/admin/'+type+'/category/list')
+					})
 
-	}
+				}
+			})
+		}
+
+	})
 
 }
 
@@ -59,13 +69,14 @@ exports.update = function(req,res){
 //category list page
 exports.list = function(req,res){
 	var href=req._parsedOriginalUrl.href
-	if(href=='/admin/movie/category/list'){
+
+	if(href.indexOf('movie')>0){
 		var title = '电影分类列表页'
 		var categories_type = 'movie'
-	}else if(href=='/admin/news/category/list'){
+	}else if(href.indexOf('news')>0){
 		var title = '文章分类列表页'
 		var categories_type = 'news'
-	}else if(href=='/admin/product/category/list'){
+	}else if(href.indexOf('product')>0){
 		var title = '产品分类列表页'
 		var categories_type = 'product'
 	}
@@ -73,10 +84,10 @@ exports.list = function(req,res){
 		.find({type:categories_type})
 		.exec(function(err, categories){
 			if(err)console.log(err)
-			console.log(categories.type)
+
 			res.render('admin/category_list',{
 				title: title,
-				categories: categories,
+				categories:categories,
 				categories_type: categories_type
 			})
 		})
