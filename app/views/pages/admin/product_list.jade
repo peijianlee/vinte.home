@@ -22,7 +22,7 @@ block content
 					if products && products.length > 0
 						each item in products
 							tr(class="item-id-#{item._id}")
-								td.tc #{item.category.name}
+								td.tc #{item.sort.attributes}
 								td.tc #{moment(item.meta.updateAt).format('YYYY/MM/DD')}
 								td 
 									a(target="_blank", href="/products/#{item._id}") #{item.title}

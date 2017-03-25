@@ -7,9 +7,27 @@ var ProductSchema = new Schema({
 	content: String,
 	text: String,
 	cover: String,
+	sort: {
+		type: ObjectId,
+		ref: 'Category'
+	},
+	scene: [{
+		type: ObjectId,
+		ref: 'Category'
+	}],
+	material: [{
+		type: ObjectId,
+		ref: 'Category'
+	}],
+	color: [{
+		type: ObjectId,
+		ref: 'Category'
+	}],
+	// category: {
+	// 	type: ObjectId,
+	// 	ref: 'Category'
+	// },
 	price: Number,
-	material: String,
-	colour: String,
 	sale: {
 		type: Number,
 		default: 0
@@ -40,10 +58,6 @@ var ProductSchema = new Schema({
 		ref: 'User'
 	},
 	// uname: String,
-	category: {
-		type: ObjectId,
-		ref: 'Category'
-	},
 	// newscategoryname: String,
 	meta:{
 		createAt:{

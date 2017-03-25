@@ -13,42 +13,43 @@ exports.new = function(req,res){
 
 //category post page
 exports.save = function(req,res){
-	var categoryObj=req.body.category
-	var attr_name = categoryObj.attributes.name
-	var type = categoryObj.type
-	var name = categoryObj.name
+	var categoryObj=req.body.category,
+		attributes = categoryObj.attributes,
+		type = categoryObj.type,
+		name = categoryObj.name,
+		id = categoryObj._id
 
-	Category.findOne({"name":name},function(err,categories){
-		if(err) console.log(err)
-
-		if(!categories){
-			// 新增
-			var	category = new Category(categoryObj)
-			category.save(function(err,category){
-				if(err)console.log(err)
+	if(!id){
+		// 新增
+		Category.findOne({"name":name,"attributes":attributes},function(err,category){
+			if(err) console.log(err)
+			if(!category){
+				var newcategory = new Category(categoryObj)
+				newcategory.save(function(err){
+					if(err) console.log(err)
+					res.redirect('/admin/'+type+'/category/list')
+				})
+			}else{
+				res.redirect('/admin/'+type+'/category/list')
+			}
+		})
+	}else{
+		// 更新
+		Category.find({"name":name},function(err,categories){
+			if(err) console.log(err)
+			// 判断是否同名
+			for(var i=0; i < categories.length; i++){
+				if(categories[i].attributes == attributes){
+					console.log('同名无需修改')
+					return res.redirect('/admin/'+type+'/category/list')
+				}
+			}
+			Category.findByIdAndUpdate(id,{"attributes":attributes},function(err){
+				if(err) console.log(err)
 				res.redirect('/admin/'+type+'/category/list')
 			})
-		}else{
-			// 查找是否有匹配的属性名
-			Category.findOne({"name":name,"attributes.name":attr_name},function(err,catename){
-				if(err) console.log(err)
-
-				if(catename){
-					res.redirect('/admin/'+type+'/category/list')
-				}else{
-					// 添加
-					var newAttributes = {name: attr_name}
-					categories.attributes.push(newAttributes)
-					categories.save(function(err){
-						if(err) console.log(err)
-						res.redirect('/admin/'+type+'/category/list')
-					})
-
-				}
-			})
-		}
-
-	})
+		})
+	}
 
 }
 
@@ -85,9 +86,34 @@ exports.list = function(req,res){
 		.exec(function(err, categories){
 			if(err)console.log(err)
 
+			var categories_sort = [],
+				categories_scene = [],
+				categories_material = [],
+				categories_color = []
+
+			// 对产品类目进行分类
+			if(categories_type === "product"){
+				for(var i=0; i < categories.length; i++){
+					var that = categories[i]
+					if(that.name === "sort"){
+						categories_sort.push(that)
+					}else if(that.name === "scene"){
+						categories_scene.push(that)
+					}else if(that.name === "material"){
+						categories_material.push(that)
+					}else if(that.name === "color"){
+						categories_color.push(that)
+					}
+				}
+			}
+
 			res.render('admin/category_list',{
 				title: title,
 				categories:categories,
+				categories_sort: categories_sort,
+				categories_scene: categories_scene,
+				categories_material: categories_material,
+				categories_color: categories_color,
 				categories_type: categories_type
 			})
 		})
@@ -99,7 +125,7 @@ exports.del = function(req,res){
 	var id = req.query.id
 
 	if(id){
-		Category.remove({_id: id},function(err,categories){
+		Category.findByIdAndRemove(id, function(err){
 			if(err){
 				console.log(err)
 				res.json({success:0})

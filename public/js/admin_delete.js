@@ -7,7 +7,11 @@ function del(btn,url){
 		$tbody = $(this).parents('tbody')
 		var target = $(e.target)
 		var id = target.data('id')
-		var tr = $('.item-id-'+id)
+		var idObj = $('.item-id-'+id)
+		// 删除类型
+		if($(this).attr('data-type') === "productCategory"){
+			var id = $(this).attr('data-id')
+		}
 		
 		if(url=='banner'){
 			var src = target.data('src')
@@ -21,9 +25,11 @@ function del(btn,url){
 		})
 		.done(function(results){
 			if(results.success===1){
-				tr.fadeOut('fast',function(){
-					tr.remove()
-					list_is_empty()
+				idObj.fadeOut('fast',function(){
+					idObj.remove()
+					if(!$(this).attr('data-type') === "productCategory"){
+						list_is_empty()
+					}
 					arttipclose('<i class="icon-ok-cicle mr5"></i>删除成功！','100')
 				})
 			}else{
@@ -37,7 +43,7 @@ function del(btn,url){
 //如果列表没有数据
 var emptyTip = '<tr><td class="lead bg-info text-info" colspan="10">'
 	emptyTip += '<strong> <i class="icon-info-sign"'
-	emptyTip += ' style="margin-left:10px;margin-right:5px"></i>没有任何电影数据！</strong></td></tr>'
+	emptyTip += ' style="margin-left:10px;margin-right:5px"></i>没有任何数据！</strong></td></tr>'
 function list_is_empty(){
 	var listNum = $tbody.find('tr').length,
 		page = $('.page').length;

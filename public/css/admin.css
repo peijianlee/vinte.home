@@ -176,12 +176,12 @@ span.menuBtn.Active:before{content:"-";}
 }
 .admin_sarch_nav_type dt{
 	padding:6px 0;
-	width:65px;padding-left:15px;
+	min-width:70px;padding-left:15px;
 	float:left;
 }
 .admin_sarch_nav_type dd{
 	padding:6px 0 6px 1%;font-size:12px;
-	margin-left:80px;
+	overflow:hidden;
 	background-color:white;
 }
 /*.admin_sarch_nav_type dd span:hover{color:#25a6a4;}*/
@@ -200,3 +200,28 @@ span.menuBtn.Active:before{content:"-";}
 	line-height:24px;height:24px;padding:0 20px;
 	border-radius:3px;margin-right:8px;
 }
+
+/*新建商品 分类label*/
+.category_label label{
+	cursor:pointer;
+}
+.category_label label span{
+	/*position:absolute;top:0;left:0;*/
+	font-size:14px;
+	margin-right:10px;
+	display:inline-block;
+	box-sizing:box-sizing;
+	border:1px solid #ddd;border-radius:3px;
+	padding:0 10px;
+
+
+}
+.category_label label input,
+.category_label label span .icon-check{
+	display:none;}
+.category_label label input:checked ~ span{
+	border-color:#1caf9a;
+	background-color:#1caf9a;color:white;
+}
+.category_label label input:checked ~ span .icon-check{display:inline-block;}
+.category_label label input:checked ~ span .icon-check-empty{display:none;}

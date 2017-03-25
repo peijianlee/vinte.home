@@ -101,11 +101,13 @@ exports.list = function(req,res){
 	Product
 		.find({})
 		.sort({_id: -1})
-		.populate('category', 'name')
+		.populate('sort', 'attributes')
 		.exec(function(err, products){
 			if(err)console.log(err)
 			// 截取当前商品总数
 			// var results = products.slice(index, index + count)
+
+			console.log(products)
 
 			res.render('admin/product_list',{
 				title:'后台产品列表',
@@ -117,21 +119,134 @@ exports.list = function(req,res){
 }
 // admin new product
 exports.new = function(req,res){
+	var id = req.params.id
+	var edittype = req.query.edit
 
 	Category.find({type:'product'}, function(err, categories){
 		if(err)console.log(err)
-		res.render('admin/product_add',{
-			title:'新建商品编辑页',
-			categories: categories,
-			product: {}
-		})
+
+		var categories_sort = [],
+			categories_scene = [],
+			categories_material = [],
+			categories_color = []
+
+		// 对产品类目进行分类
+		for(var i=0; i < categories.length; i++){
+			var that = categories[i]
+			if(that.name === "sort"){
+				categories_sort.push(that)
+			}else if(that.name === "scene"){
+				categories_scene.push(that)
+			}else if(that.name === "material"){
+				categories_material.push(that)
+			}else if(that.name === "color"){
+				categories_color.push(that)
+			}
+		}
+		if(!id){
+			// 新建页面
+			res.render('admin/product_add',{
+				title:'新建商品编辑页',
+				categories_sort: categories_sort,
+				categories_scene: categories_scene,
+				categories_material: categories_material,
+				categories_color: categories_color,
+				product: {}
+			})
+		}else{
+			// 更新页面
+			if(edittype=='photo'){
+				Product.findById(id,function(err,product){
+					if(err)console.log(err)
+					return res.render('admin/product_add_photo',{
+						title: '商品<'+product.title+'> - 图片管理',
+						product: product
+					})
+				})
+			}else if(edittype=='content'){
+				Product.findById(id,function(err,product){
+					if(err)console.log(err)
+					return res.render('admin/product_add_content',{
+						title: '商品<'+product.title+'> - 商品详情',
+						product: product
+					})
+				})
+			}
+
+
+			
+			Product.findById(id,function(err,product){
+				if(err)console.log(err)
+
+				console.log(product)
+
+				res.render('admin/product_add',{
+					title: '商品<'+product.title+'> - 基本信息',
+					categories_sort: categories_sort,
+					categories_scene: categories_scene,
+					categories_material: categories_material,
+					categories_color: categories_color,
+					product: product
+				})
+			})
+
+		}
 	})
 }
+
+
 // admin new product save
 exports.save = function(req,res){
 	var productObj = req.body.product
 	var id = productObj._id
-	var categoryId = productObj.category
+	var scene = productObj.scene || []
+	var material = productObj.material || []
+	var color = productObj.color || []
+
+	if(!id){
+		// 新增
+		var	product = new Product(productObj)
+		product.save(function(err,_product){
+			if(err) console.log(err)
+
+			// 查找到所以分类的id
+			var category_id = []
+			category_id.push(_product.sort)
+
+			for_cat_id(_product.scene)
+			for_cat_id(_product.material)
+			for_cat_id(_product.color)
+			function for_cat_id(obj){
+				for(var i=0; i<obj.length; i++){
+					category_id.push(obj[i])
+				}
+			}
+
+			for(var i=0; i<category_id.length; i++){
+				Category.update({ _id : category_id[i] },{ $push: { 'pid':_product._id } },function(err,cate){
+					if(err) console.log(err)
+				})
+			}
+
+			res.redirect('/admin/product/list')
+		})
+	}else{
+		// 更新
+		Product.findById(id, function(err, _product){
+			// 判断商品类型是否修改
+			if(_product.sort.toString() !== productObj.sort.toString()){
+				console.log('需修改')
+				Category.find({'_id': { $in:[_product.sort, productObj.sort] } },function(err,categories){
+					console.log(categories)
+					console.log(categories.length)
+				})
+			}else{
+				console.log('无需修改')
+			}
+		})
+
+	}
+	return false;
 
 	if(id){
 		// 更新
@@ -206,50 +321,6 @@ exports.save = function(req,res){
 }
 
 
-// admin new product update
-exports.update = function(req,res){
-	var id = req.params.id
-	var edittype = req.query.edit
-	
-	console.log(edittype)
-
-
-
-	if(edittype=='photo'){
-		Product.findById(id,function(err,product){
-			if(err)console.log(err)
-			res.render('admin/product_add_photo',{
-				title: '商品<'+product.title+'> - 图片管理',
-				product: product
-			})
-		})
-		return false
-	}else if(edittype=='content'){
-		Product.findById(id,function(err,product){
-			if(err)console.log(err)
-			res.render('admin/product_add_content',{
-				title: '商品<'+product.title+'> - 商品详情',
-				product: product
-			})
-		})
-		return false
-	}
-
-
-	if(id){
-		Category.find({type:'product'}, function(err, categories){
-			Product.findById(id,function(err,product){
-				if(err)console.log(err)
-				res.render('admin/product_add',{
-					title: '商品<'+product.title+'> - 基本信息',
-					categories: categories,
-					product: product
-				})
-			})
-		})
-	}
-}
-
 
 
 exports.updatephoto = function(req,res){
@@ -293,20 +364,32 @@ exports.del = function(req,res){
 	if(id){
 		Product.findById(id,function(err,product){
 			if(err) console.log(err)
-			// 查找包含这条文章的分类
-			Category.findById(product.category,function(err,category){
-				if(err) console.log(err)
 
-				if(category){
-					// 在文章分类movies数组中查找该值所在位置
-					var index = category.products.indexOf(id);
-					// 从分类中删除
-					category.products.splice(index,1);
-					category.save(function(err){
-						if(err) console.log(err);
-					})
+			// 查找到所以分类的id
+			var product_id = []
+			product_id.push(product.sort)
+
+			for_cat_id(product.scene)
+			for_cat_id(product.material)
+			for_cat_id(product.color)
+			function for_cat_id(obj){
+				for(var i=0; i<obj.length; i++){
+					product_id.push(obj[i])
 				}
-			})
+			}
+			console.log(product_id)
+
+			for(var i=0; i<product_id.length; i++){
+				Category.findById(product_id[i],function(err,category){
+					// 在分类pid数组中查找该值所在位置并删除 保存
+					var index = category.pid.indexOf(id)
+					category.pid.splice(index,1)
+					category.save(function(err){
+						if(err) console.log(err)
+					})
+
+				})
+			}
 			// 删除
 			Product.remove({_id: id},function(err,product){
 				if(err){

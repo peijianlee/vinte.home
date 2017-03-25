@@ -3,21 +3,24 @@ var Schema = mongoose.Schema
 var ObjectId = Schema.Types.ObjectId
 
 var CategorySchema = new Schema({
+	//name为分类名称
 	name: String,
+	//type仅识别查找类型
 	type: String,
-	attributes: [{
-		name: String,
-		pid:[{
-			type: ObjectId,
-			ref: 'Product'
-		}],
-		image: String,
-		content: String,
-		date: {
-			type: Date,
-			default: Date.now()
-		}
-	}],
+	attributes: String,
+	// attributes: [{
+	// 	name: String,
+	// 	pid:[{
+	// 		type: ObjectId,
+	// 		ref: 'Product'
+	// 	}],
+	// 	image: String,
+	// 	content: String,
+	// 	date: {
+	// 		type: Date, 
+	// 		default: Date.now()
+	// 	}
+	// }],
 	pid: [{
 		type: ObjectId,
 		ref: 'Product'
