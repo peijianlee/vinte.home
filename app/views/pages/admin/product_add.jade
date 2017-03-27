@@ -82,14 +82,24 @@ block content
 							.control_div.category_label
 								each item in category
 									label.textUnSelect
-										if catname === 'sort'
-											input(type="radio", name="product["+item.name+"]", value=item._id, checked=item._id.toString()===product.sort.toString())
+										if product._id
+											if catname === 'sort'
+												input(type="radio", name="product["+item.name+"]", value=item._id, checked=item._id.toString()===product.sort.toString())
+											else
+												- var checked = false
+												- for(var i=0; i < pro_attr_len.length; i++){
+												-	if(item._id.toString()===pro_attr_len[i].toString()){
+												-		checked = true
+												-		break
+												-	}
+												- }
+												input(type="checkbox", name="product["+item.name+"]", value=item._id, checked=checked)
 										else
-											if pro_attr_len.length > 0
-												each attr in pro_attr_len
-													input(type="checkbox", name="product["+item.name+"]", value=item._id, checked=item._id.toString()===attr.toString())
+											if catname === 'sort'
+												input(type="radio", name="product["+item.name+"]", value=item._id )
 											else
 												input(type="checkbox", name="product["+item.name+"]", value=item._id )
+
 										span
 											i.icon-check-empty.mr5
 											i.icon-check.mr5

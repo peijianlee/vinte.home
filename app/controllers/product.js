@@ -199,50 +199,83 @@ exports.new = function(req,res){
 exports.save = function(req,res){
 	var productObj = req.body.product
 	var id = productObj._id
-	var scene = productObj.scene || []
-	var material = productObj.material || []
-	var color = productObj.color || []
+	// var scene = productObj.scene || undefined
+	// var material = productObj.material || undefined
+	// var color = productObj.color || undefined
 
 	if(!id){
 		// 新增
 		var	product = new Product(productObj)
+
 		product.save(function(err,_product){
 			if(err) console.log(err)
 
-			// 查找到所以分类的id
-			var category_id = []
-			category_id.push(_product.sort)
+			var sort = _product.sort,
+				scene = _product.scene,
+				material = _product.material,
+				color = _product.color
 
-			for_cat_id(_product.scene)
-			for_cat_id(_product.material)
-			for_cat_id(_product.color)
-			function for_cat_id(obj){
-				for(var i=0; i<obj.length; i++){
-					category_id.push(obj[i])
+			function cat_add_pid(obj){
+				if(obj.length > 0){
+					for(var i = 0; i < obj.length; i++){
+						console.log(obj[i])
+						Category.update({'_id': obj[i]},{$push: {'pid': _product._id}}, function(err){
+							if(err) console.log(err)
+						})
+					}
+				}else{
+					Category.update({'_id': obj},{$push: {'pid': _product._id}}, function(err){
+						if(err) console.log(err)
+					})
 				}
 			}
-
-			for(var i=0; i<category_id.length; i++){
-				Category.update({ _id : category_id[i] },{ $push: { 'pid':_product._id } },function(err,cate){
-					if(err) console.log(err)
-				})
-			}
+			cat_add_pid(sort)
+			cat_add_pid(scene)
+			cat_add_pid(material)
+			cat_add_pid(color)
 
 			res.redirect('/admin/product/list')
 		})
 	}else{
 		// 更新
 		Product.findById(id, function(err, _product){
-			// 判断商品类型是否修改
-			if(_product.sort.toString() !== productObj.sort.toString()){
-				console.log('需修改')
-				Category.find({'_id': { $in:[_product.sort, productObj.sort] } },function(err,categories){
-					console.log(categories)
-					console.log(categories.length)
-				})
-			}else{
-				console.log('无需修改')
+
+			function cat_edit_pid(new_obj, old_obj){
+				if(new_obj == old_obj) return false 
+				// add pid
+				if(new_obj){
+					for(var i=0; i < new_obj.length; i++){
+						Category.update({'_id': new_obj[i]}, {$push: {'pid': _product._id}}, function(err){
+							if(err) console.log(err)
+						})
+					}
+				}
+				// remove pid
+				if(old_obj){
+					for(var i=0; i < old_obj.length; i++){
+						Category.findById(old_obj[i], function(err, category){
+							if(err) console.log(err)
+							var index = category.pid.indexOf(id)
+							category.pid.splice(index, 1)
+							category.save(function(err){
+								if(err) console.log(err)
+							})
+						})
+
+					}
+				}
 			}
+			cat_edit_pid([productObj.sort], [_product.sort])
+			cat_edit_pid(productObj.scene, _product.scene)
+			cat_edit_pid(productObj.material, _product.material)
+			cat_edit_pid(productObj.color, _product.color)
+
+			// 使用underscore模块的extend函数更新变化的属性
+			_product = _.extend(_product, productObj)
+			_product.save(function(err){
+				if(err)console.log(err)
+				res.redirect('/admin/product/list')
+			})
 		})
 
 	}
