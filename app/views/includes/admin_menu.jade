@@ -56,30 +56,6 @@
 				span 用户列表
 
 script.
-	function GetQueryString(name)
-	{
-		var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-		var r = window.location.search.substr(1).match(reg);
-		if(r!=null)return  unescape(r[2]); return null;
-	}
-	$('.menu dl').find('a').each(function(){
-		var $t = $(this);
-		var url = window.location.pathname;
-		var href = $t.attr('href');
-
-		var s = url.indexOf(href);
-		if(s == 0){
-			$t.addClass('Stand');
-			var $par = $t.parents('ul');
-
-			if($par.hasClass('sMenu')){
-				$par.show().prev('span').addClass('Stand Active')
-			}
-			return false;
-		}
-	});
-
-
 	(function(){
 	    var system_timestamp=parseInt('{{$system_timestamp}}');
 	    if(!isNaN(system_timestamp) && 0<system_timestamp){
@@ -115,6 +91,41 @@ script.
 	                +':'+('0'+now.getSeconds()).slice(-2);
 	    return timestr;
 	}
+
+
+	//- 菜单设置
+	var url = window.location.pathname;
+	$('.menu dl').find('a').each(function(){
+		var $t = $(this);
+		var href = $t.attr('href');
+
+		var ahref = url.indexOf(href);
+		if(ahref == 0){
+			$t.addClass('Stand');
+			return false;
+		}
+	});
+	var menuname = [
+		{url:'product', cname:'产品管理'},
+		{url:'news', cname:'文章设置'},
+		{url:'movie', cname:'电影设置'},
+		{url:'banner', cname:'海报设置'},
+		{url:'user', cname:'用户列表'}
+	]
+	for(var i=0; i < menuname.length; i++){
+		if(url.indexOf(menuname[i].url) > 0 ){
+			var m_name = menuname[i].cname
+			break
+		}
+	}
+	$('.menuBtn').each(function(){
+		if($(this).text().indexOf(m_name) > -1){
+			$(this).addClass('Stand Active').next('ul').show()
+		}
+	})
+
+
+
 
 	$(function(){
 		// 缩小菜单
