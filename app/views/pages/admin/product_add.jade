@@ -79,12 +79,12 @@ block content
 					if category && category.length > 0
 						.form_group
 							label.control_label #{catname_cn} ：
-							.control_div.category_label
+							.control_div.category_label(data-category=catname)
 								each item in category
 									label.textUnSelect
-										if product._id
+										if product._id && pro_attr_len
 											if catname === 'sort'
-												input(type="radio", name="product["+item.name+"]", value=item._id, checked=item._id.toString()===product.sort.toString())
+												input(type="radio", class="changeCategory", value=item._id, checked=item._id.toString()===product.sort.toString())
 											else
 												- var checked = false
 												- for(var i=0; i < pro_attr_len.length; i++){
@@ -93,12 +93,12 @@ block content
 												-		break
 												-	}
 												- }
-												input(type="checkbox", name="product["+item.name+"]", value=item._id, checked=checked)
+												input(type="checkbox", class="changeCategory", value=item._id, checked=checked)
 										else
 											if catname === 'sort'
-												input(type="radio", name="product["+item.name+"]", value=item._id )
+												input(type="radio", class="changeCategory", value=item._id )
 											else
-												input(type="checkbox", name="product["+item.name+"]", value=item._id )
+												input(type="checkbox", class="changeCategory", value=item._id )
 
 										span
 											i.icon-check-empty.mr5
@@ -132,5 +132,9 @@ block content
 								b.icon-hdd
 								| &nbsp;&nbsp;录 入
 				input(type="hidden", name="product[uid]", value="#{user._id}")
+
+	if product._id
+		script(src="/js/changecategory.js")
+		script(src="/js/artalert.js")
 
 

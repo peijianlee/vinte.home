@@ -109,6 +109,7 @@ exports.list = function(req,res){
 
 			console.log(products)
 
+
 			res.render('admin/product_list',{
 				title:'后台产品列表',
 				currentPage: (page + 1),
@@ -178,8 +179,6 @@ exports.new = function(req,res){
 			Product.findById(id,function(err,product){
 				if(err)console.log(err)
 
-				console.log(product)
-
 				res.render('admin/product_add',{
 					title: '商品<'+product.title+'> - 基本信息',
 					categories_sort: categories_sort,
@@ -199,9 +198,6 @@ exports.new = function(req,res){
 exports.save = function(req,res){
 	var productObj = req.body.product
 	var id = productObj._id
-	// var scene = productObj.scene || undefined
-	// var material = productObj.material || undefined
-	// var color = productObj.color || undefined
 
 	if(!id){
 		// 新增
@@ -216,6 +212,7 @@ exports.save = function(req,res){
 				color = _product.color
 
 			function cat_add_pid(obj){
+				if(obj === undefined) return false
 				if(obj.length > 0){
 					for(var i = 0; i < obj.length; i++){
 						console.log(obj[i])
@@ -233,126 +230,107 @@ exports.save = function(req,res){
 			cat_add_pid(scene)
 			cat_add_pid(material)
 			cat_add_pid(color)
+			// 创建一个以当前ID为名的文件夹
+			var filename = _product._id
+			fs.mkdir(__dirname + '/../../public/images_data/'+filename,function(err){
+				if(err) console.log(err)
+				console.log('创建目录成功')
+			})
 
 			res.redirect('/admin/product/list')
 		})
 	}else{
 		// 更新
 		Product.findById(id, function(err, _product){
-
-			function cat_edit_pid(new_obj, old_obj){
-				if(new_obj == old_obj) return false 
-				// add pid
-				if(new_obj){
-					for(var i=0; i < new_obj.length; i++){
-						Category.update({'_id': new_obj[i]}, {$push: {'pid': _product._id}}, function(err){
-							if(err) console.log(err)
-						})
-					}
-				}
-				// remove pid
-				if(old_obj){
-					for(var i=0; i < old_obj.length; i++){
-						Category.findById(old_obj[i], function(err, category){
-							if(err) console.log(err)
-							var index = category.pid.indexOf(id)
-							category.pid.splice(index, 1)
-							category.save(function(err){
-								if(err) console.log(err)
-							})
-						})
-
-					}
-				}
-			}
-			cat_edit_pid([productObj.sort], [_product.sort])
-			cat_edit_pid(productObj.scene, _product.scene)
-			cat_edit_pid(productObj.material, _product.material)
-			cat_edit_pid(productObj.color, _product.color)
-
-			// 使用underscore模块的extend函数更新变化的属性
+			if(err) console.log(err)
 			_product = _.extend(_product, productObj)
 			_product.save(function(err){
-				if(err)console.log(err)
-				res.redirect('/admin/product/list')
-			})
-		})
-
-	}
-	return false;
-
-	if(id){
-		// 更新
-		Product.findById(id, function(err, _product){
-			if(err)console.log(err)
-
-			// 如果修改商品分类
-			if(productObj.category.toString() !== _product.category.toString()){
-				// 找到商品对应的原商品分类
-				Category.findById(_product.category,function(err,_oldCat){
-					if(err) console.log(err)
-
-					// 在原商品分类的products属性中找到该商品的id值并将其删除
-					var index = _oldCat.products.indexOf(id)
-					_oldCat.products.splice(index,1)
-					_oldCat.save(function(err){
-						if(err) console.log(err)
-					})
-				})
-
-			 	// 找到商品对应的新商品分类
-			 	Category.findById(productObj.category,function(err,_newCat){
-			 		if(err) console.log(err)
-
-					// 添加类别名称
-			 		// 将其id值添加到商品分类的products属性中并保存
-			 		_newCat.products.push(id)
-			 		_newCat.save(function(err){
-			 			if(err) console.log(err)
-			 		})
-			 	})
-			}
-
-
-			// 使用underscore模块的extend函数更新变化的属性
-			_product = _.extend(_product, productObj)
-
-			_product.save(function(err,_product){
-				if(err)console.log(err)
-				res.redirect('/admin/product/list')
-			})
-		})
-	}else{
-		// 创建新商品
-		var	product = new Product(productObj)
-
-
-		// 找到对应分类插入ID
-		Category.findById(categoryId,function(err,_category){
-			if(err) console.log(err)
-			// 保存商品数据
-			product.save(function(err,_newcategory){
 				if(err) console.log(err)
-				// 创建一个以当前ID为名的文件夹
-				var filename = product._id
-				fs.mkdir(__dirname + '/../../public/images_data/'+filename,function(err){
-					if(err) console.log(err)
-					console.log('创建目录成功')
-				})
-
-				// 在商品分类添加选中的类别
-				_category.products.push(_newcategory._id)
-				_category.save(function(err){
-					if(err) console.log(err)
-					res.redirect('/admin/product/list')
-				})
+				res.redirect('/admin/product/list')
 			})
 		})
+
 	}
-	
 
 }
 
+// 更改商品属性
+exports.changecategory = function(req, res){
+	var pid = req.body.pid,
+		cid = req.body.cid,
+		check = req.body.check,
+		type = req.body.type,
+		e_sort_id = req.body.e_sort_id
+
+	Product.findById(pid, function(err, product){
+		if(err) console.log(err)
+
+		if(type==='sort'){
+			var p_type = product.sort
+		}else if(type==='scene'){
+			var p_type = product.scene
+		}else if(type==='material'){
+			var p_type = product.material
+		}else if(type==='color'){
+			var p_type = product.color
+		}else{
+			return res.json({success:0})
+		}
+
+		if(e_sort_id){
+			// 单选框
+			if(p_type && e_sort_id.toString() === p_type.toString()){
+				return res.json({success:2})
+			}else{
+				Category.findByIdAndUpdate(e_sort_id, {$push: {'pid': pid}}, function(err){
+					if(err) console.log(err)
+				})
+				Category.findById(p_type, function(err, category){
+					if(err) console(err)
+					if(category){
+						var c_index = category.pid.indexOf(pid)
+						category.pid.splice(c_index, 1)
+						category.save(function(err){
+							if(err) console.log(err)
+						})
+					}
+				})
+				product.sort = e_sort_id
+				product.save(function(err,p){
+					if(err) console.log(err)
+					return res.json({success:1})
+				})
+			}
+		}else{
+			// 复选框
+			if(check.toString() === 'true'){
+				p_type.push(cid)
+				product.save(function(err){
+					if(err) console.log(err)
+					Category.findByIdAndUpdate(cid, {$push: {'pid': pid}}, function(err){
+						if(err) console.log(err)
+					})
+				})
+				return res.json({success:1})
+			}else{
+				var index = p_type.indexOf(cid)
+				p_type.splice(index,1)
+				product.save(function(err){
+					if(err) console(err)
+					Category.findById(cid, function(err, category){
+						if(err) console(err)
+						var c_index = category.pid.indexOf(pid)
+						category.pid.splice(c_index, 1)
+						category.save(function(err){
+							if(err) console.log(err)
+						})
+					})
+				})
+				return res.json({success:1})
+			}
+		}
+	})
+}
 
 
 
