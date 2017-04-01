@@ -84,7 +84,7 @@ block content
 									label.textUnSelect
 										if product._id && pro_attr_len
 											if catname === 'sort'
-												input(type="radio", class="changeCategory", value=item._id, checked=item._id.toString()===product.sort.toString())
+												input(type="radio", class="changeCategory" name="product["+item.name+"]", value=item._id, checked=item._id.toString()===product.sort.toString())
 											else
 												- var checked = false
 												- for(var i=0; i < pro_attr_len.length; i++){
@@ -93,12 +93,12 @@ block content
 												-		break
 												-	}
 												- }
-												input(type="checkbox", class="changeCategory", value=item._id, checked=checked)
+												input(type="checkbox", class="changeCategory" name="product["+item.name+"]", value=item._id, checked=checked)
 										else
 											if catname === 'sort'
-												input(type="radio", class="changeCategory", value=item._id )
+												input(type="radio", class="changeCategory" name="product["+item.name+"]", value=item._id )
 											else
-												input(type="checkbox", class="changeCategory", value=item._id )
+												input(type="checkbox", class="changeCategory" name="product["+item.name+"]", value=item._id )
 
 										span
 											i.icon-check-empty.mr5

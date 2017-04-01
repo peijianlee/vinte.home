@@ -4,7 +4,7 @@ var ObjectId = Schema.Types.ObjectId
 
 var ShopcartSchema = new Schema({
 	products: [{
-		product: {type: ObjectId,ref: 'Product'},
+		pid: {type: ObjectId,ref: 'Product'},
 		quantity: String
 	}],
 	uid:{

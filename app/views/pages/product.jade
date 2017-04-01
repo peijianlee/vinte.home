@@ -3,16 +3,59 @@ extends ../layout_index
 block content
 	link(href="/css/product.css",rel="stylesheet")
 	each cat in categories
-		if cat.products && cat.products.length > 0
+		.wrap.iproduct_list
+			h3
+				a.fr(href="/store/"+cat.name)
+					| 更多
+					i.icon-double-angle-right
+				i.icon-magnet.mr10
+				| #{cat.attributes}
+			div.iproduct_frame
+				each item in products
+					if item.sort.toString() == cat._id.toString()
+						.iproduct(id=item.id)
+							img(src='/images_data/'+item.id+'/'+item.cover)
+							div.ip_bg
+							ul.ip_description
+								li
+									a(href="/store/"+cat.name+"/"+item.id).ip_title
+										|#{item.title}
+										if item.material && item.material.length > 0
+											|&nbsp;#{item.material[0].attributes}
+										else
+											|&nbsp;未知材料
+										|&nbsp;宽#{item.size.w}×深#{item.size.d}×高#{item.size.h}cm
+										if item.color && item.color.length > 0
+											|&nbsp;/ #{item.color[0].attributes}
+										else
+											|&nbsp;/ 未知颜色
+								li
+									if item.sale
+										span.ip_tag 特价商品
+									if (moment(item.meta.createAt).add('hour',8).fromNow()).indexOf('ago')<0
+										span.ip_tag 新品
+								li
+									span.iproduct_add_cart_btn.cp
+										i.icon-shopping-cart
+										input(type="hidden",name="p[id]",value=item.id)
+										input(type="hidden",name="p[quantity]",value="1")
+									if item.sale
+										small.ip_price ￥#{item.sale}.00
+										small.ip_old_price ￥#{item.price}.00
+									else
+										small.ip_price ￥#{item.price}.00
+
+	//- each cat in categories
+		if cat.pid && cat.pid.length > 0
 			.wrap.iproduct_list
 				h3
 					a.fr(href="/store/"+cat.name)
 						| 更多
 						i.icon-double-angle-right
 					i.icon-magnet.mr10
-					| #{cat.name}
+					| #{cat.attributes}
 				div.iproduct_frame
-					each item in cat.products
+					each item in cat.pid
 						.iproduct(id=item.id)
 							img(src='/images_data/'+item.id+'/'+item.cover)
 							div.ip_bg
@@ -25,8 +68,8 @@ block content
 										else
 											|&nbsp;未知材料
 										|&nbsp;宽#{item.size.w}×深#{item.size.d}×高#{item.size.h}cm
-										if item.colour
-											|&nbsp;/ #{item.colour}
+										if item.color
+											|&nbsp;/ #{item.color}
 										else
 											|&nbsp;/ 未知颜色
 								li

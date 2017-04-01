@@ -12,36 +12,64 @@ var moment = require('moment')
 exports.indexlist = function(req,res){
 	var user = req.session.user
 	var id=req.params.id
+	
+	//populate多层查找仅针对一个对应id？
+
+	// Category
+	// 	.find({type:'product', name:'sort'})
+	// 	.sort({_id: 1})
+	// 	.populate({
+	// 		path: 'pid',
+	// 		model: 'Product',
+	// 		populate: {
+	// 			path: 'scene',
+	// 			select: 'attributes',
+	// 			model: 'Category'
+	// 		}
+	// 	})
+	// 	.exec(function(err, categories){
+	// 		if(err)console.log(err)
+	// 		console.log(categories[0].pid[0])
+	// 		res.render('product',{
+	// 			title:'IMOOC 产品列表',
+	// 			categories: categories,
+	// 			cart_goods_num: 0
+	// 		})
+	// 	})
 	Category
-		.find({type:'product'})
+		.find({type:'product', name:'sort'})
 		.sort({_id: 1})
-		.populate('products')
+		.populate('pid','id')
 		.exec(function(err, categories){
 			if(err)console.log(err)
-			if(!user){
-				if(!req.session.cart) req.session.cart = []
-				res.render('product',{
-					title:'IMOOC 产品列表',
-					categories: categories,
-					cart_goods_num: req.session.cart.length
-				})
+			// console.log(categories)
+
+			var allproduct = []
+			for(var i=0; i < categories.length; i++){
+				for(var j=0; j < categories[i].pid.length; j++){
+					allproduct.push(categories[i].pid[j].id)
+				}
+			}
+
+			if(!req.session.cart){
+				var cart_goods_num = 0
 			}else{
-				Shopcart.findOne({'uid':user._id},function(err,shopcart){
-					if(err)console.log(err)
-					if(shopcart){
-						var cart_goods_num = shopcart.products.length
-					}else{
-						var cart_goods_num = 0
-					}
+				var cart_goods_num = req.session.cart.length
+			}
+
+			Product
+				.find({_id: {$in: allproduct}})
+				.populate('color material scene','attributes')
+				.exec(function(err, products){
+
 					res.render('product',{
 						title:'IMOOC 产品列表',
 						categories: categories,
+						products: products,
 						cart_goods_num: cart_goods_num
 					})
 				})
-			}
-		})
-		
+		})	
 }
 
 exports.search = function(req,res){
@@ -105,7 +133,7 @@ exports.list = function(req,res){
 		.exec(function(err, products){
 			if(err)console.log(err)
 			// 截取当前商品总数
-			// var results = products.slice(index, index + count)
+			var results = products.slice(index, index + count)
 
 			console.log(products)
 
@@ -114,7 +142,7 @@ exports.list = function(req,res){
 				title:'后台产品列表',
 				currentPage: (page + 1),
 				totalPage: Math.ceil(products.length / count),
-				products: products
+				products: results
 			})
 		})
 }
@@ -243,7 +271,17 @@ exports.save = function(req,res){
 		// 更新
 		Product.findById(id, function(err, _product){
 			if(err) console.log(err)
-			_product = _.extend(_product, productObj)
+			var updateProduct = {
+				_id: productObj._id,
+				size: {
+					h: productObj.size.h,
+					w: productObj.size.w,
+					d: productObj.size.d,
+				},
+				price: productObj.price,
+				sale: productObj.sale
+			}
+			_product = _.extend(_product, updateProduct)
 			_product.save(function(err){
 				if(err) console.log(err)
 				res.redirect('/admin/product/list')

@@ -17,12 +17,13 @@
 .iproduct_list h3 a{font-size:12px;}
 .iproduct{
 	display:inline-block;
-	width:25%;
+	width:245px;height:245px;
 	border:1px solid #d9d9d9;
 	margin-left:-2px;
 	margin-top:-1px;
 	position:relative;
 	overflow:hidden;
+	box-sizing:box-sizing;
 }
 .iproduct,
 .iproduct *{
@@ -150,13 +151,13 @@
 	margin-left:80px;
 	background-color:white;
 }
-.sarch_nav_type dd span{
+.sarch_nav_type dd a{
 	display:inline-block;
 	padding:0 6px;border-radius:3px;
 	margin:0 10px;cursor:pointer;
 }
-.sarch_nav_type dd span:hover{color:#25a6a4;}
-.sarch_nav_type dd span.On{
+.sarch_nav_type dd a:hover{color:#25a6a4;}
+.sarch_nav_type dd a.On{
 	color:#25a6a4;font-weight:bold;
 	text-shadow:1px 1px white;
 	background-color:#eee;

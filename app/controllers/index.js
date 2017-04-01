@@ -66,12 +66,81 @@ exports.search = function(req,res){
 			})
 		}else{
 			Product
-				.find({title: new RegExp(q+'.*','i'),'category':'58afd8b9e0fbe6143423de7b'})
-				.populate('category', 'name')
+				.find({
+					'title': new RegExp(q+'.*','i')
+				})
+				.populate('sort', 'name attributes')
+				.populate('color material scene','attributes')
 				.exec(function(err, products){
 					if(err)console.log(err)
 
-					console.log(products)
+					// console.log(products)
+					var sort_array = []
+					var color_array = []
+					var material_array = []
+					var scene_array = []
+					if(products && products.length > 0){
+						for(var i=0; i < products.length; i++){
+							// 查找商品类型
+							var sort = products[i].sort
+							var sort_index = sort_array.indexOf(sort)
+							if(sort_index === -1){
+								sort_array.push(sort)
+							}
+							// 查找商品颜色
+							findAttributes(products[i].color,'color')
+							// 查找商品材质
+							findAttributes(products[i].material,'material')
+							// 查找商品场景
+							findAttributes(products[i].scene,'scene')
+
+						}
+					}
+					function findAttributes(obj,type){
+						var attributes = obj
+						if(attributes && attributes.length > 0){
+							for(var j=0; j < attributes.length; j++){
+								var attr = attributes[j]
+								switch(type){
+									case 'color':
+										var	attray = color_array
+										break
+									case 'material':
+										var attray = material_array
+										break
+									case 'scene':
+										var attray = scene_array
+										break
+									default:
+										break
+								}
+								var	attr_index = attray.indexOf(attr)
+								if(attr_index === -1){
+									attray.push(attributes[j])
+								}
+							}
+						}
+					}
+					var attributes_array = [
+						{
+							'name': '类型',
+							'attributes': sort_array
+						},
+						{
+							'name': '场景',
+							'attributes': scene_array
+						},
+						{
+							'name': '材料',
+							'attributes': material_array
+						},
+						{
+							'name': '颜色',
+							'attributes': color_array
+						}
+					]
+
+					// console.log(attributes_array)
 
 					var results = products.slice(index, index + count)
 
@@ -82,7 +151,8 @@ exports.search = function(req,res){
 						currentPage: (page + 1),
 						query: 'q='+q,
 						totalPage: Math.ceil(products.length / count),
-						products: results
+						products: results,
+						attributes: attributes_array
 					})
 
 				})

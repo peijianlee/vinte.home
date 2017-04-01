@@ -29,17 +29,17 @@ if !header_hide
 				var p_quantity = $that.find("[name='p[quantity]']").val()
 
 				arttip('<i class="icon-spinner icon-spin"></i>&nbsp;&nbsp;uploading...')
-				if($that.hasClass('inCart')){
-					arttipclose('已经存在购物车了',800)
-					return false;
-				}
+				//- if($that.hasClass('inCart')){
+				//- 	arttipclose('已经存在购物车了',800)
+				//- 	return false;
+				//- }
 
 				var pid = $(this).parents('.iproduct').attr('id');
 				$.ajax({
 					type:"POST",
 					url:'/shopcart/add',
 					data:{
-						"product":p_id,
+						"pid":p_id,
 						"quantity":p_quantity
 					},
 					dataType:"json",
@@ -47,7 +47,7 @@ if !header_hide
 					cache:false,
 					success: function(data){
 						if(data.success===1){
-							$that.addClass('inCart')
+							//- $that.addClass('inCart')
 							arttipclose('已经存在购物车了',800)
 						}else if(data.success===2){
 							arttipclose('成功放入购物车了',800)

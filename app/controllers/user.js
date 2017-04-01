@@ -1,5 +1,4 @@
 var User = require('../models/user')
-var Shopcart = require('../models/shopcart')
 
 // 登录验证码
 var svgCaptcha = require('svg-captcha')
@@ -11,12 +10,13 @@ var svgCaptcha = require('svg-captcha')
 
 // 随机背景图
 var bgsrc = [
-	'http://i4.piimg.com/11340/7f638e192b9079e6.jpg',
-	'http://tupian.enterdesk.com/2013/mxy/12/10/15/3.jpg',
-	'http://tupian.enterdesk.com/2014/mxy/02/11/4/4.jpg',
-	'http://www.pp3.cn/uploads/allimg/111111/092019C09-12.jpg',
-	'http://tupian.enterdesk.com/2012/1030/gha/2/enterdesk%20%284%29.jpg',
-	'http://www.pp3.cn/uploads/201608/201608192.jpg']
+	'112745__interior-design-style-design-home-lock-room-fireplace_p.jpg',
+	'132459__interior-design-style-design-home-house-room-kitchen_p.jpg',
+	'191707__interior-room-apartment-design-style-cuisine-dishes-wood-wood-fruit_p.jpg',
+	'503033__beautiful-room_p.jpg',
+	'719896__room-living-beautiful-paper-wallpaper-walls_p.jpg',
+	'720002__room-living-vintage-furniture-ladder-paper-image_p.jpg'
+]
 // 随机背景图
 var bgwords = [
 	"Genius only means hard-working all one's life.",
