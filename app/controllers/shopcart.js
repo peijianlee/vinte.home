@@ -174,7 +174,6 @@ exports.matchcart = function(req,res,next){
 	var s_shopcart = req.session.cart
 	var user = req.session.user
 
-	if(s_shopcart){
 		Shopcart
 			.findOne({'uid':user._id})
 			.populate({
@@ -225,5 +224,4 @@ exports.matchcart = function(req,res,next){
 
 				}
 			})
-	}
 }

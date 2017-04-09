@@ -6,13 +6,34 @@ block content
 			.wrap.sarch_nav
 				for attribute in attributes
 					dl.sarch_nav_type
-						dt #{attribute.name}：
+						dt #{attribute.cnname}：
 						dd
-							a(href="results?q="+searchword).On 全部
+							- console.log('sort id is' + sort)
+							- console.log('scene id is' + scene)
+							- console.log('material id is' + material)
+							- console.log('color id is' + color)
+							a(href="results?q="+searchword) 全部
 							if attribute.attributes && attribute.attributes.length > 0
-								- console.log(attribute.attributes)
 								for item in attribute.attributes
-									a #{item.attributes}
+									if sort == item.id || scene == item.id || material == item.id || color == item.id
+										a.On(href="results?q="+searchword+"&"+attribute.name+"="+item.id) #{item.attributes}
+									else
+										if sort && scene && material && color
+											a(href="results?q="+searchword+"&sort="+sort+"&scene="+scene+"&material="+material+"&color="+color) #{item.attributes}
+										else if sort && scene && material
+											a(href="results?q="+searchword+"&sort="+sort+"&scene="+scene+"&material="+material+"&"+attribute.name+"="+item.id) #{item.attributes}
+										else if sort && scene
+											- console.log('------')
+											- console.log('------')
+											- console.log('------')
+											- console.log('------')
+											- console.log('------')
+											a(href="results?q="+searchword+"&sort="+sort+"&scene="+scene+"&"+attribute.name+"="+item.id) #{item.attributes}
+										else if sort
+											a(href="results?q="+searchword+"&sort="+sort+"&"+attribute.name+"="+item.id) #{item.attributes}
+										else
+											a(href="results?q="+searchword+"&"+attribute.name+"="+item.id) #{item.attributes}
+
 		.search_word_tip.wrap.mt10
 			i.icon-quote-left.mr10.ml10
 			| !{keyword}

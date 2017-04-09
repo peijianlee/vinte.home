@@ -47,6 +47,7 @@ a.head_shopcart{
 	border:1px solid #ccc;
 }
 .head_search input[type='text']{
+	float:left;background-color:transparent;
 	height:30px;line-height:30px;
 	border:0 none;margin:0 10px;
 }

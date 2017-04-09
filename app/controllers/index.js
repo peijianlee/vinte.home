@@ -65,10 +65,29 @@ exports.search = function(req,res){
 				})
 			})
 		}else{
-			Product
-				.find({
+			console.log(req.query.sort)
+			console.log(req.query.scene)
+			console.log(req.query.material)
+			console.log(req.query.color)
+
+			if(req.query.sort){
+				var searchObj = {
+					'title': new RegExp(q+'.*','i'),
+					'sort': req.query.sort
+				}
+			}else if(req.query.color){
+				var searchObj = {
+					'title': new RegExp(q+'.*','i'),
+					'color': req.query.color
+				}
+			}else{
+				var searchObj = {
 					'title': new RegExp(q+'.*','i')
-				})
+				}
+			}
+
+			Product
+				.find(searchObj)
 				.populate('sort', 'name attributes')
 				.populate('color material scene','attributes')
 				.exec(function(err, products){
@@ -123,19 +142,23 @@ exports.search = function(req,res){
 					}
 					var attributes_array = [
 						{
-							'name': '类型',
+							'name': 'sort',
+							'cnname': '类型',
 							'attributes': sort_array
 						},
 						{
-							'name': '场景',
+							'name': 'scene',
+							'cnname': '场景',
 							'attributes': scene_array
 						},
 						{
-							'name': '材料',
+							'name': 'material',
+							'cnname': '材料',
 							'attributes': material_array
 						},
 						{
-							'name': '颜色',
+							'name': 'color',
+							'cnname': '颜色',
 							'attributes': color_array
 						}
 					]
@@ -152,7 +175,11 @@ exports.search = function(req,res){
 						query: 'q='+q,
 						totalPage: Math.ceil(products.length / count),
 						products: results,
-						attributes: attributes_array
+						attributes: attributes_array,
+						sort: req.query.sort,
+						scene: req.query.scene,
+						material: req.query.material,
+						color: req.query.color
 					})
 
 				})
