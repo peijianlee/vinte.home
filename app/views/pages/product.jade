@@ -5,7 +5,7 @@ block content
 	each cat in categories
 		.wrap.iproduct_list
 			h3
-				a.fr(href="/store/"+cat.name)
+				a.fr(href="/store/"+cat.attributes)
 					| 更多
 					i.icon-double-angle-right
 				i.icon-magnet.mr10
@@ -91,3 +91,4 @@ block content
 
 		
 	.bg_fixed
+	script(src="/js/shopcart.js")

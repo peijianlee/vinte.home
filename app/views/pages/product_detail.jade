@@ -13,12 +13,12 @@ block content
 				i.icon-tags.ml5.mr5
 				| 商品分类
 			each cat in categories
-				if cat.products && cat.products.length > 0
+				if cat.pid && cat.pid.length > 0
 					dl.snCategorylist
 						dt
 							i.icon-magnet.ml5.mr5
-							| #{cat.name}
-						each item in cat.products
+							| #{cat.attributes}
+						each item in cat.pid
 							dd
 								a(href="#{item._id}")
 									i.icon-angle-right.ml10.mr5
@@ -31,12 +31,12 @@ block content
 				dd.p_panel_info
 					h1 
 						|#{product.title}
-						if product.material
-							|&nbsp;#{product.material}
+						if product.material && product.material.length > 0
+							|&nbsp;#{product.material[0].attributes}
 						else
 							|&nbsp;未知材料
-						if product.colour
-							|&nbsp;（#{product.colour}） 
+						if product.color && product.color.length > 0
+							|&nbsp;（#{product.color[0].attributes}） 
 						else
 							|&nbsp;（未知颜色） 
 						|&nbsp;宽#{product.size.w}×深#{product.size.d}×高#{product.size.h}cm
@@ -52,8 +52,11 @@ block content
 					div
 						span.p_panel_price.fs12.pl10 零售价：
 							b.fs18.cRed $#{product.price}.00
-						a.fr.cp
+						a.iproduct_add_cart_btn.fr.cp
 							i.icon-shopping-cart.mr10
 							| 加入询价单
+							input(type="hidden",name="p[id]",value=product.id)
+							input(type="hidden",name="p[quantity]",value="1")
 		br.clear
 	.bg_fixed
+	script(src="/js/shopcart.js")

@@ -8,34 +8,164 @@ block content
 					dl.sarch_nav_type
 						dt #{attribute.cnname}：
 						dd
-							- console.log('sort id is' + sort)
-							- console.log('scene id is' + scene)
-							- console.log('material id is' + material)
-							- console.log('color id is' + color)
-							a(href="results?q="+searchword) 全部
+							- var serchWord = "results?q="+searchword
+							- if(attribute.name.toString() === 'sort'){
+							-	if(scene && material && color){
+							-		var allAttribute = serchWord+"&scene="+scene+"&material="+material+"&color="+color
+							-	}else if(scene && material){
+							-		var allAttribute = serchWord+"&scene="+scene+"&material="+material
+							-	}else if(scene && color){
+							-		var allAttribute = serchWord+"&scene="+scene+"&color="+color
+							-	}else if(material && color){
+							-		var allAttribute = serchWord+"&material="+material+"&color="+color
+							-	}else if(scene){
+							-		var allAttribute = serchWord+"&scene="+scene
+							-	}else if(material){
+							-		var allAttribute = serchWord+"&material="+material
+							-	}else if(color){
+							-		var allAttribute = serchWord+"&color="+color
+							-	}else{
+							-		var allAttribute = serchWord
+							-	}
+							- }else if(attribute.name.toString() === 'scene'){
+							-	if(sort && material && color){
+							-		var allAttribute = serchWord+"&sort="+sort+"&material="+material+"&color="+color
+							-	}else if(sort && material){
+							-		var allAttribute = serchWord+"&sort="+sort+"&material="+material
+							-	}else if(sort && color){
+							-		var allAttribute = serchWord+"&sort="+sort+"&color="+color
+							-	}else if(material && color){
+							-		var allAttribute = serchWord+"&material="+material+"&color="+color
+							-	}else if(sort){
+							-		var allAttribute = serchWord+"&sort="+sort
+							-	}else if(material){
+							-		var allAttribute = serchWord+"&material="+material
+							-	}else if(color){
+							-		var allAttribute = serchWord+"&color="+color
+							-	}else{
+							-		var allAttribute = serchWord
+							-	}
+							- }else if(attribute.name.toString() === 'material'){
+							-	if(sort && scene && color){
+							-		var allAttribute = serchWord+"&sort="+sort+"&scene="+scene+"&color="+color
+							-	}else if(sort && scene){
+							-		var allAttribute = serchWord+"&sort="+sort+"&scene="+scene
+							-	}else if(sort && color){
+							-		var allAttribute = serchWord+"&sort="+sort+"&color="+color
+							-	}else if(scene && color){
+							-		var allAttribute = serchWord+"&scene="+scene+"&color="+color
+							-	}else if(sort){
+							-		var allAttribute = serchWord+"&sort="+sort
+							-	}else if(scene){
+							-		var allAttribute = serchWord+"&scene="+scene
+							-	}else if(color){
+							-		var allAttribute = serchWord+"&color="+color
+							-	}else{
+							-		var allAttribute = serchWord
+							-	}
+							- }else if(attribute.name.toString() === 'color'){
+							-	if(sort && scene && material){
+							-		var allAttribute = serchWord+"&sort="+sort+"&scene="+scene+"&material="+material
+							-	}else if(sort && scene){
+							-		var allAttribute = serchWord+"&sort="+sort+"&scene="+scene
+							-	}else if(sort && material){
+							-		var allAttribute = serchWord+"&sort="+sort+"&material="+material
+							-	}else if(scene && material){
+							-		var allAttribute = serchWord+"&scene="+scene+"&material="+material
+							-	}else if(sort){
+							-		var allAttribute = serchWord+"&sort="+sort
+							-	}else if(scene){
+							-		var allAttribute = serchWord+"&scene="+scene
+							-	}else if(material){
+							-		var allAttribute = serchWord+"&material="+material
+							-	}else{
+							-		var allAttribute = serchWord
+							-	}
+							- }
+							a(href=allAttribute) 全部
 							if attribute.attributes && attribute.attributes.length > 0
 								for item in attribute.attributes
+									- if(attribute.name.toString() === 'sort'){
+									-	if(scene && material && color){
+									-		var ahref = serchWord+"&sort="+item.id+"&scene="+scene+"&material="+material+"&color="+color
+									-	}else if(scene && material){
+									-		var ahref = serchWord+"&sort="+item.id+"&scene="+scene+"&material="+material
+									-	}else if(scene && color){
+									-		var ahref = serchWord+"&sort="+item.id+"&scene="+scene+"&color="+color
+									-	}else if(material && color){
+									-		var ahref = serchWord+"&sort="+item.id+"&material="+material+"&color="+color
+									-	}else if(scene){
+									-		var ahref = serchWord+"&sort="+item.id+"&scene="+scene
+									-	}else if(material){
+									-		var ahref = serchWord+"&sort="+item.id+"&material="+material
+									-	}else if(color){
+									-		var ahref = serchWord+"&sort="+item.id+"&color="+color
+									-	}else{
+									-		var ahref = serchWord+"&sort="+item.id
+									-	}
+									- }else if(attribute.name.toString() === 'scene'){
+									-	if(sort && material && color){
+									-		var ahref = serchWord+"&sort="+sort+"&scene="+item.id+"&material="+material+"&color="+color
+									-	}else if(sort && material){
+									-		var ahref = serchWord+"&sort="+sort+"&scene="+item.id+"&material="+material
+									-	}else if(sort && color){
+									-		var ahref = serchWord+"&sort="+sort+"&scene="+item.id+"&color="+color
+									-	}else if(material && color){
+									-		var ahref = serchWord+"&scene="+item.id+"&material="+material+"&color="+color
+									-	}else if(sort){
+									-		var ahref = serchWord+"&sort="+sort+"&scene="+item.id
+									-	}else if(material){
+									-		var ahref = serchWord+"&scene="+item.id+"&material="+material
+									-	}else if(color){
+									-		var ahref = serchWord+"&scene="+item.id+"&color="+color
+									-	}else{
+									-		var ahref = serchWord+"&scene="+item.id
+									-	}
+									- }else if(attribute.name.toString() === 'material'){
+									-	if(sort && scene && color){
+									-		var ahref = serchWord+"&sort="+sort+"&scene="+scene+"&material="+item.id+"&color="+color
+									-	}else if(sort && scene){
+									-		var ahref = serchWord+"&sort="+sort+"&scene="+scene+"&material="+item.id
+									-	}else if(sort && color){
+									-		var ahref = serchWord+"&sort="+sort+"&color="+color+"&material="+item.id
+									-	}else if(scene && color){
+									-		var ahref = serchWord+"&scene="+scene+"&color="+color+"&material="+item.id
+									-	}else if(sort){
+									-		var ahref = serchWord+"&sort="+sort+"&material="+item.id
+									-	}else if(scene){
+									-		var ahref = serchWord+"&scene="+scene+"&material="+item.id
+									-	}else if(color){
+									-		var ahref = serchWord+"&material="+item.id+"&color="+color
+									-	}else{
+									-		var ahref = serchWord+"&material="+item.id
+									-	}
+									- }else if(attribute.name.toString() === 'color'){
+									-	if(sort && scene && material){
+									-		var ahref = serchWord+"&sort="+sort+"&scene="+scene+"&material="+material+"&color="+item.id
+									-	}else if(sort && scene){
+									-		var ahref = serchWord+"&sort="+sort+"&scene="+scene+"&color="+item.id
+									-	}else if(sort && material){
+									-		var ahref = serchWord+"&sort="+sort+"&material="+material+"&color="+item.id
+									-	}else if(scene && material){
+									-		var ahref = serchWord+"&scene="+scene+"&material="+material+"&color="+item.id
+									-	}else if(sort){
+									-		var ahref = serchWord+"&sort="+sort+"&color="+item.id
+									-	}else if(scene){
+									-		var ahref = serchWord+"&scene="+scene+"&color="+item.id
+									-	}else if(material){
+									-		var ahref = serchWord+"&material="+material+"&color="+item.id
+									-	}else{
+									-		var ahref = serchWord+"&color="+item.id
+									-	}
+									- }
+									
 									if sort == item.id || scene == item.id || material == item.id || color == item.id
-										a.On(href="results?q="+searchword+"&"+attribute.name+"="+item.id) #{item.attributes}
+										a.On(href=ahref) #{item.attributes}
 									else
-										if sort && scene && material && color
-											a(href="results?q="+searchword+"&sort="+sort+"&scene="+scene+"&material="+material+"&color="+color) #{item.attributes}
-										else if sort && scene && material
-											a(href="results?q="+searchword+"&sort="+sort+"&scene="+scene+"&material="+material+"&"+attribute.name+"="+item.id) #{item.attributes}
-										else if sort && scene
-											- console.log('------')
-											- console.log('------')
-											- console.log('------')
-											- console.log('------')
-											- console.log('------')
-											a(href="results?q="+searchword+"&sort="+sort+"&scene="+scene+"&"+attribute.name+"="+item.id) #{item.attributes}
-										else if sort
-											a(href="results?q="+searchword+"&sort="+sort+"&"+attribute.name+"="+item.id) #{item.attributes}
-										else
-											a(href="results?q="+searchword+"&"+attribute.name+"="+item.id) #{item.attributes}
+										a(href=ahref) #{item.attributes}
 
 		.search_word_tip.wrap.mt10
-			i.icon-quote-left.mr10.ml10
+			i.icon-search.mr10.ml10
 			| !{keyword}
 		.wrap.iproduct_list
 			.category_list
@@ -49,13 +179,13 @@ block content
 								li
 									a(href="/store/"+item.sort.name+"/"+item.id).ip_title
 										|#{item.title}
-										if item.material
-											|&nbsp;#{item.material}
+										if item.material && item.material.length > 0
+											|&nbsp;#{item.material[0].attributes}
 										else
 											|&nbsp;未知材料
 										|&nbsp;宽#{item.size.w}×深#{item.size.d}×高#{item.size.h}cm
-										if item.colour
-											|&nbsp;/ #{item.colour}
+										if item.color && item.color.length > 0
+											|&nbsp;/ #{item.color[0].attributes}
 										else
 											|&nbsp;/ 未知颜色
 								li
@@ -74,7 +204,7 @@ block content
 									else
 										small.ip_price ￥#{item.price}.00
 				else
-					.col-md-2 没有任何电影数据！
+					.col-md-2 没有任何数据！
 			
 			.page(style="margin-top:15px;margin-bottom:30px;")
 				- if(totalPage>1){
@@ -82,19 +212,19 @@ block content
 							span.page_unclick: i.icon-double-angle-left
 							span.page_unclick: i.icon-angle-left
 					-	}else{
-							a(href='/results?#{query}&p=0',csstip-top='第一页'): i.icon-double-angle-left
-							a(href='/results?#{query}&p=#{currentPage-1}',csstip-top='上一页'): i.icon-angle-left
+							a(href=url+'&p=0',csstip-top='第一页'): i.icon-double-angle-left
+							a(href=url+'&p=#{currentPage-1}',csstip-top='上一页'): i.icon-angle-left
 					-	}
 					-	for(var i=0;i<totalPage; i++){
 						-	if(currentPage == (i+1)){
 								span.page_stand #{currentPage}
 						-	}else{
-								a(href='/results?#{query}&p=#{i}') #{i+1}
+								a(href=url+'&p=#{i}') #{i+1}
 						-	}
 					-	}
 					- if(currentPage < totalPage){
-							a(href='/results?#{query}&p=#{currentPage}',csstip-top='下一页'): i.icon-angle-right
-							a(href='/results?#{query}&p=#{totalPage-1}',csstip-top='最后一页'): i.icon-double-angle-right
+							a(href=url+'&p=#{currentPage}',csstip-top='下一页'): i.icon-angle-right
+							a(href=url+'&p=#{totalPage-1}',csstip-top='最后一页'): i.icon-double-angle-right
 					-	}else{
 							span.page_unclick: i.icon-angle-right
 							span.page_unclick: i.icon-double-angle-right

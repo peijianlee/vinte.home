@@ -1,5 +1,6 @@
 var Shopcart = require('../models/shopcart')
 var Product = require('../models/product')
+var User = require('../models/user')
 var _ = require('underscore')
 
 
@@ -112,6 +113,9 @@ exports.add = function(req,res){
 			if(err) console.log(err)
 			var check_same_id = false
 			
+			console.log(user.shopcartnum)
+
+
 			for(var i=0; i<shopcart.products.length; i++){
 				if(shopcart.products[i].pid.toString() === pid.toString()){
 					check_same_id = true
@@ -123,6 +127,10 @@ exports.add = function(req,res){
 			shopcart.products.push(cartinfo)
 			shopcart.save(function(err){
 				console.log(err)
+				user.shopcartnum = shopcart.products.length
+				User.findByIdAndUpdate(user.id, {$inc:{shopcartnum:1}}, function(err){
+					if(err) console.log(err)
+				})
 				return res.json({success:2,cart_goods_num:shopcart.products.length})
 			})
 
@@ -160,6 +168,10 @@ exports.del = function(req,res){
 				}
 				shopcart.save(function(err){
 					if(err) console.log(err)
+					user.shopcartnum = shopcart.products.length
+					User.findByIdAndUpdate(user.id, {$inc:{shopcartnum:-1}}, function(err){
+						if(err) console.log(err)
+					})
 					res.json({success:1,cart_goods_num:shopcart.products.length})
 				})
 			}else{
@@ -174,54 +186,61 @@ exports.matchcart = function(req,res,next){
 	var s_shopcart = req.session.cart
 	var user = req.session.user
 
-		Shopcart
-			.findOne({'uid':user._id})
-			.populate({
-				path: 'products.product',
-				model: 'Product',
-				populate: {
-					path: 'category',
-					select: 'name',
-					model: 'Category'
-				}
-			})
-			.exec(function(err, shopcart){
-				if(err) console.log(err)
-				if(!shopcart){
-					console.log('新增并合并缓存数据')
-					var newShopcart = new Shopcart({"uid":user._id,"pid":[]})
-					// newShopcart = _.extend(newShopcart, s_shopcart)
-					if(s_shopcart){
-						for(var i=0; i<s_shopcart.length; i++){
-							newShopcart.products.push(s_shopcart[i])
-						}
-					}
-					delete req.session.cart
-					newShopcart.save(function(err){
-						if(err) console.log(err)
-					})
-				}else{
-					console.log('合并缓存数据')
+	Shopcart
+		.findOne({'uid':user._id})
+		.populate({
+			path: 'products.product',
+			model: 'Product',
+			populate: {
+				path: 'category',
+				select: 'name',
+				model: 'Category'
+			}
+		})
+		.exec(function(err, shopcart){
+			if(err) console.log(err)
+			if(!shopcart){
+				console.log('新增并合并缓存数据')
+				var newShopcart = new Shopcart({"uid":user._id,"pid":[]})
+				// newShopcart = _.extend(newShopcart, s_shopcart)
 
-					var products = shopcart.products
-
+				if(s_shopcart){
 					for(var i=0; i<s_shopcart.length; i++){
-						var is_same_id = false
-						for(var j=0; j<products.length; j++){
-							if(s_shopcart[i].pid==products[j].pid){
-								is_same_id = true
-								break
-							}
-						}
-						if(!is_same_id){
-							products.push(s_shopcart[i])
+						newShopcart.products.push(s_shopcart[i])
+					}
+				}
+				delete req.session.cart
+				newShopcart.save(function(err, _newShopcart){
+					if(err) console.log(err)
+					user.shopcartnum = _newShopcart.products.length
+					console.log('-----shopcartnum数量为-------')
+					console.log(user.shopcartnum)
+				})
+			}else{
+				console.log('合并缓存数据')
+
+				var products = shopcart.products
+
+				for(var i=0; i<s_shopcart.length; i++){
+					var is_same_id = false
+					for(var j=0; j<products.length; j++){
+						if(s_shopcart[i].pid==products[j].pid){
+							is_same_id = true
+							break
 						}
 					}
-					delete req.session.cart
-					shopcart.save(function(err){
-						if(err) console.log(err)
-					})
-
+					if(!is_same_id){
+						products.push(s_shopcart[i])
+					}
 				}
-			})
+				delete req.session.cart
+				shopcart.save(function(err, _shopcart){
+					if(err) console.log(err)
+					user.shopcartnum = _shopcart.products.length
+					console.log('-----shopcartnum数量为-------')
+					console.log(user.shopcartnum)
+				})
+
+			}
+		})
 }

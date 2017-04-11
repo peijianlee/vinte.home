@@ -61,7 +61,10 @@ block content
 							td.tc #{item.quantity}
 					tr
 						td(colspan="4")
-							a.button.button-royal.button-primary 创建询价单
+							if user
+								a.button.button-royal.button-primary 创建询价单
+							else
+								a.button.button-royal.button-primary 登录并创建询价单
 				else
 					tr
 						td.tc(colspan="4")
@@ -70,3 +73,4 @@ block content
 								a(href="/store").button.button-royal.button-primary 商品中心
 
 	.bg_fixed
+	script(src="/js/shopcart.js")

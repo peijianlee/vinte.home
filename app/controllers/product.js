@@ -8,11 +8,17 @@ var fs = require('fs')
 var path = require('path')
 var moment = require('moment')
 
+
+
+
 // 前台首页
 exports.indexlist = function(req,res){
 	var user = req.session.user
 	var id=req.params.id
-	
+
+
+	console.log('-----shopcartnum数量为-------')
+	// console.log(user.shopcartnum)
 	//populate多层查找仅针对一个对应id？
 
 	// Category
@@ -50,9 +56,9 @@ exports.indexlist = function(req,res){
 					allproduct.push(categories[i].pid[j].id)
 				}
 			}
-
-			if(!req.session.cart){
-				var cart_goods_num = 0
+			// 查找购物车商品数量
+			if(user){
+				var cart_goods_num = user.shopcartnum
 			}else{
 				var cart_goods_num = req.session.cart.length
 			}
@@ -69,20 +75,39 @@ exports.indexlist = function(req,res){
 						cart_goods_num: cart_goods_num
 					})
 				})
-		})	
+		})
 }
 
 exports.search = function(req,res){
 	var goods=req.params.goods
+	var user = req.session.user
 	Category
-		.find({name:goods})
+		.findOne({'attributes':goods})
 		.sort({_id: -1})
-		.populate('products')
-		.exec(function(err, categories){
+		.populate({
+			path: 'pid',
+			model: 'Product',
+			populate: {
+				path: 'scene material color',
+				select: 'attributes',
+				model: 'Category'
+			}
+		})
+		.exec(function(err, category){
+			// console.log(category)
+
+
+			// 查找购物车商品数量
+			if(user){
+				var cart_goods_num = user.shopcartnum
+			}else{
+				var cart_goods_num = req.session.cart.length
+			}
 			if(err)console.log(err)
 			res.render('product_type',{
 				title:'IMOOC 产品列表',
-				categories: categories
+				category: category,
+				cart_goods_num: cart_goods_num
 			})
 		})
 }
@@ -91,28 +116,30 @@ exports.detail = function(req,res){
 	var id=req.params.id
 	var goods=req.params.goods
 	Category
-		.find({type:'product'})
+		.find({type:'product', name: 'sort'})
 		.sort({_id: -1})
-		.populate('products', 'title id')
+		.populate('pid', 'title id')
 		.exec(function(err, categories){
 			if(err)console.log(err)
-			console.log(categories)
-
-			Product.findById(id,function(err,_product){
-				if(err) console.log(err)
-				if(!_product){
-					console.log('该商品不存在或者已经被删除了。')
-					return res.render('prompt',{
-						message:'该商品不存在或者已经被删除了。'
+			Product
+				.findOne({'_id':id})
+				.populate('color material scene','attributes')
+				.exec(function(err, _product){
+					console.log(_product)
+					if(err) console.log(err)
+					if(!_product){
+						console.log('该商品不存在或者已经被删除了。')
+						return res.render('prompt',{
+							message:'该商品不存在或者已经被删除了。'
+						})
+					}
+					res.render('product_detail',{
+						title: _product.title + ' | IMOOC',
+						categories: categories,
+						product: _product,
+						goods:goods
 					})
-				}
-				res.render('product_detail',{
-					title: _product.title + ' | IMOOC',
-					categories: categories,
-					product: _product,
-					goods:goods
 				})
-			})
 
 		});
 

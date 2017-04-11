@@ -6,7 +6,10 @@ body{
 	color:#333;
 	line-height:1.7;
 }
-a{text-decoration:none;color:#333;}
+a{text-decoration:none;color:#333;outline:0 none;}
+button:link{outline:0 none;border:0 none;}
+button:active{outline:0 none;border:0 none;}
+button:visited{outline:0 none;border:0 none;}
 .tc{text-align:center;}
 ul,ol,li{list-style-type:none;}
 

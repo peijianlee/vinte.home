@@ -31,9 +31,8 @@ exports.index = function(req,res){
 exports.search = function(req,res){
 	// .query找到路由上的值
 	var catId = req.query.cat
-	var page = parseInt(req.query.p,10) || 0 
-	var q = req.query.q
-	var count = 10
+	var page = parseInt(req.query.p,12) || 0 
+	var count = 12
 	var index = page*count
 
 	console.log(q)
@@ -65,26 +64,63 @@ exports.search = function(req,res){
 				})
 			})
 		}else{
-			console.log(req.query.sort)
-			console.log(req.query.scene)
-			console.log(req.query.material)
-			console.log(req.query.color)
 
-			if(req.query.sort){
-				var searchObj = {
-					'title': new RegExp(q+'.*','i'),
-					'sort': req.query.sort
-				}
-			}else if(req.query.color){
-				var searchObj = {
-					'title': new RegExp(q+'.*','i'),
-					'color': req.query.color
-				}
-			}else{
-				var searchObj = {
-					'title': new RegExp(q+'.*','i')
-				}
+			
+			function removeParameter(str){
+				return str.replace(/(^\?|&)p=[^&]*(&)?/g,function(p0, p1, p2){
+					return p1 === '?' || p2 ? p1 : ''
+				})
 			}
+			var reqUrl = removeParameter(req.url)
+
+			var q = req.query.q
+			var g_sort = req.query.sort
+			var g_scene = req.query.scene
+			var g_material = req.query.material
+			var g_color = req.query.color
+
+			function Person(sort,scene,material,color){
+				this.title = new RegExp(q+'.*','i')
+				sort? this.sort = sort : false
+				scene? this.scene = scene : false
+				material? this.material = material : false
+				color? this.color = color : false
+			}
+
+			if(g_sort && g_scene && g_material && g_color){
+				var searchObj = new Person(g_sort,g_scene,g_material,g_color)
+			}else if(g_sort && g_scene && g_material){
+				var searchObj = new Person(g_sort,g_scene,g_material,null)
+			}else if(g_sort && g_scene && g_color){
+				var searchObj = new Person(g_sort,g_scene,null,g_color)
+			}else if(g_sort && g_material && g_color){
+				var searchObj = new Person(g_sort,null,g_material,g_color)
+			}else if(g_scene && g_material && g_color){
+				var searchObj = new Person(null,g_scene,g_material,g_color)
+			}else if(g_sort && g_scene){
+				var searchObj = new Person(g_sort,g_scene,null,null)
+			}else if(g_sort && g_material){
+				var searchObj = new Person(g_sort,null,g_material,null)
+			}else if(g_sort && g_color){
+				var searchObj = new Person(g_sort,null,null,g_color)
+			}else if(g_material && g_color){
+				var searchObj = new Person(null,null,g_material,g_color)
+			}else if(g_scene && g_color){
+				var searchObj = new Person(null,g_scene,null,g_color)
+			}else if(g_scene && g_material){
+				var searchObj = new Person(null,g_scene,g_material,null)
+			}else if(g_sort){
+				var searchObj = new Person(g_sort,null,null,null)
+			}else if(g_scene){
+				var searchObj = new Person(null,g_scene,null,null)
+			}else if(g_material){
+				var searchObj = new Person(null,null,g_material,null)
+			}else if(g_color){
+				var searchObj = new Person(null,null,null,g_color)
+			}else{
+				var searchObj = new Person(null,null,null,null)
+			}
+
 
 			Product
 				.find(searchObj)
@@ -93,7 +129,6 @@ exports.search = function(req,res){
 				.exec(function(err, products){
 					if(err)console.log(err)
 
-					// console.log(products)
 					var sort_array = []
 					var color_array = []
 					var material_array = []
@@ -169,7 +204,7 @@ exports.search = function(req,res){
 
 					res.render('results',{
 						title:'搜索结果页',
-						keyword: '搜索到 '+products.length+' 条关键词为 <b class=cRed>" '+q+' "</b> 的商品',
+						keyword: '找到了 <b class=cRed>'+products.length+'</b> 条关键词为 <b class=cRed>" '+q+' "</b> 的商品',
 						searchword: q,
 						currentPage: (page + 1),
 						query: 'q='+q,
@@ -179,7 +214,8 @@ exports.search = function(req,res){
 						sort: req.query.sort,
 						scene: req.query.scene,
 						material: req.query.material,
-						color: req.query.color
+						color: req.query.color,
+						url: reqUrl
 					})
 
 				})

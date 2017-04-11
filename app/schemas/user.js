@@ -11,6 +11,10 @@ var UserSchema = new mongoose.Schema({
 		type: String,
 		default: 'http://www.easyicon.net/api/resizeApi.php?id=1132617&size=128'
 	},
+	shopcartnum:{
+		type: Number,
+		default: 0
+	},
 	password: String,
 	// >10: admin
 	// >50: supper admin

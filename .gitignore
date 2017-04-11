@@ -2,6 +2,8 @@
 node_modules
 public/libs/bootsrtap
 public/libs/jquery
+public/images_data
+public/ue_images
 
 # put any other files you don't want to check in here,
 # such as .DS_Store(OSX), *.bak, etc.

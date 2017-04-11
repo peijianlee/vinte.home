@@ -103,7 +103,7 @@ exports.showSignup = function(req, res){
 	})
 }
 // signup
-exports.signup = function(req, res){
+exports.signup = function(req, res, next){
 	var _user =req.body.user
 	
 	User.findOne({name: _user.name},function(err,user){
@@ -121,7 +121,8 @@ exports.signup = function(req, res){
 				// 登录信息存储在session
 				req.session.user = user
 
-				res.redirect('/')
+				res.redirect('/store')
+				next()
 			})
 		}
 	})
