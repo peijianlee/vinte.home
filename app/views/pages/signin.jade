@@ -2,7 +2,7 @@ extends ../layout_index
 
 block content
 	.sign_bg.blur(style="background-image:url(images/background/#{bgsrc})")
-	.sign_form
+	form.sign_form
 		.sign_form_head &nbsp;
 			i.icon-lock
 			span #{title}
@@ -35,7 +35,7 @@ block content
 				a.cBlue.textUnderline(href="signup") 点击注册
 			
 		.sign_form_foot
-			span.button.button-raised.button-primary.sign-success(signtype="signin") 登 录
+			button.button.button-raised.button-primary.sign-success(signtype="signin", type="submit") 登 录
 			.sign_form_foot_info
 				h6 ITEST
 				p 基于NodeJs+MongoDB搭建的电影网站 <br /> 备案编号:110105000501 Copyright © 2006-2017

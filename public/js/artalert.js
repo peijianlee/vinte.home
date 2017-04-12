@@ -49,7 +49,11 @@ function artalert(txt,type,url){
 		});
 		$('.artalert').animate({'opacity':0,'top':'-10%'},300,function(){
 			$(this).remove();
-			if(url!==undefined)location.href=document.referrer;
+			if(url){
+				location.href=url;
+			}else{
+				location.href=document.referrer;
+			}
 		});
 	});
 

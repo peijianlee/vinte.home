@@ -1,22 +1,13 @@
 // 去除错误样式
 $('.sign_form_content input').click(function(){
 	var obj = $(this);
-	// document.onkeydown=function(event){
-	// 	if(obj.hasClass('input_error')){
-	// 		obj.removeClass('input_error');
-	// 		var signTip = obj.parent().find('.sign_tip');
-	// 		if(signTip.length>0){
-	// 			signTip.remove();
-	// 		}
-	// 	}
-	// }
-		if(obj.hasClass('input_error')){
-			obj.removeClass('input_error');
-		}
-		var signTip = obj.parent().find('.sign_tip');
-		if(signTip.length>0){
-			signTip.remove();
-		}
+	if(obj.hasClass('input_error')){
+		obj.removeClass('input_error');
+	}
+	var signTip = obj.parent().find('.sign_tip');
+	if(signTip.length>0){
+		signTip.remove();
+	}
 });
 
 // 登录
@@ -24,10 +15,11 @@ var $name = $('#signName'),
 	$password = $('#signPassword'),
 	$captcha = $('#captcha');
 
-$('.sign-success').click(function(){
+$('.sign-success').unbind('click').click(function(){
 	var Na = $name.val(),
 		Ps = $password.val(),
 		Captcha = $captcha.val()
+		signtype = $(this).attr('signtype')
 
 	if(Na==''||Na==null){
 		addErrorTip($name,'请输入用户名！')
@@ -45,7 +37,11 @@ $('.sign-success').click(function(){
 	})
 	.done(function(results){
 		if(results.success===1){
-			artalert('登录成功','success','/');
+			if(signtype.toString() === 'shopcart'){
+				artalert('登录成功','success','/shopcart');
+			}else{
+				artalert('登录成功','success','/store');
+			}
 		}else if(results.success===2){
 			addErrorTip($name,'该用户不存在！')
 		}else if(results.success===3){
@@ -54,6 +50,7 @@ $('.sign-success').click(function(){
 			addErrorTip($password,'密码错误!')
 		}
 	})
+	return false
 });
 
 // 注册

@@ -35,8 +35,9 @@ exports.detail = function(req,res){
 					productsObj.push(p_obj)
 				}
 				res.render('shopcart',{
-					title: 'shopping cart' + ' | ITEST',
+					title: 'inquiry list' + ' | ITEST',
 					products: productsObj,
+					captcha: req.session.captcha,
 					cart_goods_num: products.length
 				})
 			})

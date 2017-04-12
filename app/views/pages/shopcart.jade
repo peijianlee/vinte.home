@@ -6,13 +6,13 @@ block content
 			a(href="/news")
 				i.fs14.icon-home
 			a(href="/store") store
-			span shopping cart
+			span inquiry list
 		div.progress.progress_step_1
 			div.progress_step
 				span.s_step 1
 					span.s_1
 					span.s_2
-				p SHOPPING CART
+				p inquiry list
 			div.progress_step
 				span.s_step 2
 				p YOUR EMAIL
@@ -23,12 +23,13 @@ block content
 			div.progress_step_line
 		table.shopcart_list
 			caption
-				i.icon-shopping-cart.mr10
-				| SHOPPING CART
+				i.icon-list.mr10
+				| INQUIRY LIST
 			thead
 				tr
 					th(width="140px") ITEM
 					th.tl DESCRIPTION
+					th SIZE
 					th PRICE
 					th QUANTITY
 			tbody
@@ -43,28 +44,32 @@ block content
 									li
 										h3
 											a(target="_bank", href="/store/"+item.pid.sort.name+"/"+item.pid._id) #{item.pid.title}
+										//- if item.pid.scene && item.pid.scene.length > 0
+											li 场景： 
+												each i_scene in item.pid.scene
+													span.ml5 #{i_scene.attributes}
 										if item.pid.material && item.pid.material.length > 0
-											li MATERIAL: 
+											li 材质： 
 												each i_material in item.pid.material
-													span #{i_material.attributes}
+													span.ml5 #{i_material.attributes}
 										if item.pid.color && item.pid.color.length > 0
-											li COLOR:
+											li 颜色：
 												each i_color in item.pid.color
-													span #{i_color.attributes}
-										li SIZE: 宽#{item.pid.size.w}×深#{item.pid.size.d}×高#{item.pid.size.h}cm
+													span.ml5 #{i_color.attributes}
 										li
 											span.removeBtn.shopcart_goods_remove(data-id="#{item.pid._id}")
 												i.icon-remove
 												| REMOVE
+							td.tc 宽#{item.pid.size.w}×深#{item.pid.size.d}×高#{item.pid.size.h} (cm)
 							td.tc
 								b.fs16 $#{item.pid.price}.00
 							td.tc #{item.quantity}
 					tr
 						td(colspan="4")
 							if user
-								a.button.button-royal.button-primary 创建询价单
+								a.button.button-glow.button-primary.button-rounded.button-raised.button-primary 创建询价单
 							else
-								a.button.button-royal.button-primary 登录并创建询价单
+								a.button.button-glow.button-primary.button-rounded.button-raised.button-primary(data-toggle="modal", data-target="#signinModal") 创建询价单
 				else
 					tr
 						td.tc(colspan="4")
