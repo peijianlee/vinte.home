@@ -21,8 +21,7 @@ exports.detail = function(req,res){
 		}
 		Product
 			.find({_id:{$in:session_pid}})
-			.populate('sort','name')
-			.populate('color material scene','attributes')
+			.populate('sort color material scene','attributes')
 			.exec(function(err,products){
 				if(err) console.log(err)
 				// 非常愚蠢的循环出来又循环进去
@@ -49,30 +48,46 @@ exports.detail = function(req,res){
 				path: 'products.pid',
 				model: 'Product',
 				populate: {
-					path: 'sort',
-					select: 'name',
+					path: 'sort color material scene',
+					select: 'attributes',
 					model: 'Category'
 				}
 			})
 			.exec(function(err, shopcart){
 				if(err) console.log(err)
-				console.log(shopcart.products)
 				if(shopcart){
+					var products = shopcart.products
 					var cart_goods_num = shopcart.products.length
-					res.render('shopcart',{
-						title: 'dfsdfsdfsdf' + ' | IMOOC',
-						products: shopcart.products,
-						cart_goods_num: shopcart.products.length
-					})
 				}else{
-					res.render('shopcart',{
-						title: 'dfsdfsdfsdf' + ' | IMOOC',
-						product: [],
-						cart_goods_num: 0
-					})
+					var products = []
+					var cart_goods_num = 0
 				}
+				res.render('shopcart',{
+					title: 'dfsdfsdfsdf' + ' | IMOOC',
+					products: products,
+					cart_goods_num: cart_goods_num
+				})
+
 			})
 	}
+}
+
+// 创建订单
+exports.createorder = function(req, res){
+	var orderObj = req.body.order.pid
+	// console.log(orderObj)
+	Product
+		.find({_id: {$in: orderObj}})
+		.populate('sort color material scene','attributes')
+		.exec(function(err, products){
+			// console.log(products)
+			res.render('createorder',{
+				title: '创建询价单' + ' | IMOOC',
+				products: products
+			})
+
+		})
+
 }
 
 // 添加购物车

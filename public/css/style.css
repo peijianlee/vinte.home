@@ -42,7 +42,7 @@ a.head_shopcart{
 	height:32px;line-height:32px;
 }
 .head_search{
-	margin-top:18px;margin-right:10px;
+	margin-top:18px;
 	border-radius:3px;
 	border:1px solid #ccc;
 }
@@ -781,22 +781,22 @@ div.c_body:after{
 	top:18px;left:0;
 	height:4px;width:100%;
 	border-radius:2px;
+	z-index:-1;background-color:#25a6a4;
+	width:33.33%;
 }
 .progress_line{
 	z-index:-2;background-color:#ddd;
+	width:100%;
 }
 
-.progress_step_line{
-	z-index:-1;background-color:#25a6a4;
-	width:0;
-}
-.progress.progress_step_1 .progress_step:nth-child(1) .s_step{
+.progress.progress_step_1 .progress_step:nth-child(1) .s_step,
+.progress.progress_step_2 .progress_step:nth-child(2) .s_step,
+.progress.progress_step_3 .progress_step:nth-child(3) .s_step{
 	background-color:#25a6a4;color:white;
 	border-color:#25a6a4;
 }
-.progress.progress_step_1 .progress_step_line{
-	width:33.33%;
-}
+.progress.progress_step_2 .progress_step_line{left:33.33%;}
+.progress.progress_step_3 .progress_step_line{left:66.66%;}
 /*购物车*/
 .shopcart_list{line-height:1.7;border:1px solid #ddd;}
 .removeBtn{
@@ -831,9 +831,9 @@ div.c_body:after{
 	background-color:#fafafa;
 }
 .shopcart_list td{
-	vertical-align:top;
 	border-top:1px solid #ddd;
 }
+.shopcart_list td.vatop{vertical-align:top;}
 .shopcart_list img{
  	width:140px;height:140px;
 }
@@ -841,4 +841,18 @@ div.c_body:after{
 .shopcart_goods_name li{
 	font-size:12px;color:gray;
 }
+.shopcart_list input[type="checkbox"]{
+	opacity:0;cursor:pointer;width:20px;height:20px;margin:0;}
+.shopcart_list span.icon-check{display:none;}
+.shopcart_list input[type="checkbox"]:checked ~ span.icon-check{display:inline-block;}
+.shopcart_list input[type="checkbox"]:checked ~ span.icon-check-empty{display:none;}
 
+/*创建订单*/
+.editPrice{
+	padding:0 10px;
+	max-width:100px;overflow:hidden;
+	display:inline-block;
+	border:1px solid #999;border-radius:3px;
+	background-color:#ffc;
+	box-shadow:inset 2px 2px 3px rgba(0,0,0,.1), 0 0 3px rgba(0,0,0,.3);
+}

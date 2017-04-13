@@ -3,13 +3,13 @@ if !header_hide
 		.wrap
 			h1
 				a(href="/news") ICOOMTEST
-			a(href="/inquirylist").head_shopcart.fr
+			a(href="/inquirylist").head_shopcart.fr.ml10
 				i.icon-list.mr10
 				| 询价单
 				if cart_goods_num
 					b.head_shopcart_num #{cart_goods_num}
 				else
-					b.head_shopcart_num 0
+					b.head_shopcart_num N
 				div.head_shopcart_list
 			form(method="GET", action="/results")
 				.head_search.fr

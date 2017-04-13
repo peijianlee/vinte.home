@@ -37,8 +37,8 @@ $('.sign-success').unbind('click').click(function(){
 	})
 	.done(function(results){
 		if(results.success===1){
-			if(signtype.toString() === 'shopcart'){
-				artalert('登录成功','success','/shopcart');
+			if(signtype.toString() === 'inquirylist'){
+				artalert('登录成功','success','/inquirylist');
 			}else{
 				artalert('登录成功','success','/store');
 			}

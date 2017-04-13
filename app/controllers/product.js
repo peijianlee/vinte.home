@@ -60,7 +60,12 @@ exports.indexlist = function(req,res){
 			if(user){
 				var cart_goods_num = user.shopcartnum
 			}else{
-				var cart_goods_num = req.session.cart.length
+				if(req.session.cart){
+					var cart_goods_num = req.session.cart.length
+				}else{
+					var cart_goods_num = 0
+				}
+				
 			}
 
 			Product

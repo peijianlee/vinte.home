@@ -49,7 +49,7 @@ $('.shopcart_goods_remove').click(function(){
 			$('#'+id).remove();
 			console.log(results.cart_goods_num===0)
 			if(results.cart_goods_num===0){
-				var emptyList = '<tr><td class="tc" colspan="4">'+
+				var emptyList = '<tr><td class="tc" colspan="6">'+
 								'<div class="pb20">'+
 								'<p class="fb pt20 pb10">购物车没有任何商品，请前往商品中心添加。</p>'+
 								'<a class="button button-royal button-primary" href="/store">商品中心</a>'+
@@ -61,3 +61,16 @@ $('.shopcart_goods_remove').click(function(){
 		}
 	})
 });
+
+
+// 商品选择
+$('.selectProduct').click(function(){
+	if($(this).is(':checked')){
+		$(this).parent('td').parent('tr').css({
+			'background-color':'#fbfbfb',
+			'box-shadow':'inset 0 -5px 15px rgba(0,0,0,.1)'
+		})
+	}else{
+		$(this).parent('td').parent('tr').removeAttr('style')
+	}
+})

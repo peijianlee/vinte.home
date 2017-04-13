@@ -52,6 +52,7 @@ module.exports = function(app){
 	// shopcart
 	// app.get('/shopcart', Shopcart.matchcart, Shopcart.detail)
 	app.get('/inquirylist', User.createCaptcha, Shopcart.detail)
+	app.post('/create/inquirylist', User.createCaptcha, Shopcart.createorder)
 	app.post('/shopcart/add', Shopcart.add)
 	app.delete('/shopcart/del', Shopcart.del)
 	
