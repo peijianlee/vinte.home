@@ -37,9 +37,10 @@ module.exports = function(app){
 	});
 
 	// product
-	app.get('/store/:goods/:id', Product.detail)
 	app.get('/store', Product.indexlist)
-	app.get('/store/:goods', Product.search)
+	app.get('/store/id/:id', Product.detail)
+	app.get('/store/sort/:sort', Product.sort)
+	app.get('/store/material/:material', Product.sort)
 	app.get('/admin/product/list', User.signinRequired, User.adminRequired, Product.list)
 	app.get('/admin/product/category/list', User.signinRequired, User.adminRequired, Category.list)
 	app.post('/admin/product', User.signinRequired, User.adminRequired, Product.save)
@@ -103,6 +104,10 @@ module.exports = function(app){
 	app.get('/admin/banner/new', User.signinRequired, User.adminRequired, Banner.new)
 	app.post('/admin/banner', User.signinRequired, User.adminRequired, Banner.saveImage, Banner.save)
 	app.get('/admin/banner/list', User.signinRequired, User.adminRequired, Banner.list)
+	app.get('/admin/goods/sort/banner/list', User.signinRequired, User.adminRequired, Banner.goodsbanner)
+	app.get('/admin/goods/material/banner/list', User.signinRequired, User.adminRequired, Banner.goodsbanner)
+	app.get('/admin/goods/banner/update/:id', User.signinRequired, User.adminRequired, Banner.goodsbannerupdate)
+	app.post('/admin/goods/banner/save', User.signinRequired, User.adminRequired, Banner.saveImage, Banner.goodsbannersave)
 	app.get('/admin/banner/update/:id', User.signinRequired, User.adminRequired, Banner.update)
 	app.delete('/admin/banner/list', User.signinRequired, User.adminRequired, Banner.del)
 

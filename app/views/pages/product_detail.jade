@@ -6,7 +6,7 @@ block content
 		.nav
 			a(href="/news")
 				i.fs14.icon-home
-			a(href="/store/"+goods) #{goods}
+			a(href="/store/#{product.sort.attributes}") #{product.sort.attributes}
 			span #{product.title}
 		.side_nav
 			h2

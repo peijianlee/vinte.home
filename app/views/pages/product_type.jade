@@ -2,51 +2,66 @@ extends ../layout_index
 
 block content
 	link(href="/css/product.css",rel="stylesheet")
-
 	if category.pid && category.pid.length > 0
 		.wrap.nav
 			a(href="/news")
 				i.fs14.icon-home
-			span #{category.attributes}
-		div.goodsSortBg(style="background-image:url(https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488452404884&di=da83eb05a7747c1e8dcad8532f48dbc1&imgtype=0&src=http%3A%2F%2Fstatic.fuwo.com%2Fupload%2F63767%2Ff91792267a4911e4a73a2798c47715e5%2F1417542807.jpg)")
-		.wrap.goodsSortHead
-			h2 
-				span #{category.attributes}
-			h3 乡村风格主要起源于十八世纪各地拓荒者居住的房子， 具有刻苦创新的开垦精神，色彩及造型较为含蓄保守，以舒适机能为导向，兼具古典的造型与现代的线条、人体工学与装饰艺术的家具风格，充分显现出自然质朴的特性。美式古典乡村风格带着浓浓的乡村气息，
-		.wrap.iproduct_list(style="margin-top:0")
-			div.iproduct_frame
-				each item in category.pid
-					- console.log(item)
-					.iproduct(id=item.id)
-						img(src='/images_data/'+item.id+'/'+item.cover)
-						div.ip_bg
-						ul.ip_description
-							li
-								a(href="/store/"+category.attributes+"/"+item.id).ip_title
-									|#{item.title}
-									if item.material && item.material.length > 0
-										|&nbsp;#{item.material[0].attributes}
-									else
-										|&nbsp;未知材料
-									|&nbsp;宽#{item.size.w}×深#{item.size.d}×高#{item.size.h}cm
-									if item.color && item.color.length > 0
-										|&nbsp;/ #{item.color[0].attributes}
-									else
-										|&nbsp;/ 未知颜色
-							li
-								if item.sale
-									span.ip_tag 特价商品
-								if (moment(item.meta.createAt).add('hour',8).fromNow()).indexOf('ago')<0
-									span.ip_tag 新品
-							li
-								span.iproduct_add_cart_btn.cp
-									i.icon-shopping-cart
-									input(type="hidden",name="p[id]",value=item.id)
-									input(type="hidden",name="p[quantity]",value="1")
-								if item.sale
-									small.ip_price ￥#{item.sale}.00
-									small.ip_old_price ￥#{item.price}.00
-								else
-									small.ip_price ￥#{item.price}.00
+			a(href="/store") store
+			span #{linkSort}
+			b #{category.attributes}
+		if category.banner
+			div.goodsSortBg.wrap(style="background-image:url(/banner/#{category.banner})")
+		if categories && categories.length > 0
+			.wrap.mt15
+				dl.type_side_nav
+					dt
+						i.icon-magnet.mr10
+						| 商品分类
+					each cats in categories
+						- console.log(cats.id)
+						dd
+							if cats.id.toString() === category.id.toString()
+								a.animation.On(href="/store/sort/#{cats.attributes}")
+									i.icon-angle-right.mr10
+									| #{cats.attributes}
+							else
+								a.animation(href="/store/sort/#{cats.attributes}")
+									i.icon-angle-right.mr10
+									| #{cats.attributes}
+				div.goodsSort
+					if category.description
+						.goodsSortHead
+							h2: span #{category.attributes}
+							div !{category.description}
+					.iproduct_list(style="margin-top:0")
+						div.sub_product_frame
+							each item in category.pid
+								.sub_page_product(id=item.id)
+									img(src='/images_data/'+item.id+'/'+item.cover)
+									div.ip_bg
+									ul.ip_description
+										li
+											a(href="/store/id/"+item.id).ip_title
+												|#{item.title}
+												if item.material && item.material.length > 0
+													|&nbsp;/ #{item.material[0].attributes}
+												if item.color && item.color.length > 0
+													|&nbsp;/ #{item.color[0].attributes}
+										li.pb5 宽#{item.size.w}×深#{item.size.d}×高#{item.size.h}cm
+										li.pb5
+											if item.sale
+												span.ip_tag 特价商品
+											if (moment(item.meta.createAt).add('hour',8).fromNow()).indexOf('ago')<0
+												span.ip_tag 新品
+										li
+											span.iproduct_add_cart_btn.cp
+												i.icon-shopping-cart
+												input(type="hidden",name="p[id]",value=item.id)
+												input(type="hidden",name="p[quantity]",value="1")
+											if item.sale
+												small.ip_price ￥#{item.sale}.00
+												small.ip_old_price ￥#{item.price}.00
+											else
+												small.ip_price ￥#{item.price}.00
 	.bg_fixed
 	script(src="/js/shopcart.js")

@@ -15,47 +15,20 @@ var moment = require('moment')
 exports.indexlist = function(req,res){
 	var user = req.session.user
 	var id=req.params.id
-
-
-	console.log('-----shopcartnum数量为-------')
-	// console.log(user.shopcartnum)
-	//populate多层查找仅针对一个对应id？
-
-	// Category
-	// 	.find({type:'product', name:'sort'})
-	// 	.sort({_id: 1})
-	// 	.populate({
-	// 		path: 'pid',
-	// 		model: 'Product',
-	// 		populate: {
-	// 			path: 'scene',
-	// 			select: 'attributes',
-	// 			model: 'Category'
-	// 		}
-	// 	})
-	// 	.exec(function(err, categories){
-	// 		if(err)console.log(err)
-	// 		console.log(categories[0].pid[0])
-	// 		res.render('product',{
-	// 			title:'IMOOC 产品列表',
-	// 			categories: categories,
-	// 			cart_goods_num: 0
-	// 		})
-	// 	})
 	Category
 		.find({type:'product', name:'sort'})
 		.sort({_id: 1})
-		.populate('pid','id')
+		.populate({
+			path: 'pid',
+			model: 'Product',
+			populate: {
+				path: 'color material scene',
+				select: 'attributes',
+				model: 'Category'
+			}
+		})
 		.exec(function(err, categories){
 			if(err)console.log(err)
-			// console.log(categories)
-
-			var allproduct = []
-			for(var i=0; i < categories.length; i++){
-				for(var j=0; j < categories[i].pid.length; j++){
-					allproduct.push(categories[i].pid[j].id)
-				}
-			}
 			// 查找购物车商品数量
 			if(user){
 				var cart_goods_num = user.shopcartnum
@@ -65,30 +38,35 @@ exports.indexlist = function(req,res){
 				}else{
 					var cart_goods_num = 0
 				}
-				
 			}
-
-			Product
-				.find({_id: {$in: allproduct}})
-				.populate('color material scene','attributes')
-				.exec(function(err, products){
-
-					res.render('product',{
-						title:'IMOOC 产品列表',
-						categories: categories,
-						products: products,
-						cart_goods_num: cart_goods_num
-					})
+			Category.find({type:'product', name:'material'}, function(err, materialCategories){
+				if(err) console.log(err)
+				res.render('product',{
+					title:'IMOOC 产品列表',
+					categories: categories,
+					materialCategories: materialCategories,
+					cart_goods_num: cart_goods_num
 				})
+			})
 		})
 }
 
-exports.search = function(req,res){
-	var goods=req.params.goods
+// 商品属性
+exports.sort = function(req,res){
+	var sort=req.params.sort
+	var material=req.params.material
 	var user = req.session.user
+
+	if(sort){
+		var findObj = {'attributes': sort}
+		var linkSort = 'sort'
+	}else{
+		var findObj = {'_id': material}
+		var linkSort = 'material'
+	}
+
 	Category
-		.findOne({'attributes':goods})
-		.sort({_id: -1})
+		.findOne(findObj)
 		.populate({
 			path: 'pid',
 			model: 'Product',
@@ -99,27 +77,34 @@ exports.search = function(req,res){
 			}
 		})
 		.exec(function(err, category){
-			// console.log(category)
-
-
+			if(err) console.log(err)
+			if(!category){
+				console.log('该商品属性不存在或者已经被删除了。')
+				return res.render('prompt',{
+					message:'该商品属性不存在或者已经被删除了。'
+				})
+			}
 			// 查找购物车商品数量
 			if(user){
 				var cart_goods_num = user.shopcartnum
 			}else{
 				var cart_goods_num = req.session.cart.length
 			}
-			if(err)console.log(err)
-			res.render('product_type',{
-				title:'IMOOC 产品列表',
-				category: category,
-				cart_goods_num: cart_goods_num
+			Category.find({type:'product', name:'sort'},function(err, categories){
+				if(err) console.log(err)
+				res.render('product_type',{
+					title:'IMOOC 产品列表',
+					linkSort: linkSort,
+					category: category,
+					categories: categories,
+					cart_goods_num: cart_goods_num
+				})
 			})
 		})
 }
 // 商品详情页
 exports.detail = function(req,res){
 	var id=req.params.id
-	var goods=req.params.goods
 	Category
 		.find({type:'product', name: 'sort'})
 		.sort({_id: -1})
@@ -128,7 +113,7 @@ exports.detail = function(req,res){
 			if(err)console.log(err)
 			Product
 				.findOne({'_id':id})
-				.populate('color material scene','attributes')
+				.populate('color material scene sort','attributes')
 				.exec(function(err, _product){
 					console.log(_product)
 					if(err) console.log(err)
@@ -141,8 +126,7 @@ exports.detail = function(req,res){
 					res.render('product_detail',{
 						title: _product.title + ' | IMOOC',
 						categories: categories,
-						product: _product,
-						goods:goods
+						product: _product
 					})
 				})
 

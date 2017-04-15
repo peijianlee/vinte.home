@@ -202,6 +202,8 @@ exports.matchcart = function(req,res,next){
 	var s_shopcart = req.session.cart
 	var user = req.session.user
 
+	if(!s_shopcart || s_shopcart.length == 0) return false
+
 	Shopcart
 		.findOne({'uid':user._id})
 		.populate({

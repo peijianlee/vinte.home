@@ -8,31 +8,12 @@ var CategorySchema = new Schema({
 	//type仅识别查找类型
 	type: String,
 	attributes: String,
-	// attributes: [{
-	// 	name: String,
-	// 	pid:[{
-	// 		type: ObjectId,
-	// 		ref: 'Product'
-	// 	}],
-	// 	image: String,
-	// 	content: String,
-	// 	date: {
-	// 		type: Date, 
-	// 		default: Date.now()
-	// 	}
-	// }],
+	banner: String,
+	description: String,
 	pid: [{
 		type: ObjectId,
 		ref: 'Product'
 	}],
-	// news: [{
-	// 	type: ObjectId,
-	// 	ref: 'News'
-	// }],
-	// movies: [{
-	// 	type: ObjectId,
-	// 	ref: 'Movie'
-	// }],
 	meta:{
 		createAt:{
 			type: Date,

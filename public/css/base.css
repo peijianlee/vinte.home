@@ -11,6 +11,13 @@ button:link{outline:0 none;border:0 none;}
 button:active{outline:0 none;border:0 none;}
 button:visited{outline:0 none;border:0 none;}
 .tc{text-align:center;}
+.animation{
+	-webkit-transition:all 0.3s;
+	-moz-transition:all 0.3s;
+	-o-transition:all 0.3s;
+	-ms-transition:all 0.3s;
+	transition:all 0.3s;
+}
 ul,ol,li{list-style-type:none;}
 
 .block{display:block;}
@@ -96,6 +103,7 @@ ul,ol,li{list-style-type:none;}
 .mb15{margin-bottom:15px;}
 .pt10{padding-top:10px;}
 .pt20{padding-top:20px;}
+.pb5{padding-bottom:5px;}
 .pb10{padding-bottom:10px;}
 .pb20{padding-bottom:20px;}
 .pb50{padding-bottom:50px;}

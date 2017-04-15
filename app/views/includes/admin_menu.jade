@@ -22,12 +22,12 @@
 		dd
 			span.menuBtn
 				i.icon-magnet
-				span 产品管理
+				span 商品管理
 			ul.sMenu
 				li
-					a(href="/admin/product/category/list") 产品分类
+					a(href="/admin/product/category/list") 商品分类
 				li
-					a(href="/admin/product/list") 产品列表
+					a(href="/admin/product/list") 商品列表
 		dd
 			span.menuBtn
 				i.icon-list-alt
@@ -47,9 +47,16 @@
 				li
 					a(href="/admin/movie/list") 电影列表
 		dd
-			a.menuBtn(href="/admin/banner/list")
-				i.icon-picture
+			span.menuBtn
+				i.icon-film
 				span 海报设置
+			ul.sMenu
+				li
+					a(href="/admin/banner/list") 首页海报
+				li
+					a(href="/admin/goods/sort/banner/list") 商品类型海报
+				li
+					a(href="/admin/goods/material/banner/list") 商品材质海报
 		dd
 			a.menuBtn(href="/admin/user/list")
 				i.icon-user
@@ -106,7 +113,7 @@ script.
 		}
 	});
 	var menuname = [
-		{url:'product', cname:'产品管理'},
+		{url:'product', cname:'商品管理'},
 		{url:'news', cname:'文章设置'},
 		{url:'movie', cname:'电影设置'},
 		{url:'banner', cname:'海报设置'},

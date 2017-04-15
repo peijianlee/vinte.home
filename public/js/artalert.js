@@ -94,7 +94,7 @@ function arttip(txt){
 	$('.arttipbg').fadeIn('200');
 	$('.arttip').animate({'opacity':1,'bottom':'40%'},500);
 }
-function arttipclose(text,closetime){
+function arttipclose(text,closetime,dosomething){
 	if(text!=='0'){
 		$('.arttip').html(text)
 	}
@@ -106,5 +106,6 @@ function arttipclose(text,closetime){
 		$('.arttip').animate({'opacity':0,'bottom':'30%'},400,function(){
 			$(this).remove();
 		});
+		if(dosomething) dosomething
 	},closetime)
 }
