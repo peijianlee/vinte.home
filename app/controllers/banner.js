@@ -58,7 +58,8 @@ exports.goodsbanner = function(req, res){
 		if(err) console.log(err)
 		res.render('admin/product_banner',{
 			title: title,
-			categories: categories
+			categories: categories,
+			bannertype: bannertype
 		})
 	})
 }
@@ -124,7 +125,7 @@ exports.goodsbannersave = function(req, res){
 			}
 			category.save(function(err){
 				if(err) console.log(err)
-				res.redirect('/admin/goods/sort/banner/list')
+				res.redirect('/admin/goods/'+googsbanner.attributes+'/banner/list')
 			})
 		})
 	}
@@ -189,8 +190,13 @@ exports.del = function(req,res){
 
 // 删除图片
 function delBannerImg(filename){
-	fs.unlink('public/banner/'+filename, function(err) {
+	fs.unlink('public/banner/'+filename, function(err, file) {
 		if (err) console.error(err)
-		console.log("文件删除成功！")
+		if(file){
+			console.log("文件删除成功！")
+		}else{
+			console.log("文件不存在！")
+		}
+		
 	});
 }

@@ -25,21 +25,21 @@ module.exports = function(app){
 	//Index
 	app.get('/', Index.index)
 	// results
-	app.get('/results', Index.search)
+	app.get('/results', Category.fetchAllCategoryType, Category.categoryTypeHref, Index.search)
 	// 错误页
 	
 	app.use(function (err, req, res, next) {
-	    res.status(err.status || 500);
+	    res.status(err.status || 500)
 	    res.render('error', {
 	        message: err.message,
 	        error: {}
-	    });
-	});
+	    })
+	})
 
 	// product
 	app.get('/store', Product.indexlist)
 	app.get('/store/id/:id', Product.detail)
-	app.get('/store/sort/:sort', Product.sort)
+	app.get('/store/sort/:sort', Category.fetchAllCategoryType, Category.categoryTypeHref, Product.sort)
 	app.get('/store/material/:material', Product.sort)
 	app.get('/admin/product/list', User.signinRequired, User.adminRequired, Product.list)
 	app.get('/admin/product/category/list', User.signinRequired, User.adminRequired, Category.list)

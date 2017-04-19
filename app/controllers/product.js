@@ -56,51 +56,78 @@ exports.sort = function(req,res){
 	var sort=req.params.sort
 	var material=req.params.material
 	var user = req.session.user
+	var searchObj = req.session.searchObj
 
-	if(sort){
-		var findObj = {'attributes': sort}
-		var linkSort = 'sort'
+	// 查找购物车商品数量
+	if(user){
+		var cart_goods_num = user.shopcartnum
 	}else{
-		var findObj = {'_id': material}
-		var linkSort = 'material'
+		if(req.session.cart){
+			var cart_goods_num = req.session.cart.length
+		}else{
+			var cart_goods_num = "N"
+		}
 	}
 
-	Category
-		.findOne(findObj)
-		.populate({
-			path: 'pid',
-			model: 'Product',
-			populate: {
-				path: 'scene material color',
-				select: 'attributes',
-				model: 'Category'
-			}
-		})
-		.exec(function(err, category){
-			if(err) console.log(err)
-			if(!category){
-				console.log('该商品属性不存在或者已经被删除了。')
-				return res.render('prompt',{
-					message:'该商品属性不存在或者已经被删除了。'
-				})
-			}
-			// 查找购物车商品数量
-			if(user){
-				var cart_goods_num = user.shopcartnum
-			}else{
-				var cart_goods_num = req.session.cart.length
-			}
-			Category.find({type:'product', name:'sort'},function(err, categories){
+	if(sort){
+		var findObj = {'attributes': sort},
+			linkSort = 'sort',
+			template = 'product_type',
+			title = sort+'分类'
+
+	}else{
+		var findObj = {'attributes': material},
+			linkSort = 'material',
+			template = 'product_material',
+			title = material+'材质详情介绍'
+	}
+
+	// _findObj = Object.assign(searchObj, findObj)
+	// console.log(_findObj)
+
+	// console.log(searchObj.sort)
+	// console.log(searchObj.scene)
+	// console.log(searchObj.material)
+	// console.log(searchObj.color)
+	// console.log(!searchObj.sort && !searchObj.scene && !searchObj.material && !searchObj.color)
+
+	Category.find({type:'product', name:linkSort},function(err, categories){
+		if(err) console.log(err)
+		Category
+			.findOne(findObj)
+			.populate({
+				path: 'pid',
+				model: 'Product',
+				populate: {
+					path: 'scene material color',
+					select: 'attributes',
+					model: 'Category'
+				}
+			})
+			.exec(function(err, category){
 				if(err) console.log(err)
-				res.render('product_type',{
-					title:'IMOOC 产品列表',
+
+				console.log(category)
+
+				if(!category){
+					console.log('该商品属性不存在或者已经被删除了。')
+					return res.render('prompt',{
+						message:'该商品属性不存在或者已经被删除了。'
+					})
+				}
+
+				res.render(template,{
+					title: title+'-IMOOC',
 					linkSort: linkSort,
 					category: category,
 					categories: categories,
+					products: category.pid,
+					allCategoryType: req.session.allCategoryType,
+					// href: req._parsedUrl.search,
 					cart_goods_num: cart_goods_num
 				})
 			})
-		})
+	})
 }
 // 商品详情页
 exports.detail = function(req,res){
@@ -129,9 +156,7 @@ exports.detail = function(req,res){
 						product: _product
 					})
 				})
-
-		});
-
+		})
 }
 
 // admin product list

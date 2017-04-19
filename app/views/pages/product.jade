@@ -49,10 +49,10 @@ block content
 				i.icon-magnet.mr10
 				| 材质介绍
 		.wrap.imaterial_list
-			each materialcat in materialCategories
-				a(href="/store/material/"+materialcat.id).tc
-					p.fb.fs16 #{materialcat.attributes}
-						b #{materialcat.pid.length}
+			each item in materialCategories
+				a(href="/store/material/#{item.attributes}", style="background-image:url(/banner/#{item.banner})").tc
+					span.fb #{item.attributes}
+						b #{item.pid.length}
 
 	.bg_fixed
 	script(src="/js/shopcart.js")

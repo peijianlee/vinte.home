@@ -31,11 +31,9 @@ exports.index = function(req,res){
 exports.search = function(req,res){
 	// .query找到路由上的值
 	var catId = req.query.cat
-	var page = parseInt(req.query.p,12) || 0 
-	var count = 12
+	var page = parseInt(req.query.p,10) || 0 
+	var count = 10
 	var index = page*count
-
-	console.log(q)
 
 	if(catId){
 		// 在分类上找到路由上对应的值
@@ -65,138 +63,91 @@ exports.search = function(req,res){
 			})
 		}else{
 
-			
-			function removeParameter(str){
-				return str.replace(/(^\?|&)p=[^&]*(&)?/g,function(p0, p1, p2){
-					return p1 === '?' || p2 ? p1 : ''
-				})
-			}
-			var reqUrl = removeParameter(req.url)
-
-			var q = req.query.q
-			var g_sort = req.query.sort
-			var g_scene = req.query.scene
-			var g_material = req.query.material
-			var g_color = req.query.color
-
-			function Person(sort,scene,material,color){
-				this.title = new RegExp(q+'.*','i')
-				sort? this.sort = sort : false
-				scene? this.scene = scene : false
-				material? this.material = material : false
-				color? this.color = color : false
-			}
-
-			if(g_sort && g_scene && g_material && g_color){
-				var searchObj = new Person(g_sort,g_scene,g_material,g_color)
-			}else if(g_sort && g_scene && g_material){
-				var searchObj = new Person(g_sort,g_scene,g_material,null)
-			}else if(g_sort && g_scene && g_color){
-				var searchObj = new Person(g_sort,g_scene,null,g_color)
-			}else if(g_sort && g_material && g_color){
-				var searchObj = new Person(g_sort,null,g_material,g_color)
-			}else if(g_scene && g_material && g_color){
-				var searchObj = new Person(null,g_scene,g_material,g_color)
-			}else if(g_sort && g_scene){
-				var searchObj = new Person(g_sort,g_scene,null,null)
-			}else if(g_sort && g_material){
-				var searchObj = new Person(g_sort,null,g_material,null)
-			}else if(g_sort && g_color){
-				var searchObj = new Person(g_sort,null,null,g_color)
-			}else if(g_material && g_color){
-				var searchObj = new Person(null,null,g_material,g_color)
-			}else if(g_scene && g_color){
-				var searchObj = new Person(null,g_scene,null,g_color)
-			}else if(g_scene && g_material){
-				var searchObj = new Person(null,g_scene,g_material,null)
-			}else if(g_sort){
-				var searchObj = new Person(g_sort,null,null,null)
-			}else if(g_scene){
-				var searchObj = new Person(null,g_scene,null,null)
-			}else if(g_material){
-				var searchObj = new Person(null,null,g_material,null)
-			}else if(g_color){
-				var searchObj = new Person(null,null,null,g_color)
-			}else{
-				var searchObj = new Person(null,null,null,null)
-			}
-
+			console.log(req.session.searchObj)
 
 			Product
-				.find(searchObj)
-				.populate('sort', 'name attributes')
-				.populate('color material scene','attributes')
+				.find(req.session.searchObj)
+				.populate({
+					path: 'sort color material scene',
+					select: 'name attributes',
+					model: 'Category'
+				})
+				// .limit(3).skip(3)
+				// .populate('sort', 'name attributes')
+				// .populate('color material scene','attributes')
 				.exec(function(err, products){
 					if(err)console.log(err)
 
-					var sort_array = []
-					var color_array = []
-					var material_array = []
-					var scene_array = []
-					if(products && products.length > 0){
-						for(var i=0; i < products.length; i++){
-							// 查找商品类型
-							var sort = products[i].sort
-							var sort_index = sort_array.indexOf(sort)
-							if(sort_index === -1){
-								sort_array.push(sort)
-							}
-							// 查找商品颜色
-							findAttributes(products[i].color,'color')
-							// 查找商品材质
-							findAttributes(products[i].material,'material')
-							// 查找商品场景
-							findAttributes(products[i].scene,'scene')
+					// console.log(products)
 
-						}
-					}
-					function findAttributes(obj,type){
-						var attributes = obj
-						if(attributes && attributes.length > 0){
-							for(var j=0; j < attributes.length; j++){
-								var attr = attributes[j]
-								switch(type){
-									case 'color':
-										var	attray = color_array
-										break
-									case 'material':
-										var attray = material_array
-										break
-									case 'scene':
-										var attray = scene_array
-										break
-									default:
-										break
-								}
-								var	attr_index = attray.indexOf(attr)
-								if(attr_index === -1){
-									attray.push(attributes[j])
-								}
-							}
-						}
-					}
-					var attributes_array = [
-						{
-							'name': 'sort',
-							'cnname': '类型',
-							'attributes': sort_array
-						},
-						{
-							'name': 'scene',
-							'cnname': '场景',
-							'attributes': scene_array
-						},
-						{
-							'name': 'material',
-							'cnname': '材料',
-							'attributes': material_array
-						},
-						{
-							'name': 'color',
-							'cnname': '颜色',
-							'attributes': color_array
-						}
-					]
+					// var sort_array = []
+					// var color_array = []
+					// var material_array = []
+					// var scene_array = []
+					// if(products && products.length > 0){
+					// 	for(var i=0; i < products.length; i++){
+					// 		// 查找商品类型
+					// 		var sort = products[i].sort
+					// 		var sort_index = sort_array.indexOf(sort)
+					// 		if(sort_index === -1){
+					// 			sort_array.push(sort)
+					// 		}
+					// 		// 查找商品颜色
+					// 		findAttributes(products[i].color,'color')
+					// 		// 查找商品材质
+					// 		findAttributes(products[i].material,'material')
+					// 		// 查找商品场景
+					// 		findAttributes(products[i].scene,'scene')
+
+					// 	}
+					// }
+					// function findAttributes(obj,type){
+					// 	var attributes = obj
+					// 	if(attributes && attributes.length > 0){
+					// 		for(var j=0; j < attributes.length; j++){
+					// 			var attr = attributes[j]
+					// 			switch(type){
+					// 				case 'color':
+					// 					var	attray = color_array
+					// 					break
+					// 				case 'material':
+					// 					var attray = material_array
+					// 					break
+					// 				case 'scene':
+					// 					var attray = scene_array
+					// 					break
+					// 				default:
+					// 					break
+					// 			}
+					// 			var	attr_index = attray.indexOf(attr)
+					// 			if(attr_index === -1){
+					// 				attray.push(attributes[j])
+					// 			}
+					// 		}
+					// 	}
+					// }
+					// var attributes_array = [
+					// 	{
+					// 		'name': 'sort',
+					// 		'cnname': '类型',
+					// 		'attributes': sort_array
+					// 	},
+					// 	{
+					// 		'name': 'scene',
+					// 		'cnname': '场景',
+					// 		'attributes': scene_array
+					// 	},
+					// 	{
+					// 		'name': 'material',
+					// 		'cnname': '材料',
+					// 		'attributes': material_array
+					// 	},
+					// 	{
+					// 		'name': 'color',
+					// 		'cnname': '颜色',
+					// 		'attributes': color_array
+					// 	}
+					// ]
 
 					// console.log(attributes_array)
 
@@ -204,18 +155,20 @@ exports.search = function(req,res){
 
 					res.render('results',{
 						title:'搜索结果页',
-						keyword: '找到了 <b class=cRed>'+products.length+'</b> 条关键词为 <b class=cRed>" '+q+' "</b> 的商品',
-						searchword: q,
+						keyword: '找到了 <b class=cRed>'+products.length+'</b> 条关键词为 <b class=cRed>" '+req.query.q+' "</b> 的商品',
+						searchword: req.query.q,
 						currentPage: (page + 1),
-						query: 'q='+q,
+						query: 'q='+req.query.q,
 						totalPage: Math.ceil(products.length / count),
 						products: results,
-						attributes: attributes_array,
-						sort: req.query.sort,
-						scene: req.query.scene,
-						material: req.query.material,
-						color: req.query.color,
-						url: reqUrl
+						// attributes: attributes_array,
+						allCategoryType: req.session.allCategoryType,
+						// sort: req.query.sort,
+						// scene: req.query.scene,
+						// material: req.query.material,
+						// color: req.query.color,
+						href: req._parsedUrl.search,
+						pagehref: req._parsedUrl.pathname
 					})
 
 				})
