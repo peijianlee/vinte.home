@@ -27,6 +27,7 @@ ul,ol,li{list-style-type:none;}
 .pa{position:absolute;}
 .pf{position:fixed;}
 
+.fs11{font-size:11px;}
 .fs12{font-size:12px;}
 .fs14{font-size:14px;}
 .fs16{font-size:16px;}
@@ -101,6 +102,7 @@ ul,ol,li{list-style-type:none;}
 .mt15{margin-top:15px;}
 .mb10{margin-bottom:10px;}
 .mb15{margin-bottom:15px;}
+.mb50{margin-bottom:50px;}
 .pt10{padding-top:10px;}
 .pt20{padding-top:20px;}
 .pb5{padding-bottom:5px;}
@@ -115,6 +117,7 @@ ul,ol,li{list-style-type:none;}
 .bgBule{background-color:rgba(230,255,255,0.5);}
 .bgYellow{background-color:#f8fed7;}
 /*字体颜色*/
+.cAaa{color:#aaa;}
 .cGray{color:gray;}
 .cRed{color:#c8181e;}
 .cBlue{color:#0071bd;}

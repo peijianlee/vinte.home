@@ -1,6 +1,7 @@
 var Shopcart = require('../models/shopcart')
 var Product = require('../models/product')
 var User = require('../models/user')
+var Order = require('../models/order')
 var _ = require('underscore')
 
 
@@ -72,22 +73,73 @@ exports.detail = function(req,res){
 	}
 }
 
-// 创建订单
-exports.createorder = function(req, res){
+// 创建购物清单及填写个人信息
+exports.createInquirylist = function(req, res){
 	var orderObj = req.body.order.pid
-	// console.log(orderObj)
 	Product
 		.find({_id: {$in: orderObj}})
 		.populate('sort color material scene','attributes')
 		.exec(function(err, products){
 			// console.log(products)
-			res.render('createorder',{
+			res.render('create_order',{
 				title: '创建询价单' + ' | IMOOC',
 				products: products
 			})
 
 		})
+}
+// 创建订单
+exports.createOrder = function(req, res){
+	var orderInfo = req.body.order
 
+	Product
+		.find({_id: {$in: orderInfo.products.id}})
+		.exec(function(err, products){
+			// console.log(products)
+			if(products && products.length > 0){
+				var orderObj = {
+					uid: orderInfo.uid,
+					from: orderInfo.from,
+					products:[]
+				}
+				for(var i=0; i<products.length; i++){
+					var productObj = {
+						'_id': products[i].id,
+						'title': products[i].title,
+						'cover': products[i].cover,
+						'price': products[i].price,
+						'size': products[i].size,
+						'sale': products[i].sale,
+						'color': products[i].color,
+						'material': products[i].material,
+						'scene': products[i].scene,
+						'quantity': orderInfo.products.quantity[i],
+						'fromprice': orderInfo.products.fromprice[i]
+					}
+					orderObj.products.push(productObj)
+				}
+				var _orderObj = new Order(orderObj)
+				_orderObj.save(function(err, order){
+					if(err) console.log(err)
+					// req.session.user.order.id = order.id
+					// req.session.user.order.data = order.meta.createAt
+					req.session.user.order = {
+						id: order.id,
+						data: order.meta.createAt
+					}
+					res.redirect('order/success')
+				})
+			}
+			return false
+		})
+}
+// 创建订单成功信息
+exports.createOrderSuccess = function(req, res){
+	console.log(req.session.user)
+	res.render('create_order_success',{
+		title: '询价单创建成功 | IMOOC',
+		order: req.session.user.order
+	})
 }
 
 // 添加购物车

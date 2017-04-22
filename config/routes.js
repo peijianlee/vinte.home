@@ -10,6 +10,7 @@ var Comment = require('../app/controllers/comment')
 var Category = require('../app/controllers/category')
 var Banner = require('../app/controllers/banner')
 var Shopcart = require('../app/controllers/shopcart')
+var Order = require('../app/controllers/order')
 
 var path = require('path')
 
@@ -53,10 +54,16 @@ module.exports = function(app){
 	// shopcart
 	// app.get('/shopcart', Shopcart.matchcart, Shopcart.detail)
 	app.get('/inquirylist', User.createCaptcha, Shopcart.detail)
-	app.post('/create/inquirylist', User.createCaptcha, Shopcart.createorder)
+	app.post('/create/inquirylist', Shopcart.createInquirylist)
+	app.post('/create/order', Shopcart.createOrder)
+	app.get('/create/order/success', Shopcart.createOrderSuccess)
 	app.post('/shopcart/add', Shopcart.add)
 	app.delete('/shopcart/del', Shopcart.del)
-	
+
+	// order
+	app.get('/admin/order/list', User.signinRequired, User.adminRequired, Order.adminList)
+
+
 	// news
 	// var ueditor = require('ueditor')
 	// app.use("/libs/ueditor/ue", ueditor(path.join(__dirname, '../public'), News.ue))

@@ -1,0 +1,69 @@
+
+$('label.selectType').click(function(){
+	var index = $(this).index()
+	$('label.selectType').removeClass('On').eq(index).addClass('On')
+	if(index !== 0){
+		$('input[name="order.from[company]"]').val('').parents('dd').addClass('hidden')
+		$('input[name="order.from[user]"]').focus()
+	}else{
+		$('input[name="order.from[company]"]').focus().parents('dd').removeClass('hidden')
+	}
+})
+
+function editBtn(obj, obj2){
+	$('.'+obj).click(function(){
+		$(this)
+			.addClass(obj2)
+			.removeAttr('readonly')
+			.focus();
+	}).blur(function(){
+		$(this).removeClass(obj2).attr({'readonly':'false'})
+	})
+}
+editBtn('orderPrice','editPrice')
+editBtn('orderQuantity','editQuantity')
+
+function onlyNumber(obj,type){
+	// obj.value = obj.innerHTML)
+	// console.log(obj.innerHTML.indexOf(/[^\d\.]/g, ''))
+	if(type=='quantity'){
+		obj.value = obj.value.replace(/[^\d\.]/g, '')
+		obj.value = obj.value.replace(/^\./g, '')
+		obj.value = obj.value.replace('.', '$#$').replace(/\./g, '').replace('$#$', '') + ' PCS'
+	}else{
+		obj.value = obj.value.replace(/[^\d\.]/g, '')
+		obj.value = obj.value.replace(/^\./g, '')
+		obj.value = obj.value.replace(/\.{2,}/g, '.')
+		obj.value = '￥'+obj.value.replace('.', '$#$').replace(/\./g, '').replace('$#$', '.')
+	}
+}
+
+function enterKeyPress(element){
+	element.onkeydown = function(event){
+		var e = event || window.event || arguments.callee.caller.arguments[0]
+		var kc = e && e.keyCode
+		console.log(kc)
+		var kn = [8,37,39,46,49,50,51,52,53,54,55,56,57,48,96,97,98,99,100,101,102,103,104,105,110,190]
+		if(kc == 13) element.blur()
+		if(kn.indexOf(kc) == -1) return false
+	}
+}
+
+$('.createBtn').click(function(){
+	return false
+})
+
+var createBtn = document.getElementById('createBtn')
+createBtn.onclick = function(){
+	var inputType = ['company','user','phone','email']
+	var i_company = document.getElementsByName('order[company]')[0]
+
+	for(var i=0; i<inputType.length; i++){
+		var i_obj = document.getElementsByName('order.from['+inputType[i]+']')[0]
+		if(!i_obj.value){
+			i_obj.focus()
+			return false
+			break
+		}
+	}
+}

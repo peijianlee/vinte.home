@@ -1,0 +1,32 @@
+extends ../../layout_admin
+
+block content
+	.admin_wrap
+		h2.pageheader
+			i.icon-list
+			| #{title}
+		.contentpanel
+			table.table.table_hover.table_bordered.table_striped
+				thead
+					tr
+						th 订单ID
+						th 发送时间
+						th 是否过期
+						th 发送用户
+						th 用户备注
+						th 操作
+				tbody
+					if orders && orders.length > 0
+						each item in orders
+							tr
+								td.tc #{item.id}
+								td.tc 
+									span.cGray #{moment(item.meta.updateAt).format('YYYY/MM/DD HH:mm:ss')}
+									br
+									| #{moment(item.meta.updateAt).add(130, 'minute').format('YYYY/MM/DD HH:mm:ss')}
+								td.tc #{moment(item.meta.updateAt).add(150, 'minute').fromNow()}
+								//- td.tc #{moment().isBetween(moment(item.meta.updateAt), moment(item.meta.updateAt).add(130, 'minute'))}
+								td.tc #{item.uid.name}
+								td #{item.from.description}
+								td.tc 
+									a(href="#{item.id}").button.button-highlight.button-rounded.button-small(type="button", data-id="#{item._id}", data-src="#{item.imgsrc}") 处理

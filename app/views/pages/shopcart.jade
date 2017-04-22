@@ -6,7 +6,7 @@ block content
 			a(href="/news")
 				i.fs14.icon-home
 			a(href="/store") store
-			span inquiry list
+			b inquiry list
 		div.progress.progress_step_1
 			div.progress_step
 				span.s_step 1
@@ -23,7 +23,7 @@ block content
 			div.progress_step_line
 		form(method="post", action="/create/inquirylist", enctype="multipart/form-data")
 			table.shopcart_list
-				caption
+				caption.shopcart_head
 					i.icon-list.mr10
 					| INQUIRY LIST
 				thead
@@ -38,7 +38,7 @@ block content
 				tbody
 					if products && products.length>0
 						each item in products
-							tr(id=item.pid.id)
+							tr
 								if user
 									td.tc.pr
 										input.selectProduct.pa(name="order[pid]", type="checkbox", value=item.pid.id)

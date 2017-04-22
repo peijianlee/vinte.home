@@ -4,7 +4,8 @@ html
 		meta(charset="utf-8")
 		title #{title}
 		include ./includes/index_head
-	body
+	- if(userdetail) var bodyclass = "user_detail"
+	body(class=bodyclass)
 		include ./includes/header
 		block content
 		include ./includes/sign_menu

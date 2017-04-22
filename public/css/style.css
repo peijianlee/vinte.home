@@ -7,8 +7,8 @@
 	/*color:white;*/
 	
 }
-.header a{color:#25a6a4;}
-.header h1{float:left;line-height:60px;}
+.header .logo a{color:#25a6a4;font-size:28px;}
+.header .logo{float:left;line-height:60px;height:60px;overflow:hidden;}
 .hmenu{
 	float:right;
 	padding-top:10px;
@@ -42,6 +42,7 @@ a.head_shopcart{
 	height:32px;line-height:32px;
 }
 .head_search{
+	background-color:white;
 	margin-top:18px;
 	border-radius:3px;
 	border:1px solid #ccc;
@@ -627,6 +628,7 @@ div.c_body:after{
 	height:30px;line-height:30px;font-size:12px;
 	border:1px solid #ddd;border-radius:2px;
 	margin-bottom:10px;cursor:default;
+	background-color:white;
 }
 .nav a,
 .nav span,
@@ -679,8 +681,9 @@ div.c_body:after{
 
 
 /*-------------------个人中心-----------------*/
-.user_index{background-color:#25a6a4;}
-.user_index .header a{color:white;}
+
+.user_detail{background-color:#25a6a4;}
+.user_detail .logo a{color:white;}
 .user_frame{
 	margin:0 auto;
 	background-color:rgba(0,0,0,0.2);
@@ -696,6 +699,7 @@ div.c_body:after{
 		#25a6a4 75%,#25a6a4 100%,transparent);
 	background-size:6px 6px;
 	box-shadow:10px 10px 1px rgba(0,0,0,0.2);
+	margin-bottom:80px;
 }
 .user_info{
 	width:30%;
@@ -740,7 +744,7 @@ div.c_body:after{
 
 /*购物进度*/
 .progress{
-	height:70px;
+	height:75px;
 	position:relative;
 }
 .progress_step{
@@ -780,7 +784,7 @@ div.c_body:after{
 	80%{opacity:0;}
 	100%{opacity:0;}
 }
-.progress_step p{font-size:12px;margin-top:5px;}
+.progress_step p{font-size:12px;margin-top:7px;}
 .progress_line,
 .progress_step_line{
 	position:absolute;
@@ -826,7 +830,7 @@ div.c_body:after{
 	border-color:#bbb;
 	box-shadow:0 0 3px rgba(0,0,0,0.2);
 }
-.shopcart_list caption{
+.shopcart_head{
 	background-color:#555;color:white;
 	font-weight:bold;font-size:16px;
 	padding-left:20px;
@@ -854,11 +858,138 @@ div.c_body:after{
 .shopcart_list input[type="checkbox"]:checked ~ span.icon-check-empty{display:none;}
 
 /*创建订单*/
-.editPrice{
-	padding:0 10px;
+.orderPrice,
+.orderQuantity,
+.editPrice,
+.editQuantity{
+	padding:5px 10px;
 	max-width:100px;overflow:hidden;
 	display:inline-block;
-	border:1px solid #999;border-radius:3px;
-	background-color:#ffc;
+	border:1px solid white;
+}
+.orderPrice,
+.orderQuantity{
+	font-family:"Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","WenQuanYi Micro Hei",sans-serif;
+	font-weight:bold;text-align:center;
+	cursor:pointer;
+}
+.editPrice,
+.editQuantity{
+	border-color:#999;border-radius:3px;
+	background-color:#ffc;cursor:text;
 	box-shadow:inset 2px 2px 3px rgba(0,0,0,.1), 0 0 3px rgba(0,0,0,.3);
 }
+
+/*创建订单客户信息*/
+.create_order_userinfo{
+	float:right;width:29%;
+	background-color:white;
+	box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+}
+.create_order_userinfo dd{
+	padding-left:10px;padding-right:10px;padding-top:10px;
+	position:relative;
+	border-left:1px solid #ddd;
+	border-right:1px solid #ddd;
+}
+.create_order_userinfo dd.hidden{height:0;padding-top:0;padding-bottom:0;opacity:0}
+.create_order_userinfo_input,
+.create_order_userinfo_input input[type=text]{
+	height:30px;line-height:30px;
+}
+.create_order_userinfo_input,
+.create_order_userinfo_textarea{
+	border:1px solid #bbb;border-radius:3px;
+}
+.create_order_userinfo_input input[type=text]{
+	border:0 none;outline:0 none;
+	padding:0 0 0 40px;width:100%;
+	box-sizing:border-box;
+}
+.create_order_userinfo_input input[type=text]:focus,
+.create_order_userinfo_textarea:focus{
+	background-color:#ffe;
+	box-shadow:inset 2px 2px 3px rgba(0,0,0,.1),inset 1px 1px white;
+}
+.create_order_userinfo_input input[type=text]:focus~i{
+	background-color:#dee;box-shadow:none;color:#066;
+}
+.create_order_userinfo_textarea{
+	margin-bottom:10px;
+	display:block;
+	width:100%;padding:5px 10px;
+	box-sizing:border-box;
+	height:120px;
+	font-size:14px;
+	font-family:"Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","WenQuanYi Micro Hei",sans-serif;
+	resize:none;
+}
+.create_order_userinfo_input i{
+	position:absolute;text-align:center;
+	left:12px;top:11px;
+	background-color:#eee;border-right:1px solid #bbb;
+	width:30px;height:30px;line-height:30px;
+	box-shadow:inset -1px -1px white;
+	text-shadow:1px 1px white;
+}
+.create_order_userinfo label{
+	cursor:pointer;
+	font-size:12px;text-align:center;font-weight:bold;
+	width:50%;height:32px;line-height:32px;
+	display:inline-block;
+	padding-right:10px;
+	border:1px solid #ccc;
+	box-sizing:border-box;
+}
+.create_order_userinfo label:nth-child(1){
+	border-radius:3px 0 0 3px;
+	border-right-color:white;
+}
+.create_order_userinfo label:nth-child(2){
+	border-radius:0 3px 3px 0;
+}
+.create_order_userinfo label.On{
+	background-color:#888;border-color:#888;color:white;
+	position:relative;
+}
+.create_order_userinfo label.On:before{
+	content:"";width:0;height:0;
+	position:absolute;bottom:-8px;left:50%;
+	margin-left:-8px;
+	border-width:8px 8px 0;
+	border-style:solid;
+	border-color:#888 transparent;
+}
+.createBtn{
+	margin:0;padding:0;
+	display:block;width:100%;
+	font-size:16px;font-weight:bold;
+	border:none 0;outline:none 0;
+	background-color:#57c1bf;color:white;
+	height:54px;cursor:pointer;
+	border-radius:3px;
+	text-shadow:0 0 5px #088;
+}
+.createBtn:hover{
+	background-color:#088;
+}
+/*创建成功信息*/
+.order_success{
+	padding:25px;border:1px solid #ccc;
+	margin-bottom:50px;
+	background-color:white;
+	box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+}
+.order_success dd{
+	border-top:1px dashed #ddd;
+	padding:10px;
+	font-size:14px;
+}
+.success_tip{
+	font-size:22px;
+	color:#088;
+	font-weight:bold;
+	padding-left:10px;
+	padding-bottom:10px;
+}
+.order_link{color:#099;border-bottom:1px dashed #099;}

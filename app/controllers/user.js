@@ -222,8 +222,9 @@ exports.detail = function(req,res){
 			})
 		}
 		res.render('user',{
-			title: user.name+'的用户中心',
-			user: user
+			title: user.name+'的个人中心',
+			user: user,
+			userdetail: 'true'
 		})
 
 	})
