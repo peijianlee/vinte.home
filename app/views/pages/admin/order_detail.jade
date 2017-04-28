@@ -1,0 +1,79 @@
+extends ../../layout_admin
+
+block content
+	.admin_wrap
+		h2.pageheader
+			i.icon-list
+			| #{title}
+		.contentpanel
+			dl.admin_order_head.mb10
+				dt 订单号：#{order.id}
+				dd 创建时间：#{moment(order.meta.createAt).format('YYYY/MM/DD HH:mm:ss')}
+				dd 发送用户：
+					a.cBlue(href="list?name=#{order.uid.id}", title="查看#{order.uid.name}的所有询价单") #{order.uid.name}
+						i.icon-external-link.ml5
+			div.admin_order_left
+				if order.products && order.products.length > 0
+					h6.admin_order_list_head
+						i.icon-list.mr10
+						|询价单列表
+					table.table_striped.table_bordered
+						tr
+							th(width="150") 图片
+							th 名称
+							th 官方定价
+							th 目标数量
+							th 目标价格
+						each item in order.products
+							tr
+								td: img(src="/images_data/"+item.id+"/"+item.cover, width="150px", height="150px")
+								td
+									ul
+										li.fs16.fb #{item.title}
+										if item.scene && item.scene.length > 0
+											li.cGray.fs12 场景：
+												each i_scene in item.scene
+													span.ml5 #{i_scene.attributes}
+										if item.material && item.material.length > 0
+											li.cGray.fs12 材质：
+												each i_material in item.material
+													span.ml5 #{i_material.attributes}
+										if item.color && item.color.length > 0
+											li.cGray.fs12 颜色：
+												each i_color in item.color
+													span.ml5 #{i_color.attributes}
+										li.cGray.fs12 尺寸：
+											span.ml5 宽#{item.size.w}×深#{item.size.d}×高#{item.size.h} (cm)
+								td.tc #{item.price}
+								td.tc.fb #{item.quantity}
+								td.tc.fb #{item.fromprice}
+			div.admin_order_right
+				h6.admin_order_list_head
+					i.icon-info.mr10
+					|客户资料
+				ul
+					if order.from.company
+						li
+							i.icon-building.mr5.ml5
+							| 公司名称：
+							b #{order.from.company}
+					li
+						i.icon-user.mr5.ml5
+						| 联系人：
+						b #{order.from.user}
+					li
+						i.icon-phone.mr5.ml5
+						| 联系电话：
+						b #{order.from.phone}
+					li
+						i.icon-envelope.mr5.ml5
+						| Email：
+						b #{order.from.email}
+					li
+						i.icon-comment-alt.mr5.ml5
+						| 留言：
+						p.fb #{order.from.description}
+					li
+						span.button.button-primary.button-rounded.button-longshadow.block 立即处理
+
+

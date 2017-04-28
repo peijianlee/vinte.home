@@ -250,23 +250,23 @@ exports.del = function(req,res){
 }
 
 // 比对购物车
-exports.matchcart = function(req,res,next){
+exports.matchcart = function(req, res){
 	var s_shopcart = req.session.cart
 	var user = req.session.user
 
-	if(!s_shopcart || s_shopcart.length == 0) return false
+	// if(!s_shopcart || s_shopcart.length == 0) return false
 
 	Shopcart
 		.findOne({'uid':user._id})
-		.populate({
-			path: 'products.product',
-			model: 'Product',
-			populate: {
-				path: 'category',
-				select: 'name',
-				model: 'Category'
-			}
-		})
+		// .populate({
+		// 	path: 'products.pid',
+		// 	model: 'Product',
+		// 	populate: {
+		// 		path: 'category',
+		// 		select: 'name',
+		// 		model: 'Category'
+		// 	}
+		// })
 		.exec(function(err, shopcart){
 			if(err) console.log(err)
 			if(!shopcart){
@@ -274,41 +274,52 @@ exports.matchcart = function(req,res,next){
 				var newShopcart = new Shopcart({"uid":user._id,"pid":[]})
 				// newShopcart = _.extend(newShopcart, s_shopcart)
 
-				if(s_shopcart){
+				if(s_shopcart  && s_shopcart.length > 0){
 					for(var i=0; i<s_shopcart.length; i++){
 						newShopcart.products.push(s_shopcart[i])
 					}
+					delete req.session.cart
 				}
-				delete req.session.cart
 				newShopcart.save(function(err, _newShopcart){
 					if(err) console.log(err)
 					user.shopcartnum = _newShopcart.products.length
-					console.log('-----shopcartnum数量为-------')
-					console.log(user.shopcartnum)
+
+					if(req.url.indexOf('signup') > -1){
+						res.redirect('/store')
+					}else{
+						res.json({success:1})
+					}
 				})
 			}else{
 				console.log('合并缓存数据')
 
 				var products = shopcart.products
 
-				for(var i=0; i<s_shopcart.length; i++){
-					var is_same_id = false
-					for(var j=0; j<products.length; j++){
-						if(s_shopcart[i].pid==products[j].pid){
-							is_same_id = true
-							break
+				if(s_shopcart  && s_shopcart.length > 0){
+					for(var i=0; i<s_shopcart.length; i++){
+						var is_same_id = false
+						for(var j=0; j<products.length; j++){
+							if(s_shopcart[i].pid==products[j].pid){
+								is_same_id = true
+								break
+							}
+						}
+						if(!is_same_id){
+							products.push(s_shopcart[i])
 						}
 					}
-					if(!is_same_id){
-						products.push(s_shopcart[i])
-					}
+					delete req.session.cart
 				}
-				delete req.session.cart
 				shopcart.save(function(err, _shopcart){
 					if(err) console.log(err)
 					user.shopcartnum = _shopcart.products.length
-					console.log('-----shopcartnum数量为-------')
-					console.log(user.shopcartnum)
+					// console.log('-----shopcartnum数量为-------')
+					// console.log(req.session.user)
+					if(req.url.indexOf('signup') > -1){
+						res.redirect('/store')
+					}else{
+						res.json({success:1})
+					}
 				})
 
 			}

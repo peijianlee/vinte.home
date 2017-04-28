@@ -9,12 +9,27 @@ var path = require('path')
 var moment = require('moment')
 
 
+exports.cartNum = function(req, res){
+	// 查找购物车商品数量
+	if(user){
+		var cart_goods_num = user.shopcartnum
+	}else{
+		if(req.session.cart){
+			var cart_goods_num = req.session.cart.length
+		}else{
+			var cart_goods_num = 0
+		}
+	}
 
+}
 
 // 前台首页
 exports.indexlist = function(req,res){
 	var user = req.session.user
 	var id=req.params.id
+
+	console.log(user)
+
 	Category
 		.find({type:'product', name:'sort'})
 		.sort({_id: 1})
@@ -30,22 +45,15 @@ exports.indexlist = function(req,res){
 		.exec(function(err, categories){
 			if(err)console.log(err)
 			// 查找购物车商品数量
-			if(user){
-				var cart_goods_num = user.shopcartnum
-			}else{
-				if(req.session.cart){
-					var cart_goods_num = req.session.cart.length
-				}else{
-					var cart_goods_num = 0
-				}
-			}
+			var cartGoodsNum = user? req.session.user.shopcartnum : req.session.cart? req.session.cart.length : 0
+			// var cart_goods_num = req.session.user.shopcartnum || req.session.cart.length || 0
 			Category.find({type:'product', name:'material'}, function(err, materialCategories){
 				if(err) console.log(err)
 				res.render('product',{
 					title:'IMOOC 产品列表',
 					categories: categories,
 					materialCategories: materialCategories,
-					cart_goods_num: cart_goods_num
+					cart_goods_num: cartGoodsNum
 				})
 			})
 		})
@@ -59,15 +67,7 @@ exports.sort = function(req,res){
 	var searchObj = req.session.searchObj
 
 	// 查找购物车商品数量
-	if(user){
-		var cart_goods_num = user.shopcartnum
-	}else{
-		if(req.session.cart){
-			var cart_goods_num = req.session.cart.length
-		}else{
-			var cart_goods_num = "N"
-		}
-	}
+	var cartGoodsNum = user? req.session.user.shopcartnum : req.session.cart? req.session.cart.length : 0
 
 	if(sort){
 		var findObj = {'attributes': sort},
@@ -124,7 +124,7 @@ exports.sort = function(req,res){
 					products: category.pid,
 					allCategoryType: req.session.allCategoryType,
 					// href: req._parsedUrl.search,
-					cart_goods_num: cart_goods_num
+					cart_goods_num: cartGoodsNum
 				})
 			})
 	})
@@ -132,6 +132,10 @@ exports.sort = function(req,res){
 // 商品详情页
 exports.detail = function(req,res){
 	var id=req.params.id
+	var user=req.session.user
+	// 查找购物车商品数量
+	var cartGoodsNum = user? req.session.user.shopcartnum : req.session.cart? req.session.cart.length : 0
+
 	Category
 		.find({type:'product', name: 'sort'})
 		.sort({_id: -1})
@@ -153,7 +157,8 @@ exports.detail = function(req,res){
 					res.render('product_detail',{
 						title: _product.title + ' | IMOOC',
 						categories: categories,
-						product: _product
+						product: _product,
+						cart_goods_num: cartGoodsNum
 					})
 				})
 		})

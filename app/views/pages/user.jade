@@ -4,7 +4,7 @@ block content
 	.wrap.nav
 		a(href="/news")
 			i.fs14.icon-home
-		b dfsfsdf
+		b 我的个人中心
 	.user_frame.wrap
 		.user_info
 			img(src="#{user.avatar}")
@@ -17,15 +17,26 @@ block content
 						| 注册会员
 			.user_role.mt15
 				span 注册时间：#{moment(user.meta.createAt).format('YYYY/MM/DD')}
-		.user_action
-			ul.user_details
-				li 
-					lable.fb 注册时间：
-					input.inputStyle(value="#{moment(user.meta.createAt).format('YYYY/MM/DD HH:mm:ss')}")
-				li 
-					lable.fb 地址邮箱：
-					input.inputStyle(value="#{user.emaill}")
-				li.user_edit
-					span.icon-edit(title="编辑个人信息")
-				
+		.user_details
+			h4(style="padding-bottom:15px;")
+				i.icon-comments-alt.mr5.ml5
+				| 欢迎登陆
+				span.cGray.ml10 VITE
+					b(style="color:#077") HOME
+			if orders && orders.length > 0
+				.user_details_head
+					i.icon-list.mr10
+					a 我的订单
+				table.table_striped.table_bordered
+					tr
+						th 订单号
+						th 创建时间
+						th 是否回复
+						th 操作
+					each item in orders
+						tr.tc
+							td #{item._id}
+							td #{moment(item.meta.createAt).format('YYYY/MM/DD')}
+							td
+							td: a.button.button-primary.button-tiny 查看
 	.bg_fixed

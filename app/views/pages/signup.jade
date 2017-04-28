@@ -9,20 +9,24 @@ block content
 		form(method="POST", action="/user/signup")
 			ul.sign_form_content
 				li
+					input#signupName.form-control(name="signup[name]", type="text", placeholder="请输入用户名", onfocus="enterKeyPress(this, 'name')")
 					label(for="signupName")
-						i.icon-user 
-					input#signupName.form-control(name="user[name]", type="text", placeholder="请输入用户名")
+						i.icon-user
 				li
+					input#signupPassword.form-control(name="signup[password]",type="password", placeholder="请输入密码", onfocus="enterKeyPress(this, 'password')")
 					label(for="signupPassword")
 						i.icon-key
-					input#signupPassword.form-control(name="user[password]",type="password", placeholder="请输入密码")
+				li
+					input#reSignupPassword.form-control(name="signup[repassword]",type="password", placeholder="请再次输入密码", onfocus="enterKeyPress(this, 'repassword')")
+					label(for="reSignupPassword")
+						i.icon-key
 				li.sign_tip
 					i.icon-question-sign 
 					| &nbsp;已经注册了会员？
 					a.cBlue.textUnderline(href="signin") 点击登录
 			
 			.sign_form_foot
-				button.button.button-raised.button-primary(type="submit") 注 册
+				button#signupBtn.button.button-raised.button-primary(type="submit") 注 册
 				.sign_form_foot_info
 					h6 ITEST
 					p 基于NodeJs+MongoDB搭建的电影网站 <br /> 备案编号:110105000501 Copyright © 2006-2017
@@ -30,3 +34,5 @@ block content
 		i.icon-quote-left.icon-3x.pull-left
 		| #{bgword}
 	script(src="js/sign.js")
+
+	script.

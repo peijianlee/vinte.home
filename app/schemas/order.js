@@ -5,6 +5,10 @@ var ObjectId = Schema.Types.ObjectId
 var OrderSchema = new Schema({
 	from: {
 		company: String,
+		// company: {
+		// 	type: String,
+		// 	default: 'null'
+		// },
 		user: String,
 		phone: String,
 		email: String,

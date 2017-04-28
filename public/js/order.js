@@ -1,12 +1,15 @@
 
+var selectTypeName = 1
 $('label.selectType').click(function(){
 	var index = $(this).index()
 	$('label.selectType').removeClass('On').eq(index).addClass('On')
 	if(index !== 0){
 		$('input[name="order.from[company]"]').val('').parents('dd').addClass('hidden')
 		$('input[name="order.from[user]"]').focus()
+		selectTypeName = 2
 	}else{
 		$('input[name="order.from[company]"]').focus().parents('dd').removeClass('hidden')
+		selectTypeName = 1
 	}
 })
 
@@ -49,15 +52,13 @@ function enterKeyPress(element){
 	}
 }
 
-$('.createBtn').click(function(){
-	return false
-})
-
 var createBtn = document.getElementById('createBtn')
 createBtn.onclick = function(){
-	var inputType = ['company','user','phone','email']
-	var i_company = document.getElementsByName('order[company]')[0]
-
+	if(selectTypeName == 1){
+		var inputType = ['company','user','phone','email']
+	}else{
+		var inputType = ['user','phone','email']
+	}
 	for(var i=0; i<inputType.length; i++){
 		var i_obj = document.getElementsByName('order.from['+inputType[i]+']')[0]
 		if(!i_obj.value){

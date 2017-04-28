@@ -62,6 +62,7 @@ module.exports = function(app){
 
 	// order
 	app.get('/admin/order/list', User.signinRequired, User.adminRequired, Order.adminList)
+	app.get('/admin/order/:id', User.signinRequired, User.adminRequired, Order.detail)
 
 
 	// news
@@ -80,7 +81,7 @@ module.exports = function(app){
 
 
 	//User
-	app.get('/user/:id', User.signinRequired, User.detail)
+	app.get('/user/:name', User.signinRequired, User.detail)
 	app.get('/captcha',User.createCaptcha)
 	app.post('/user/signup', User.signup, Shopcart.matchcart)
 	app.post('/user/signin', User.checkedCaptcha, User.signin, Shopcart.matchcart)

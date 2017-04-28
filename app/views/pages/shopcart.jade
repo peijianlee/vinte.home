@@ -22,7 +22,7 @@ block content
 			div.progress_line
 			div.progress_step_line
 		form(method="post", action="/create/inquirylist", enctype="multipart/form-data")
-			table.shopcart_list
+			table.shopcart_list.mb50
 				caption.shopcart_head
 					i.icon-list.mr10
 					| INQUIRY LIST
@@ -45,7 +45,7 @@ block content
 										span.icon-check-empty.cGray.fs18
 										span.icon-check.none.fs18
 								td
-									a(target="_bank", href="/store/"+item.pid.sort.attributes+"/"+item.pid.id)
+									a(target="_bank", href="/store/id/"+item.pid.id)
 										img(src="/images_data/"+item.pid.id+"/"+item.pid.cover)
 								td.shopcart_goods_name.vatop
 									ul

@@ -531,9 +531,10 @@ div.c_body:after{
 
 .sign_form_content label{
 	display:inline-block;
+	position:absolute;top:0;left:0;
 	font-size:14px;
 	color:#777;text-shadow:1px 1px white;
-	width:9%;text-align:center;
+	width:36px;text-align:center;
 	background-color:#eee;
 	border:1px solid #ccc;
 	border-radius:4px 0 0 4px;
@@ -550,11 +551,24 @@ div.c_body:after{
 	padding: 8px 2%;
 	transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
 }
+.sign_form_content input[disabled=disabled]{
+	background-color:#eee;text-shadow:1px 1px white;
+}
+
 .sign_form_content input{
-	margin-left:-1px;
+	margin-left:37px;
 	border-radius:0 4px 4px 0;
 	display: inline-block;
 	width:86%;
+}
+.sign_form_content input:focus{
+	box-shadow:inset 2px 2px 3px rgba(0,0,0,0.15);
+	outline:none 0;
+	border-color:#bbb;
+}
+.sign_form_content input:focus~label{
+	background-color:#ddd;color:#555;
+	border-color:#bbb;
 }
 .inputStyle{border-radius:4px;}
 .inputStyle:focus{
@@ -563,10 +577,11 @@ div.c_body:after{
 	outline: 0 none;
 }
 .sign_form_content input.input_error{
-	border-color:#f38379;
-	color:#f38379;
+	border-color:#f88;
+	color:#f88;
 	box-shadow:inset 1px 1px 3px rgba(0,0,0,0.3);
 }
+.sign_form_content input.input_error ~ label{border-color:#f88;background-color:#ffdbd8;color:#900;}
 .sign_form_content li{
 	margin-top:5px;
 	margin-bottom:15px;
@@ -592,21 +607,26 @@ div.c_body:after{
 	color:#716c3a;
 }
 .sign_tip.error{
-	border-color:#f38379;
+	border-color:#f88;
 	background-color:#feeeed;
 	color:#ff6d60;
-	position:relative;
-	margin-left:9.2%;
+	box-shadow:3px 3px 5px rgba(0,0,0,.3);
+	/*position:relative;*/
+	/*margin-left:9.2%;*/
+	position:absolute;top:26px;right:0;z-index:1;
+}
+.sign_tip.error i{
+	position:absolute;right:9px;top:-20px;
 }
 .sign_tip.error:after,
 .sign_tip.error:before{
 	content:"";
-	position:absolute;left:10px;
+	position:absolute;right:10px;
 	border-style:solid;
 	border-width:0 4px 4px;
 }
 .sign_tip.error:before{
-	border-color:#f38379 transparent;
+	border-color:#f88 transparent;
 	top:-4px;
 }
 .sign_tip.error:after{
@@ -620,6 +640,9 @@ div.c_body:after{
 	font-size:20px;
 	max-width:450px;
 	bottom:70px;right:2%;
+	opacity:0.8;
+	font-family:"proxima_nova",Arial,"Microsoft JhengHei","Microsoft Yahei","Heiti TC","PMingLiU",sans-serif;
+	/*font-family:"Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","WenQuanYi Micro Hei",sans-serif;*/
 }
 .bgword i{color:#999;}
 
@@ -713,11 +736,20 @@ div.c_body:after{
 	border-radius:50%;
 	border:2px solid white;
 }
-.user_action{
+.user_details{
 	min-height:300px;
 	margin-left:30%;
+	padding:15px;
 	background-color:white;
 	box-shadow:inset 2px 0 3px rgba(0,0,0,0.2);
+}
+.user_details_head{
+	height:30px;line-height:30px;
+	color:#077;font-weight:bold;
+	padding:8px 15px;
+	border:1px solid #ddd;
+	border-bottom-color:white;
+	background-color:#eee;
 }
 .user_role span{
 	font-size:12px;font-weight:bold;
@@ -738,8 +770,6 @@ div.c_body:after{
 	border:2px solid #25a6a4;
 }
 .user_edit span:hover{background-color:#25a6a4;color:white;}
-.user_details{font-size:14px;padding:20px 30px;}
-.user_details li{margin-top:10px;}
 
 
 /*购物进度*/
@@ -960,7 +990,7 @@ div.c_body:after{
 	border-style:solid;
 	border-color:#888 transparent;
 }
-.createBtn{
+#createBtn{
 	margin:0;padding:0;
 	display:block;width:100%;
 	font-size:16px;font-weight:bold;
@@ -970,7 +1000,7 @@ div.c_body:after{
 	border-radius:3px;
 	text-shadow:0 0 5px #088;
 }
-.createBtn:hover{
+#createBtn:hover{
 	background-color:#088;
 }
 /*创建成功信息*/

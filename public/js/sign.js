@@ -53,18 +53,13 @@ $('.sign-success').unbind('click').click(function(){
 	return false
 });
 
-// 注册
-$('.signup-success').click(function(){
-	// var 
-});
-
 function addErrorTip(obj,text){
 	var signTip = obj.parent().find('.sign_tip');
 	if(signTip.length>0) signTip.remove();
 	obj
 		.addClass('input_error')
 		.parent('li').append('<div class="sign_tip error inlineBlock">'+
-			'<i class="icon-exclamation-sign"> '+
+			'<i class="icon-exclamation-sign"></i>'+
 			text+'</div>');
 
 }
@@ -84,3 +79,63 @@ $('.changeCaptcha').click(function(){
 	})
 })
 
+// 注册
+var signUpName = document.getElementsByName('signup[name]')[0]
+var singUpPs = document.getElementsByName('signup[password]')[0]
+var singUpRps = document.getElementsByName('signup[repassword]')[0]
+if(signUpName) signUpName.focus()
+function enterKeyPress(element,type){
+	element.onkeydown = function(event){
+		var e = event || window.event || arguments.callee.caller.arguments[0]
+		var kc = e && e.keyCode
+		var $element = $('input[name="'+element.name+'"]')
+		if($element.hasClass('input_error')){
+			$element.removeClass('input_error').parent().children('.sign_tip').remove()
+		}
+		if(type == 'name'){
+			var kn = [32,59,188,190,191,219,220,221,222]
+		}else if(type == 'password'){
+			var kn = [32]
+		}else{
+			var kn = [32]
+		}
+		if(kc == 13) checkPassword()
+		
+		if(kn.indexOf(kc) !== -1) return false
+	}
+}
+
+function checkPassword(){
+	var inputType = ['name','password','repassword']
+
+	for(var i=0; i<inputType.length; i++){
+		var $i_obj = $('input[name="signup['+inputType[i]+']"')
+		var i_obj = document.getElementsByName('signup['+inputType[i]+']')[0]
+		if(!i_obj.value){
+			if($i_obj.attr('name').indexOf('signup[name]') > -1){
+				var tipText = '请输用户名！'
+			}else if($i_obj.attr('name').indexOf('signup[password]') > -1){
+				var tipText = '请输入密码！'
+			}else if($i_obj.attr('name').indexOf('signup[repassword]') > -1){
+				var tipText = '请再次输入密码，确保与上面输入密码一致！'
+			}
+			addErrorTip($i_obj, tipText)
+			$i_obj.addClass('input_error').focus()
+			return false
+			break
+		}
+	}
+	//- alert(singUpPs.value.toString()+', '+singUpRps.value.toString())
+	if(singUpPs.value.toString() !== singUpRps.value.toString()){
+		singUpRps.focus()
+		addErrorTip($('input[name="signup[repassword]"]'),'请确保与上面输入密码一致！')
+		return false
+	}
+	return true
+}
+var signupBtn = document.getElementById('signupBtn')
+if(signupBtn){
+	signupBtn.onclick = function(){
+		if(!checkPassword()) return false
+	}
+}
