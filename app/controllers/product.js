@@ -12,7 +12,7 @@ var moment = require('moment')
 exports.cartNum = function(req, res){
 	// 查找购物车商品数量
 	if(user){
-		var cart_goods_num = user.shopcartnum
+		var cart_goods_num = user.shopcartgoods.length
 	}else{
 		if(req.session.cart){
 			var cart_goods_num = req.session.cart.length
@@ -26,6 +26,7 @@ exports.cartNum = function(req, res){
 // 前台首页
 exports.indexlist = function(req,res){
 	var user = req.session.user
+	var cart = req.session.cart
 	var id=req.params.id
 
 	console.log(user)
@@ -45,7 +46,21 @@ exports.indexlist = function(req,res){
 		.exec(function(err, categories){
 			if(err)console.log(err)
 			// 查找购物车商品数量
-			var cartGoodsNum = user? req.session.user.shopcartnum : req.session.cart? req.session.cart.length : 0
+			if(user){
+				var cartGoods = user.shopcartgoods
+				var cartGoodsNum = user.shopcartgoods.length
+			}else{
+				if(cart && cart.length > 0){
+					var cartGoods = []
+					var cartGoodsNum = cart.length
+					for(var i=0; i < cartGoodsNum; i++){
+						cartGoods.push(cart[i].pid)
+					}
+				}else{
+					var cartGoods = []
+					var cartGoodsNum = 0
+				}
+			}
 			// var cart_goods_num = req.session.user.shopcartnum || req.session.cart.length || 0
 			Category.find({type:'product', name:'material'}, function(err, materialCategories){
 				if(err) console.log(err)
@@ -53,21 +68,44 @@ exports.indexlist = function(req,res){
 					title:'IMOOC 产品列表',
 					categories: categories,
 					materialCategories: materialCategories,
+					cart_goods: cartGoods,
 					cart_goods_num: cartGoodsNum
 				})
 			})
 		})
 }
 
+// 判断当前购物车状态
+function checkCart(usr){}
+
 // 商品属性
 exports.sort = function(req,res){
-	var sort=req.params.sort
-	var material=req.params.material
-	var user = req.session.user
-	var searchObj = req.session.searchObj
+	var sort=req.params.sort,
+		material=req.params.material,
+		searchObj = req.session.searchObj,
+		user = req.session.user,
+		cart = req.session.cart
 
 	// 查找购物车商品数量
-	var cartGoodsNum = user? req.session.user.shopcartnum : req.session.cart? req.session.cart.length : 0
+	// var cartGoodsNum = user? req.session.user.shopcartnum : req.session.cart? req.session.cart.length : 0
+	
+	if(user){
+		var cartGoods = user.shopcartgoods
+		var cartGoodsNum = user.shopcartgoods.length
+	}else{
+		if(cart && cart.length > 0){
+			var cartGoods = []
+			var cartGoodsNum = cart.length
+			for(var i=0; i < cartGoodsNum; i++){
+				cartGoods.push(cart[i].pid)
+			}
+		}else{
+			var cartGoods = []
+			var cartGoodsNum = 0
+		}
+	}
+
+	console.log(cartGoods)
 
 	if(sort){
 		var findObj = {'attributes': sort},
@@ -107,7 +145,7 @@ exports.sort = function(req,res){
 			.exec(function(err, category){
 				if(err) console.log(err)
 
-				console.log(category)
+				// console.log(category)
 
 				if(!category){
 					console.log('该商品属性不存在或者已经被删除了。')
@@ -124,6 +162,7 @@ exports.sort = function(req,res){
 					products: category.pid,
 					allCategoryType: req.session.allCategoryType,
 					// href: req._parsedUrl.search,
+					cart_goods: cartGoods,
 					cart_goods_num: cartGoodsNum
 				})
 			})

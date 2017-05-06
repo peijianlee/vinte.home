@@ -179,11 +179,11 @@ exports.add = function(req,res){
 	}else{
 		Shopcart.findOne({'uid':user._id},function(err,shopcart){
 			if(err) console.log(err)
-			var check_same_id = false
 			
-			console.log(user.shopcartnum)
+			
+			console.log(user.shopcartgoods)
 
-
+			var check_same_id = false
 			for(var i=0; i<shopcart.products.length; i++){
 				if(shopcart.products[i].pid.toString() === pid.toString()){
 					check_same_id = true
@@ -192,41 +192,46 @@ exports.add = function(req,res){
 			}
 			if(check_same_id) return res.json({success:1})
 
+
 			shopcart.products.push(cartinfo)
-			shopcart.save(function(err){
+			shopcart.save(function(err, _shopcart){
 				console.log(err)
-				user.shopcartnum = shopcart.products.length
-				User.findByIdAndUpdate(user.id, {$inc:{shopcartnum:1}}, function(err){
-					if(err) console.log(err)
-				})
-				return res.json({success:2,cart_goods_num:shopcart.products.length})
+				user.shopcartgoods.push(pid)
+				
+				// User.findByIdAndUpdate(user.id, {$set:{shopcartgoods:1}}, function(err){
+				// 	if(err) console.log(err)
+				// })
+				return res.json({success:2,cart_goods_num:_shopcart.products.length})
 			})
 
 		})
 
 	}
 
+	console.log(user)
+
 }
 
 // 删除购物车
 exports.del = function(req,res){
 	var user = req.session.user
+	var cart = req.session.cart
 	var id = req.query.id
 	if(!user){
-		console.log(id)
-		var cart = req.session.cart
+		console.log(cart)
 		for(var i=0; i<cart.length; i++){
 			if(cart[i].pid == id){
 				req.session.cart.splice(i, 1)
-				res.json({success:1,cart_goods_num:cart.length})
-				return false
+				return res.json({success:1,cart_goods_num:cart.length})
 			}
 		}
-		res.json({success:0})
+
+		return res.json({success:0})
 	}else{
 		Shopcart.findOne({'uid':user._id},function(err,shopcart){
 			if(err) console.log(err)
 			if(shopcart){
+
 				for(var i=0; i<shopcart.products.length; i++){
 					// 查找购物车里对应的product id,并删除
 					if(shopcart.products[i].pid==id){
@@ -234,12 +239,17 @@ exports.del = function(req,res){
 						break
 					}
 				}
+
+				// 删除usersession里面的shopcartgoods
+				var index = user.shopcartgoods.indexOf(id)
+				user.shopcartgoods.splice(index, 1)
+
 				shopcart.save(function(err){
 					if(err) console.log(err)
-					user.shopcartnum = shopcart.products.length
-					User.findByIdAndUpdate(user.id, {$inc:{shopcartnum:-1}}, function(err){
-						if(err) console.log(err)
-					})
+					// user.shopcartnum = shopcart.products.length
+					// User.findByIdAndUpdate(user.id, {$inc:{shopcartnum:-1}}, function(err){
+					// 	if(err) console.log(err)
+					// })
 					res.json({success:1,cart_goods_num:shopcart.products.length})
 				})
 			}else{
@@ -282,7 +292,14 @@ exports.matchcart = function(req, res){
 				}
 				newShopcart.save(function(err, _newShopcart){
 					if(err) console.log(err)
-					user.shopcartnum = _newShopcart.products.length
+
+					user.shopcartgoods = new Object(returnShopcartGoods(_newShopcart))
+
+
+					console.log('------')
+					console.log(returnShopcartGoods(_newShopcart))
+					console.log(user.shopcartgoods)
+					console.log(user)
 
 					if(req.url.indexOf('signup') > -1){
 						res.redirect('/store')
@@ -308,13 +325,12 @@ exports.matchcart = function(req, res){
 							products.push(s_shopcart[i])
 						}
 					}
-					delete req.session.cart
+					// delete req.session.cart
 				}
 				shopcart.save(function(err, _shopcart){
 					if(err) console.log(err)
-					user.shopcartnum = _shopcart.products.length
+					user.shopcartgoods = returnShopcartGoods(_shopcart)
 					// console.log('-----shopcartnum数量为-------')
-					// console.log(req.session.user)
 					if(req.url.indexOf('signup') > -1){
 						res.redirect('/store')
 					}else{
@@ -323,5 +339,16 @@ exports.matchcart = function(req, res){
 				})
 
 			}
+			// 获取所有购物车的商品ID
+			function returnShopcartGoods(obj){
+				var shopcartgoods = []
+				if(obj && obj.products.length > 0){
+					for(var i=0; i < obj.products.length; i++){
+						shopcartgoods.push(obj.products[i].pid)
+					}
+				}
+				return shopcartgoods
+			}
+
 		})
 }

@@ -24,7 +24,7 @@ module.exports = function(app){
 	})
 
 	//Index
-	app.get('/', Index.index)
+	app.get('/', Product.indexlist)
 	// results
 	app.get('/results', Category.fetchAllCategoryType, Category.categoryTypeHref, Index.search)
 	// 错误页

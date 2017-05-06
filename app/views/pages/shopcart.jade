@@ -38,7 +38,7 @@ block content
 				tbody
 					if products && products.length>0
 						each item in products
-							tr
+							tr(id=item.pid.id)
 								if user
 									td.tc.pr
 										input.selectProduct.pa(name="order[pid]", type="checkbox", value=item.pid.id)

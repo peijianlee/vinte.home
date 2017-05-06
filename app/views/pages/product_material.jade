@@ -54,7 +54,12 @@ block content
 										if (moment(item.meta.createAt).add('hour',8).fromNow()).indexOf('ago')<0
 											span.ip_tag 新品
 									li
-										span.iproduct_add_cart_btn.cp
+										- if(cart_goods.indexOf(item.id) > -1){
+										-	var btnClass = 'iproduct_add_cart_btn Stand'
+										- }else{
+										-	var btnClass = 'iproduct_add_cart_btn'
+										- }
+										span(class="#{btnClass} cp animation")
 											i.icon-shopping-cart
 											input(type="hidden",name="p[id]",value=item.id)
 											input(type="hidden",name="p[quantity]",value="1")

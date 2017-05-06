@@ -9,12 +9,13 @@ var UserSchema = new mongoose.Schema({
 	},
 	avatar:{
 		type: String,
-		default: 'http://www.easyicon.net/api/resizeApi.php?id=1132617&size=128'
+		default: 'avatar.png'
 	},
-	shopcartnum:{
-		type: Number,
-		default: 0
-	},
+	// shopcartnum:{
+	// 	type: Number,
+	// 	default: 0
+	// },
+	shopcartgoods:[],
 	password: String,
 	// >10: admin
 	// >50: supper admin

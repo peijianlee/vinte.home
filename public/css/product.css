@@ -83,10 +83,20 @@
 }
 span.iproduct_add_cart_btn{
 	float:right;font-size:12px;
-	width:24px;height:24px;line-height:24px;
+	width:22px;height:22px;line-height:22px;
+	border-width:1px;
+	border-style:solid;
 	border-radius:3px;
 	text-align:center;
+	border-color:#a00;color:#a00;
+}
+span.iproduct_add_cart_btn:hover{
+	background-color:#bbb;border-color:#333;color:#333;
+	box-shadow:0 0 5px rgba(0,0,0,.3);
+}
+span.iproduct_add_cart_btn.Stand{
 	background-color:#a00;color:white;
+	border-color:#a00;box-shadow:none;
 }
 .imaterial_list{height:150px;}
 .imaterial_list a{
