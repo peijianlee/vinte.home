@@ -242,14 +242,33 @@ span.iproduct_add_cart_btn.Stand{
 	height:40px;line-height:40px;
 	margin:10px 10px 0;padding:0 15px;
 }
+.sub_product_frame_row3 .sub_page_product{width:33.333%;}
+.sub_product_frame_row4 .sub_page_product{width:25%;}
 .sub_page_product{
 	display:inline-block;
-	width:33.333%;box-sizing:border-box;
+	box-sizing:border-box;
 	padding:10px 10px 0;margin-bottom:8px;
 	font-size:12px;
 }
 .sub_page_product img{
 	width:100%;
+}
+
+.my_favourite{
+	color:#7f0019;
+	cursor:pointer;
+	font-size:16px;
+	top:20px;right:20px;
+	width:16px;height:16px;
+}
+.my_favourite i{
+	position:absolute;top:0;left:0;
+}
+.my_favourite i.icon-heart{
+	transform:scale(0,0)
+}
+.my_favourite:hover i.icon-heart{
+	transform:scale(1,1)
 }
 
 /*产品搜索*/

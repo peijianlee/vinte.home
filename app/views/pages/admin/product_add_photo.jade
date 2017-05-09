@@ -18,8 +18,7 @@ block content
 			button.button.button-royal.button-rounded.button-raised.button-small(type="button") 图片管理
 			a.button.button-rounded.button-raised.button-small(type="button", href="/admin/product/update/"+product._id+"?edit=content") 商品详情
 		.contentpanel
-			form.form_horizontal(name="photoform",method="post", action="/admin/product/update/photo", enctype="multipart/form-data")
-				input(type="hidden", name="product[_id]", value=product._id)
+			form#product_cover.form_horizontal(name="photoform",method="post", action="/admin/product/update/photo", enctype="multipart/form-data")
 				.form_group
 					label.control_label 封面：
 					.control_div
@@ -32,23 +31,45 @@ block content
 								img#img_view
 				.form_group
 					label.control_label
-					button.updateImgBtn.button.button-primary.button-primary.button-longshadow-right(type="sumbit")
+					span#updateImgBtn.button.button-primary.button-primary.button-longshadow-right
 						i.icon-upload.mr10
 						| 保 存
+					button(type="sumbit")#saveImgBtn.none 保 存
 				//- .form_group
 					.col-sm-offset-1.col-sm-1
 						button#btn_save.button.button-primary.button-primary.button-longshadow-right(type="sumbit")
 							b.icon-upload
 							&nbsp;&nbsp;更 新
+				input(type="hidden", name="product[_id]", value=product._id)
 				input(type="hidden", name="product[uid]", value="#{user._id}")
+				input(type="hidden", name="product[cover]", value="#{product.cover}")
+		script(src="/js/artalert.js")
 		script.
-			$('.updateImgBtn').click(function(){
-				var fileEmpty = document.photoform.productCover.value
-				if(fileEmpty==''){
-					artalert('请选择图片后再上传')
-					return false;
-				}
+			var updateImgNext = false
+			$('#updateImgBtn').click(function(){
+				var next = false
+				var form = new FormData(document.getElementById("product_cover"))
+				arttip('<i class="icon-spinner icon-spin"></i>&nbsp;&nbsp;uploading...')
+				$.ajax({
+					url: '/admin/update/checkedimagesdata',
+					type: 'POST',
+					data: form,
+					cache: false,
+					processData: false,
+					contentType: false,
+					success:function(data){
+						if(data.success == 1){
+							arttipclose('不符合图片要求，上传失败！', 1000)
+						}else if(data.success == 0){
+							updateImgNext = true
+							$('#saveImgBtn').click()
+						}
+					}
+				})
 			});
+			$('#saveImgBtn').click(function(){
+				if(!updateImgNext) return false
+			})
 			//下面用于图片上传预览功能
 			function setImagePreview(btnId,viewId,IEviewId) {
 				var docObj=document.getElementById(btnId);

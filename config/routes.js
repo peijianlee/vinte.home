@@ -48,6 +48,7 @@ module.exports = function(app){
 	app.get('/admin/product/add', User.signinRequired, User.adminRequired, Product.new)
 	app.post('/admin/product/changecategory', User.signinRequired, User.adminRequired, Product.changecategory)
 	app.get('/admin/product/update/:id', User.signinRequired, User.adminRequired, Product.new)
+	app.post('/admin/update/checkedimagesdata', Product.checkImageData)
 	app.post('/admin/product/update/photo', User.signinRequired, User.adminRequired, Product.updatephoto)
 	app.delete('/admin/product/list', User.signinRequired, User.adminRequired, Product.del)
 	

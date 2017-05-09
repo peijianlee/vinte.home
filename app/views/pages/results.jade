@@ -89,10 +89,10 @@ block content
 			| !{keyword}
 		.wrap.iproduct_list
 			.category_list
-			.iproduct_frame
+			.sub_product_frame_row4
 				if products && products.length > 0
 					each item in products
-						.iproduct(id=item.id)
+						.sub_page_product(id=item.id)
 							img(src='/images_data/'+item.id+'/'+item.cover)
 							.ip_bg
 							ul.ip_description
@@ -114,7 +114,12 @@ block content
 									if (moment(item.meta.createAt).add('hour',8).fromNow()).indexOf('ago')<0
 										span.ip_tag 新品
 								li
-									span.iproduct_add_cart_btn.cp
+									- if(cart_goods.indexOf(item.id) > -1){
+									-	var btnClass = 'iproduct_add_cart_btn Stand'
+									- }else{
+									-	var btnClass = 'iproduct_add_cart_btn'
+									- }
+									span(class="#{btnClass} cp animation")
 										i.icon-shopping-cart
 										input(type="hidden",name="p[id]",value=item.id)
 										input(type="hidden",name="p[quantity]",value="1")
@@ -150,3 +155,5 @@ block content
 							span.page_unclick: i.icon-double-angle-right
 					-	}
 				- }
+		.bg_fixed
+		script(src="/js/shopcart.js")

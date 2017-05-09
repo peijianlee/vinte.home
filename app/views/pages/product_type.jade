@@ -80,9 +80,12 @@ block content
 													a.On(href=ahref) #{cid.attributes}
 												- else
 													a(href=ahref) #{cid.attributes}
-					.sub_product_frame
+					.sub_product_frame_row3
 						each item in products
-							.sub_page_product(id=item.id)
+							.sub_page_product.pr(id=item.id)
+								//- span.my_favourite.pa
+									i.icon-heart-empty
+									i.icon-heart.animation
 								img(src='/images_data/'+item.id+'/'+item.cover)
 								div.ip_bg
 								ul.ip_description

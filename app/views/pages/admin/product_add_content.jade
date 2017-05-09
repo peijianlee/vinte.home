@@ -15,7 +15,7 @@ block content
 				input(type="hidden", name="product[_id]", value=product._id)
 				script.
 					var id = document.getElementsByName('product[_id]')[0].value
-					window.UEDITOR_HOME_URL = "/product/ueditor/ue/"+id
+					window.UEDITOR_HOME_URL = '/libs/ueditor/'
 				.form_group
 					script(type="text/javascript",src="/libs/ueditor/ueditor.config.js")
 					script(type="text/javascript",src="/libs/ueditor/ueditor.all.min.js")

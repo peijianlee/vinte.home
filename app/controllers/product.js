@@ -93,15 +93,13 @@ exports.sort = function(req,res){
 		var cartGoods = user.shopcartgoods
 		var cartGoodsNum = user.shopcartgoods.length
 	}else{
+		var cartGoods = []
+		var cartGoodsNum = 0
 		if(cart && cart.length > 0){
-			var cartGoods = []
 			var cartGoodsNum = cart.length
 			for(var i=0; i < cartGoodsNum; i++){
 				cartGoods.push(cart[i].pid)
 			}
-		}else{
-			var cartGoods = []
-			var cartGoodsNum = 0
 		}
 	}
 
@@ -220,9 +218,6 @@ exports.list = function(req,res){
 			// 截取当前商品总数
 			var results = products.slice(index, index + count)
 
-			console.log(products)
-
-
 			res.render('admin/product_list',{
 				title:'后台产品列表',
 				currentPage: (page + 1),
@@ -268,38 +263,29 @@ exports.new = function(req,res){
 				product: {}
 			})
 		}else{
-			// 更新页面
-			if(edittype=='photo'){
-				Product.findById(id,function(err,product){
-					if(err)console.log(err)
-					return res.render('admin/product_add_photo',{
-						title: '商品<'+product.title+'> - 图片管理',
-						product: product
-					})
-				})
-			}else if(edittype=='content'){
-				Product.findById(id,function(err,product){
-					if(err)console.log(err)
-					return res.render('admin/product_add_content',{
-						title: '商品<'+product.title+'> - 商品详情',
-						product: product
-					})
-				})
-			}
-
-
-			
 			Product.findById(id,function(err,product){
 				if(err)console.log(err)
-
-				res.render('admin/product_add',{
-					title: '商品<'+product.title+'> - 基本信息',
-					categories_sort: categories_sort,
-					categories_scene: categories_scene,
-					categories_material: categories_material,
-					categories_color: categories_color,
-					product: product
-				})
+				// 更新页面
+				if(edittype=='photo'){
+					return res.render('admin/product_add_photo',{
+						title: '商品 "'+product.title+'" - 图片管理',
+						product: product
+					})
+				}else if(edittype=='content'){
+					return res.render('admin/product_add_content',{
+						title: '商品 "'+product.title+'" - 商品详情',
+						product: product
+					})
+				}else{
+					res.render('admin/product_add',{
+						title: '商品 "'+product.title+'" - 基本信息',
+						categories_sort: categories_sort,
+						categories_scene: categories_scene,
+						categories_material: categories_material,
+						categories_color: categories_color,
+						product: product
+					})
+				}
 			})
 
 		}
@@ -350,7 +336,7 @@ exports.save = function(req,res){
 				console.log('创建目录成功')
 			})
 
-			res.redirect('/admin/product/list')
+			res.redirect('/admin/product/update/'+_product._id+'?edit=photo')
 		})
 	}else{
 		// 更新
@@ -455,19 +441,27 @@ exports.changecategory = function(req, res){
 	})
 }
 
-
+exports.checkImageData = function(req, res){
+	var files = req.files.productCover
+	if(!files.originalFilename || files.size > 10485760 || files.type.indexOf('image') == -1){
+		return res.json({success:1})
+	}else{
+		return res.json({success:0})
+	}
+}
 
 exports.updatephoto = function(req,res){
 	var id = req.body.product._id
+	var cover = req.body.product.cover
 	var files = req.files.productCover
 	var filePath = files.path
-	console.log(id)
 
+	if(!files.originalFilename || files.size > 10485760 || files.type.indexOf('image') == -1){
+		return res.redirect('/admin/product/update/'+id+'?edit=photo')
+	}
 
-	// for(var i=0;i<files.length;i++){
-	// 	console.log(files[i].name)
-	// }
 	fs.readFile(filePath,function(err,data){
+
 		var timestamp = Date.now()
 		var type = files.type.split('/')[1]
 		var imgsrc = timestamp + '.' +type
@@ -476,7 +470,9 @@ exports.updatephoto = function(req,res){
 
 		fs.writeFile(newPath, data, function(err){
 			if(err)console.log(err)
-			req.imgsrc = imgsrc
+			// 删除旧图片
+			fs.unlinkSync(__dirname + '/../../public/images_data/'+id+'/'+cover)
+			// 保存新图片
 			Product.findById(id,function(err,_product){
 				if(err)console.log(err)
 				_product.cover = imgsrc
@@ -487,7 +483,6 @@ exports.updatephoto = function(req,res){
 			})
 		})
 	})
-	return false;
 }
 
 
@@ -530,9 +525,47 @@ exports.del = function(req,res){
 					console.log(err)
 					res.json({success:0})
 				}else{
+					rmdirSync(__dirname + '/../../public/images_data/'+id, function(err){
+						if(err) console.log(err)
+						console.log("删除目录以及子目录成功")
+					})
 					res.json({success:1})
 				}
 			})
 		})
 	}
 }
+
+// 删除文件夹及文件夹下的所有文件
+var rmdirSync = (function(){
+	function iterator(url, dirs){
+		var stat = fs.statSync(url)
+		if(stat.isDirectory()){
+			// 收集目录
+			dirs.unshift(url)
+			inner(url, dirs)
+		}else if(stat.isFile()){
+			// 直接删除文件
+			fs.unlinkSync(url)
+		}
+	}
+	function inner(path, dirs){
+		var arr = fs.readdirSync(path)
+		for(var i=0, el; el = arr[i++];){
+			iterator(path+"/"+el, dirs)
+		}
+	}
+	return function(dir, cb){
+		cb = cb || function(){}
+		var dirs = []
+		try{
+			iterator(dir, dirs)
+			for(var i=0, el; el = dirs[i++];){
+				fs.rmdirSync(el)
+			}
+			cb()
+		}catch(e){
+			e.code === "ENOENT" ? cb() : cb(e)
+		}
+	}
+})()

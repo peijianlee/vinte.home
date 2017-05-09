@@ -12,9 +12,10 @@ block content
 			table.table.table_hover.table_bordered.table_striped
 				thead
 					tr
+						th 封面
 						th 分类
 						th 更新时间
-						th 产品标题
+						th 产品名称
 						th 价格
 						th 更新
 						th(style="width:100px;") 删除
@@ -22,14 +23,17 @@ block content
 					if products && products.length > 0
 						each item in products
 							tr(class="item-id-#{item._id}")
-								if item.sort !== undefined
+								if item.cover
+									td.tc
+										img(src="/images_data/#{item.id}/#{item.cover}", style="width:80px;height:80px")
+								if item.sort
 									td.tc #{item.sort.attributes}
 								else
 									td.tc --
 								td.tc #{moment(item.meta.updateAt).format('YYYY/MM/DD')}
-								td 
-									a(target="_blank", href="/products/#{item._id}") #{item.title}
-								td #{item.price}
+								td.tc
+									a(target="_blank", href="/store/id/#{item._id}") #{item.title}
+								td.tc #{item.price}
 								td.tc
 									a.button.button-highlight.button-rounded.button-small(href="/admin/product/update/#{item._id}?edit=info") 基本信息
 									a.button.button-highlight.button-rounded.button-small.ml10(href="/admin/product/update/#{item._id}?edit=photo") 图片管理

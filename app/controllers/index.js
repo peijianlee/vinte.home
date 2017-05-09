@@ -34,6 +34,23 @@ exports.search = function(req,res){
 	var page = parseInt(req.query.p,10) || 0 
 	var count = 10
 	var index = page*count
+	var user = req.session.user
+	var cart = req.session.cart
+
+
+	if(user){
+		var cartGoods = user.shopcartgoods
+		var cartGoodsNum = user.shopcartgoods.length
+	}else{
+		var cartGoods = []
+		var cartGoodsNum = 0
+		if(cart && cart.length > 0){
+			var cartGoodsNum = cart.length
+			for(var i=0; i < cartGoodsNum; i++){
+				cartGoods.push(cart[i].pid)
+			}
+		}
+	}
 
 	if(catId){
 		// 在分类上找到路由上对应的值
@@ -91,7 +108,9 @@ exports.search = function(req,res){
 						// attributes: attributes_array,
 						allCategoryType: req.session.allCategoryType,
 						href: req._parsedUrl.search,
-						pagehref: req._parsedUrl.pathname
+						pagehref: req._parsedUrl.pathname,
+						cart_goods: cartGoods,
+						cart_goods_num: cartGoodsNum
 					})
 
 				})
