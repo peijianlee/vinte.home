@@ -231,6 +231,7 @@ exports.new = function(req,res){
 	var id = req.params.id
 	var edittype = req.query.edit
 
+
 	Category.find({type:'product'}, function(err, categories){
 		if(err)console.log(err)
 
@@ -272,6 +273,7 @@ exports.new = function(req,res){
 						product: product
 					})
 				}else if(edittype=='content'){
+					req.session.ueditortype = {type:"product", dirname:id}
 					return res.render('admin/product_add_content',{
 						title: '商品 "'+product.title+'" - 商品详情',
 						product: product
@@ -330,8 +332,8 @@ exports.save = function(req,res){
 			cat_add_pid(material)
 			cat_add_pid(color)
 			// 创建一个以当前ID为名的文件夹
-			var filename = _product._id
-			fs.mkdir(__dirname + '/../../public/images_data/'+filename,function(err){
+			var filename = 'p'+_product._id
+			fs.mkdir(__dirname + '/../../public/data/products/'+filename, function(err){
 				if(err) console.log(err)
 				console.log('创建目录成功')
 			})
@@ -463,15 +465,21 @@ exports.updatephoto = function(req,res){
 	fs.readFile(filePath,function(err,data){
 
 		var timestamp = Date.now()
-		var type = files.type.split('/')[1]
+		var type = files.type.split('/')[1] ? "jpeg" : "jpg"
+		if(type == 'jpeg') type = "jpg"
 		var imgsrc = timestamp + '.' +type
 		// fs.mkdir(__dirname + '/../../public/images_data/'+filename,function(err){
-		var newPath = path.join(__dirname, '../../', '/public/images_data/'+id+'/'+imgsrc)
+		var newPath = path.join(__dirname, '../../', '/public/data/products/p'+id+'/'+imgsrc)
 
 		fs.writeFile(newPath, data, function(err){
 			if(err)console.log(err)
 			// 删除旧图片
-			fs.unlinkSync(__dirname + '/../../public/images_data/'+id+'/'+cover)
+			if(cover){
+				rmdirSync(__dirname + '/../../public/data/products/p'+id+'/'+cover, function(err){
+					if(err) console.log(err)
+					console.log("删除目录以及子目录成功")
+				})
+			}
 			// 保存新图片
 			Product.findById(id,function(err,_product){
 				if(err)console.log(err)
@@ -525,7 +533,7 @@ exports.del = function(req,res){
 					console.log(err)
 					res.json({success:0})
 				}else{
-					rmdirSync(__dirname + '/../../public/images_data/'+id, function(err){
+					rmdirSync(__dirname + '/../../public/data/products/p'+id, function(err){
 						if(err) console.log(err)
 						console.log("删除目录以及子目录成功")
 					})

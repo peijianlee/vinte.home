@@ -11,6 +11,8 @@ var Category = require('../app/controllers/category')
 var Banner = require('../app/controllers/banner')
 var Shopcart = require('../app/controllers/shopcart')
 var Order = require('../app/controllers/order')
+var Ueditor = require('../app/controllers/ueditor')
+var ueditor = require('ueditor')
 
 var path = require('path')
 
@@ -67,8 +69,7 @@ module.exports = function(app){
 
 
 	// news
-	// var ueditor = require('ueditor')
-	// app.use("/libs/ueditor/ue", ueditor(path.join(__dirname, '../public'), News.ue))
+	// app.use("/libs/ueditor/ue", ueditor(path.join(__dirname, '../public'), Ueditor.news))
 	app.get('/news/:id', News.pv, News.detail)
 	app.get('/news/comment', News.detail)
 	app.get('/news', News.indexlist)
