@@ -48,12 +48,9 @@ app.use("/libs/ueditor/ue", ueditor(path.join(__dirname, 'public'), function (re
     var uedirname = req.session.ueditortype.dirname
     if(ueditortype == 'news'){
         var img_url = '/data/news/'
-
     }else{
         var img_url = '/data/products/p'+uedirname+'/'
-
     }
-
     // ueditor 客户发起上传图片请求
     if (req.query.action === 'uploadimage') {
         var foo = req.ueditor
@@ -62,16 +59,13 @@ app.use("/libs/ueditor/ue", ueditor(path.join(__dirname, 'public'), function (re
         res.ue_up(img_url)
         //你只要输入要保存的地址 。保存操作交给ueditor来做
     }
-
     //  客户端发起图片列表请求
     else if (req.query.action === 'listimage') {
         // var dir_url = '/ue_images_data/news/'
         res.ue_list(img_url)  // 客户端会列出 dir_url 目录下的所有图片
     }
-
     // 客户端发起其它请求
     else {
-
         res.setHeader('Content-Type', 'application/json')
         res.redirect('/libs/ueditor/nodejs/config.json')
     }
