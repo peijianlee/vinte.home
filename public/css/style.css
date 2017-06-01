@@ -1,6 +1,17 @@
 
 /*-----头部-----*/
 .wrap{max-width:980px;margin-left:auto;margin-right:auto;}
+.header_top{
+	height:26px;
+	line-height:26px;
+	background-color:#f7f7f7;
+	font-size:12px;
+	text-align:right;
+}
+.header_top a:hover{
+	color:black;
+	border-bottom:dashed 1px #999;
+}
 .header{
 	height:60px;
 	/*background-color:#25a6a4;*/
@@ -17,9 +28,9 @@
 .hmenu li{display:inline-block;width:100px;text-align:center;}
 .hmenu li a{color:#25a6a4;}
 
-a.head_shopcart{
+span.head_btn_style,
+a.head_btn_style{
 	height:32px;line-height:32px;
-	padding:0 15px;
 	font-size:14px;
 	background-color:#eee;
 	color:#333;
@@ -29,12 +40,31 @@ a.head_shopcart{
 	margin-top:18px;
 	position:relative;
 }
-.head_shopcart b{
+a.head_btn_style{
+	padding:0 15px;
+}
+a.head_btn_style b{
 	position:absolute;top:-10px;right:-10px;
 	border-radius:50%;border:2px solid #d00;
 	width:16px;height:16px;line-height:16px;
 	text-align:center;font-size:12px;
 	background-color:#e00;color:white;
+}
+span.head_btn_style a{
+	padding:0 12px;
+}
+.login_before{
+	margin-top:18px;
+	font-size:14px;
+	height:34px;
+	line-height:34px;
+	color:#aaa;
+}
+.login_before img{
+	width:32px;height:32px;
+	border-radius:17px;
+	border:1px solid #aaa;
+	float:left;
 }
 
 .head_search,
@@ -70,17 +100,108 @@ a.head_shopcart{
 }
 /*-----脚部-----*/
 .footer{
-	background-color:#57c1bf;
+	background-color:#25a6a4;
 	padding:30px 0;
-	color:white;
-	text-align:center;
+	color:#e1fdfd;
+	font-size:13px;
 	line-height:1.6em;
 }
-.footer h5{font-size:1.5em;margin-bottom:10px;}
+.footer-info,
+.footer-message{
+	float:left;
+	border-style:solid;
+	border-color:white;
+}
+.footer-info{
+	width:60%;
+	padding-right:2%;
+	border-width:0 1px 0 0;
+}
+.footer-message{
+	width:35%;
+	padding-left:2%;
+	border-width:0 0 0 1px;
+	margin-left:-1px;
+}
+.footer-message li{
+	margin-bottom:10px;
+}
+.footer-message input[type=text],
+.footer-message textarea{
+	border:0 none;
+	outline:0 none;
+	border-radius:3px;
+	font-size:12px;
+	font-family:MicroSoft Yahei;
+	background-color:rgba(255,255,255,0.8);
+}
+.footer-message input[type=text]{
+	width:99.6%;
+	text-indent:0.8em;
+	line-height:28px;
+	height:28px;
+}
+.footer-message textarea{
+	width:93.7%;
+	line-height:22px;
+	height:88px;
+	padding:0.2em 0.8em;
+}
+
+.footer p{margin-bottom:10px;}
+.footer h5{font-size:1.5em;margin-bottom:10px;color:white;}
 .footer h6{font-size:1em;margin-top:5px;}
+.footer-bottom{
+	background-color:#006f6d;
+	color:white;
+	font-size:12px;
+	line-height:36px;
+}
+
+*[focus-tip-text]{
+	position:relative;
+	overflow:hidden;
+}
+*[focus-tip-text]:hover{
+	overflow:visible;
+}
+*[focus-tip-text]:before{
+	content:attr(focus-tip-text);
+	position:absolute;
+	background-color:#066;color:white;
+	padding:0 12px;
+	font-size:12px;
+	line-height:30px;
+	top:-30px;
+	left:0;
+	-webkit-transform:translateY(-10px);
+	transform:translateY(-10px);
+	opacity:0;
+	-webkit-transition:all 0.3s;
+	-moz-transition:all 0.3s;
+	-o-transition:all 0.3s;
+	-ms-transition:all 0.3s;
+	transition:all 0.3s;
+}
+*[focus-tip-text]:hover:before{
+	-webkit-transform:translateY(0);
+	transform:translateY(0);
+	opacity:1;
+}
+
+.footer-message-btn{
+	border:2px solid white;
+	color:white;
+	font-weight:bold;
+	font-size:14px;
+	display:inline-block;
+	height:36px;line-height:36px;
+	padding:0 12px;
+	border-radius:5px;
+}
 
 /*-----登录插件------*/
-#singn_menu{
+/*#singn_menu{
 	position:fixed;z-index:10;
 	bottom:0;left:0;
 	border-top:1px solid #b9d5d5;
@@ -100,7 +221,7 @@ a.head_shopcart{
 	border:5px solid #b9d5d5;
 	float:left;
 	margin-top:-15px;margin-right:10px;
-}
+}*/
 /*-----海报----*/
 .bannerFrame,
 .banner li{

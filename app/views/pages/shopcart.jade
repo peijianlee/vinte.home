@@ -5,39 +5,40 @@ block content
 		.nav.mt10
 			a(href="/news")
 				i.fs14.icon-home
-			a(href="/store") store
-			b inquiry list
+			a(href="/store") 商城首页
+			b 询价单列表
 		div.progress.progress_step_1
 			div.progress_step
 				span.s_step 1
 					span.s_1
 					span.s_2
-				p inquiry list
+				p 询价单列表
 			div.progress_step
 				span.s_step 2
-				p YOUR EMAIL
+				p 填写信息
 			div.progress_step
 				span.s_step 3
-				p SUCCESS
+				p 发送完成
 			div.progress_line
 			div.progress_step_line
 		form(method="post", action="/create/inquirylist", enctype="multipart/form-data")
 			table.shopcart_list.mb50
 				caption.shopcart_head
 					i.icon-list.mr10
-					| INQUIRY LIST
+					| 询价单列表
 				thead
 					tr
 						if user
 							th(width="35")
-						th(width="140") ITEM
-						th.tl DESCRIPTION
-						th SIZE
-						th PRICE
-						th QUANTITY
+						th(width="140") 商品图片
+						th.tl 描述
+						th 尺寸
+						th 单价
+						th(width="70") 数量
 				tbody
 					if products && products.length>0
 						each item in products
+							- console.log(item)
 							tr(id=item.pid.id)
 								if user
 									td.tc.pr
@@ -46,7 +47,7 @@ block content
 										span.icon-check.none.fs18
 								td
 									a(target="_bank", href="/store/id/"+item.pid.id)
-										img(src="/images_data/"+item.pid.id+"/"+item.pid.cover)
+										img(src="/data/products/p"+item.pid.id+"/"+item.pid.cover)
 								td.shopcart_goods_name.vatop
 									ul
 										li
@@ -88,4 +89,6 @@ block content
 									a(href="/store").button.button-royal.button-primary 商品中心
 
 	.bg_fixed
+	if !user
+		include ../themplate/signin_modal.jade
 	script(src="/js/shopcart.js")

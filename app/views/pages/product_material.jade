@@ -37,36 +37,6 @@ block content
 							| 推荐商品
 						each item in products
 							.sub_page_product(id=item.id)
-								img(src='/data/products/p'+item.id+'/'+item.cover)
-								div.ip_bg
-								ul.ip_description
-									li
-										a(href="/store/id/"+item.id).ip_title
-											|#{item.title}
-											if item.material && item.material.length > 0
-												|&nbsp;/ #{item.material[0].attributes}
-											if item.color && item.color.length > 0
-												|&nbsp;/ #{item.color[0].attributes}
-									li.pb5 宽#{item.size.w}×深#{item.size.d}×高#{item.size.h}cm
-									li.pb5
-										if item.sale
-											span.ip_tag 特价商品
-										if (moment(item.meta.createAt).add('hour',8).fromNow()).indexOf('ago')<0
-											span.ip_tag 新品
-									li
-										- if(cart_goods.indexOf(item.id) > -1){
-										-	var btnClass = 'iproduct_add_cart_btn Stand'
-										- }else{
-										-	var btnClass = 'iproduct_add_cart_btn'
-										- }
-										span(class="#{btnClass} cp animation")
-											i.icon-shopping-cart
-											input(type="hidden",name="p[id]",value=item.id)
-											input(type="hidden",name="p[quantity]",value="1")
-										if item.sale
-											small.ip_price ￥#{item.sale}.00
-											small.ip_old_price ￥#{item.price}.00
-										else
-											small.ip_price ￥#{item.price}.00
+								include ../themplate/product.jade
 	.bg_fixed
 	script(src="/js/shopcart.js")

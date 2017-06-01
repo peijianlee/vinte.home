@@ -1,16 +1,45 @@
 if !header_hide
+	.header_top
+		.wrap
+			if moment().format('a') === 'am'
+				| 早上好！
+			else
+				| 下午好！
+			if !user
+				| 欢迎来到 vinte home
+				span.ml10.mr10.cGray |
+				a(href="/signup")
+					i.icon-pencil.mr5
+					| 注册
+				span.ml10.mr10.cGray |
+				a(href="/signin")
+					i.icon-user.mr5
+					| 登录
+			else
+				a(href="/user/#{user.name}")
+					span #{user.name}
+				if user.role > 50
+					span.ml10.mr10.cGray |
+					a(href="/admin/news/list")
+						i.icon-cog.mr5
+						| 后台管理
+				span.ml10.mr10.cGray |
+				a.navbar-link.mr5(href="/logout")
+					i.icon-signout.mr5
+					| 退出登录
 	.header
 		.wrap
 			h2.logo
-				a(href="/") ICOOMTEST
-			a(href="/inquirylist").head_shopcart.fr.ml10
+				a(href="/")
+					span(style="color:#066;") VINTE
+					span(style="margin-left:-2px;") HOME
+			a(href="/inquirylist").head_btn_style.fr.ml10
 				i.icon-list.mr10
 				| 询价单
 				if cart_goods_num
 					b.head_shopcart_num #{cart_goods_num}
 				else
-					b.head_shopcart_num N
-				div.head_shopcart_list
+					b.head_shopcart_num 0
 			form(method="GET", action="/results")
 				.head_search.fr
 					input(type="text",name="q",value=searchword)

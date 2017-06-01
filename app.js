@@ -2,12 +2,14 @@ var express = require('express')
 var path = require('path')
 var mongoose = require('mongoose')
 
-var port = process.env.PORT || 4000
+var config = require('./config/config.js')
+
+var port = config.port
 var app = express()
 
 var logger = require('morgan')
 
-var dbUrl = 'mongodb://localhost:27017/lpj_db'
+var dbUrl = config.dburl
 mongoose.connect(dbUrl)
 
 mongoose.connection.on('error', function(error){

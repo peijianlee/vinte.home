@@ -76,11 +76,11 @@ exports.detail = function(req,res){
 // 创建购物清单及填写个人信息
 exports.createInquirylist = function(req, res){
 	var orderObj = req.body.order.pid
+
 	Product
 		.find({_id: {$in: orderObj}})
 		.populate('sort color material scene','attributes')
 		.exec(function(err, products){
-			// console.log(products)
 			res.render('create_order',{
 				title: '创建询价单' + ' | IMOOC',
 				products: products
@@ -179,9 +179,6 @@ exports.add = function(req,res){
 	}else{
 		Shopcart.findOne({'uid':user._id},function(err,shopcart){
 			if(err) console.log(err)
-			
-			
-			console.log(user.shopcartgoods)
 
 			var check_same_id = false
 			for(var i=0; i<shopcart.products.length; i++){
