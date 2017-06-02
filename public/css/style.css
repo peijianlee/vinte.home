@@ -3,11 +3,12 @@
 .wrap{max-width:980px;margin-left:auto;margin-right:auto;}
 .header_top{
 	height:26px;
-	line-height:26px;
+	line-height:26px;color:#555;
 	background-color:#f7f7f7;
 	font-size:12px;
 	text-align:right;
 }
+.header_top a{color:#555;}
 .header_top a:hover{
 	color:black;
 	border-bottom:dashed 1px #999;
@@ -80,7 +81,7 @@ span.head_btn_style a{
 .head_search input[type='text']{
 	float:left;background-color:transparent;
 	height:30px;line-height:30px;
-	border:0 none;margin:0 10px;
+	border:0 none;text-indent:0.7em;
 }
 .head_search button{
 	border:none 0;
@@ -94,6 +95,7 @@ span.head_btn_style a{
 }
 .search_word_tip{
 	border:1px #ddd solid;
+	background-color:white;
 	border-radius:2px;
 	font-size:14px;
 	height:32px;line-height:32px;
@@ -825,24 +827,21 @@ div.c_body:after{
 
 
 /*-------------------个人中心-----------------*/
-
-.user_detail{background-color:#25a6a4;}
-.user_detail .logo a{color:white;}
 .user_frame{
 	margin:0 auto;
-	background-color:rgba(0,0,0,0.2);
+	background-color:rgba(0,0,0,0.1);
 	background-image:linear-gradient(-45deg,
 		rgba(150,150,150,0.1) 25%,transparent 25%,
-		#25a6a4 25%,#25a6a4 50%,transparent 50%,
+		#bbb 25%,#bbb 50%,transparent 50%,
 		rgba(150,150,150,0.1) 50%,rgba(150,150,150,0.1) 75%,transparent 75%,
-		#25a6a4 75%,#25a6a4 100%,transparent);
+		#bbb 75%,#bbb 100%,transparent);
 	background-image:-webkit-linear-gradient(-45deg,
 		rgba(150,150,150,0.1) 25%,transparent 25%,
-		#25a6a4 25%,#25a6a4 50%,transparent 50%,
+		#bbb 25%,#bbb 50%,transparent 50%,
 		rgba(150,150,150,0.1) 50%,rgba(150,150,150,0.1) 75%,transparent 75%,
-		#25a6a4 75%,#25a6a4 100%,transparent);
+		#bbb 75%,#bbb 100%,transparent);
 	background-size:6px 6px;
-	box-shadow:10px 10px 1px rgba(0,0,0,0.2);
+	box-shadow:10px 10px 1px rgba(0,0,0,0.35);
 	margin-bottom:80px;
 }
 .user_info{

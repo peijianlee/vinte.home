@@ -50,6 +50,7 @@ module.exports = function(app){
 	app.get('/admin/product/update/:id', User.signinRequired, User.adminRequired, Product.new)
 	app.post('/admin/update/checkedimagesdata', Product.checkImageData)
 	app.post('/admin/product/update/photo', User.signinRequired, User.adminRequired, Product.updatephoto)
+	app.post('/admin/product/update/content', User.signinRequired, User.adminRequired, Product.updatecontent)
 	app.delete('/admin/product/list', User.signinRequired, User.adminRequired, Product.del)
 	
 	// shopcart

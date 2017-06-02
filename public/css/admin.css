@@ -25,7 +25,7 @@
 .menutoggle:hover{background-color:#f7f7f7;}
 .menuHead{
 	background-color:white;
-	font-size:16px;text-align:center;
+	font-size:13px;text-align:center;
 	font-weight:bold;position:relative;
 }
 .menuHead a{color:#1caf9a;}
@@ -100,6 +100,7 @@ span.menuBtn.Active:before{content:"-";}
 
 .admin_wrap{
 	margin-left:210px;
+	background-color:#fafafa;
 }
 
 
@@ -161,7 +162,7 @@ span.menuBtn.Active:before{content:"-";}
 	margin-right:15px;margin-left:5px;
 	padding:6px 7px;
 }
-.contentpanel{padding:20px;}
+.contentpanel{padding:10px 20px 20px;background-color:white;}
 
 
 /*产品类别*/

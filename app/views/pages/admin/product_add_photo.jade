@@ -22,7 +22,7 @@ block content
 				.form_group
 					label.control_label 封面：
 					.control_div
-						input#img_btn.mr10(type="file", onchange="setImagePreview('img_btn','img_view','img_ie_view');", name="productCover", accept="image/*")
+						input#img_btn.mr10(type="file", onchange="setImagePreview('img_btn','img_view','img_ie_view');", name="productCover", accept="image/*", value="单张")
 						//- span.button.button-caution.button-jumbo.button-small 删除
 						#img_ie_view.img_view
 							if product.cover

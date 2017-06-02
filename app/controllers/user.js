@@ -238,8 +238,7 @@ exports.detail = function(req,res){
 				res.render('user',{
 					title: user.name+'的个人中心',
 					user: user,
-					orders: orders,
-					userdetail: 'true'
+					orders: orders
 				})
 
 			})

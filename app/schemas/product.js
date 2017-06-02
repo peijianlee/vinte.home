@@ -46,7 +46,7 @@ var ProductSchema = new Schema({
 			default: 0
 		}
 	},
-	img: [{
+	imgs: [{
 		src: String
 	}],
 	pv:{

@@ -493,6 +493,30 @@ exports.updatephoto = function(req,res){
 	})
 }
 
+exports.updatecontent = function(req, res){
+	var postProductInfo = req.body.product,
+		id = postProductInfo._id,
+		content = postProductInfo.content,
+		uid = postProductInfo.uid
+	Product.findById(id, function(err, product){
+		if(product.uid.toString() !== uid.toString()){
+			product.uid = uid
+		}
+		if(product.content.toString() !== content.toString()){
+			product.content = content
+			var diff_content = true
+		}
+		if(diff_content){
+			product.save(function(err){
+				if(err) console.log(err)
+				res.redirect('/admin/product/update/'+id+'?edit=content')
+			})
+		}else{
+			res.redirect('/admin/product/update/'+id+'?edit=content')
+		}
+	})
+}
+
 
 //product delete category
 exports.del = function(req,res){
