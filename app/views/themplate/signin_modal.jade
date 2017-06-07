@@ -1,10 +1,12 @@
 
+block append head
+	link(rel="stylesheet",href="/css/sign.css")
 style.
 	#signinModal{
 		width:700px;display:none;
 		position:fixed;z-index:101;
 		top:10%;left:50%;margin:0 0 0 -200px;
-		background-color:white;
+		background-color:rgba(255,255,255,.60);
 	}
 	
 from.sign_form#signinModal.pf
@@ -20,8 +22,8 @@ from.sign_form#signinModal.pf
 			input#signPassword.signPassword.form_control(type="password", placeholder="请输入密码")
 			label(for="signPassword")
 				i.icon-key 
-		li
-			input#captcha.captcha.form_control.fl(type="text", placeholder="请输入验证码",maxlength="4",style="width:30%")
+		li.captchaContainer
+			input#captcha.captcha.form_control.fl(type="text", placeholder="请输入验证码",maxlength="4")
 			label(for="captcha")
 				i.icon-lock
 			span.cp.changeCaptcha.inlineBlock.ml10 !{captcha.data}
@@ -30,6 +32,35 @@ from.sign_form#signinModal.pf
 			| &nbsp;还没有注册会员？
 			a.cBlue.textUnderline(href="signup") 点击注册
 		
-	.sign_form_foot
-		button.button.button-raised.button-primary.sign-success(signtype="inquirylist", type="submit") 登 录
-	script(src="/js/sign.js")
+	.sign_form_foot.cd
+		button.button.button-raised.button-primary#signinBtn(signtype="signin", type="submit") 登 录
+		.sign_form_foot_info
+			h6(style="color:#25a6a4") VINTE
+			p(style="color:#25a6a4") 备案编号:110105000501<br />Copyright © 2017 www.vinte.xin All Rights Reserved
+script(src="js/jquery.vtEnterKeyPress.js")
+script(src="/js/sign.js")
+script.
+	// 设置用户登录参数
+	var signinConfig = [
+		{
+			element: $('#signName'),
+			unkeynumber: [32,59,188,190,191,219,220,221,222],
+			errorText: "请输用户名！"
+		},
+		{
+			element: $('#signPassword'),
+			unkeynumber: [32],
+			errorText: "请输入密码！"
+		},
+		{
+			element: $('#captcha'),
+			unkeynumber: [32],
+			errorText: "请输入验证码！"
+		}
+	]
+	$('.sign_form_content').enterKeyPress(signinConfig)
+
+	$('#signinBtn').click(function(){
+		checkInputValue(signinConfig, $(this), 'signin')
+		return false
+	});

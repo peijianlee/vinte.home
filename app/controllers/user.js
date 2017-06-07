@@ -81,8 +81,8 @@ exports.checkedCaptcha = function(req, res, next){
 }
 // 登录界面
 exports.showSignin = function(req, res){
-
-	var name = req.query.name
+	console.log(req.session.signup_name_repeat)
+	var name = req.session.signup_name_repeat
 	var password = req.query.password
 	var bgword = bgwords
 	var bgword = bgword[Math.floor(Math.random()*bgword.length)]
@@ -100,6 +100,7 @@ exports.showSignin = function(req, res){
 }
 // 注册界面
 exports.showSignup = function(req, res){
+	if(req.session.signup_name_repeat) delete req.session.signup_name_repeat
 	var req_path = req.path
 	var bgword = bgwords
 	var bgword = bgword[Math.floor(Math.random()*bgword.length)]
@@ -115,17 +116,31 @@ exports.showSignup = function(req, res){
 }
 // signup
 exports.signup = function(req, res, next){
-	var _user =req.body.signup
+	// var _user =req.body.signup
+	var name = req.query.name
+	var password = req.query.password
+	var repassword = req.query.repassword
+
+	// console.log(name)
+	// console.log(password)
+	// console.log(repassword)
+	// if(name !== "" || password.toString() !== repassword.toString()){
+	// 	console.log('用户名为空或两次输入密码不一致')
+	// 	return res.redirect('/signup')
+	// }
 	
-	User.findOne({name: _user.name},function(err,user){
-		if(err){
-			console.log('服务器异常' + err)
-		}
+	User.findOne({name: name},function(err,user){
+		if(err) console.log('服务器异常' + err)
 		if(user && user.name!==''){
 			console.log('用户名已经存在')
-			return res.redirect('/signin?name='+user.name)
+			req.session.signup_name_repeat = user.name
+			// return res.redirect('/signin')
+			return res.json({success:2})
 		}else{
-			var user = new User(_user)
+			var user = new User({
+				name: name,
+				password: password
+			})
 
 			user.save(function(err, user) {
 				if(err) console.log(err)
@@ -142,7 +157,7 @@ exports.signup = function(req, res, next){
 // signin 登录
 exports.signin = function(req, res, next){
 	// var _user=req.body.user
-
+	delete req.session.signup_name_repeat
 	var name=req.query.name
 	var password=req.query.password
 
@@ -168,20 +183,13 @@ exports.signin = function(req, res, next){
 				return res.json({success:0})
 			}
 		})
-
-
-
-
 	})
-
-
 }
 
 // logout
 exports.logout = function(req, res){
 	delete req.session.user
-	// delete app.locals.user
-	res.redirect('/news')
+	res.redirect('/signin')
 }
 
 //userlist page

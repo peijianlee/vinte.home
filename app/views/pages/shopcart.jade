@@ -38,7 +38,6 @@ block content
 				tbody
 					if products && products.length>0
 						each item in products
-							- console.log(item)
 							tr(id=item.pid.id)
 								if user
 									td.tc.pr
@@ -52,7 +51,7 @@ block content
 									ul
 										li
 											h3
-												a(target="_bank", href="/store/"+item.pid.sort.attributes+"/"+item.pid.id) #{item.pid.title}
+												a(target="_bank", href="/store/id/"+item.pid.id) #{item.pid.title}
 										//- if item.pid.scene && item.pid.scene.length > 0
 											li 场景： 
 												each i_scene in item.pid.scene

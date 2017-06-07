@@ -261,19 +261,8 @@ exports.matchcart = function(req, res){
 	var s_shopcart = req.session.cart
 	var user = req.session.user
 
-	// if(!s_shopcart || s_shopcart.length == 0) return false
-
 	Shopcart
 		.findOne({'uid':user._id})
-		// .populate({
-		// 	path: 'products.pid',
-		// 	model: 'Product',
-		// 	populate: {
-		// 		path: 'category',
-		// 		select: 'name',
-		// 		model: 'Category'
-		// 	}
-		// })
 		.exec(function(err, shopcart){
 			if(err) console.log(err)
 			if(!shopcart){
@@ -293,16 +282,17 @@ exports.matchcart = function(req, res){
 					user.shopcartgoods = new Object(returnShopcartGoods(_newShopcart))
 
 
-					console.log('------')
-					console.log(returnShopcartGoods(_newShopcart))
-					console.log(user.shopcartgoods)
-					console.log(user)
+					// console.log('------')
+					// console.log(returnShopcartGoods(_newShopcart))
+					// console.log(user.shopcartgoods)
+					// console.log(user)
 
-					if(req.url.indexOf('signup') > -1){
-						res.redirect('/store')
-					}else{
-						res.json({success:1})
-					}
+					// if(req.url.indexOf('signup') > -1){
+					// 	res.redirect('/store')
+					// }else{
+					// 	res.json({success:1})
+					// }
+					res.json({success:1})
 				})
 			}else{
 				console.log('合并缓存数据')
@@ -328,11 +318,12 @@ exports.matchcart = function(req, res){
 					if(err) console.log(err)
 					user.shopcartgoods = returnShopcartGoods(_shopcart)
 					// console.log('-----shopcartnum数量为-------')
-					if(req.url.indexOf('signup') > -1){
-						res.redirect('/store')
-					}else{
-						res.json({success:1})
-					}
+					// if(req.url.indexOf('signup') > -1){
+					// 	res.redirect('/store')
+					// }else{
+					// 	res.json({success:1})
+					// }
+					res.json({success:1})
 				})
 
 			}

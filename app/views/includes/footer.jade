@@ -10,19 +10,24 @@ if !header_hide
 				h6 01522 5282466
 				h6 xxxx@hotmail.com
 				h6 The Terrace, Grantham Street, Lincoln, LN2 1BD
-			ul.footer-message
-				li(focus-tip-text="请输入名字")
-					input(type="text" placeholder="请输入名字" )
-				li(focus-tip-text="请输入电话号码")
-					input(type="text" placeholder="请输入电话号码")
-				li(focus-tip-text="请输入电子邮箱地址")
-					input(type="text" placeholder="请输入电子邮箱地址")
-				li(focus-tip-text="请输入你的留言内容")
-					textarea(placeholder="请输入你的留言内容")
-				li
-					span.footer-message-btn(type="submit") 确认发送
+			from(action="/results", method="GET")
+				ul.footer-message
+					li(focus-tip-text="请输入名字")
+						input(type="text", name="name", placeholder="请输入名字" )
+					li(focus-tip-text="请输入电话号码")
+						input(type="text", name="phone", placeholder="请输入电话号码")
+					li(focus-tip-text="请输入电子邮箱地址")
+						input(type="text", name="email", placeholder="请输入电子邮箱地址")
+					li(focus-tip-text="请输入你的留言内容")
+						textarea(name="infomation", placeholder="请输入你的留言内容")
+					li
+						button.footer-message-btn(type="submit") 确认发送
 			br.clear
 	.footer-bottom
-		.wrap.tr: 京 ICP 证 09002463 号|Copyright © 1999-2017, CSDN.NET, All Rights Reserved 
+		.wrap.tr 京 ICP 证 09002463 号|Copyright © 1999-2017, CSDN.NET, All Rights Reserved 
 
 script(src="/js/artalert.js")
+script.
+	$('.footer-message-btn').click(function(){
+		alert('ddd')
+	})

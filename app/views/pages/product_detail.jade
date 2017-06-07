@@ -9,6 +9,7 @@ block content
 			a(href="/store/#{product.sort.attributes}") #{product.sort.attributes}
 			span #{product.title}
 		.side_nav
+			//- 商品分类
 			h2
 				i.icon-tags.ml5.mr5
 				| 商品分类
@@ -20,43 +21,102 @@ block content
 							| #{cat.attributes}
 						each item in cat.pid
 							dd
-								a(href="#{item._id}")
-									i.icon-angle-right.ml10.mr5
-									| #{item.title}
-		.p_picture.fl
-			div.p_picture_cover
-				img(src='/data/products/p'+product.id+'/'+product.cover)
-		.p_panel
-			dl
-				dd.p_panel_info
-					h1 
-						|#{product.title}
-						if product.material && product.material.length > 0
-							|&nbsp;#{product.material[0].attributes}
-						else
-							|&nbsp;未知材料
-						if product.color && product.color.length > 0
-							|&nbsp;（#{product.color[0].attributes}） 
-						else
-							|&nbsp;（未知颜色） 
-						|&nbsp;宽#{product.size.w}×深#{product.size.d}×高#{product.size.h}cm
-				dd.p_panel_info
-					p.fs14 布匹部分采用了棉丝光斜纹棉布面料。改良了难以扩展的情况，使用了编织材料。可以尽情感受不同材料的不同舒适度。 
-				dd.p_panel_size
-					h6.fs14 尺寸选择
-					p.fs12  尺寸:长65×宽65×高43cm
-					a
-						span
-							| 宽#{product.size.w}×深#{product.size.d}×高#{product.size.h}cm
-				dt.p_panel_add_cart
-					div
-						span.p_panel_price.fs12.pl10 零售价：
-							b.fs18.cRed $#{product.price}.00
-						a.iproduct_add_cart_btn.fr.cp
-							i.icon-shopping-cart.mr10
-							| 加入询价单
-							input(type="hidden",name="p[id]",value=product.id)
-							input(type="hidden",name="p[quantity]",value="1")
-		br.clear
+								if item.id == product.id
+									a(href="#{item._id}" class="Stand")
+										i.icon-angle-right.ml10.mr5
+										| #{item.title}
+								else
+									a(href="#{item._id}")
+										i.icon-angle-right.ml10.mr5
+										| #{item.title}
+
+			//- 浏览过的商品
+			if find_view_products && find_view_products.length > 0
+				.side_nav_view_over.mb15
+					h5
+						i.icon-magnet.ml5.mr5
+						| 浏览过的商品
+					each item in find_view_products
+						a(href="#{item._id}")
+							img(src='/data/products/p'+item.id+'/'+item.cover)
+							|#{item.title}
+							if item.material && item.material.length > 0
+								|&nbsp;#{item.material[0].attributes}
+							else
+								|&nbsp;未知材料
+							if item.color && item.color.length > 0
+								| （#{item.color[0].attributes}） 
+							else
+								|&nbsp;（未知颜色） 
+
+				//- a
+				//- 	img(src="/data/products/p591272283ad5c20b1cc63077/1494383133254.jpg")
+				//- 	p 12312 steel （white）
+				//- a
+				//- 	img(src="/data/products/p591272283ad5c20b1cc63077/1494383133254.jpg")
+				//- 	p 12312 steel （white）
+				//- a
+				//- 	img(src="/data/products/p591272283ad5c20b1cc63077/1494383133254.jpg")
+				//- 	p 12312 steel （white）
+				//- a
+				//- 	img(src="/data/products/p591272283ad5c20b1cc63077/1494383133254.jpg")
+				//- 	p 12312 steel （white）
+		.p_detail
+			.p_picture.fl.mb10
+				div.p_picture_cover
+					img(src='/data/products/p'+product.id+'/'+product.cover)
+			.p_panel
+				dl
+					dd.p_panel_info
+						h1 
+							|#{product.title}
+							if product.material && product.material.length > 0
+								|&nbsp;#{product.material[0].attributes}
+							else
+								|&nbsp;未知材料
+							if product.color && product.color.length > 0
+								|&nbsp;（#{product.color[0].attributes}） 
+							else
+								|&nbsp;（未知颜色） 
+							|&nbsp;宽#{product.size.w}×深#{product.size.d}×高#{product.size.h}cm
+					dd.p_panel_info
+						p.fs14 布匹部分采用了棉丝光斜纹棉布面料。改良了难以扩展的情况，使用了编织材料。可以尽情感受不同材料的不同舒适度。 
+					dd.p_panel_size
+						h6.fs14 尺寸选择
+						p.fs12  尺寸:长65×宽65×高43cm
+						a
+							span 宽#{product.size.w}×深#{product.size.d}×高#{product.size.h}cm
+					dt.p_panel_add_cart
+						div
+							span.p_panel_price.fs12.pl10 零售价：
+								b.fs18.cRed $#{product.price}.00
+							a.iproduct_add_cart_btn.fr.cp
+								i.icon-shopping-cart.mr10
+								| 加入询价单
+								input(type="hidden",name="p[id]",value=product.id)
+								input(type="hidden",name="p[quantity]",value="1")
+			table.p_detail_sort.table_bordered.table_striped
+				tr
+					th 商品名称：
+					td
+						b #{product.title}
+				tr
+					th 尺寸规格：
+					td 宽 #{product.size.w} × 深 #{product.size.d} × 高 #{product.size.h}cm
+				if product.material && product.material.length > 0
+					tr
+						th 商品材质：
+						td 
+							each item in product.material
+								span.mr15 #{item.attributes}
+				if product.color && product.color.length > 0
+					tr
+						th 主体颜色：
+						td 
+							each item in product.color
+								span.mr15 #{item.attributes}
+			if product.content
+				.p_detail_container !{product.content}
+	br.clear
 	.bg_fixed
 	script(src="/js/shopcart.js")

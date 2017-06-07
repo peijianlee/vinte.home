@@ -1,0 +1,218 @@
+/*登录框*/
+.sign_top{
+	position:fixed;z-index:1;
+	top:10%;left:50%;
+	width:400px;height:70px;line-height:70px;
+	border-radius:5px;
+	margin-left:-200px;
+	font-size:0;
+	text-align:center;
+	background-color:rgba(255,255,255,.2);
+	box-shadow:inset 1px 1px rgba(255,255,255,.15),inset -1px -1px rgba(255,255,255,.3);
+}
+.sign_top a{
+	font-size:28px;
+	text-shadow:1px 1px rgba(255,255,255,.1);
+	position:relative;
+}
+.sign_top i{
+	position:absolute;
+	top:6px;right:-25px;
+	font-size:18px;
+	opacity:0;
+	-webkit-transform:translateY(-10px);
+	transform:translateY(-10px);
+	-webkit-transition:all 0.3s;
+	-moz-transition:all 0.3s;
+	-o-transition:all 0.3s;
+	-ms-transition:all 0.3s;
+	transition:all 0.3s;
+}
+.sign_top a:hover i{
+	opacity:1;
+	-webkit-transform:translateY(0);
+	transform:translateY(0);
+}
+.sign_bg{
+	position:absolute;left:0;top:0;
+	width:100%;height:100%;
+	background-image:url(http://tupian.enterdesk.com/2012/1113/gha/2/shatanhb9.jpg);
+	background-size:120% auto;
+	background-position:center center;
+	background-color:white;
+	opacity:0.7;
+}
+
+.blur{	
+    filter: url(blur.svg#blur); /* FireFox, Chrome, Opera */
+    -webkit-filter: blur(5px); /* Chrome, Opera */
+       -moz-filter: blur(5px);
+        -ms-filter: blur(5px);    
+            filter: blur(5px);
+    filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=5, MakeShadow=false); /* IE6~IE9 */
+}
+.sign_form{
+	margin:10% auto 0;max-width:400px;overflow:hidden;
+	position:relative;z-index:1;
+	box-shadow:0 0 8px rgba(0,0,0,0.1);
+}
+.sign_form_head,
+.sign_form_content,
+.sign_form_foot{
+	padding:15px 20px;
+}
+.sign_form_head{
+	background-color:white;
+	color:#444;font-weight:bold;font-size:18px;
+}
+.sign_form_head i{
+	display:inline-block;margin-right:5px;font-size:14px;
+	height:24px;line-height:24px;width:24px;text-align:center;
+	border:2px solid #444;border-radius:50%;
+}
+.sign_form_content{
+	background-color:rgba(255,255,255,.7);
+	box-shadow:0 2px 3px rgba(0,0,0,0.2);
+	border-bottom:1px solid rgba(255,255,255,.8);
+	border-right:1px solid rgba(255,255,255,.8);
+}
+.sign_form_foot{background-color:rgba(255,255,255,.3);}
+
+.sign_form_content label{
+	position:absolute;top:0;left:0;
+	font-size:14px;
+	color:#777;
+	padding:6px 0;
+	border-radius:4px 0 0 4px;
+	width:36px;text-align:center;
+	background-color:#eee;
+	border-right:1px solid #ccc;
+	text-shadow:1px 1px white;
+    box-shadow:inset -1px -1px white;
+}
+.inputStyle,
+.sign_form_content input{
+	border:0 none;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+	color: #555;
+	font-size: 14px;
+	height:34px;
+	transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+}
+.sign_form_content input[disabled=disabled]{
+	background-color:#eee;text-shadow:1px 1px white;
+}
+
+.sign_form_content input{
+	margin-left:37px;
+	float:left;
+	width:89%;
+	text-indent:0.7em;
+	border-radius:0 4px 4px 0;
+}
+.sign_form_content input:focus{
+	box-shadow:inset 2px 2px 3px rgba(0,0,0,0.15);
+	outline:none 0;
+	border-color:#bbb;
+}
+.sign_form_content input:focus~label{
+	background-color:#c7dede;color:#002f2e;
+	border-color:#bbb;
+}
+.inputStyle{border-radius:4px;}
+.inputStyle:focus{
+	border-color: #66afe9;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);
+	outline: 0 none;
+}
+.sign_form_content li{
+	margin-top:5px;
+	margin-bottom:15px;
+	position:relative;
+	height:36px;
+	border:1px solid #aaa;
+	border-radius:4px;
+}
+.sign_form_foot_info{
+	color:white;text-align:right;
+}
+.sign_form_foot_info h6{font-size:28px;line-height:50px;height:50px;margin-top:-40px;}
+.sign_form_foot_info p{font-size:12px;}
+.sign_tip{
+	border-style:solid;
+	border-width:1px;
+	border-radius:3px;
+	text-shadow:1px 1px white;
+	margin-top:5px;
+	font-size:12px;
+	padding:5px 8px;
+}
+
+/*验证码外框*/
+.captchaContainer{
+	width:160px;
+	position:relative;
+}
+#captcha{
+	width:121px;
+}
+.changeCaptcha{
+	position:absolute;
+	top:0;right:-160px;
+}
+
+/*错误提示*/
+.sign_tip{
+	border-color:#a9a46f;
+	background-color:#fffecd;
+	color:#716c3a;
+	display:inline-block;
+}
+.sign_form_content li.sign_tip{
+	height:auto;
+}
+.sign_form_content input.input_error{
+	border-color:#f88;
+	color:#f88;
+	box-shadow:inset 1px 1px 3px rgba(0,0,0,0.3);
+}
+.sign_form_content input.input_error ~ label{background-color:#fce6e4;color:#900;}
+.sign_tip.error{
+	border-color:#f88;
+	background-color:#feeeed;
+	color:#ff6d60;
+	box-shadow:3px 3px 5px rgba(0,0,0,.3);
+	/*position:relative;*/
+	/*margin-left:9.2%;*/
+	position:absolute;top:26px;right:0;z-index:1;
+}
+.sign_tip.error i{
+	position:absolute;right:9px;top:-20px;
+}
+.sign_tip.error:after,
+.sign_tip.error:before{
+	content:"";
+	position:absolute;right:10px;
+	border-style:solid;
+	border-width:0 4px 4px;
+}
+.sign_tip.error:before{
+	border-color:#f88 transparent;
+	top:-4px;
+}
+.sign_tip.error:after{
+	border-color:#feeeed transparent;
+	top:-3px;
+}
+
+.bgword{
+	position:fixed;z-index:-1;
+	color:#333;
+	font-size:20px;
+	max-width:450px;
+	bottom:70px;right:2%;
+	opacity:0.8;
+	font-family:"proxima_nova",Arial,"Microsoft JhengHei","Microsoft Yahei","Heiti TC","PMingLiU",sans-serif;
+	/*font-family:"Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","WenQuanYi Micro Hei",sans-serif;*/
+}
+.bgword i{color:#999;}

@@ -29,13 +29,15 @@ exports.indexlist = function(req,res){
 	var cart = req.session.cart
 	var id=req.params.id
 
-	console.log(user)
-
 	Category
 		.find({type:'product', name:'sort'})
 		.sort({_id: 1})
 		.populate({
 			path: 'pid',
+			options: {
+				limit: 4,
+				sort:{_id: -1}
+			},
 			model: 'Product',
 			populate: {
 				path: 'color material scene',
@@ -75,9 +77,6 @@ exports.indexlist = function(req,res){
 		})
 }
 
-// 判断当前购物车状态
-function checkCart(usr){}
-
 // 商品属性
 exports.sort = function(req,res){
 	var sort=req.params.sort,
@@ -103,8 +102,6 @@ exports.sort = function(req,res){
 		}
 	}
 
-	console.log(cartGoods)
-
 	if(sort){
 		var findObj = {'attributes': sort},
 			linkSort = 'sort',
@@ -117,15 +114,6 @@ exports.sort = function(req,res){
 			template = 'product_material',
 			title = material+'材质详情介绍'
 	}
-
-	// _findObj = Object.assign(searchObj, findObj)
-	// console.log(_findObj)
-
-	// console.log(searchObj.sort)
-	// console.log(searchObj.scene)
-	// console.log(searchObj.material)
-	// console.log(searchObj.color)
-	// console.log(!searchObj.sort && !searchObj.scene && !searchObj.material && !searchObj.color)
 
 	Category.find({type:'product', name:linkSort},function(err, categories){
 		if(err) console.log(err)
@@ -142,8 +130,6 @@ exports.sort = function(req,res){
 			})
 			.exec(function(err, category){
 				if(err) console.log(err)
-
-				// console.log(category)
 
 				if(!category){
 					console.log('该商品属性不存在或者已经被删除了。')
@@ -173,6 +159,11 @@ exports.detail = function(req,res){
 	// 查找购物车商品数量
 	var cartGoodsNum = user? req.session.user.shopcartnum : req.session.cart? req.session.cart.length : 0
 
+	// 浏览过的商品
+	if(!req.session.view_product){
+		req.session.view_product = []
+	}
+
 	Category
 		.find({type:'product', name: 'sort'})
 		.sort({_id: -1})
@@ -183,7 +174,6 @@ exports.detail = function(req,res){
 				.findOne({'_id':id})
 				.populate('color material scene sort','attributes')
 				.exec(function(err, _product){
-					console.log(_product)
 					if(err) console.log(err)
 					if(!_product){
 						console.log('该商品不存在或者已经被删除了。')
@@ -191,12 +181,40 @@ exports.detail = function(req,res){
 							message:'该商品不存在或者已经被删除了。'
 						})
 					}
-					res.render('product_detail',{
-						title: _product.title + ' | IMOOC',
-						categories: categories,
-						product: _product,
-						cart_goods_num: cartGoodsNum
-					})
+					// delete req.session.view_product
+					var view_product = req.session.view_product
+					if(view_product.indexOf(id) > -1){
+						view_product.splice(view_product.indexOf(id), 1)
+					}else{
+						
+					}
+					view_product.unshift(id)
+					// 找到当前的id在缓存的位置
+					var index = view_product.indexOf(id)
+
+					// 新建并合并新数组，并删除当前的id,并查找
+					var new_view_product = []
+					var find_view_product = new_view_product.concat(view_product)
+					find_view_product.splice(index,1)
+					var v_p_num = 6
+					if( find_view_product.length > v_p_num ){
+						find_view_product = find_view_product.slice(0, v_p_num)
+					}
+					
+
+					Product
+						.find({_id:{$in:find_view_product}})
+						.populate('color material','attributes')
+						.exec(function(err, find_view_products){
+							if(err) console.log(err)
+							res.render('product_detail',{
+								title: _product.title + ' | IMOOC',
+								categories: categories,
+								product: _product,
+								find_view_products: find_view_products,
+								cart_goods_num: cartGoodsNum
+							})
+						})
 				})
 		})
 }

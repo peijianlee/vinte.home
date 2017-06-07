@@ -4,11 +4,12 @@ $('label.selectType').click(function(){
 	var index = $(this).index()
 	$('label.selectType').removeClass('On').eq(index).addClass('On')
 	if(index !== 0){
-		$('input[name="order.from[company]"]').val('').parents('dd').addClass('hidden')
+		$('input[name="order.from[company]"]').val('').parents('dd').addClass('none')
 		$('input[name="order.from[user]"]').focus()
 		selectTypeName = 2
 	}else{
-		$('input[name="order.from[company]"]').focus().parents('dd').removeClass('hidden')
+		$('input[name="order.from[company]"]').parents('dd').removeClass('none')
+		$('input[name="order.from[company]"]').focus()
 		selectTypeName = 1
 	}
 })

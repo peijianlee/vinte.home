@@ -20,6 +20,11 @@ button:visited{outline:0 none;border:0 none;}
 }
 ul,ol,li{list-style-type:none;}
 
+.base-color{color:#25a6a4;}
+.base-color-dark{color:#066;}
+.cWhite{color:white;}
+.cBlack{color:black;}
+
 .block{display:block;}
 .none{display:none;}
 
