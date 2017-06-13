@@ -1,0 +1,148 @@
+
+
+/*-------------------个人中心-----------------*/
+.user_frame{
+	margin:0 auto;
+	background-color:rgba(0,0,0,0.1);
+	background-image:linear-gradient(-45deg,
+		rgba(150,150,150,0.1) 25%,transparent 25%,
+		#eaeaea 25%,#eaeaea 50%,transparent 50%,
+		rgba(150,150,150,0.1) 50%,rgba(150,150,150,0.1) 75%,transparent 75%,
+		#eaeaea 75%,#eaeaea 100%,transparent);
+	background-image:-webkit-linear-gradient(-45deg,
+		rgba(150,150,150,0.1) 25%,transparent 25%,
+		#eaeaea 25%,#eaeaea 50%,transparent 50%,
+		rgba(150,150,150,0.1) 50%,rgba(150,150,150,0.1) 75%,transparent 75%,
+		#eaeaea 75%,#eaeaea 100%,transparent);
+	background-size:6px 6px;
+	box-shadow:10px 10px 1px rgba(0,0,0,0.35);
+	margin-bottom:80px;
+}
+.user_info{
+	width:30%;
+	padding-top:50px;padding-bottom:30px;
+	float:left;
+	text-align:center;
+	color:white;
+}
+.user_info img{
+	width:80px;height:80px;
+	border-radius:50%;
+	border:2px solid white;
+	background-color:white;
+}
+.user_setting_btn{
+	display:inline-block;
+	width:26px;text-align:center;
+	height:26px;line-height:26px;
+	border:2px solid #0a7472;
+	border-radius:15px;
+	color:#0a7472;
+	margin-left:5px;
+}
+.user_setting_btn:hover{
+	background-color:#0a7472;
+	color:white;
+}
+
+.user_details{
+	min-height:300px;
+	margin-left:30%;
+	padding:15px;
+	background-color:white;
+	box-shadow:-1px 1px rgba(0, 0, 0, 0.2) inset;
+}
+.user_details_head{
+	height:30px;line-height:30px;
+	color:#077;font-weight:bold;
+	padding:8px 15px;
+	border:1px solid #ddd;
+	border-bottom-color:white;
+	background-color:#eee;
+}
+.user_role span{
+	font-size:12px;font-weight:bold;
+	background-color:#0a7472;
+	height:30px;line-height:30px;
+	display:inline-block;
+	border-radius:15px;
+	padding:0 20px;
+}
+.user_edit span{
+	overflow:hidden;
+	width:36px;height:36px;line-height:38px;
+	display:inline-block;
+	border-radius:50%;
+	cursor:pointer;font-size:16px;
+	text-align:center;
+	color:#25a6a4;
+	border:2px solid #25a6a4;
+}
+.user_edit span:hover{background-color:#25a6a4;color:white;}
+
+.user_page_menu{
+	float:left;
+	width:120px;
+	height:46px;
+	line-height:46px;
+	font-size:14px;
+}
+.user_page_menu li{
+	padding-left:20px;
+	border:1px solid #ddd;
+	margin-bottom:-1px;
+	cursor:pointer;
+	box-shadow:inset 1px -1px rgba(255,255,255,0.3);
+}
+.user_page_menu li:hover{
+	background-color:rgba(255,255,255,.6);
+}
+.user_page_menu li.Stand{
+	background-color:white;
+	border-right-color:white;
+	/*border-left:5px solid #25a6a4;*/
+	color:#066;
+	box-shadow:inset 1px 0 #25a6a4,inset 2px 0 #25a6a4,inset 3px 0 #25a6a4,inset 4px 0 #25a6a4;
+}
+.user_page{
+	min-height:300px;
+	background-color:white;
+	overflow:hidden;
+	box-shadow:-1px 1px rgba(0, 0, 0, 0.15) inset;
+	font-size:14px;
+}
+.user_page_list{
+	line-height:40px;
+	padding:15px 30px;
+}
+.user_page_list li{
+	border-bottom:#ddd dashed 1px;
+	padding:5px 0;
+	min-height:42px;
+}
+.user_page_list_first{
+	display:inline-block;
+	width:130px;margin-right:10px;
+	text-align:right;
+}
+
+.user_page_list input[type=text],
+.user_page_list input[type=password]{
+	border:1px solid #ddd;
+	border-radius:2px;
+	padding:5px 10px;
+	width:250px;
+}
+.user_page_list input[type=text]:focus,
+.user_page_list input[type=password]:focus{
+	border-color:#aaa;
+	box-shadow:inset 1px 1px 2px rgba(0,0,0,.15);
+}
+.user_page_list input[type=text].input_error,
+.user_page_list input[type=password].input_error{
+	border-color:#c00;
+}
+.user_page_list input[type=text].input_sucess,
+.user_page_list input[type=password].input_sucess{
+	border-color:#bbb;
+}

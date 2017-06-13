@@ -1,5 +1,6 @@
 extends ../layout_index
-
+block append head
+	link(rel="stylesheet",href="/css/user.css")
 block content
 	.wrap.nav
 		a(href="/news")
@@ -8,13 +9,15 @@ block content
 	.user_frame.wrap
 		.user_info
 			img(src="/images/#{user.avatar}")
-			h3.mt5 #{user.name}
+			h3.base-color-dark.mt5 #{user.name}
 			.user_role.mt15
 				span
 					if user.role > 50
 						| 超级管理员
 					else
 						| 注册会员
+				a.user_setting_btn.animation(href="/user/#{user.name}/setting")
+					i.icon-cog
 			.user_role.mt15
 				span 注册时间：#{moment(user.meta.createAt).format('YYYY/MM/DD')}
 		.user_details

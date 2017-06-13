@@ -82,6 +82,8 @@ module.exports = function(app){
 
 	//User
 	app.get('/user/:name', User.signinRequired, User.detail)
+	app.get('/user/:name/:page', User.signinRequired, User.detail)
+	app.post('/user/changeword', User.signinRequired, User.changeword)
 	app.get('/captcha',User.createCaptcha)
 	app.post('/user/signup', User.signup, Shopcart.matchcart)
 	app.post('/user/signin', User.checkedCaptcha, User.signin, Shopcart.matchcart)

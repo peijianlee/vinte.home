@@ -16,8 +16,11 @@ if !header_hide
 					i.icon-user.mr5
 					| 登录
 			else
+				span #{user.name}
+				span.ml10.mr10.cGray |
 				a(href="/user/#{user.name}")
-					span #{user.name}
+					i.icon-user.mr5
+					| 个人中心
 				if user.role > 50
 					span.ml10.mr10.cGray |
 					a(href="/admin/news/list")

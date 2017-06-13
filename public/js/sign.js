@@ -25,7 +25,6 @@ function checkInputValue(elements, btn_element, type){
 		if(!$this.val()){
 			addErrorTip($this, elements[index].errorText)
 			return false
-			break
 		}else{
 			removeErrorTip($this)
 		}
@@ -35,15 +34,11 @@ function checkInputValue(elements, btn_element, type){
 }
 // 添加错误提示
 function addErrorTip(element,errorText){
-	if(element.hasClass('input_error')){
-		element.focus()
-	}else{
-		element
-			.addClass('input_error')
-			.focus()
-			.parent('li').append('<div class="sign_tip error inlineBlock">'+
-				'<i class="icon-exclamation-sign"></i>'+errorText+'</div>')
-	}
+	element
+		.addClass('input_error')
+		.focus()
+		.parent('li').append('<div class="sign_tip error inlineBlock">'+
+			'<i class="icon-exclamation-sign"></i>'+errorText+'</div>')
 }
 // 删除错误提示
 function removeErrorTip(element){

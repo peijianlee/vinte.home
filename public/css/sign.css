@@ -52,6 +52,7 @@
     filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=5, MakeShadow=false); /* IE6~IE9 */
 }
 .sign_form{
+	cursor:default;
 	margin:10% auto 0;max-width:400px;overflow:hidden;
 	position:relative;z-index:1;
 	box-shadow:0 0 8px rgba(0,0,0,0.1);
@@ -149,13 +150,8 @@
 }
 
 /*验证码外框*/
-.captchaContainer{
-	width:160px;
-	position:relative;
-}
-#captcha{
-	width:121px;
-}
+.captchaContainer{width:170px;}
+#captcha{width:131px;}
 .changeCaptcha{
 	position:absolute;
 	top:0;right:-160px;

@@ -4,10 +4,11 @@ block content
 	link(href="/css/product.css",rel="stylesheet")
 	.wrap
 		.nav
-			a(href="/news")
+			a(href="/")
 				i.fs14.icon-home
-			a(href="/store/#{product.sort.attributes}") #{product.sort.attributes}
-			span #{product.title}
+			a(href="/store") 商品首页
+			a(href="/store/sort/#{product.sort.attributes}") #{product.sort.attributes}
+			b #{product.title}
 		.side_nav
 			//- 商品分类
 			h2
@@ -47,20 +48,7 @@ block content
 							if item.color && item.color.length > 0
 								| （#{item.color[0].attributes}） 
 							else
-								|&nbsp;（未知颜色） 
-
-				//- a
-				//- 	img(src="/data/products/p591272283ad5c20b1cc63077/1494383133254.jpg")
-				//- 	p 12312 steel （white）
-				//- a
-				//- 	img(src="/data/products/p591272283ad5c20b1cc63077/1494383133254.jpg")
-				//- 	p 12312 steel （white）
-				//- a
-				//- 	img(src="/data/products/p591272283ad5c20b1cc63077/1494383133254.jpg")
-				//- 	p 12312 steel （white）
-				//- a
-				//- 	img(src="/data/products/p591272283ad5c20b1cc63077/1494383133254.jpg")
-				//- 	p 12312 steel （white）
+								|&nbsp;（未知颜色）
 		.p_detail
 			.p_picture.fl.mb10
 				div.p_picture_cover
@@ -81,20 +69,31 @@ block content
 							|&nbsp;宽#{product.size.w}×深#{product.size.d}×高#{product.size.h}cm
 					dd.p_panel_info
 						p.fs14 布匹部分采用了棉丝光斜纹棉布面料。改良了难以扩展的情况，使用了编织材料。可以尽情感受不同材料的不同舒适度。 
-					dd.p_panel_size
-						h6.fs14 尺寸选择
-						p.fs12  尺寸:长65×宽65×高43cm
-						a
-							span 宽#{product.size.w}×深#{product.size.d}×高#{product.size.h}cm
+					dd.p_panel_sort
+						h6.fs14 商品尺寸：
+						a.p_sort_btn
+							span 宽#{product.size.w} × 深#{product.size.d} × 高#{product.size.h}cm
+					dd.p_panel_sort
+						h6.fs14 商品材质：
+						each item in product.material
+							a.p_sort_btn.mr5
+								span #{item.attributes}
 					dt.p_panel_add_cart
 						div
-							span.p_panel_price.fs12.pl10 零售价：
-								b.fs18.cRed $#{product.price}.00
+							if product.sale
+								span.p_panel_price.line_through.fs12.pl10 零售价：
+									b $#{product.price}.00
+								span.p_panel_price.fs12.pl10 清仓价：
+									b.fs18.cRed $#{product.sale}.00
+							else
+								span.p_panel_price.fs12.pl10 零售价：
+									b.fs18.cRed $#{product.price}.00
 							a.iproduct_add_cart_btn.fr.cp
 								i.icon-shopping-cart.mr10
 								| 加入询价单
 								input(type="hidden",name="p[id]",value=product.id)
 								input(type="hidden",name="p[quantity]",value="1")
+							br.clear
 			table.p_detail_sort.table_bordered.table_striped
 				tr
 					th 商品名称：

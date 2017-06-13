@@ -11,14 +11,8 @@ var UserSchema = new mongoose.Schema({
 		type: String,
 		default: 'avatar.png'
 	},
-	// shopcartnum:{
-	// 	type: Number,
-	// 	default: 0
-	// },
 	shopcartgoods:[],
 	password: String,
-	// >10: admin
-	// >50: supper admin
 	role: {
 		type: Number,
 		default: 0
@@ -56,15 +50,28 @@ UserSchema.pre('save', function(next){
 	})
 })
 
-// 验证密码
 UserSchema.methods={
+	// 验证密码
 	comparePassword: function(_password, cb) {
 		bcrypt.compare(_password, this.password, function(err, isMatch) {
 			if(err) return cb(err)
 
 			cb(null, isMatch)
 		})
-	}
+	},
+
+	// 密码加密
+	hashPassword: function(_password, cb){
+
+		bcrypt.genSalt(SALT_WORK_FACTOR, function(err,salt){
+			if(err) return cb(err)
+			bcrypt.hash(_password, salt, function(err,hash){
+				if(err) return cb(err)
+				cb(null, hash)
+			})
+		})
+	} 
+
 }
 
 

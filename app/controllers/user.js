@@ -146,7 +146,6 @@ exports.signup = function(req, res, next){
 				if(err) console.log(err)
 				// 登录信息存储在session
 				req.session.user = user
-
 				// res.redirect('/store')
 				next()
 			})
@@ -229,6 +228,10 @@ exports.adminRequired = function(req,res,next){
 // 用户中心
 exports.detail = function(req,res){
 	var name=req.params.name
+	var page=req.params.page
+
+	console.log(page)
+
 	User.findOne({'name':name},function(err,user){
 		if(err) console.log(err)
 
@@ -238,20 +241,73 @@ exports.detail = function(req,res){
 				message:'非法路径或该用户不存在。'
 			})
 		}else{
-			Order
-			.find({'uid':user.id})
-			.limit(5)
-			.exec(function(err, orders){
-				if(err) console.log(err)
-				res.render('user',{
-					title: user.name+'的个人中心',
-					user: user,
-					orders: orders
+			if(!page){
+				Order
+					.find({'uid':user.id})
+					.limit(5)
+					.exec(function(err, orders){
+						if(err) console.log(err)
+						res.render('user',{
+							title: user.name+'的个人中心',
+							user: user,
+							orders: orders
+						})
+					})
+			}else if(page.toString() === 'setting'){
+				res.render('user_setting',{
+					title: '用户设置 - '+user.name+'的个人中心',
+					user: user
 				})
-
-			})
+			}
 		}
 	})
+}
+
+// 更改密码
+exports.changeword = function(req, res){
+	var user = req.session.user,
+		oldPassWord = req.query.oldpassword,
+		newPassWord = req.query.newpassword,
+		reNewPassWord = req.query.renewpassword
+
+	// console.log('存在新密码')
+	// console.log(newPassWord)
+
+	console.log(oldPassWord + ',' + newPassWord + ',' + reNewPassWord)
+
+	User.findOne({name: user.name},function(err, user){
+		if(err) console.log(err)
+		if(!user) return res.json({success:0})
+
+		user.comparePassword(oldPassWord, function(err, isMatch){
+			if(err) console.log(err)
+			if(!newPassWord){
+				// 密码验证
+				if(isMatch && oldPassWord!=='') {
+					// 验证成功
+					return res.json({success:1})
+				}else{
+					// 验证失败
+					return res.json({success:2})
+				}
+			}
+			user.password = newPassWord
+			console.log(user.password)
+			// 密码加密
+			user.hashPassword(newPassWord, function(err, hash){
+				if(err) console.log(err)
+				console.log(hash)
+				User.findOneAndUpdate({name: user.name}, {$set: {'password': hash}}, function(err, _user){
+					if(err) console.log(err)
+					req.session.user = _user
+					res.json({success: 3})
+				})
+			})
+
+
+		})
+	})
+		
 }
 
 //userlist delete user
