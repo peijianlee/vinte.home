@@ -1,0 +1,79 @@
+extends ../layout_index
+block append head
+	link(rel="stylesheet",href="/css/user.css")
+block content
+	.wrap.nav
+		a(href="/")
+			i.fs14.icon-home
+		a(href="/user/#{user.name}") 我的个人中心
+		a(href="/user/#{user.name}/orders") 询价单
+		b NO.#{order.id}
+	.user_frame.wrap
+		ul.user_page_menu
+			li.Stand
+				i.icon-reorder.mr5
+				|询价单
+		.user_page.p15
+			h5.order_detail_title.base-color-dark.cd
+				span.fr.fs12.fn
+					i.icon-calendar.mr5
+					| 创建时间：
+					| #{moment(order.meta.createAt).format('YYYY/MM/DD')}
+				i.icon-angle-right.mr10
+				| 订单号：#{order.id}
+			.order_detail_left
+				h6.order_detail_list_head
+					i.icon-list.mr5
+					| 咨询单列表
+				table.table_striped.table_bordered
+					tr
+						th(width="100") 图片
+						th 名称
+						th 官方定价
+						th 目标数量
+						th 目标价格
+					if order.products && order.products.length > 0
+						each item in order.products
+							tr.fs12
+								th: img(style="width:100px;height:100px;" src="/data/products/p#{item.id}/#{item.cover}")
+								th: ul.tl
+									li
+										a.base-color-dark.fs14(href="/store/id/#{item.id}" target="_blank") #{item.title} 
+									li.fn.cGray 尺寸：宽#{item.size.w} x 深#{item.size.d} x 高#{item.size.h}
+									li.fn.cGray 场景：
+										if item.scene && item.scene.length > 0
+											each scene in item.scene
+												span.ml5 #{scene.attributes}
+									li.fn.cGray 材质：
+										if item.material && item.material.length > 0
+											each material in item.material
+												span.ml5 #{material.attributes}
+									li.fn.cGray 颜色：
+										if item.color && item.color.length > 0
+											each color in item.color
+												span.ml5 #{color.attributes}
+								th.fn.cGray #{item.price}.00
+								th #{item.quantity}
+								th #{item.fromprice}
+			dl.order_detail_right
+				dt.order_detail_list_head.fb
+					i.icon-info.mr5
+					| 我的资料
+				dd
+					i.icon-building.mr5
+					b 公司名称：
+					| #{order.from.company}
+				dd
+					i.icon-user.mr5
+					b 联系人：
+					| #{order.from.user}
+				dd
+					i.icon-envelope-alt.mr5
+					b Email：
+					| #{order.from.email}
+				dd
+					i.icon-comment-alt.mr5
+					b 留言：
+					| #{order.from.description}
+			br.clear
+	.bg_fixed

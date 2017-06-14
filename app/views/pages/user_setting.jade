@@ -24,14 +24,20 @@ block content
 					span.user_page_list_first 用户名：
 					| #{user.name}
 				li
+					span.user_page_list_first 注册时间：
+					| #{moment(user.meta.createAt).format('YYYY / MM / DD')}
+				//- li
 					span.user_page_list_first 邮箱：
-					| dfsdfsdf@dfsdf.com
-				li
+					input(type="text" value=user.email)
+				//- li
 					span.user_page_list_first 手机号码：
-					| 13640430944
-				li
+					input(type="text" value=user.phone)
+				//- li
 					span.user_page_list_first 网址：
 					input(type="text")
+				//- li
+					span.user_page_list_first
+					button.button.button-primary.button-small 确定修改
 		.user_page.none
 			form(action="/user/changeword", autocomplete="off")
 				ul.user_page_list
@@ -50,6 +56,7 @@ block content
 		.user_page.none
 			.user_edit_avatar
 				img(src="/images/"+user.avatar)
+				span 当前头像
 	.bg_fixed
 
 	script(src="/js/jquery.vtEnterKeyPress.js")
@@ -60,7 +67,7 @@ block content
 			var index = $(this).index()
 			$('.user_page_menu li').removeClass('Stand').eq(index).addClass('Stand')
 			$('.user_page').addClass('none').eq(index).removeClass('none')
-		}).eq(1).click()
+		})
 
 
 		// 设置用户注册参数

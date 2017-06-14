@@ -1,0 +1,29 @@
+extends ../layout_index
+block append head
+	link(rel="stylesheet",href="/css/user.css")
+block content
+	.wrap.nav
+		a(href="/")
+			i.fs14.icon-home
+		a(href="/user/#{user.name}") 我的个人中心
+		b 询价单
+	.user_frame.wrap
+		ul.user_page_menu
+			li.Stand
+				i.icon-reorder.mr5
+				|询价单
+		.user_page.p15
+			if orders && orders.length > 0
+				table.table_striped.table_bordered
+					tr
+						th 询价单号
+						th 创建时间
+						th 是否回复
+						th 操作
+					each item in orders
+						tr.tc
+							td: a(href="/user/#{user.name}/orders/#{item.id}") #{item.id}
+							td #{moment(item.meta.createAt).format('YYYY/MM/DD')}
+							td
+							td: a(href="/user/#{user.name}/orders/#{item.id}").button.button-primary.button-tiny 查看
+	.bg_fixed

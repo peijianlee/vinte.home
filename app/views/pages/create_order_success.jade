@@ -32,11 +32,11 @@ block content
 			dd: span.cGray 创建时间：#{moment(order.data).format('YYYY-MM-DD dddd HH:mm:ss')}
 			dd
 				span.cGray 订单编号：
-				a.order_link(href="/user/order/#{order.id}") #{order.id}
+				a.order_link(href="/user/#{user.name}/orders/#{order.id}") #{order.id}
 			dd(style="color:#088") 我们会在创建时间之后的5个工作内通过电子邮箱或你的联系电话回复你，请耐心等待！
 			dd
 				p.pb10.cGray 你可通过以下方式继续访问：
-				a.button.button-primary.button-small(href="/user/order") 我的订单
+				a.button.button-primary.button-small(href="/user/#{user.name}/orders") 我的订单
 				a.button.button-primary.button-small.ml10(href="/store") 浏览商城
 				a.button.button-primary.button-small.ml10(href="/index") 首页
 	.bg_fixed

@@ -68,6 +68,13 @@
 	border-radius:15px;
 	padding:0 20px;
 }
+.user_details_empty_tip{
+	border:1px dashed #aaa;
+	margin:30px 60px 0;
+	padding:40px 0;
+	border-radius:10px;
+	background-color:#fffcda;
+}
 .user_edit span{
 	overflow:hidden;
 	width:36px;height:36px;line-height:38px;
@@ -79,6 +86,26 @@
 	border:2px solid #25a6a4;
 }
 .user_edit span:hover{background-color:#25a6a4;color:white;}
+
+.user_edit_avatar{
+	text-align:center;
+	width:40%;
+	width:120px;
+	margin:30px 0 0 80px;
+}
+.user_edit_avatar img{
+	width:120px;height:120px;
+	border-radius:50%;
+	overflow:hidden;
+	border:2px solid #ddd;
+}
+.user_edit_avatar span{
+	display:block;
+	background-color:#ddd;
+	height:36px;line-height:36px;
+	padding:0 15px;
+	border-radius:20px;
+}
 
 .user_page_menu{
 	float:left;
@@ -146,3 +173,27 @@
 .user_page_list input[type=password].input_sucess{
 	border-color:#bbb;
 }
+
+/*订单详细*/
+.order_detail_title,
+.order_detail_list_head{
+	height:40px;line-height:40px;
+	font-size:14px;
+	padding-left:20px;
+}
+.order_detail_title{
+	background-color:#efefef;
+	padding-right:20px;
+}
+.order_detail_list_head{
+	background-color:#25a6a4;color:white;
+}
+.order_detail_left{
+	width:72%;float:left;margin-top:10px;
+}
+.order_detail_right{
+	width:27%;float:right;margin-top:10px;
+	background-color:#efefef;
+}
+.order_detail_right dd{padding:10px 15px;font-size:12px;}
+.order_detail_right dd:nth-of-type(2n){background-color:#dfdfdf;}

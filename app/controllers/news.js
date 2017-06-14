@@ -166,7 +166,7 @@ exports.indexlist = function(req,res){
 					if(err) console.log(err)
 					Banner.find({}, function(err, banners){
 						res.render('news_index', {
-							title: 'icoom文章列表页',
+							title: '文章列表页' + 'VINTE',
 							news: news,
 							categories: categories,
 							banners: banners

@@ -67,7 +67,7 @@ exports.indexlist = function(req,res){
 			Category.find({type:'product', name:'material'}, function(err, materialCategories){
 				if(err) console.log(err)
 				res.render('product',{
-					title:'IMOOC 产品列表',
+					title:'VINTE 产品列表',
 					categories: categories,
 					materialCategories: materialCategories,
 					cart_goods: cartGoods,
@@ -139,7 +139,7 @@ exports.sort = function(req,res){
 				}
 
 				res.render(template,{
-					title: title+'-IMOOC',
+					title: title+'-VINTE',
 					linkSort: linkSort,
 					category: category,
 					categories: categories,
@@ -208,7 +208,7 @@ exports.detail = function(req,res){
 						.exec(function(err, find_view_products){
 							if(err) console.log(err)
 							res.render('product_detail',{
-								title: _product.title + ' | IMOOC',
+								title: _product.title + ' | VINTE',
 								categories: categories,
 								product: _product,
 								find_view_products: find_view_products,

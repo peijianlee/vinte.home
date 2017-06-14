@@ -229,8 +229,9 @@ exports.adminRequired = function(req,res,next){
 exports.detail = function(req,res){
 	var name=req.params.name
 	var page=req.params.page
+	var orderId=req.params.id
 
-	console.log(page)
+	console.log(orderId)
 
 	User.findOne({'name':name},function(err,user){
 		if(err) console.log(err)
@@ -258,6 +259,24 @@ exports.detail = function(req,res){
 					title: '用户设置 - '+user.name+'的个人中心',
 					user: user
 				})
+			}else if(page.toString() === 'orders' && !orderId){
+				Order.find({'uid': user.id},function(err, orders){
+					res.render('user_order',{
+						title: '所有询价单 - '+user.name+'的个人中心',
+						orders: orders
+					})
+				})
+			}else if(orderId){
+				Order
+					.findOne({'_id': orderId})
+					.populate('products.scene products.material products.color','attributes')
+					.exec(function(err, order){
+						console.log(order)
+						res.render('user_order_detail',{
+							title: '询价单' + order.id + ' - '+user.name+'的个人中心',
+							order: order
+						})
+					})
 			}
 		}
 	})

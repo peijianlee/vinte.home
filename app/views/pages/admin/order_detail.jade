@@ -26,7 +26,8 @@ block content
 							th 目标价格
 						each item in order.products
 							tr
-								td: img(src="/images_data/"+item.id+"/"+item.cover, width="150px", height="150px")
+								td: a(href="/store/id/#{item.id}" target="_blank")
+									img(src="/data/products/p"+item.id+"/"+item.cover, width="150px", height="150px")
 								td
 									ul
 										li.fs16.fb #{item.title}
