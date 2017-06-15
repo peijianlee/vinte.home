@@ -5,21 +5,21 @@ block content
 		.nav.mt10
 			a(href="/news")
 				i.fs14.icon-home
-			a(href="/store") store
-			a(href="/inquirylist") inquiry list
-			b create inquiry list
+			a(href="/store") 商城首页
+			a(href="/inquirylist") 询价单列表
+			b 创建询价单
 		div.progress.progress_step_2
 			div.progress_step
 				span.s_step 1
-				p INQUIRY LIST
+				p 询价单列表
 			div.progress_step
 				span.s_step 2
 					span.s_1
 					span.s_2
-				p INQUIRY LIST INFO
+				p 填写信息
 			div.progress_step
 				span.s_step 3
-				p SUCCESS
+				p 发送完成
 			div.progress_line
 			div.progress_step_line
 		form(method="post", action="/create/order", enctype="multipart/form-data").mb50
@@ -27,7 +27,7 @@ block content
 			dl.create_order_userinfo
 				dt.shopcart_head
 					i.icon-edit.mr10
-					| YOUR INFOMACTION
+					| 我的资料
 				dd.pb5
 					label.selectType.On
 						i.icon-building.mr10
@@ -60,14 +60,14 @@ block content
 			table.shopcart_list(style="width:70%;")
 				caption.shopcart_head
 					i.icon-list.mr10
-					| INQUIRY LIST
+					| 询价单列表
 				thead
 					tr
-						th(width="140") ITEM
-						th.tl DESCRIPTION
-						th QUANTITY
+						th(width="140") 商品图片
+						th.tl 描述
+						th 目标数量
 							i.icon-edit.ml5
-						th(width="150") PRICE
+						th(width="150") 目标单价
 							i.icon-edit.ml5
 				tbody
 					if products && products.length>0
@@ -77,7 +77,7 @@ block content
 									img(src="/data/products/p"+item.id+"/"+item.cover)
 								td.shopcart_goods_name.vatop
 									ul
-										li
+										li.mb5
 											h3 #{item.title}
 										li 宽#{item.size.w}×深#{item.size.d}×高#{item.size.h} (cm)
 										if item.material && item.material.length > 0
@@ -88,7 +88,7 @@ block content
 											li 颜色：
 												each i_color in item.color
 													span.ml5 #{i_color.attributes}
-										li 官方售价：￥#{item.price}.00
+										li.fb.mt5 售价：￥#{item.price}.00
 									input(type="hidden", name="order.products[pid.id]", value=item.id)
 								td.tc.vatop
 									input.fs14.orderQuantity(onfocus="enterKeyPress(this,'quantity')", onblur="onlyNumber(this,'quantity')", maxlength="11", type="text", value="1 PCS", readonly=true, oncontextmenu="return false", name="order.products[pid.quantity]")

@@ -8,6 +8,9 @@ var _ = require('underscore')
 // 购物清单
 exports.detail = function(req,res){
 	var user = req.session.user
+
+	console.log(user)
+
 	if(!user){
 		if(!req.session.cart) req.session.cart = []
 		var session_cart = req.session.cart
@@ -58,15 +61,15 @@ exports.detail = function(req,res){
 				if(err) console.log(err)
 				if(shopcart){
 					var products = shopcart.products
-					var cart_goods_num = shopcart.products.length
 				}else{
 					var products = []
-					var cart_goods_num = 0
 				}
+				// var cart_goods_num = shopcart.products.length
+
 				res.render('shopcart',{
 					title: 'dfsdfsdfsdf' + ' | IMOOC',
 					products: products,
-					cart_goods_num: cart_goods_num
+					cart_goods_num: user.shopcartgoods.length
 				})
 
 			})
@@ -83,7 +86,8 @@ exports.createInquirylist = function(req, res){
 		.exec(function(err, products){
 			res.render('create_order',{
 				title: '创建询价单' + ' | IMOOC',
-				products: products
+				products: products,
+				cart_goods_num: req.session.user.shopcartgoods.length
 			})
 
 		})
@@ -138,7 +142,8 @@ exports.createOrderSuccess = function(req, res){
 	console.log(req.session.user)
 	res.render('create_order_success',{
 		title: '询价单创建成功 | IMOOC',
-		order: req.session.user.order
+		order: req.session.user.order,
+		cart_goods_num: req.session.user.shopcartgoods.length
 	})
 }
 
@@ -204,8 +209,6 @@ exports.add = function(req,res){
 		})
 
 	}
-
-	console.log(user)
 
 }
 
@@ -280,18 +283,6 @@ exports.matchcart = function(req, res){
 					if(err) console.log(err)
 
 					user.shopcartgoods = new Object(returnShopcartGoods(_newShopcart))
-
-
-					// console.log('------')
-					// console.log(returnShopcartGoods(_newShopcart))
-					// console.log(user.shopcartgoods)
-					// console.log(user)
-
-					// if(req.url.indexOf('signup') > -1){
-					// 	res.redirect('/store')
-					// }else{
-					// 	res.json({success:1})
-					// }
 					res.json({success:1})
 				})
 			}else{
@@ -317,12 +308,6 @@ exports.matchcart = function(req, res){
 				shopcart.save(function(err, _shopcart){
 					if(err) console.log(err)
 					user.shopcartgoods = returnShopcartGoods(_shopcart)
-					// console.log('-----shopcartnum数量为-------')
-					// if(req.url.indexOf('signup') > -1){
-					// 	res.redirect('/store')
-					// }else{
-					// 	res.json({success:1})
-					// }
 					res.json({success:1})
 				})
 

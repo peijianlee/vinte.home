@@ -120,14 +120,6 @@ exports.signup = function(req, res, next){
 	var name = req.query.name
 	var password = req.query.password
 	var repassword = req.query.repassword
-
-	// console.log(name)
-	// console.log(password)
-	// console.log(repassword)
-	// if(name !== "" || password.toString() !== repassword.toString()){
-	// 	console.log('用户名为空或两次输入密码不一致')
-	// 	return res.redirect('/signup')
-	// }
 	
 	User.findOne({name: name},function(err,user){
 		if(err) console.log('服务器异常' + err)
@@ -251,19 +243,22 @@ exports.detail = function(req,res){
 						res.render('user',{
 							title: user.name+'的个人中心',
 							user: user,
-							orders: orders
+							orders: orders,
+							cart_goods_num: req.session.user.shopcartgoods.length
 						})
 					})
 			}else if(page.toString() === 'setting'){
 				res.render('user_setting',{
 					title: '用户设置 - '+user.name+'的个人中心',
-					user: user
+					user: user,
+					cart_goods_num: req.session.user.shopcartgoods.length
 				})
 			}else if(page.toString() === 'orders' && !orderId){
 				Order.find({'uid': user.id},function(err, orders){
 					res.render('user_order',{
 						title: '所有询价单 - '+user.name+'的个人中心',
-						orders: orders
+						orders: orders,
+						cart_goods_num: req.session.user.shopcartgoods.length
 					})
 				})
 			}else if(orderId){
@@ -274,7 +269,8 @@ exports.detail = function(req,res){
 						console.log(order)
 						res.render('user_order_detail',{
 							title: '询价单' + order.id + ' - '+user.name+'的个人中心',
-							order: order
+							order: order,
+							cart_goods_num: req.session.user.shopcartgoods.length
 						})
 					})
 			}

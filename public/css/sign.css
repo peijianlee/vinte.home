@@ -35,7 +35,7 @@
 }
 .sign_bg{
 	position:absolute;left:0;top:0;
-	width:100%;height:100%;
+	width:100%;height:100%;overflow:hidden;
 	background-image:url(http://tupian.enterdesk.com/2012/1113/gha/2/shatanhb9.jpg);
 	background-size:120% auto;
 	background-position:center center;
@@ -45,11 +45,11 @@
 
 .blur{	
     filter: url(blur.svg#blur); /* FireFox, Chrome, Opera */
-    -webkit-filter: blur(5px); /* Chrome, Opera */
-       -moz-filter: blur(5px);
-        -ms-filter: blur(5px);    
-            filter: blur(5px);
-    filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=5, MakeShadow=false); /* IE6~IE9 */
+    -webkit-filter: blur(8px); /* Chrome, Opera */
+       -moz-filter: blur(8px);
+        -ms-filter: blur(8px);    
+            filter: blur(8px);
+    /*filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=8, MakeShadow=false);*/
 }
 .sign_form{
 	cursor:default;
@@ -107,8 +107,8 @@
 .sign_form_content input{
 	margin-left:37px;
 	float:left;
-	width:89%;
-	text-indent:0.7em;
+	width:86%;
+	padding-left:12px;
 	border-radius:0 4px 4px 0;
 }
 .sign_form_content input:focus{
@@ -151,7 +151,7 @@
 
 /*验证码外框*/
 .captchaContainer{width:170px;}
-#captcha{width:131px;}
+#captcha{width:120px;}
 .changeCaptcha{
 	position:absolute;
 	top:0;right:-160px;
