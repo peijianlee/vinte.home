@@ -1,7 +1,7 @@
 extends ../layout_index
-
+block append head
+	link(rel="stylesheet",href="/css/product.css")
 block content
-	link(href="/css/product.css",rel="stylesheet")
 	each cat in categories
 		.wrap.iproduct_list
 			h3
@@ -14,6 +14,7 @@ block content
 				each item in cat.pid
 					.iproduct(id=item.id)
 						include ../themplate/product.jade
+				br.clear
 	if materialCategories && materialCategories.length > 0
 		.wrap.iproduct_list
 			h3
@@ -21,9 +22,10 @@ block content
 				| 材质介绍
 		.wrap.imaterial_list.mb15
 			each item in materialCategories
-				a(href="/store/material/#{item.attributes}", style="background-image:url(/banner/#{item.banner})").tc
-					span.fb #{item.attributes}
-						b #{item.pid.length}
+				a(href="/store/material/#{item.attributes}" style="background-image:url(/banner/#{item.banner})")
+					span.imaterial_frame.base-color-dark
+						span.imaterial #{item.attributes}
+							b #{item.pid.length}
 
 	.bg_fixed
 	script(src="/js/shopcart.js")

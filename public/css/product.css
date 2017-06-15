@@ -1,6 +1,6 @@
 
+
 .iproduct_list{
-	font-size:0;
 	margin-top:10px;
 	padding-left:2px;
 	border-top:0 none;
@@ -16,30 +16,31 @@
 }
 .iproduct_list h3 a{font-size:12px;}
 .iproduct{
-	display:inline-block;
-	width:245px;height:245px;
+	float:left;
+	width:245px;height:360px;
 	border:1px solid #d9d9d9;
 	margin-left:-2px;
 	margin-top:-1px;
 	position:relative;
-	overflow:hidden;
-	box-sizing:box-sizing;
+	background-color:white;
+	/*box-sizing:box-sizing;*/
 }
 .iproduct,
 .iproduct *{
 	transition:all 0.5s;
 	webkit-transition:all 0.5s;
 }
-.iproduct:first-child{
-	/*margin-left:-1px;*/
-}
 .iproduct:hover{
 	z-index:1;
 	border-color:#25a6a4;
 	box-shadow:1px 1px 5px rgba(0,0,0,0.2);
 }
-.iproduct img{width:100%;}
-.iproduct .ip_bg{
+.iproduct img{width:245px;height:245px;}
+.iproduct .ip_description{
+	padding:0 12px;
+}
+.iproduct li{line-height:18px;margin-top:8px;}
+/*.iproduct .ip_bg{
 	position:absolute;
 	width:100%;height:100%;left:0;top:0;
 	background-image:linear-gradient(to bottom, rgba(0,0,0,0), #fff);
@@ -50,9 +51,9 @@
 .iproduct:hover .ip_bg{
 	transform:translateY(0);
 	-webkit-transform:translateY(0);
-}
-.iproduct li{margin-top:3px;}
-.iproduct .ip_description{
+}*/
+/*.iproduct li{margin-top:3px;}*/
+/*.iproduct .ip_description{
 	position:absolute;
 	left:0;bottom:0;
 	font-size:14px;
@@ -60,7 +61,9 @@
 	padding:10px 15px 15px;
 	transform:translateY(100%);
 	-webkit-transform:translateY(100%);
-}
+}*/
+.ip_description{cursor:default;}
+.ip_description li{margin-top:4px;}
 .ip_title{font-size:14px;font-weight:bold;text-shadow:1px 1px 1px white;}
 .ip_title:hover{border-bottom:dashed 1px #555;}
 .ip_tag{
@@ -74,13 +77,13 @@
 	margin-left:10px;
 }
 .ip_price{
-	font-weight:bold;font-size:1em;
+	font-weight:bold;font-size:16px;
 	color:#7f0019;
 }
-.iproduct:hover .ip_description{
+/*.iproduct:hover .ip_description{
 	transform:translateY(0);
 	-webkit-transform:translateY(0);
-}
+}*/
 span.iproduct_add_cart_btn{
 	float:right;font-size:12px;
 	width:22px;height:22px;line-height:22px;
@@ -98,25 +101,45 @@ span.iproduct_add_cart_btn.Stand{
 	background-color:#a00;color:white;
 	border-color:#a00;box-shadow:none;
 }
+
+/*材质介绍*/
 .imaterial_list{height:150px;}
 .imaterial_list a{
-	width:33.3333%;height:150px;line-height:150px;
+	width:33.3333%;height:150px;
+	/*height:150px;line-height:150px;*/
 	background-size:100% auto;
 	float:left;color:white;
-	box-sizing:border-box;
+	float:left;
 	font-size:16px;
 }
-.imaterial_list a span{
-	line-height:30px;
+.imaterial_frame{
+	/*line-height:30px;
 	display:inline-block;border:2px solid white;
 	padding:4px 5px 4px 20px;border-radius:20px;
-	text-shadow:1px 1px 0 rgba(0,0,0,.3);
+	text-shadow:1px 1px 0 rgba(0,0,0,.3);*/
+	display:block;width:50%;
+	margin:20px auto 0;
+	padding:10px;
+	height:90px;
+	border-radius:3px;
+	background-color:white;
+	background-color:rgba(255,255,255,0.8);
 }
-.imaterial_list a span b{
-	display:inline-block;text-align:center;
-	width:30px;height:30px;
+.imaterial{
+	border-radius:3px;
+	display:block;
+	height:50px;padding-top:20px;
+	text-align:center;
+	border:2px solid #25a6a4;
+	color:#25a6a4;font-weight:bold;
+	margin:10px;
+}
+.imaterial b{
+	display:inline-block;
+	width:30px;height:30px;line-height:30px;
 	border-radius:50%;margin-left:10px;
-	background-color:rgba(255,255,255,.5);
+	background-color:#25a6a4;
+	color:white;
 	font-size:14px;
 }
 .imaterial_list a:nth-child(1n){background-color:rgba(51,153,255,.82);}

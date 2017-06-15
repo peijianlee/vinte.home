@@ -37,7 +37,7 @@ ul,ol,li{list-style-type:none;}
 .pr{position:relative;}
 .pa{position:absolute;}
 .pf{position:fixed;}
-
+.fs0{font-size:0;}
 .fs11{font-size:11px;}
 .fs12{font-size:12px;}
 .fs14{font-size:14px;}

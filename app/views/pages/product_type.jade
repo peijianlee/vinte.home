@@ -1,7 +1,7 @@
 extends ../layout_index
-
+block append head
+	link(rel="stylesheet",href="/css/product.css")
 block content
-	link(href="/css/product.css",rel="stylesheet")
 	if products && products.length > 0
 		.wrap.nav
 			a(href="/news")

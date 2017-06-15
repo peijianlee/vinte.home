@@ -192,13 +192,14 @@ span.head_btn_style a{
 }
 
 .footer-message-btn{
-	border:2px solid white;
+	background-color:#066;
+	border:2px solid #066;
+	box-shadow:inset 1px 1px rgba(255,255,255,.2);
 	color:white;
-	font-weight:bold;
 	font-size:14px;
 	display:inline-block;
-	height:36px;line-height:36px;
-	padding:0 12px;
+	height:38px;
+	padding:0 15px;
 	border-radius:5px;
 }
 
