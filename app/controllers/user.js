@@ -70,7 +70,7 @@ exports.createCaptcha = function(req, res, next){
 }
 // 判断验证码
 exports.checkedCaptcha = function(req, res, next){
-	var captcha=req.query.captcha
+	var captcha=req.body.captcha
 	// 全部转为小写进行验证
 	if((captcha).toLowerCase() !== (req.session.captcha.text).toLowerCase()){
 		console.log('验证码错误，请重新输入。')
@@ -117,10 +117,10 @@ exports.showSignup = function(req, res){
 // signup
 exports.signup = function(req, res, next){
 	// var _user =req.body.signup
-	var name = req.query.name
-	var password = req.query.password
-	var repassword = req.query.repassword
-	
+	var name = req.body.name
+	var password = req.body.password
+	var repassword = req.body.repassword
+
 	User.findOne({name: name},function(err,user){
 		if(err) console.log('服务器异常' + err)
 		if(user && user.name!==''){
@@ -149,8 +149,8 @@ exports.signup = function(req, res, next){
 exports.signin = function(req, res, next){
 	// var _user=req.body.user
 	delete req.session.signup_name_repeat
-	var name=req.query.name
-	var password=req.query.password
+	var name=req.body.name
+	var password=req.body.password
 
 	User.findOne({name: name},function(err, user){
 		if(err) console.log(err)

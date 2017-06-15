@@ -54,25 +54,56 @@ function postSignInfo(elements, btn_element, type){
 			$captcha = elements[2].element,
 			signtype = btn_element.attr('signtype')
 		
+			
+		var data = {
+			name: $name.val(),
+			password: $password.val(),
+			captcha: $captcha.val()
+		}
+
 		$.ajax({
-			type: 'POST',
-			url: '/user/signin?name='+ $name.val() +'&password='+ $password.val() +'&captcha='+ $captcha.val()
-		})
-		.done(function(results){
-			if(results.success===1){
-				if(signtype.toString() === 'inquirylist'){
-					artalert('登录成功','success','/inquirylist');
+			type:"POST",
+			url:"/user/signin",
+			data:data,
+			dataType:"json",
+			async:false,
+			cache:false,
+			success: function(data){
+				if(data.success === 1){
+					if(signtype.toString() === 'inquirylist'){
+						artalert('登录成功','success','/inquirylist');
+					}else{
+						artalert('登录成功','success','/store');
+					}
+				}else if(data.success === 2){
+					addErrorTip($name,'该用户不存在！')
+				}else if(results.success===3){
+					addErrorTip($captcha,'验证码错误，请重新输入。')
 				}else{
-					artalert('登录成功','success','/store');
+					addErrorTip($password,'密码错误!')
 				}
-			}else if(results.success===2){
-				addErrorTip($name,'该用户不存在！')
-			}else if(results.success===3){
-				addErrorTip($captcha,'验证码错误，请重新输入。')
-			}else{
-				addErrorTip($password,'密码错误!')
 			}
 		})
+		
+		// $.ajax({
+		// 	type: 'POST',
+		// 	url: '/user/signin?name='+ $name.val() +'&password='+ $password.val() +'&captcha='+ $captcha.val()
+		// })
+		// .done(function(results){
+		// 	if(results.success===1){
+		// 		if(signtype.toString() === 'inquirylist'){
+		// 			artalert('登录成功','success','/inquirylist');
+		// 		}else{
+		// 			artalert('登录成功','success','/store');
+		// 		}
+		// 	}else if(results.success===2){
+		// 		addErrorTip($name,'该用户不存在！')
+		// 	}else if(results.success===3){
+		// 		addErrorTip($captcha,'验证码错误，请重新输入。')
+		// 	}else{
+		// 		addErrorTip($password,'密码错误!')
+		// 	}
+		// })
 	}else{
 		// 注册
 		var $name = elements[0].element,
@@ -83,15 +114,38 @@ function postSignInfo(elements, btn_element, type){
 			addErrorTip($repassword, elements[2].errorText)
 			return false
 		}else{
+			// $.ajax({
+			// 	type: 'POST',
+			// 	url: '/user/signup?name='+ $name.val() + '&password='+ $password.val() +'&repassword='+ $repassword.val() 
+			// })
+			// .done(function(results){
+			// 	if(results.success === 1){
+			// 		artalert('注册成功','success','/')
+			// 	}else if(results.success === 2){
+			// 		addErrorTip($name, "用户名已经存在")
+			// 	}
+			// })
+			
+			var data = {
+				name: $name.val(),
+				password: $password.val(),
+				repassword: $repassword.val()
+			}
+
 			$.ajax({
-				type: 'POST',
-				url: '/user/signup?name='+ $name.val() + '&password='+ $password.val() +'&repassword='+ $repassword.val() 
-			})
-			.done(function(results){
-				if(results.success === 1){
-					artalert('注册成功','success','/')
-				}else if(results.success === 2){
-					addErrorTip($name, "用户名已经存在")
+				type:"POST",
+				url:"/user/signup",
+				data:data,
+				dataType:"json",
+				async:false,
+				cache:false,
+				success: function(data){
+					if(data.success === 1){
+						artalert('注册成功','success','/')
+						// if(data.newid) sort_id = data.newid
+					}else if(data.success === 2){
+						addErrorTip($name, "用户名已经存在")
+					}
 				}
 			})
 		}
@@ -104,14 +158,18 @@ function postSignInfo(elements, btn_element, type){
 // 更换验证码
 $('.changeCaptcha').click(function(){
 	$.ajax({
-		type: 'get',
-		url: '/captcha?changecaptcha=true'
-	})
-	.done(function(results){
-		if(results.success===1){
-			$('.changeCaptcha').html(results.captcha.data)
-		}else{
-			artalert('更新验证码失败！','error')
+		type:"GET",
+		url:"/captcha?changecaptcha=true",
+		async:false,
+		cache:false,
+		success: function(data){
+			if(data.success === 1){
+				$('.changeCaptcha').html(data.captcha.data)
+				console.log(data.captcha.data)
+				// if(data.newid) sort_id = data.newid
+			}else if(data.success === 2){
+				artalert('更新验证码失败！','error')
+			}
 		}
 	})
 })
