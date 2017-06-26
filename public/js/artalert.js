@@ -52,7 +52,7 @@ function artalert(txt,type,url){
 			if(url){
 				location.href=url;
 			}else{
-				location.href=document.referrer;
+				// location.href=document.referrer;
 			}
 		});
 	});

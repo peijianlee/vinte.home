@@ -7,7 +7,11 @@ var CategorySchema = new Schema({
 	name: String,
 	//type仅识别查找类型
 	type: String,
-	attributes: String,
+	// attributes: String,
+	attributes: {
+		zh_cn: String,
+		en_us: String
+	},
 	banner: String,
 	description: String,
 	pid: [{

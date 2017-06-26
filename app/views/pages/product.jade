@@ -3,18 +3,19 @@ block append head
 	link(rel="stylesheet",href="/css/product.css")
 block content
 	each cat in categories
-		.wrap.iproduct_list
-			h3
-				a.fr(href="/store/sort/"+cat.attributes)
-					| 更多
-					i.icon-double-angle-right
-				i.icon-magnet.mr10
-				| #{cat.attributes}
-			div.iproduct_frame
-				each item in cat.pid
-					.iproduct(id=item.id)
-						include ../themplate/product.jade
-				br.clear
+		if cat.pid.length > 2
+			.wrap.iproduct_list
+				h3
+					a.fr(href="/store/sort/"+cat.attributes.zh_cn )
+						| 更多
+						i.icon-double-angle-right
+					i.icon-magnet.mr10
+					| #{cat.attributes.zh_cn}
+				div.iproduct_frame
+					each item in cat.pid
+						.iproduct(id=item.id)
+							include ../themplate/product.jade
+					br.clear
 	if materialCategories && materialCategories.length > 0
 		.wrap.iproduct_list
 			h3
@@ -22,9 +23,9 @@ block content
 				| 材质介绍
 		.wrap.imaterial_list.mb15
 			each item in materialCategories
-				a(href="/store/material/#{item.attributes}" style="background-image:url(/banner/#{item.banner})")
+				a(href="/store/material/"+item.attributes.zh_cn style="background-image:url(/banner/#{item.banner})")
 					span.imaterial_frame.base-color-dark
-						span.imaterial #{item.attributes}
+						span.imaterial #{item.attributes.zh_cn}
 							b #{item.pid.length}
 
 	.bg_fixed

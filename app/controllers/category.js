@@ -19,37 +19,32 @@ exports.save = function(req,res){
 		name = categoryObj.name,
 		id = categoryObj._id
 
-	if(!id){
-		// 新增
-		Category.findOne({"name":name,"attributes":attributes},function(err,category){
-			if(err) console.log(err)
-			if(!category){
+	console.log(categoryObj)
+	// return false
+
+	Category.findOne({"name":name,"attributes":attributes},function(err,category){
+		if(err) console.log(err)
+
+		if(!category){
+			if(!id){
 				var newcategory = new Category(categoryObj)
 				newcategory.save(function(err){
 					if(err) console.log(err)
-					res.redirect('/admin/'+type+'/category/list')
+					console.log("新增成功")
 				})
 			}else{
-				res.redirect('/admin/'+type+'/category/list')
+				Category.findByIdAndUpdate(id,{"attributes":attributes},function(err){
+					if(err) console.log(err)
+					console.log("更新成功")
+				})
 			}
-		})
-	}else{
-		// 更新
-		Category.find({"name":name},function(err,categories){
-			if(err) console.log(err)
-			// 判断是否同名
-			for(var i=0; i < categories.length; i++){
-				if(categories[i].attributes == attributes){
-					console.log('同名无需修改')
-					return res.redirect('/admin/'+type+'/category/list')
-				}
-			}
-			Category.findByIdAndUpdate(id,{"attributes":attributes},function(err){
-				if(err) console.log(err)
-				res.redirect('/admin/'+type+'/category/list')
-			})
-		})
-	}
+		}else{
+			console.log("已经存在了")
+		}
+
+		res.redirect('/admin/'+type+'/category/list')
+		
+	})
 
 }
 

@@ -17,7 +17,7 @@ block content
 					if categories && categories.length > 0
 						each item in categories
 							tr(class="item-id-#{item._id}")
-								td.tc #{item.attributes}
+								td.tc #{item.attributes.zh_cn}
 								td
 									if item.banner
 										div(style='width:450px;height:150px;background:#eee url("/banner/#{item.banner}") repeat center center;background-size:auto 150px;')
@@ -101,7 +101,7 @@ block content
 				console.log(results)
 				if(results.success === 1){
 					$('#gbmId').val(results.id)
-					$('#gbmAttributes').html(results.attributes+'&nbsp;')
+					$('#gbmAttributes').html(results.attributes.zh_cn+'&nbsp;')
 					if(results.banner){
 						$('#gbmImg').css('background-image','url(/banner/'+results.banner+')')
 					}else{

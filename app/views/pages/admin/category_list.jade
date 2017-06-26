@@ -8,7 +8,7 @@ block content
 		.contentpanel
 			if categories_type == 'product'
 				.admin_sarch_nav
-					- var categories_array = ['sort','scene','material','color']
+					- var categories_array = ['scene','sort','material','color']
 					each catname in categories_array
 						- if(catname==='sort'){
 						-	var category = categories_sort
@@ -24,92 +24,34 @@ block content
 						-	var catname_cn = '颜色'
 						-}
 						dl.admin_sarch_nav_type
-							dt #{catname} :
+							dt #{catname_cn} :
 							dd
 								each item in category
 									ul(class="item-id-"+item.id)
 										li.fb.fs14
-											span.catName #{item.attributes}
+											span.catName
+												b.attributes_zh_cn #{item.attributes.zh_cn}
+												|, 
+												b.attributes_en_us #{item.attributes.en_us}
 											span &nbsp; ( #{item.pid.length} )
 										li
-											span.catChange.button.button-highlight.button-small(data-toggle="modal", data-target="#catChangeModal", value="#{item._id}", data-name="#{item.name}") 修改
+											span.catChange.button.button-highlight.button-small(data-toggle="modal", data-target="#catChangeModal", data-id="#{item._id}", data-name="#{item.name}") 修改
 											if item.pid.length === 0
 												span.categorydel.button.button-caution.button-small(data-type="productCategory", data-id="#{item.id}") 删除
 											else
 												span.disabled.button.button-caution.button-small 删除
-										li.cGray
+										li.cGray(style="font-size:0.85em")
 											i.icon-time.mr5
-											| #{moment(item.meta.createAt).format('YYYY / MM / DD HH:mm:ss')}
+											| 录入时间：
+											| #{moment(item.meta.createAt).format('YYYY - MM - DD HH:mm:ss')}
 								div.clear
 									span.addType.button.button-primary.button-small(data-toggle="modal", data-target="#catModal", data-type="#{categories_type}", data-name="#{catname}") 
-										i.icon-plus &nbsp;
-										| 新增
-					//- dl.admin_sarch_nav_type
-					//- 	dt scene ：
-					//- 	dd
-					//- 		each item in categories_scene
-					//- 			ul(class="item-id-"+item.id)
-					//- 				li.fb.fs14
-					//- 					span.catName #{item.attributes}
-					//- 					span &nbsp; ( #{item.pid.length} )
-					//- 				li
-					//- 					span.catChange.button.button-highlight.button-small(data-toggle="modal", data-target="#catChangeModal", value="#{item._id}", data-name="#{item.name}") 修改
-					//- 					if item.pid.length === 0
-					//- 						span.categorydel.button.button-caution.button-small(data-type="product", data-id="#{item.id}") 删除
-					//- 					else
-					//- 						span.disabled.button.button-caution.button-small 删除
-					//- 				li.cGray
-					//- 					i.icon-time.mr5
-					//- 					| #{moment(item.meta.createAt).format('YYYY / MM / DD HH:mm:ss')}
-					//- 		if categories_scene.length > 0
-					//- 			br.clear
-					//- 		span.addType.button.button-primary.button-small(data-toggle="modal", data-target="#catModal", data-type="#{categories_type}", data-name="scene") 
-					//- 			i.icon-plus &nbsp;
-					//- 			| 新增
-					//- dl.admin_sarch_nav_type
-					//- 	dt 材质 ：
-					//- 	dd
-					//- 		each item in categories_material
-					//- 			ul(class="item-id-"+item.id)
-					//- 				li.fb.fs14
-					//- 					span.catName #{item.attributes}
-					//- 					span &nbsp; ( #{item.pid.length} )
-					//- 				li
-					//- 					span.catChange.button.button-highlight.button-small(data-toggle="modal", data-target="#catChangeModal", value="#{item._id}", data-name="#{item.name}") 修改
-					//- 					if item.pid.length === 0
-					//- 						span.categorydel.button.button-caution.button-small(data-type="product", data-id="#{item.id}") 删除
-					//- 					else
-					//- 						span.disabled.button.button-caution.button-small 删除
-					//- 				li.cGray
-					//- 					i.icon-time.mr5
-					//- 					| #{moment(item.meta.createAt).format('YYYY / MM / DD HH:mm:ss')}
-					//- 		if categories_material.length > 0
-					//- 			br.clear
-					//- 		span.addType.button.button-primary.button-small(data-toggle="modal", data-target="#catModal", data-type="#{categories_type}", data-name="material") 
-					//- 			i.icon-plus &nbsp;
-					//- 			| 新增
-					//- dl.admin_sarch_nav_type
-					//- 	dt 颜色 ：
-					//- 	dd
-					//- 		each item in categories_color
-					//- 			ul(class="item-id-"+item.id)
-					//- 				li.fb.fs14
-					//- 					span.catName #{item.attributes}
-					//- 					span &nbsp; ( #{item.pid.length} )
-					//- 				li
-					//- 					span.catChange.button.button-highlight.button-small(data-toggle="modal", data-target="#catChangeModal", value="#{item._id}", data-name="#{item.name}") 修改
-					//- 					if item.pid.length === 0
-					//- 						span.categorydel.button.button-caution.button-small(data-type="product", data-id="#{item.id}") 删除
-					//- 					else
-					//- 						span.disabled.button.button-caution.button-small 删除
-					//- 				li.cGray
-					//- 					i.icon-time.mr5
-					//- 					| #{moment(item.meta.createAt).format('YYYY / MM / DD HH:mm:ss')}
-					//- 		if categories_color.length > 0
-					//- 			br.clear
-					//- 		span.addType.button.button-primary.button-small(data-toggle="modal", data-target="#catModal", data-type="#{categories_type}", data-name="color") 
-					//- 			i.icon-plus &nbsp;
-					//- 			| 新增
+										i.icon-plus.mr5
+										| 新增#{catname_cn}
+									if catname !== "color"
+										a.button.button-royal.button-small.ml10(href="/admin/goods/"+catname+"/banner/list")
+											i.icon-cog.mr5
+											| 设置背景图片
 			else
 				table.table.table_hover.table_bordered.table_striped
 					thead
@@ -151,12 +93,16 @@ block content
 		form(method="post", action="/admin/category/save")
 			input(type="hidden", name="category[type]", value="#{categories_type}")
 			input(type="hidden", name="category[name]", class="categoryname")
-			.imodal-header 新增分类
+			.imodal-header#imodal-header-title 新增分类
 			.imodal-body
 				.form_group
-					label.control_label(for="inputCategory") 分类
-					.control_div
-						input#inputCategory.form_control(type="text", name="category[attributes]")
+					label.control_label(for="inputCategory_zh_cn", style="width:12%;") 简体中文：
+					.control_div(style="width:85%;")
+						input#inputCategory_zh_cn.form_control(type="text", name="category[attributes][zh_cn]", placeholder="请输入属性的简体中文名称")
+				.form_group
+					label.control_label(for="inputCategory_en_us", style="width:12%;") 英&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;文：
+					.control_div(style="width:85%;")
+						input#inputCategory_en_us.form_control(type="text", name="category[attributes][en_us]", placeholder="Please enter the English name of the attribute")
 			.imodal-footer
 				.form_group(style="margin:0")
 					label.control_label
@@ -167,13 +113,16 @@ block content
 			input(type="hidden", name="category[type]", value="#{categories_type}")
 			input(type="hidden", name="category[name]", class="cateChangeGoryname")
 			input#categoryid(type="hidden", name="category[_id]")
-			input#categoryoldname(type="hidden", name="category[oldname]")
 			.imodal-header 分类名称修改
 			.imodal-body
 				.form_group
-					label.control_label(for="changeCategory") 名称
-					.control_div
-						input#changeCategory.form_control(type="text", name="category[attributes]")
+					label.control_label(for="changeCategory_zh_cn", style="width:12%;") 简体中文：
+					.control_div(style="width:85%;")
+						input#changeCategory_zh_cn.form_control(type="text", name="category[attributes][zh_cn]")
+				.form_group
+					label.control_label(for="changeCategory_en_us", style="width:12%;") 英&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;文：
+					.control_div(style="width:85%;")
+						input#changeCategory_en_us.form_control(type="text", name="category[attributes][en_us]")
 			.imodal-footer
 				.form_group(style="margin:0")
 					label.control_label
@@ -186,39 +135,33 @@ block content
 		del('categorydel','category');
 
 		
-		var catName;
-		var changeCatName;
 		var catId;
-		var changeCategory = document.getElementById('changeCategory')
+		//- 修改属性
 		$('.catChange').click(function(){
 			var $t = $(this),
 				$tr = $t.parent().parent();
-			catName = $tr.find('.catName').text();
-			changeCategory.value = catName;
-			catId = $t.attr('value');
-			document.getElementById('categoryid').value = catId;
-			document.getElementById('categoryoldname').value = catName;
+			$('#changeCategory_zh_cn').val($tr.find('.attributes_zh_cn').html())
+			$('#changeCategory_en_us').val($tr.find('.attributes_en_us').html())
+			catId = $t.attr('data-id');
+			$('#categoryid').val(catId);
 			var dataname = $(this).attr('data-name')
 			$('.cateChangeGoryname').val(dataname)
 		});
-
+		$('.catChangeBtn').click(function(){
+			arttip('正在修改中...')
+		});
+		//- 添加属性
 		$('.addType').click(function(){
 			var dataname = $(this).attr('data-name')
+			var dataTypeName = $(this).html()
+			$('#imodal-header-title').html(dataTypeName)
 			$('.categoryname').val(dataname)
 		})
 
 		$('.categoryBtn').click(function(){
-			if($('#inputCategory').val().replace(/\s/g, "")==""){
+			if($('#inputCategory_zh_cn').val().replace(/\s/g, "")=="" || $('#inputCategory_en_us').val().replace(/\s/g, "")==""){
 				artalert('分类名称不能为空！')
 				return false;
 			}
 			arttip('正在添加中...')
-		});
-		$('.catChangeBtn').click(function(){
-
-			if(catName==$('#changeCategory').val() || $('#changeCategory').val().replace(/\s/g, "")==""){
-				artalert('分类名称不能为空，或者同名')
-				return false;
-			}
-			arttip('正在修改中...')
 		});

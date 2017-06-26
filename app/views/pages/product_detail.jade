@@ -7,7 +7,7 @@ block content
 			a(href="/")
 				i.fs14.icon-home
 			a(href="/store") 商品首页
-			a(href="/store/sort/#{product.sort.attributes}") #{product.sort.attributes}
+			a(href="/store/sort/#{product.sort.attributes.zh_cn}") #{product.sort.attributes.zh_cn}
 			b #{product.title}
 		.side_nav
 			//- 商品分类
@@ -19,7 +19,7 @@ block content
 					dl.snCategorylist
 						dt
 							i.icon-magnet.ml5.mr5
-							| #{cat.attributes}
+							| #{cat.attributes.zh_cn}
 						each item in cat.pid
 							dd
 								if item.id == product.id
@@ -42,11 +42,11 @@ block content
 							img(src='/data/products/p'+item.id+'/'+item.cover)
 							|#{item.title}
 							if item.material && item.material.length > 0
-								|&nbsp;#{item.material[0].attributes}
+								|&nbsp;#{item.material[0].attributes.zh_cn}
 							else
 								|&nbsp;未知材料
 							if item.color && item.color.length > 0
-								| （#{item.color[0].attributes}） 
+								| （#{item.color[0].attributes.zh_cn}） 
 							else
 								|&nbsp;（未知颜色）
 		.p_detail
@@ -59,11 +59,11 @@ block content
 						h1 
 							|#{product.title}
 							if product.material && product.material.length > 0
-								|&nbsp;#{product.material[0].attributes}
+								|&nbsp;#{product.material[0].attributes.zh_cn}
 							else
 								|&nbsp;未知材料
 							if product.color && product.color.length > 0
-								|&nbsp;（#{product.color[0].attributes}） 
+								|&nbsp;（#{product.color[0].attributes.zh_cn}） 
 							else
 								|&nbsp;（未知颜色） 
 							|&nbsp;宽#{product.size.w}×深#{product.size.d}×高#{product.size.h}cm
@@ -77,7 +77,7 @@ block content
 						h6.fs14 商品材质：
 						each item in product.material
 							a.p_sort_btn.mr5
-								span #{item.attributes}
+								span #{item.attributes.zh_cn}
 					dt.p_panel_add_cart
 						div
 							if product.sale
@@ -107,7 +107,7 @@ block content
 						th 商品材质：
 						td 
 							each item in product.material
-								span.mr15 #{item.attributes}
+								span.mr15 #{item.attributes.zh_cn}
 				if product.color && product.color.length > 0
 					tr
 						th 主体颜色：

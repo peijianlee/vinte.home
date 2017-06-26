@@ -45,6 +45,7 @@ exports.list = function(req,res){
 // 商品类型海报列表
 exports.goodsbanner = function(req, res){
 	var url = req.url,
+		scene = url.indexOf('scene') > 0,
 		sort = url.indexOf('sort') > 0,
 		material = url.indexOf('material') > 0
 	if(sort){
@@ -53,6 +54,9 @@ exports.goodsbanner = function(req, res){
 	}else if(material){
 		var title = '商品类型海报设置'
 		var bannertype = 'material'
+	}else if(scene){
+		var title = '商品场景海报设置'
+		var bannertype = 'scene'
 	}
 	Category.find({'name':bannertype}, function(err, categories){
 		if(err) console.log(err)

@@ -116,6 +116,7 @@ module.exports = function(app){
 	app.post('/admin/banner', User.signinRequired, User.adminRequired, Banner.saveImage, Banner.save)
 	app.get('/admin/banner/list', User.signinRequired, User.adminRequired, Banner.list)
 	app.get('/admin/goods/sort/banner/list', User.signinRequired, User.adminRequired, Banner.goodsbanner)
+	app.get('/admin/goods/scene/banner/list', User.signinRequired, User.adminRequired, Banner.goodsbanner)
 	app.get('/admin/goods/material/banner/list', User.signinRequired, User.adminRequired, Banner.goodsbanner)
 	app.get('/admin/goods/banner/update/:id', User.signinRequired, User.adminRequired, Banner.goodsbannerupdate)
 	app.post('/admin/goods/banner/save', User.signinRequired, User.adminRequired, Banner.saveImage, Banner.goodsbannersave)

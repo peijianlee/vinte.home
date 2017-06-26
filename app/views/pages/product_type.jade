@@ -8,7 +8,7 @@ block content
 				i.fs14.icon-home
 			a(href="/store") 商品首页
 			//- span #{linkSort}
-			b #{category.attributes}
+			b #{category.attributes.zh_cn}
 		if category.banner
 			div.goodsSortBg.wrap(style="background-image:url(/banner/#{category.banner})")
 		if categories && categories.length > 0
@@ -17,16 +17,18 @@ block content
 					dt
 						i.icon-magnet.mr10
 						| 商品分类
-					each cats in categories
+					each cat in categories
 						dd
-							if cats.id.toString() === category.id.toString()
-								a.animation.On(href="/store/#{linkSort}/#{cats.attributes}")
+							if cat.id.toString() === category.id.toString()
+								a.animation.On(href="/store/#{linkSort}/#{cat.attributes.zh_cn}")
 									i.icon-angle-right.mr10
-									| #{cats.attributes}
+									| #{cat.attributes.zh_cn}
+									| (#{cat.pid.length})
 							else
-								a.animation(href="/store/#{linkSort}/#{cats.attributes}")
+								a.animation(href="/store/#{linkSort}/#{cat.attributes.zh_cn}")
 									i.icon-angle-right.mr10
-									| #{cats.attributes}
+									| #{cat.attributes.zh_cn}
+									| (#{cat.pid.length})
 				div.goodsSort
 					if category.description
 						.goodsSortHead

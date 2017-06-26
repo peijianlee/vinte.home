@@ -103,13 +103,13 @@ exports.sort = function(req,res){
 	}
 
 	if(sort){
-		var findObj = {'attributes': sort},
+		var findObj = {'attributes.zh_cn': sort},
 			linkSort = 'sort',
 			template = 'product_type',
 			title = sort+'分类'
 
 	}else{
-		var findObj = {'attributes': material},
+		var findObj = {'attributes.zh_cn': material},
 			linkSort = 'material',
 			template = 'product_material',
 			title = material+'材质详情介绍'

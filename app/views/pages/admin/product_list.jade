@@ -27,7 +27,7 @@ block content
 									td.tc
 										img(src="/data/products/p#{item.id}/#{item.cover}", style="width:80px;height:80px")
 								if item.sort
-									td.tc #{item.sort.attributes}
+									td.tc #{item.sort.attributes.zh_cn}
 								else
 									td.tc --
 								td.tc #{moment(item.meta.updateAt).format('YYYY/MM/DD')}

@@ -6,12 +6,12 @@ ul.ip_description
 		a(href="/store/id/"+item.id).ip_title
 			|#{item.title}
 			if item.material && item.material.length > 0
-				|&nbsp;#{item.material[0].attributes}
+				|&nbsp;#{item.material[0].attributes.zh_cn}
 			else
 				|&nbsp;未知材料
 			|&nbsp;宽#{item.size.w}×深#{item.size.d}×高#{item.size.h}cm
 			if item.color && item.color.length > 0
-				|&nbsp;/ #{item.color[0].attributes}
+				|&nbsp;/ #{item.color[0].attributes.zh_cn}
 			else
 				|&nbsp;/ 未知颜色
 	li
