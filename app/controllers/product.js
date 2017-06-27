@@ -48,30 +48,32 @@ exports.indexlist = function(req,res){
 		.exec(function(err, categories){
 			if(err)console.log(err)
 			// 查找购物车商品数量
+			var cartGoods = []
+			var cartGoodsNum = 0
 			if(user){
-				var cartGoods = user.shopcartgoods
-				var cartGoodsNum = user.shopcartgoods.length
+				cartGoods = user.shopcartgoods
+				cartGoodsNum = user.shopcartgoods.length
 			}else{
 				if(cart && cart.length > 0){
-					var cartGoods = []
-					var cartGoodsNum = cart.length
+					cartGoodsNum = cart.length
 					for(var i=0; i < cartGoodsNum; i++){
 						cartGoods.push(cart[i].pid)
 					}
-				}else{
-					var cartGoods = []
-					var cartGoodsNum = 0
 				}
 			}
-			// var cart_goods_num = req.session.user.shopcartnum || req.session.cart.length || 0
-			Category.find({type:'product', name:'material'}, function(err, materialCategories){
+
+			Category.find({type:'product', name:'material'}, function(err, materialCategory){
 				if(err) console.log(err)
-				res.render('product',{
-					title:'VINTE 产品列表',
-					categories: categories,
-					materialCategories: materialCategories,
-					cart_goods: cartGoods,
-					cart_goods_num: cartGoodsNum
+				Category.find({type:'product', name:'scene'}, function(err, sceneCategory){
+					if(err) console.log(err)
+						res.render('product',{
+							title:'VINTE 产品列表',
+							categories: categories,
+							materialCategories: materialCategory,
+							sceneCategories:sceneCategory,
+							cart_goods: cartGoods,
+							cart_goods_num: cartGoodsNum
+						})
 				})
 			})
 		})
@@ -86,16 +88,14 @@ exports.sort = function(req,res){
 		cart = req.session.cart
 
 	// 查找购物车商品数量
-	// var cartGoodsNum = user? req.session.user.shopcartnum : req.session.cart? req.session.cart.length : 0
-	
+	var cartGoods = []
+	var cartGoodsNum = 0
 	if(user){
-		var cartGoods = user.shopcartgoods
-		var cartGoodsNum = user.shopcartgoods.length
+		cartGoods = user.shopcartgoods
+		cartGoodsNum = user.shopcartgoods.length
 	}else{
-		var cartGoods = []
-		var cartGoodsNum = 0
 		if(cart && cart.length > 0){
-			var cartGoodsNum = cart.length
+			cartGoodsNum = cart.length
 			for(var i=0; i < cartGoodsNum; i++){
 				cartGoods.push(cart[i].pid)
 			}

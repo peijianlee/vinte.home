@@ -1,7 +1,17 @@
 extends ../layout_index
 block append head
 	link(rel="stylesheet",href="/css/product.css")
+	link(rel="stylesheet",href="/css/banner.css")
 block content
+	if sceneCategories && sceneCategories.length > 0
+		#slide.wrap.slide-banner
+			each scene in sceneCategories
+				div.slide-img
+					h4.slide-title-cn #{scene.attributes.zh_cn}
+					h5.slide-title-en #{scene.attributes.en_us}
+					img(src="banner/#{scene.banner}")
+			.slide-btn
+		script(src="/js/banner.js")
 	each cat in categories
 		if cat.pid.length > 2
 			.wrap.iproduct_list
@@ -22,11 +32,11 @@ block content
 				i.icon-magnet.mr10
 				| 材质介绍
 		.wrap.imaterial_list.mb15
-			each item in materialCategories
-				a(href="/store/material/"+item.attributes.zh_cn style="background-image:url(/banner/#{item.banner})")
+			each material in materialCategories
+				a(href="/store/material/"+material.attributes.zh_cn style="background-image:url(/banner/#{material.banner})")
 					span.imaterial_frame.base-color-dark
-						span.imaterial #{item.attributes.zh_cn}
-							b #{item.pid.length}
+						span.imaterial #{material.attributes.zh_cn}
+							b #{material.pid.length}
 
 	.bg_fixed
 	script(src="/js/shopcart.js")
