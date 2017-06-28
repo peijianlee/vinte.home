@@ -67,8 +67,8 @@ exports.fetchAllCategoryType = function(req, res, next){
 	// var sort=req.params.sort
 	Category.find({type: 'product'}, function(err, categories){
 		req.session.allCategoryType = [
-			{name:'sort', cid:[]},
 			{name:'scene', cid:[]},
+			{name:'sort', cid:[]},
 			{name:'material', cid:[]},
 			{name:'color', cid:[]}
 		]
@@ -79,9 +79,11 @@ exports.fetchAllCategoryType = function(req, res, next){
 				id: that.id,
 				attributes: that.attributes
 			}
-			if(that.name === "sort"){
+			// console.log('属性类型：'+that.name+':'+cid.attributes.zh_cn)
+			
+			if(that.name === "scene"){
 				req.session.allCategoryType[0].cid.push(cid)
-			}else if(that.name === "scene"){
+			}else if(that.name === "sort"){
 				req.session.allCategoryType[1].cid.push(cid)
 			}else if(that.name === "material"){
 				req.session.allCategoryType[2].cid.push(cid)

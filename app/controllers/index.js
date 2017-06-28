@@ -31,8 +31,8 @@ exports.index = function(req,res){
 exports.search = function(req,res){
 	// .query找到路由上的值
 	var catId = req.query.cat
-	var page = parseInt(req.query.p,10) || 0 
-	var count = 10
+	var page = parseInt(req.query.p,4) || 0 
+	var count = 4
 	var index = page*count
 	var user = req.session.user
 	var cart = req.session.cart
@@ -79,19 +79,28 @@ exports.search = function(req,res){
 				})
 			})
 		}else{
+			var _keyword = req.query.q,
+				_searchObj = req.session.searchObj,
+				_url_key = '',
+				_sort = ['sort', 'scene', 'material', 'color']
+			// 获取页面的当前属性
+			for(var i=0; i < _sort.length; i++){
+				var attr_key = _sort[i]
+				var attr_value = _searchObj[''+attr_key+'']
+				if(attr_value){
+					_url_key += '&'+attr_key+'='+ attr_value
+				}
+			}
+			console.log(_url_key)
 
-			console.log(req.session.searchObj)
 
 			Product
-				.find(req.session.searchObj)
+				.find(_searchObj)
 				.populate({
 					path: 'sort color material scene',
 					select: 'name attributes',
 					model: 'Category'
 				})
-				// .limit(3).skip(3)
-				// .populate('sort', 'name attributes')
-				// .populate('color material scene','attributes')
 				.exec(function(err, products){
 					if(err)console.log(err)
 
@@ -99,16 +108,15 @@ exports.search = function(req,res){
 
 					res.render('results',{
 						title:'搜索结果页',
-						keyword: '找到了 <b class=cRed>'+products.length+'</b> 条关键词为 <b class=cRed>" '+req.query.q+' "</b> 的商品',
-						searchword: req.query.q,
+						keyword: _keyword,
+						products_total: products.length,
 						currentPage: (page + 1),
-						query: 'q='+req.query.q,
 						totalPage: Math.ceil(products.length / count),
 						products: results,
-						// attributes: attributes_array,
 						allCategoryType: req.session.allCategoryType,
 						href: req._parsedUrl.search,
-						pagehref: req._parsedUrl.pathname,
+						url_pathname: req._parsedUrl.pathname,
+						url_key: _url_key,
 						cart_goods: cartGoods,
 						cart_goods_num: cartGoodsNum
 					})

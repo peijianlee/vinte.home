@@ -1,90 +1,66 @@
 extends ../layout_index
-
+block append head
+	link(href="/css/product.css",rel="stylesheet")
 block content
-		link(href="/css/product.css",rel="stylesheet")
-		if allCategoryType && allCategoryType.length > 0
-			.wrap.sarch_nav
-				each type in allCategoryType
+	if allCategoryType && allCategoryType.length > 0
+		.wrap.sarch_nav
+			each type in allCategoryType
+				if type.cid.length > 0
 					dl.search_nav_type
-						dt #{type.name}
+						- var typeName = type.name=='sort'?'类型' : type.name=='scene'?'场景' : type.name=='material'?'材质': '颜色'
+						dt #{typeName}
 						dd
-							- if(href){
-							- 	if(href.indexOf(type.name) > -1){
-							-		var pattern = type.name+'=([^&]*)'
-							-		var tmp = '/('+type.name+'=)([^&]*)/gi'
-							-		var allhref = href.replace(eval(tmp), '')
-							-		if(allhref.charAt(allhref.length-1)==='&'){
-							-			var allhref = allhref.substring(0,allhref.length-1)
-							-		}else if(allhref.charAt(1)==='&'){
-							-			var allhref = '?'+allhref.substring(2)
-							-		}else if(allhref.toString()==='?'){
-							-			var allhref = '/store/sort/'+category.attributes
-							- 		}
+							- var all_url_public = '?q='+keyword
+							- var allhref = all_url_public
+							- if(url_key){
+							- 	if(url_key.indexOf(type.name) > -1){
+							-		var tmp = '/([&])('+type.name+'=)([^&]*)/gi'
+							-		allhref += url_key.replace(eval(tmp), '')
 							- 	}else{
-							-		if(href.charAt(href.length-1)==='?'){
-							-			var allhref = href.substring(0,href.length-1)
-							-		}else{
-							-			var allhref = href
-							-		}
+							-		allhref += url_key
 							- 	}
-							- }else{
-							-	var allhref = '/store/sort/'+category.attributes
 							- }
 							a(href=allhref) 全部
 							each cid in type.cid
-								- if(href){
-								- 	if(href.indexOf(type.name) > -1){
-								-		var pattern = type.name+'=([^&]*)'
+								- var a_url_public = '?q='+keyword
+								- if(url_key){
+								- 	if(url_key.indexOf(type.name) > -1){
 								-		var replaceText = type.name+'='+cid.id
 								-		var tmp = '/('+type.name+'=)([^&]*)/gi'
-								-		var ahref = href.replace(eval(tmp), replaceText)
+								-		var replaceUrl = url_key.replace(eval(tmp), replaceText)
+								-		var ahref = a_url_public+replaceUrl
 								- 	}else{
-								-		var ahref = href+'&'+type.name+'='+cid.id
+								-		var ahref = a_url_public+url_key+'&'+type.name+'='+cid.id
 								- 	}
 								- }else{
-								-	var ahref = '?'+type.name+'='+cid.id
+								-	var ahref = a_url_public+'&'+type.name+'='+cid.id
 								- }
-								- if(href.indexOf(cid.id) > -1)
-									a.On(href=ahref) #{cid.attributes}
+								- if(url_key.indexOf(cid.id) > -1)
+									a.On(href=ahref) #{cid.attributes.zh_cn}
 								- else
-									a(href=ahref) #{cid.attributes}									
+									a(href=ahref) #{cid.attributes.zh_cn}									
 
-		.search_word_tip.wrap.mt10
-			i.icon-search.mr10.ml10
-			| !{keyword}
-		.wrap.iproduct_list
-			.category_list
-			.sub_product_frame_row4
-				if products && products.length > 0
-					each item in products
-						.sub_page_product(id=item.id)
-							include ../themplate/product.jade
-				else
-					.col-md-2 没有任何数据！
-			
-			.page(style="margin-top:15px;margin-bottom:30px;")
-				- if(totalPage>1){
-					- if(currentPage-1 == 0){
-							span.page_unclick: i.icon-double-angle-left
-							span.page_unclick: i.icon-angle-left
-					-	}else{
-							a(href=pagehref+'?q='+searchword+'&p=0',csstip-top='第一页'): i.icon-double-angle-left
-							a(href=pagehref+'?q='+searchword+'&p=#{currentPage-1}',csstip-top='上一页'): i.icon-angle-left
-					-	}
-					-	for(var i=0;i<totalPage; i++){
-						-	if(currentPage == (i+1)){
-								span.page_stand #{currentPage}
-						-	}else{
-								a(href=pagehref+'?q='+searchword+'&p=#{i}') #{i+1}
-						-	}
-					-	}
-					- if(currentPage < totalPage){
-							a(href=pagehref+'?q='+searchword+'&p=#{currentPage}',csstip-top='下一页'): i.icon-angle-right
-							a(href=pagehref+'?q='+searchword+'&p=#{totalPage-1}',csstip-top='最后一页'): i.icon-double-angle-right
-					-	}else{
-							span.page_unclick: i.icon-angle-right
-							span.page_unclick: i.icon-double-angle-right
-					-	}
-				- }
-		.bg_fixed
-		script(src="/js/shopcart.js")
+	.search_word_tip.wrap.mt10
+		i.icon-search.mr10.ml10
+		| 找到了 
+		b.cRed #{products_total} 
+		| 条关键词为 
+		b.cRed " #{keyword} " 
+		| 的商品
+	.wrap.iproduct_list
+		.category_list
+		.sub_product_frame_row4
+			if products && products.length > 0
+				each item in products
+					.sub_page_product(id=item.id)
+						include ../themplate/product.jade
+			else
+				.tip-text-prompt.fb.pl20.pt15.pb15.mt15.base-color-dark
+					i.icon-exclamation-sign.mr10
+					| 没有任何数据！
+		
+		.page.mt15.mb30
+			- url_public = url_pathname+'?q='+keyword+url_key+'&'
+			include ../themplate/page.jade
+	.bg_fixed
+	script(src="/js/shopcart.js")
