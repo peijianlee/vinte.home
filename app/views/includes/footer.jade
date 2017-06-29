@@ -10,16 +10,16 @@ if !header_hide
 				h6 01522 5282466
 				h6 xxxx@hotmail.com
 				h6 The Terrace, Grantham Street, Lincoln, LN2 1BD
-			from(action="/results", method="GET")
+			form(action="/results", method="GET")
 				ul.footer-message
-					li(focus-tip-text="请输入名字")
-						input(type="text", name="name", placeholder="请输入名字" )
-					li(focus-tip-text="请输入电话号码")
-						input(type="text", name="phone", placeholder="请输入电话号码")
-					li(focus-tip-text="请输入电子邮箱地址")
-						input(type="text", name="email", placeholder="请输入电子邮箱地址")
+					li(focus-tip-text="请输入你的公司名称或名字")
+						input.f-msg-name(type="text", name="name", placeholder="请输入你的公司名称或名字" )
+					li(focus-tip-text="请输入你的电话号码")
+						input.f-msg-phone(type="text", name="phone", placeholder="请输入你的电话号码")
+					li(focus-tip-text="请输入你的电子邮箱地址")
+						input.f-msg-email(type="text", name="email", placeholder="请输入你的电子邮箱地址")
 					li(focus-tip-text="请输入你的留言内容")
-						textarea(name="infomation", placeholder="请输入你的留言内容")
+						textarea.f-msg-info(name="infomation", placeholder="请输入你的留言内容")
 					li
 						button.footer-message-btn(type="submit") 确认发送
 			br.clear
@@ -29,7 +29,32 @@ if !header_hide
 			|	Copyright © 2017, All Rights Reserved 
 
 script(src="/js/artalert.js")
+script(src="/js/jquery.vtEnterKeyPress.js")
 script.
+	var sendMsgConfig = [
+		{
+			element: $('.f-msg-name'),
+			unkeynumber: [32,59,188,190,191,219,220,221,222],
+			errorText: "请输用户名！"
+		},
+		{
+			element: $('.f-msg-phone'),
+			unkeynumber: [32],
+			errorText: "请输入密码！"
+		},
+		{
+			element: $('.f-msg-email'),
+			unkeynumber: [32],
+			errorText: "请输入验证码！"
+		},
+		{
+			element: $('.f-msg-info'),
+			unkeynumber: [32],
+			errorText: "请输入验证码！"
+		}
+	]
+	$('.sign_form_content').enterKeyPress(sendMsgConfig)
 	$('.footer-message-btn').click(function(){
-		alert('ddd')
+		alert('dd')
+		return false
 	})

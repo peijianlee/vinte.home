@@ -31,8 +31,8 @@ exports.index = function(req,res){
 exports.search = function(req,res){
 	// .query找到路由上的值
 	var catId = req.query.cat
-	var page = parseInt(req.query.p,4) || 0 
-	var count = 4
+	var page = parseInt(req.query.p,8) || 0 
+	var count = 8
 	var index = page*count
 	var user = req.session.user
 	var cart = req.session.cart
@@ -123,4 +123,8 @@ exports.search = function(req,res){
 
 				})
 		}
+}
+
+exports.findAllCategories = function(req, res, next){
+	console.log('.....')
 }
