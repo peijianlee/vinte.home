@@ -7,6 +7,26 @@
 	border:1px solid #aaa;border-radius:50%;
 	padding:2px;
 }
+/*后台首页*/
+.total-box{
+	height:143px;
+	border:1px solid #ddd;
+	width:31%;float: left;
+	margin-right:.5%;
+	margin-bottom:15px;
+}
+.total-box h6{
+	height:42px;line-height:42px;
+	font-size:14px;padding-left:15px;
+	background-color:#f7f7f7;
+	border-bottom:1px solid #ddd;
+}
+.total-box div b{font-size:36px;}
+.total-box div{
+	height:100px;
+	line-height:100px;
+	text-align:center;
+}
 /*-------菜单----*/
 .menu{
 	position:fixed;top:0;left:0;z-index:11;

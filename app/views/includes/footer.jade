@@ -10,10 +10,10 @@ if !header_hide
 				h6 01522 5282466
 				h6 xxxx@hotmail.com
 				h6 The Terrace, Grantham Street, Lincoln, LN2 1BD
-			form(action="/results", method="GET")
+			form(action="/message", method="POST")
 				ul.footer-message
-					li(focus-tip-text="请输入你的公司名称或名字")
-						input.f-msg-name(type="text", name="name", placeholder="请输入你的公司名称或名字" )
+					li(focus-tip-text="请输入公司名称或者你的名字")
+						input.f-msg-name(type="text", name="name", placeholder="请输入公司名称或者你的名字" )
 					li(focus-tip-text="请输入你的电话号码")
 						input.f-msg-phone(type="text", name="phone", placeholder="请输入你的电话号码")
 					li(focus-tip-text="请输入你的电子邮箱地址")
@@ -21,7 +21,9 @@ if !header_hide
 					li(focus-tip-text="请输入你的留言内容")
 						textarea.f-msg-info(name="infomation", placeholder="请输入你的留言内容")
 					li
-						button.footer-message-btn(type="submit") 确认发送
+						if user
+							input.f-user-id(type="hidden", value=user._id)
+						button.cp.footer-message-btn(type="submit") 确认发送
 			br.clear
 	.footer-bottom
 		.wrap.tr
@@ -51,10 +53,35 @@ script.
 	]
 	$('.sign_form_content').enterKeyPress(sendMsgConfig)
 	$('.footer-message-btn').click(function(){
-		if(checkAllElementVal(sendMsgConfig) == false){
-			return false
+		if(checkAllElementVal(sendMsgConfig) !== false){
+			arttip('<i class="icon-spinner icon-spin"></i> loading...')
+			var data = {
+				name: sendMsgConfig[0].element.val(),
+				phone: sendMsgConfig[1].element.val(),
+				email: sendMsgConfig[2].element.val(),
+				infomation: sendMsgConfig[3].element.val(),
+				uid: $('.f-user-id').val()
+			}
+			$.ajax({
+				type:"POST",
+				url:"/message",
+				data:data,
+				dataType:"json",
+				async:false,
+				cache:false,
+				success: function(data){
+					if(data.success === 1){
+						arttipclose('<i class="icon-ok-sign mr10"></i>发送成功！', 800)
+						for(var i = 0; i < sendMsgConfig.length; i++){
+							sendMsgConfig[i].element.val('').next('b').removeClass()
+						}
+					}else{
+						arttipclose('<i class="icon-exclamation-sign mr10"></i>发送失败！', 800)
+					}
+				}
+			})
 		}
-		
+		return false
 	})
 
 	function checkAllElementVal(config){

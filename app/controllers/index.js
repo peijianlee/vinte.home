@@ -3,6 +3,8 @@ var Movie = require('../models/movie')
 var Category = require('../models/category')
 var Banner = require('../models/banner')
 var Product = require('../models/product')
+var Message = require('../models/message')
+var User = require('../models/user')
 
 
 //index page
@@ -91,7 +93,6 @@ exports.search = function(req,res){
 					_url_key += '&'+attr_key+'='+ attr_value
 				}
 			}
-			console.log(_url_key)
 
 
 			Product
@@ -125,6 +126,60 @@ exports.search = function(req,res){
 		}
 }
 
-exports.findAllCategories = function(req, res, next){
-	console.log('.....')
+
+// 后台首页
+exports.admin = function(req, res){
+	User.fetch(function(err, users){
+		if(err) console.log(err)
+		Message.fetch(function(err, messages){
+			if(err) console.log(err)
+			Product.fetch(function(err, products){
+				if(err) console.log(err)
+				res.render('admin/index', {
+					title: '后台首页',
+					users: users,
+					messages: messages,
+					products: products
+				})
+			})
+		})
+	})
+}
+
+// 发送留言
+exports.message = function(req, res){
+	console.log(getClientIp(req))
+
+	var msgObj = req.body
+	msgObj["ip"] = getClientIp(req)
+	var message = new Message(msgObj)
+	message.save(function(err, _message){
+		if(err){
+			console.log(err)
+			res.json({success: 0})
+		}else{
+			res.json({success: 1})
+		}
+	})
+	
+
+}
+
+function getClientIp(req) {
+	return req.headers['x-forwarded-for'] ||
+		req.connection.remoteAddress ||
+		req.socket.remoteAddress ||
+		req.connection.socket.remoteAddress
+}
+
+// 后台留言列表
+exports.messageList = function(req, res){
+	Message.fetch(function(err, messages){
+		if(err) console.log(err)
+		console.log(messages)
+		res.render('admin/messages_list',{
+			title: "用户留言列表",
+			messages: messages
+		})
+	})
 }

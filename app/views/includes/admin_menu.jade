@@ -16,7 +16,7 @@
 			i.icon-reorder
 	dl
 		dd
-			a.menuBtn
+			a.menuBtn(href="/admin/index")
 				i.icon-home
 				span 后台首页
 		dd
@@ -64,9 +64,13 @@
 				i.icon-user
 				span 用户列表
 		dd
+			a.menuBtn(href="/admin/messages/list")
+				i.icon-comments
+				span 留言列表
+		dd
 			a.menuBtn(href="/admin/order/list")
 				i.icon-list
-				span 订单列表
+				span 咨询单列表
 
 script.
 	(function(){

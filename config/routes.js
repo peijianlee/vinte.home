@@ -37,6 +37,10 @@ module.exports = function(app){
 	        error: {}
 	    })
 	})
+
+
+	app.post('/message', Index.message)
+
 	// product
 	app.get('/store', Product.indexlist)
 	app.get('/store/id/:id', Product.detail)
@@ -62,6 +66,11 @@ module.exports = function(app){
 	app.post('/shopcart/add', Shopcart.add)
 	app.delete('/shopcart/del', Shopcart.del)
 
+
+	// 后台首页
+	app.get('/admin/index', User.signinRequired, User.adminRequired, Index.admin)
+	// 用户留言
+	app.get('/admin/messages/list', User.signinRequired, User.adminRequired, Index.messageList)
 	// order
 	app.get('/admin/order/list', User.signinRequired, User.adminRequired, Order.adminList)
 	app.get('/admin/order/:id', User.signinRequired, User.adminRequired, Order.detail)
