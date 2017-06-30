@@ -77,7 +77,7 @@ function postSignInfo(elements, btn_element, type){
 					}
 				}else if(data.success === 2){
 					addErrorTip($name,'该用户不存在！')
-				}else if(results.success===3){
+				}else if(data.success===3){
 					addErrorTip($captcha,'验证码错误，请重新输入。')
 				}else{
 					addErrorTip($password,'密码错误!')

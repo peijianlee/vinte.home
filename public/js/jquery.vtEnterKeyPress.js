@@ -31,36 +31,35 @@
 			// 		})
 
 			// 	})
-			var checkTime
 			var $element = option[index].element
-			$element
-			.after('<i></i>')
-			.bind({
+			$element.after('<b></b>').attr('element_index',index).bind({
 				"keydown": function(event){
+					var i = $(this).attr('element_index')
 					if($(this).hasClass('input_error')){
 						removeErrorTip($(this))
 					}else if($(this).hasClass('input_sucess')){
 						removeSucessTip($(this))
 					}
+					console.log(option[i].unkeynumber)
 					
 					var e = event || window.event || arguments.callee.caller.arguments[0]
 					var kc = e && e.keyCode
-					var kn = option[index].unkeynumber
+					var kn = option[i].unkeynumber
 					if(kn.indexOf(kc) !== -1) return false
 
 
 				},
 				"keyup": function(event){
-					var $icon = $(this).parent().find('i')
-					console.log(event.currentTarget.name)
+					var $icon = $(this).parent().find('b')
+					// console.log(event.currentTarget.name)
 					cheackValue(event,$icon)
 				},
 				"focus": function(){
-					var $icon = $(this).parent().find('i')
+					var $icon = $(this).parent().find('b')
 					$icon.removeClass()
 				},
 				"blur": function(event){
-					var $icon = $(this).parent().find('i')
+					var $icon = $(this).parent().find('b')
 					cheackValue(event,$icon)
 				}
 			})
@@ -77,14 +76,14 @@
 				var condition = !reg.test(val)
 			}
 			if(condition){
-				console.log(true)
-				if(!icon.hasClass('icon-ok-circle')){
-					icon.removeClass().addClass('icon-ok-circle')
+				// console.log(true)
+				if(!icon.hasClass('icon-ok-sign')){
+					icon.removeClass().addClass('icon-ok-sign')
 				}
 			}else{
-				console.log(false)
-				if(!icon.hasClass('icon-remove-circle')){
-					icon.removeClass().addClass('icon-remove-circle')
+				// console.log(false)
+				if(!icon.hasClass('icon-exclamation-sign')){
+					icon.removeClass().addClass('icon-exclamation-sign')
 				}
 			}
 		}

@@ -134,6 +134,13 @@
 	border:1px solid #aaa;
 	border-radius:4px;
 }
+.sign_form_content li b{
+	position:absolute;
+	font-size:14px;
+	right:11px;top:10px;
+}
+.sign_form_content li b.icon-ok-sign{color:#066;}
+.sign_form_content li b.icon-exclamation-sign{color:#25a6a4;}
 .sign_form_foot_info{
 	color:white;text-align:right;
 }
@@ -183,7 +190,11 @@
 	position:absolute;top:26px;right:0;z-index:1;
 }
 .sign_tip.error i{
-	position:absolute;right:9px;top:-20px;
+	padding:4px 4px 0;
+	background-color:white;
+	position:absolute;
+	right:5px;top:-25px;
+	font-size:14px;
 }
 .sign_tip.error:after,
 .sign_tip.error:before{

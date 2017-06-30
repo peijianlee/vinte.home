@@ -34,27 +34,37 @@ script.
 	var sendMsgConfig = [
 		{
 			element: $('.f-msg-name'),
-			unkeynumber: [32,59,188,190,191,219,220,221,222],
-			errorText: "请输用户名！"
+			unkeynumber: [32,59,188,190,191,219,220,221,222]
 		},
 		{
 			element: $('.f-msg-phone'),
-			unkeynumber: [32],
-			errorText: "请输入密码！"
+			unkeynumber: [32]
 		},
 		{
 			element: $('.f-msg-email'),
-			unkeynumber: [32],
-			errorText: "请输入验证码！"
+			unkeynumber: [32]
 		},
 		{
 			element: $('.f-msg-info'),
-			unkeynumber: [32],
-			errorText: "请输入验证码！"
+			unkeynumber: [32]
 		}
 	]
 	$('.sign_form_content').enterKeyPress(sendMsgConfig)
 	$('.footer-message-btn').click(function(){
-		alert('dd')
-		return false
+		if(checkAllElementVal(sendMsgConfig) == false){
+			return false
+		}
+		
 	})
+
+	function checkAllElementVal(config){
+		for(i=0; i<config.length; i++){
+			var $element = config[i].element
+			if(!$element.next('b').hasClass('icon-ok-sign')){
+				$element.focus()
+				return false
+			}
+		}
+	}
+
+

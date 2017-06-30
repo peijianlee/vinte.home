@@ -120,12 +120,12 @@ span.head_btn_style a{
 .footer-message li{
 	margin-bottom:10px;position:relative;
 }
-.footer-message li i{
-	position:absolute;right:10px;top:6px;
-	font-size:16px;
+.footer-message li b{
+	position:absolute;right:12px;top:7px;
+	font-size:14px;
 }
-.footer-message li i.icon-ok-circle{color:#066;}
-.footer-message li i.icon-remove-circle{color:#25a6a4;}
+.footer-message li b.icon-ok-sign{color:#066;}
+.footer-message li b.icon-exclamation-sign{color:#25a6a4;}
 .footer-message input[type=text],
 .footer-message textarea{
 	border:0 none;
@@ -136,7 +136,7 @@ span.head_btn_style a{
 	background-color:rgba(255,255,255,0.8);
 }
 .footer-message input[type=text]{
-	width:99.6%;
+	width:99%;
 	text-indent:10px;
 	line-height:28px;
 	height:28px;
@@ -146,6 +146,7 @@ span.head_btn_style a{
 	line-height:22px;
 	height:88px;
 	padding:0.2em 0.8em;
+	resize:none;
 }
 
 .footer p{margin-bottom:10px;}
