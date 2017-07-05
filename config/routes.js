@@ -21,7 +21,7 @@ module.exports = function(app){
 		var _user = req.session.user
 		app.locals.user = _user
 
-		next()
+		return next()
 	})
 
 	//Index

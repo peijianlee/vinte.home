@@ -2,13 +2,13 @@ extends ../layout_index
 block append head
 	link(rel="stylesheet",href="/css/sign.css")
 block content
-	h1.sign_top
-		| 梵特家具网
-		a.base-color-dark(href="/") VINTE
-			b HOME
-			i.icon-home
 	.sign_bg.blur(style="background-image:url(images/background/#{bgsrc})")
 	form.sign_form
+		h1.sign_top
+			| 梵特家具网
+			a.base-color-dark(href="/") VINTE
+				b HOME
+				i.icon-home
 		.sign_form_head &nbsp;
 			i.icon-lock
 			span #{title}
