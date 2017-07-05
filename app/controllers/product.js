@@ -517,21 +517,18 @@ exports.updatecontent = function(req, res){
 		content = postProductInfo.content,
 		uid = postProductInfo.uid
 	Product.findById(id, function(err, product){
+		if(err) console.log(err)
 		if(product.uid.toString() !== uid.toString()){
 			product.uid = uid
 		}
-		if(product.content.toString() !== content.toString()){
+
+		if(!product.content || product.content.toString() !== content.toString()){
 			product.content = content
-			var diff_content = true
-		}
-		if(diff_content){
 			product.save(function(err){
 				if(err) console.log(err)
-				res.redirect('/admin/product/update/'+id+'?edit=content')
 			})
-		}else{
-			res.redirect('/admin/product/update/'+id+'?edit=content')
 		}
+		res.redirect('/admin/product/update/'+id+'?edit=content')
 	})
 }
 
