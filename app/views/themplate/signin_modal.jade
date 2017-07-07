@@ -40,6 +40,10 @@ form.sign_form#signinModal.pf
 script(src="js/jquery.vtEnterKeyPress.js")
 script(src="/js/sign.js")
 script.
+	var Href = window.location.href
+	if(Href.indexOf('inquirylist') > -1){
+		document.getElementById('signinBtn').setAttribute('signtype', 'inquirylist')
+	}
 	// 设置用户登录参数
 	var signinConfig = [
 		{

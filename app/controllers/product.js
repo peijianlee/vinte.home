@@ -9,19 +9,6 @@ var path = require('path')
 var moment = require('moment')
 
 
-exports.cartNum = function(req, res){
-	// 查找购物车商品数量
-	if(user){
-		var cart_goods_num = user.shopcartgoods.length
-	}else{
-		if(req.session.cart){
-			var cart_goods_num = req.session.cart.length
-		}else{
-			var cart_goods_num = 0
-		}
-	}
-
-}
 
 // 前台首页
 exports.indexlist = function(req,res){
@@ -47,20 +34,6 @@ exports.indexlist = function(req,res){
 		})
 		.exec(function(err, categories){
 			if(err)console.log(err)
-			// 查找购物车商品数量
-			var cartGoods = []
-			var cartGoodsNum = 0
-			if(user){
-				cartGoods = user.shopcartgoods
-				cartGoodsNum = user.shopcartgoods.length
-			}else{
-				if(cart && cart.length > 0){
-					cartGoodsNum = cart.length
-					for(var i=0; i < cartGoodsNum; i++){
-						cartGoods.push(cart[i].pid)
-					}
-				}
-			}
 
 			Category.find({type:'product', name:'material'}, function(err, materialCategory){
 				if(err) console.log(err)
@@ -71,13 +44,14 @@ exports.indexlist = function(req,res){
 							categories: categories,
 							materialCategories: materialCategory,
 							sceneCategories:sceneCategory,
-							cart_goods: cartGoods,
-							cart_goods_num: cartGoodsNum
+							cart_goods: CartGoods(user, cart),
+							cart_goods_num: CartGoods(user, cart).length
 						})
 				})
 			})
 		})
 }
+
 
 // 商品属性
 exports.sort = function(req,res){
@@ -86,21 +60,6 @@ exports.sort = function(req,res){
 		searchObj = req.session.searchObj,
 		user = req.session.user,
 		cart = req.session.cart
-
-	// 查找购物车商品数量
-	var cartGoods = []
-	var cartGoodsNum = 0
-	if(user){
-		cartGoods = user.shopcartgoods
-		cartGoodsNum = user.shopcartgoods.length
-	}else{
-		if(cart && cart.length > 0){
-			cartGoodsNum = cart.length
-			for(var i=0; i < cartGoodsNum; i++){
-				cartGoods.push(cart[i].pid)
-			}
-		}
-	}
 
 	if(sort){
 		var findObj = {'attributes.zh_cn': sort},
@@ -146,18 +105,17 @@ exports.sort = function(req,res){
 					products: category.pid,
 					allCategoryType: req.session.allCategoryType,
 					// href: req._parsedUrl.search,
-					cart_goods: cartGoods,
-					cart_goods_num: cartGoodsNum
+					cart_goods: CartGoods(user, cart),
+					cart_goods_num: CartGoods(user, cart).length
 				})
 			})
 	})
 }
 // 商品详情页
 exports.detail = function(req,res){
-	var id=req.params.id
-	var user=req.session.user
-	// 查找购物车商品数量
-	var cartGoodsNum = user? req.session.user.shopcartnum : req.session.cart? req.session.cart.length : 0
+	var id = req.params.id,
+		user = req.session.user,
+		cart = req.session.cart
 
 	// 浏览过的商品
 	if(!req.session.view_product){
@@ -212,7 +170,8 @@ exports.detail = function(req,res){
 								categories: categories,
 								product: _product,
 								find_view_products: find_view_products,
-								cart_goods_num: cartGoodsNum
+								cart_goods: CartGoods(user, cart),
+								cart_goods_num: CartGoods(user, cart).length
 							})
 						})
 				})
@@ -364,6 +323,7 @@ exports.save = function(req,res){
 			if(err) console.log(err)
 			var updateProduct = {
 				_id: productObj._id,
+				description: productObj.description,
 				size: {
 					h: productObj.size.h,
 					w: productObj.size.w,
@@ -532,6 +492,21 @@ exports.updatecontent = function(req, res){
 	})
 }
 
+// 查找购物车商品数量
+function CartGoods(user, cart){
+	var cartGoods = []
+	if(user){
+		cartGoods = user.shopcartgoods
+	}else{
+		if(cart && cart.length > 0){
+			cartGoodsNum = cart.length
+			for(var i=0; i < cartGoodsNum; i++){
+				cartGoods.push(cart[i].pid)
+			}
+		}
+	}
+	return cartGoods
+}
 
 //product delete category
 exports.del = function(req,res){

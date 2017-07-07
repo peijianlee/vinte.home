@@ -40,8 +40,8 @@ if !header_hide
 			a(href="/inquirylist").head_btn_style.fr.ml10
 				i.icon-reorder.mr10
 				| 询价单
-				if cart_goods_num
-					b.head_shopcart_num #{cart_goods_num}
+				if cart_goods
+					b.head_shopcart_num #{cart_goods.length}
 				else
 					b.head_shopcart_num 0
 			form(method="GET", action="/results")

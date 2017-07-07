@@ -41,7 +41,7 @@ exports.detail = function(req,res){
 					title: 'inquiry list' + ' | ITEST',
 					products: productsObj,
 					captcha: req.session.captcha,
-					cart_goods_num: products.length
+					cart_goods: products
 				})
 			})
 	}else{
@@ -69,7 +69,7 @@ exports.detail = function(req,res){
 				res.render('shopcart',{
 					title: 'dfsdfsdfsdf' + ' | IMOOC',
 					products: products,
-					cart_goods_num: user.shopcartgoods.length
+					cart_goods: user.shopcartgoods
 				})
 
 			})
@@ -87,7 +87,7 @@ exports.createInquirylist = function(req, res){
 			res.render('create_order',{
 				title: '创建询价单' + ' | IMOOC',
 				products: products,
-				cart_goods_num: req.session.user.shopcartgoods.length
+				cart_goods: req.session.user.shopcartgoods
 			})
 
 		})
@@ -143,7 +143,7 @@ exports.createOrderSuccess = function(req, res){
 	res.render('create_order_success',{
 		title: '询价单创建成功 | IMOOC',
 		order: req.session.user.order,
-		cart_goods_num: req.session.user.shopcartgoods.length
+		cart_goods: req.session.user.shopcartgoods
 	})
 }
 

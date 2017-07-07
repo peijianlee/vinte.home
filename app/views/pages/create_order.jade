@@ -83,11 +83,11 @@ block content
 										if item.material && item.material.length > 0
 											li 材质： 
 												each i_material in item.material
-													span.ml5 #{i_material.attributes}
+													span.ml5 #{i_material.attributes.zh_cn}
 										if item.color && item.color.length > 0
 											li 颜色：
 												each i_color in item.color
-													span.ml5 #{i_color.attributes}
+													span.ml5 #{i_color.attributes.zh_cn}
 										li.fb.mt5 售价：￥#{item.price}.00
 									input(type="hidden", name="order.products[pid.id]", value=item.id)
 								td.tc.vatop

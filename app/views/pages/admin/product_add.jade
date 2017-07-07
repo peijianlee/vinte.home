@@ -15,6 +15,7 @@ block content
 				button.button.button-rounded.button-raised.button-small(type="button", disabled="") 图片管理
 				button.button.button-rounded.button-raised.button-small(type="button", disabled="") 商品详情
 		.contentpanel
+			- console.log(product)
 			form.form_horizontal(method="post", action="/admin/product", enctype="multipart/form-data")
 				if product._id
 					input(type="hidden", name="product[_id]", value=product._id)
@@ -22,17 +23,11 @@ block content
 					label.control_label 商品名称：
 					.control_div
 						input(type="text", name="product[title]",placeholder="请输入商品名称", value=product.title)
-				//- .form_group
-					label.control_label 分类选择：
-					#radio_list.control_div
-						each cat in categories
-							label(style="margin:0 15px 0 5px;cursor: pointer;")
-								if product._id
-									input.category(type="radio", name="product[category]", value=cat._id, checked=cat._id.toString()==product.category.toString())
-									| #{cat.name}
-								else
-									input(type="radio", name="product[category]", value=cat._id)
-									| #{cat.name}
+				.form_group
+					label.control_label 商品描述：
+					.control_div
+						textarea(type="text", name="product[description]",placeholder="请输入商品描述，可不填", style="height:48px;") #{product.description}
+					br.clear
 				.form_group
 					label.control_label 商品尺寸：
 					.control_div.product_size_input

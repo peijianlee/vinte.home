@@ -67,8 +67,9 @@ block content
 							else
 								|&nbsp;（未知颜色） 
 							|&nbsp;宽#{product.size.w}×深#{product.size.d}×高#{product.size.h}cm
-					dd.p_panel_info
-						p.fs14 布匹部分采用了棉丝光斜纹棉布面料。改良了难以扩展的情况，使用了编织材料。可以尽情感受不同材料的不同舒适度。 
+					if product.description
+						dd.p_panel_info
+							p.fs14 #{product.description} 
 					dd.p_panel_sort
 						h6.fs14 商品尺寸：
 						a.p_sort_btn
@@ -83,7 +84,7 @@ block content
 							if product.sale
 								span.p_panel_price.line_through.fs12.pl10 零售价：
 									b $#{product.price}.00
-								span.p_panel_price.fs12.pl10 清仓价：
+								span.p_panel_price.fs12.pl10 折扣价：
 									b.fs18.cRed $#{product.sale}.00
 							else
 								span.p_panel_price.fs12.pl10 零售价：

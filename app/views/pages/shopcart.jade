@@ -55,15 +55,15 @@ block content
 										//- if item.pid.scene && item.pid.scene.length > 0
 											li 场景： 
 												each i_scene in item.pid.scene
-													span.ml5 #{i_scene.attributes}
+													span.ml5 #{i_scene.attributes.zh_cn}
 										if item.pid.material && item.pid.material.length > 0
 											li 材质： 
 												each i_material in item.pid.material
-													span.ml5 #{i_material.attributes}
+													span.ml5 #{i_material.attributes.zh_cn}
 										if item.pid.color && item.pid.color.length > 0
 											li 颜色：
 												each i_color in item.pid.color
-													span.ml5 #{i_color.attributes}
+													span.ml5 #{i_color.attributes.zh_cn}
 										li
 											span.removeBtn.shopcart_goods_remove(data-id="#{item.pid.id}")
 												i.icon-remove
@@ -76,10 +76,12 @@ block content
 							if user
 								td
 								td(colspan="5")
-									button.button.button-glow.button-primary.button-rounded.button-raised.button-primary(type="sumbit") 创建询价单
+									button#createOrderBtn.button.button-glow.button-primary.button-rounded.button-raised.button-primary(type="sumbit") 创建询价单
 							else
 								td(colspan="5")
-									a.button.button-glow.button-primary.button-rounded.button-raised.button-primary(data-toggle="modal", data-target="#signinModal") 创建询价单
+									span.button.button-glow.button-primary.button-rounded.button-raised.button-primary(data-toggle="modal", data-target="#signinModal") 创建询价单
+									span.gray.ml20.fs12 你尚未登录，请
+									span.base-color-dark.fs12.cp(data-toggle="modal", data-target="#signinModal") 登录
 					else
 						tr
 							td.tc(colspan="6")
@@ -88,6 +90,25 @@ block content
 									a(href="/store").button.button-royal.button-primary 商品中心
 
 	.bg_fixed
+	script(src="/js/shopcart.js")
 	if !user
 		include ../themplate/signin_modal.jade
-	script(src="/js/shopcart.js")
+	else
+		script.
+			$('#createOrderBtn').click(function(){
+				if(!CheckboxIsChecked()){
+					arttip('<i class="icon-exclamation-sign mr5"></i>请选择商品 !')
+					arttipclose(0, 900)
+					return false
+				}
+			})
+			function CheckboxIsChecked(){
+				var isCheacked
+				$('input.selectProduct').each(function(i){
+					if($(this).is(':checked')){
+						isCheacked = true
+						return
+					}
+				})
+				return isCheacked
+			}

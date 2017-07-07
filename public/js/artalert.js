@@ -95,7 +95,7 @@ function arttip(txt){
 	$('.arttip').animate({'opacity':1,'bottom':'40%'},500);
 }
 function arttipclose(text,closetime,dosomething){
-	if(text!=='0'){
+	if(text){
 		$('.arttip').html(text)
 	}
 	var closetime = closetime || 2000
