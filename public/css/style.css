@@ -103,6 +103,11 @@ span.head_btn_style a{
 	height:32px;line-height:32px;
 }
 /*-----脚部-----*/
+.footer-top{
+	height:8px;margin-top:15px;
+	background-image:url(../images/foot-bg.png);
+	background-size:15px 8px;
+}
 .footer{
 	background-color:#25a6a4;
 	padding:30px 0;
