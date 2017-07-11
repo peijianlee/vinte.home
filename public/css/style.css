@@ -104,7 +104,9 @@ span.head_btn_style a{
 }
 /*-----脚部-----*/
 .footer-top{
-	height:8px;margin-top:15px;
+	position:absolute;
+	top:-8px;left:0;width:100%;
+	height:8px;
 	background-image:url(../images/foot-bg.png);
 	background-size:15px 8px;
 }
@@ -114,6 +116,7 @@ span.head_btn_style a{
 	color:#e1fdfd;
 	font-size:13px;
 	line-height:1.6em;
+	position:relative;
 }
 .footer-info{
 	float:left;

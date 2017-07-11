@@ -38,7 +38,7 @@ exports.detail = function(req,res){
 					productsObj.push(p_obj)
 				}
 				res.render('shopcart',{
-					title: 'inquiry list' + ' | ITEST',
+					title: '询价单',
 					products: productsObj,
 					captcha: req.session.captcha,
 					cart_goods: products
@@ -67,7 +67,7 @@ exports.detail = function(req,res){
 				// var cart_goods_num = shopcart.products.length
 
 				res.render('shopcart',{
-					title: 'dfsdfsdfsdf' + ' | IMOOC',
+					title: '询价单',
 					products: products,
 					cart_goods: user.shopcartgoods
 				})
@@ -85,7 +85,7 @@ exports.createInquirylist = function(req, res){
 		.populate('sort color material scene','attributes')
 		.exec(function(err, products){
 			res.render('create_order',{
-				title: '创建询价单' + ' | IMOOC',
+				title: '创建询价单',
 				products: products,
 				cart_goods: req.session.user.shopcartgoods
 			})
@@ -141,7 +141,7 @@ exports.createOrder = function(req, res){
 exports.createOrderSuccess = function(req, res){
 	console.log(req.session.user)
 	res.render('create_order_success',{
-		title: '询价单创建成功 | IMOOC',
+		title: '询价单创建成功',
 		order: req.session.user.order,
 		cart_goods: req.session.user.shopcartgoods
 	})

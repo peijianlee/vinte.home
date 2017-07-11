@@ -1,4 +1,3 @@
-
 var Product = require('../models/product')
 var Category = require('../models/category')
 var Comment = require('../models/comment')
@@ -40,7 +39,7 @@ exports.indexlist = function(req,res){
 				Category.find({type:'product', name:'scene'}, function(err, sceneCategory){
 					if(err) console.log(err)
 						res.render('product',{
-							title:'VINTE 产品列表',
+							// title:global_title,
 							categories: categories,
 							materialCategories: materialCategory,
 							sceneCategories:sceneCategory,
@@ -98,7 +97,7 @@ exports.sort = function(req,res){
 				}
 
 				res.render(template,{
-					title: title+'-VINTE',
+					title: title,
 					linkSort: linkSort,
 					category: category,
 					categories: categories,
@@ -166,7 +165,7 @@ exports.detail = function(req,res){
 						.exec(function(err, find_view_products){
 							if(err) console.log(err)
 							res.render('product_detail',{
-								title: _product.title + ' | VINTE',
+								title: _product.title,
 								categories: categories,
 								product: _product,
 								find_view_products: find_view_products,

@@ -434,9 +434,10 @@ span.iproduct_add_cart_btn.Stand{
 	float:left;
 }
 .side_nav_view_over a{
+	background-color:white;
 	height:60px;overflow: hidden;
 	border-top:1px solid #ccc;
-	line-height:20px;
+	line-height:18px;
 	display:block;
 	font-size:12px;
 	padding:8px;
