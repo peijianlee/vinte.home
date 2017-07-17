@@ -173,3 +173,23 @@ function k_touch() {
         }
     }
 }
+
+// 加载图片进度
+var num = 0
+var images = $('#slide').find('img')
+images.each(function(i){
+    var img = new Image()
+    img.onload = function(){
+        //- 当图片太大时，可能会重复触发onload，所以需要清空下之前的onload事件
+        img.onload=null
+        num++
+
+        $("#loading b").html(parseInt(num/images.length*100)+'%')
+        if(num>=i){
+            $('#loading').fadeOut()
+            $('#slide').removeClass('slide-banner-children-hide')
+        }
+    }
+    //- 执行上下文，如果img已经存在缓存了，就无需重复加载了
+    img.src = images[i].src
+})

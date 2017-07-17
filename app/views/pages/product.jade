@@ -5,6 +5,9 @@ block append head
 block content
 	if sceneCategories && sceneCategories.length > 0
 		#slide.wrap.slide-banner
+			#loading
+				span
+				b 0%
 			each scene in sceneCategories
 				div.slide-img
 					h4.slide-title-cn #{scene.attributes.zh_cn}
