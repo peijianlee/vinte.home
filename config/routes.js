@@ -11,6 +11,7 @@ var Category = require('../app/controllers/category')
 var Banner = require('../app/controllers/banner')
 var Shopcart = require('../app/controllers/shopcart')
 var Order = require('../app/controllers/order')
+var Api = require('../app/controllers/api')
 var ueditor = require('ueditor')
 
 var path = require('path')
@@ -131,5 +132,12 @@ module.exports = function(app){
 	app.post('/admin/goods/banner/save', User.signinRequired, User.adminRequired, Banner.saveImage, Banner.goodsbannersave)
 	app.get('/admin/banner/update/:id', User.signinRequired, User.adminRequired, Banner.update)
 	app.delete('/admin/banner/list', User.signinRequired, User.adminRequired, Banner.del)
+
+
+	// api接口
+	app.get('/api/products', Api.products)
+	app.get('/api/product/:id', Api.product)
+	app.get('/api/categories', Api.categories)
+	app.get('/api/categories/:sort', Api.sort)
 
 }
