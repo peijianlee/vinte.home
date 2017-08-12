@@ -943,3 +943,21 @@ div.c_body:after{
 	padding-bottom:10px;
 }
 .order_link{color:#099;border-bottom:1px dashed #099;}
+
+
+/*家具风格*/
+.g-furniture-type{
+	display:inline-block;
+	width:30.333%;
+	vertical-align:text-top;
+	padding:1.5%;
+}
+.g-furniture-type img{
+	width:100%;
+}
+.bgArrow{
+	/*background-color:black;*/
+	border-style:solid;
+	border-color:#eee transparent;
+	border-width:0 0 30px 90em;
+}
