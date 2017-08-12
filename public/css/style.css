@@ -19,10 +19,37 @@
 .header .logo{
 	float:left;
 	line-height:60px;height:60px;
-	overflow:hidden;
 	font-size:0;
 }
-.header .logo a{color:#25a6a4;font-size:28px;}
+.header .logo a{
+	margin-top:10px;margin-left:10px;
+}
+/*logo*/
+.logo-icon{
+	height:35px;width:180px;
+	display:inline-block;
+	background-image:url(../images/logo-index.png);
+	position:relative;
+}
+.logo-icon i{
+	position:absolute;
+	top:6px;right:-20px;
+	font-size:15px;
+	opacity:0;color:#066;
+	-webkit-transform:translateY(-10px);
+	transform:translateY(-10px);
+	-webkit-transition:all 0.3s;
+	-moz-transition:all 0.3s;
+	-o-transition:all 0.3s;
+	-ms-transition:all 0.3s;
+	transition:all 0.3s;
+}
+.logo-icon:hover i{
+	opacity:1;
+	-webkit-transform:translateY(0);
+	transform:translateY(0);
+}
+
 .hmenu{
 	float:right;
 	padding-top:10px;

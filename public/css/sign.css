@@ -1,38 +1,12 @@
 /*登录框*/
 .sign_top{
-/*	position:fixed;z-index:1;
-	top:10%;left:50%;*/
-	width:400px;height:70px;line-height:70px;
+	width:400px;height:80px;line-height:80px;
 	border-radius:5px 5px 0 0;
 	margin-bottom:-5px;
-	/*margin-left:-200px;*/
 	font-size:0;
 	text-align:center;
-	background-color:rgba(255,255,255,.2);
+	background-color:rgba(255,255,255,.4);
 	box-shadow:inset 1px 1px rgba(255,255,255,.15),inset -1px -1px rgba(255,255,255,.3);
-}
-.sign_top a{
-	font-size:28px;
-	text-shadow:1px 1px rgba(255,255,255,.1);
-	position:relative;
-}
-.sign_top i{
-	position:absolute;
-	top:6px;right:-25px;
-	font-size:18px;
-	opacity:0;
-	-webkit-transform:translateY(-10px);
-	transform:translateY(-10px);
-	-webkit-transition:all 0.3s;
-	-moz-transition:all 0.3s;
-	-o-transition:all 0.3s;
-	-ms-transition:all 0.3s;
-	transition:all 0.3s;
-}
-.sign_top a:hover i{
-	opacity:1;
-	-webkit-transform:translateY(0);
-	transform:translateY(0);
 }
 .sign_bg{
 	position:absolute;left:0;top:0;
