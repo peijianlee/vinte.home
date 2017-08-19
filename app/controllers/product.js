@@ -16,38 +16,56 @@ exports.indexlist = function(req,res){
 	var id=req.params.id
 
 	Category
-		.find({type:'product', name:'sort'})
+		.find({type:'product'})
 		.sort({_id: 1})
-		.populate({
-			path: 'pid',
-			options: {
-				limit: 4,
-				sort:{_id: -1}
-			},
-			model: 'Product',
-			populate: {
-				path: 'color material scene',
-				select: 'attributes',
-				model: 'Category'
-			}
-		})
+		// .populate({
+		// 	path: 'pid',
+		// 	options: {
+		// 		limit: 4,
+		// 		sort:{_id: -1}
+		// 	},
+		// 	model: 'Product',
+		// 	populate: {
+		// 		path: 'color material scene',
+		// 		select: 'attributes',
+		// 		model: 'Category'
+		// 	}
+		// })
 		.exec(function(err, categories){
 			if(err)console.log(err)
 
-			Category.find({type:'product', name:'material'}, function(err, materialCategory){
-				if(err) console.log(err)
-				Category.find({type:'product', name:'scene'}, function(err, sceneCategory){
-					if(err) console.log(err)
-						res.render('product',{
-							// title:global_title,
-							categories: categories,
-							materialCategories: materialCategory,
-							sceneCategories:sceneCategory,
-							cart_goods: CartGoods(user, cart),
-							cart_goods_num: CartGoods(user, cart).length
-						})
+			var materialCategories = [],
+				sceneCategories = [],
+				sortCategories = []
+			for(i in categories){
+				// console.log(categories[i].name)
+				var catName = categories[i].name
+				if( catName.toString() === 'material' ){
+					materialCategories.push(categories[i])
+				}else if( catName.toString() === 'scene' ){
+					sceneCategories.push(categories[i])
+				}else {
+					sortCategories.push(categories[i])
+				}
+			}
+			Product
+				.find({})
+				.limit(8)
+				.sort({'pv': -1})
+				.populate('color material scene sort','attributes')
+				.exec(function(err, recommendProducts){
+					if(err)console.log(err)
+					console.log(recommendProducts)
+					res.render('product',{
+						// title:global_title,
+						materialCategories: materialCategories,
+						sceneCategories: sceneCategories,
+						sortCategories: sortCategories,
+						recommendProducts: recommendProducts,
+						cart_goods: CartGoods(user, cart),
+						cart_goods_num: CartGoods(user, cart).length
+					})
 				})
-			})
 		})
 }
 
@@ -112,9 +130,15 @@ exports.sort = function(req,res){
 }
 // 商品详情页
 exports.detail = function(req,res){
+
 	var id = req.params.id,
 		user = req.session.user,
 		cart = req.session.cart
+
+	// 添加浏览量
+	Product.update({_id:id},{$inc:{pv:1}},function(err){
+		if(err) console.log(err)
+	})
 
 	// 浏览过的商品
 	if(!req.session.view_product){

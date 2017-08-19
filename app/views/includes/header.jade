@@ -1,5 +1,5 @@
 if !header_hide
-	.header_top
+	.header-top
 		.wrap
 			if moment().format('a') === 'am'
 				| 早上好！
@@ -36,7 +36,7 @@ if !header_hide
 				| 梵特家具网
 				a.logo-icon(href="/")
 					i.icon-home.base-color-dark
-			a(href="/inquirylist").head_btn_style.fr.ml10
+			a(href="/inquirylist").head-btn-style.fr.ml10
 				i.icon-reorder.mr10
 				| 询价单
 				if cart_goods
@@ -44,7 +44,7 @@ if !header_hide
 				else
 					b.head_shopcart_num 0
 			form(method="GET", action="/results")
-				.head_search.fr
+				.head-search.fr
 					input(type="text",name="q",value=searchword)
 					button.h_search_btn.icon-search(type="submit")
 
