@@ -199,31 +199,39 @@
 	padding:1.5%;
 	border:1px solid transparent;
 	border-radius:5px;
+	cursor:default;
 }
-.i-furniture-type:hover{
-	border-color:#aaa;
-	background-color:white;
+.i-furniture-type img{width:100%;border-radius:3px;}
+.i-furniture-type h6{
+	font-size:1em;padding:8px 0;
+	width:70%;
+	margin:-30px auto 10px;
+	background-color:rgba(0,0,0,.7);
+	color:white;
+	border-radius:3px;
+	position:relative;z-index: 1;
 }
-.i-furniture-type img{width:100%;border-radius:2px;}
-.i-furniture-type h6{font-size:1em;padding:3px 0 5px;}
 .i-furniture-type h6 i{
 	font-size:.7em;
 	margin:0 .1em;
 	opacity: .65;
 }
 .i-furniture-type p{
-	font-size:0.76em;
-	line-height:1.8em;
-	letter-spacing:0.11em;
+	font-size:13px;
+	line-height:2em;
+	letter-spacing:0.2em;
 	text-align:left;
+}
+.i-furniture-type:hover{color:black;}
+.i-furniture-type:hover h6{
+	background-color:rgba(0,0,0, .9);
+	color:white;
 }
 
 /* index material introduction */
 .i-material-list{height:150px;}
 .i-material-list a{
 	width:33.333333%;height:150px;
-	/*height:150px;line-height:150px;*/
-	/*background-size:100% auto;*/
 	float:left;color:white;
 	float:left;
 	font-size:14px;
@@ -308,10 +316,8 @@
 	font-size:.8em;
 	text-align:center;
 	display:inline-block;
-	text-shadow:none;
 }
 .icon-external-link{
-	text-shadow:none;
 	color:rgba(255,255,255,.7);
 	font-size:64px;
 	left:-80px;bottom:-100px;
@@ -349,4 +355,24 @@ div.i-scene-link:hover .i-scene .icon-external-link{
 div.i-scene-link:nth-child(4n):hover .i-scene,
 div.i-scene-link:last-child:hover .i-scene{
 	box-shadow:inset 1px 1px white,-30px 30px #066;
+}
+
+
+/* Recommended Products */
+.g-remore-btn{
+	font-size:13px;
+	font-weight:bold;
+	padding:3px;
+	border-radius:3px;
+	display:inline-block;
+	border:1px solid #066;
+
+}
+.g-remore-btn span{
+	display:block;
+	border-radius:2px;
+	padding:7% 15%;
+}
+.g-remore-btn:hover span{
+	background-color:#066;color:white;
 }

@@ -9,64 +9,85 @@ var moment = require('moment')
 
 
 
-// 前台首页
-exports.indexlist = function(req,res){
-	var user = req.session.user
-	var cart = req.session.cart
-	var id=req.params.id
+// 所有商品
+exports.store = function(req,res){
+	var user = req.session.user,
+		cart = req.session.cart,
+		page = req.query.p || 1,
+		count = 6,
+		start = (page-1) * count,
+		url = req._parsedUrl.pathname,
+		p = req.query.p
 
-	Category
-		.find({type:'product'})
-		.sort({_id: 1})
-		// .populate({
-		// 	path: 'pid',
-		// 	options: {
-		// 		limit: 4,
-		// 		sort:{_id: -1}
-		// 	},
-		// 	model: 'Product',
-		// 	populate: {
-		// 		path: 'color material scene',
-		// 		select: 'attributes',
-		// 		model: 'Category'
-		// 	}
-		// })
-		.exec(function(err, categories){
-			if(err)console.log(err)
+	var product_attributes = {
+		'scene': req.query.scene,
+		'sort': req.query.sort,
+		'material': req.query.material
+	}
 
-			var materialCategories = [],
-				sceneCategories = [],
-				sortCategories = []
-			for(i in categories){
-				// console.log(categories[i].name)
-				var catName = categories[i].name
-				if( catName.toString() === 'material' ){
-					materialCategories.push(categories[i])
-				}else if( catName.toString() === 'scene' ){
-					sceneCategories.push(categories[i])
-				}else {
-					sortCategories.push(categories[i])
-				}
+	var now_product_attributes = ''
+	for(item in product_attributes){
+		if(!product_attributes[item]){
+			delete product_attributes[item]
+		}else{
+			now_product_attributes += '&'+item+'='+ product_attributes[item]
+		}
+	}
+	// console.log(now_product_attributes.substr(1))
+	// console.log(now_product_attributes)
+	// console.log(now_product_attributes)
+	// console.log(now_product_attributes)
+	// console.log(now_product_attributes)
+	// console.log(url)
+
+	// var findObj = {'attributes.zh_cn': material}
+
+	Category.find({type:'product'},function(err, categories){
+		if(err)console.log(err)
+
+		var categories_arry = {
+			scene: [],
+			sort: [],
+			material: []
+		}
+		for( item in categories ){
+			var cat_name = categories[item].name
+			if( cat_name === 'scene' ){
+				categories_arry['scene'].push(categories[item])
+			}else if( cat_name === 'sort' ){
+				categories_arry['sort'].push(categories[item])
+			}else if( cat_name === 'material' ){
+				categories_arry['material'].push(categories[item])
 			}
+		}
+		// console.log(categories_arry)
+
+
+		Product.find(product_attributes).count().exec(function(err, productsCount){
 			Product
-				.find({})
-				.limit(8)
-				.sort({'pv': -1})
-				.populate('color material scene sort','attributes')
-				.exec(function(err, recommendProducts){
+				.find(product_attributes)
+				.sort({_id: -1})
+				.skip( start > 0? start : 0 )
+				.limit( count )
+				.populate('scene material color', 'attributes')
+				.exec(function(err, products){
 					if(err)console.log(err)
-					console.log(recommendProducts)
-					res.render('product',{
-						// title:global_title,
-						materialCategories: materialCategories,
-						sceneCategories: sceneCategories,
-						sortCategories: sortCategories,
-						recommendProducts: recommendProducts,
+					var pageNum = page ++
+
+					res.render('store',{
+						title:'所有商品',
+						products: products,
+						categories: categories_arry,
+						now_product_attributes: now_product_attributes.substr(1),
+						currentPage: pageNum,
+						totalPage: Math.ceil(productsCount / count),
 						cart_goods: CartGoods(user, cart),
-						cart_goods_num: CartGoods(user, cart).length
+						cart_goods_num: CartGoods(user, cart).length,
+						url_pathname: url
 					})
 				})
 		})
+	})
 }
 
 

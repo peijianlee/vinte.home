@@ -34,6 +34,7 @@ ul,ol,li{list-style-type:none;}
 
 .block{display:block;}
 .none{display:none;}
+.overflow-hidden{overflow:hidden;}
 
 .pr{position:relative;}
 .pa{position:absolute;}
@@ -140,6 +141,21 @@ ul,ol,li{list-style-type:none;}
 .bgYellow{background-color:#f8fed7;}
 .bgGray{background-color:#eee;}
 
+.bg-slash{
+	background-image:linear-gradient(45deg,
+		rgba( 255, 255, 255, .3) 25%, transparent  25%,
+		transparent  50%, rgba( 255, 255, 255, .3) 50%,
+		rgba( 255, 255, 255, .3) 75%, transparent 75%,
+		transparent);
+	background-image:-webkit-linear-gradient(45deg,
+		rgba( 255, 255, 255, .3) 25%, transparent  25%,
+		transparent  50%, rgba( 255, 255, 255, .3) 50%,
+		rgba( 255, 255, 255, .3) 75%, transparent 75%,
+		transparent);
+	background-size:8px 8px;
+	/*background-repeat: no-repeat;*/
+}
+
 /*状态提示框*/
 .tip-text-prompt{
 	background-color:#e8f6f6;
@@ -245,6 +261,11 @@ table td{
 }
 
 /*-----分页-----*/
+.page.bg-gray{
+	background-color:#f8f8f8;
+	padding:8px;
+	margin:0 10px;
+}
 .page_stand,
 .page_unclick,
 .page a{
@@ -273,7 +294,7 @@ table td{
 .page_unclick{
 	background-color:#fcfcfc;
 	border:1px solid #ccc;color:#aaa;
-	cursor:url(http://www.easyicon.net/api/resizeApi.php?id=526852&size=16), auto;
+	cursor:url(/images/unclick.png), auto;
 }
 .page > *[csstip]:before,
 .page > *[csstip-top]:before{

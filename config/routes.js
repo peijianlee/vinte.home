@@ -26,7 +26,7 @@ module.exports = function(app){
 	})
 
 	//Index
-	app.get('/', Product.indexlist)
+	app.get('/', Index.index)
 	// results
 	app.get('/results', Category.fetchAllCategoryType, Category.categoryTypeHref, Index.search)
 	// 错误页
@@ -43,7 +43,7 @@ module.exports = function(app){
 	app.post('/message', Index.message)
 
 	// product
-	app.get('/store', Product.indexlist)
+	app.get('/store', Product.store)
 	app.get('/store/id/:id', Product.detail)
 	app.get('/store/sort/:sort', Category.fetchAllCategoryType, Category.categoryTypeHref, Product.sort)
 	app.get('/store/material/:material', Product.sort)

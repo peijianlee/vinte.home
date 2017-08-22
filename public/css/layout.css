@@ -254,7 +254,7 @@ span.head-btn-style a{
 }
 
 /* global title */
-.bgBlue{background-color:#e3efef;color:#333;text-shadow:1px 1px rgba(255,255,255,.7);}
+.bgBlue{background-color:#e3efef;color:#333;}
 .g-head-title{font-size:18px;cursor:default;}
 .g-head-title span{
 	font-size:.8em;

@@ -1,0 +1,206 @@
+
+/* prompt page */
+html,body,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,p,pre{padding:0;margin:0;}
+body{
+	font-family:"Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","WenQuanYi Micro Hei",sans-serif;
+	color:#3e3e3e;
+	line-height:1.7;
+}
+a{text-decoration:none;color:#333;outline:0 none;}
+.bg-gray{background-color:#d0d0d0;cursor:default;}
+.bg-box{
+	position:fixed;
+	top:0;left:0;
+	height:40%;width:100%;
+	border-bottom:1px solid #ddd;
+	background-color:#25a6a4;
+	background-image:linear-gradient(-45deg,
+		rgba( 255, 255, 255, .3) 25%, transparent  25%,
+		transparent  50%, rgba( 255, 255, 255, .3) 50%,
+		rgba( 255, 255, 255, .3) 75%, transparent 75%,
+		transparent);
+	background-image:-webkit-linear-gradient(-45deg,
+		rgba( 255, 255, 255, .3) 25%, transparent  25%,
+		transparent  50%, rgba( 255, 255, 255, .3) 50%,
+		rgba( 255, 255, 255, .3) 75%, transparent 75%,
+		transparent);
+	background-size:4px 4px;
+}
+.wrap-box{
+	z-index:1;position:relative;
+	padding-top:8%;
+	height:70%;
+	max-width:500px;
+	margin:0 auto;
+	text-align:center;
+}
+.wrap-box h1{
+	color:white;
+	text-shadow:inset 1px 1px #068482;
+}
+.logo{
+	display:inline-block;
+	background-color:rgba(255, 255, 255, .5);
+	padding:15px 25px 10px;
+	border-radius:5px;
+	margin-bottom:15px;
+}
+.logo:hover{
+	background-color:rgba(255, 255, 255, .8);
+}
+.info-box-stand,
+.infoBox{
+	padding:30px 0;
+	width:100%;
+	position:absolute;
+}
+.infoBox{
+	background-color:#e5e3e4;
+	box-shadow:inset 1px -1px rgba(255,255,255,0.5);
+	z-index:2;
+}
+.info-box-stand:after{	
+    filter: url(blur.svg#blur); /* FireFox, Chrome, Opera */
+    -webkit-filter: blur(10px); /* Chrome, Opera */
+       -moz-filter: blur(10px);
+        -ms-filter: blur(10px);    
+            filter: blur(10px);
+    filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=10, MakeShadow=false); /* IE6~IE9 */
+}
+.info-box-stand:after,
+.info-box-stand:before{
+	content:"";
+	position:absolute;
+	left:50%
+}
+.info-box-stand:after{
+	top:20%;;margin-left:-300px;
+	width:0;height:0;
+	border-width:0 300px 300px 300px;
+	border-color:rgba(0,0,0,0.4) transparent;
+	border-style:solid;
+}
+.info-box-stand:before{
+	top:0;margin-left:-250px;
+	width:500px;height:200px;border-radius:50%;
+	box-shadow:0 0 150px rgba(255,255,255,0.5);
+}
+.info i{
+	background-color:#25a6a4;
+	font-style:normal;
+	color:white;
+	font-size:60px;
+	font-weight:bold;
+	display:inline-block;
+	width:80px;height:80px;
+	border-radius:40px;
+	text-align:center;line-height:80px;
+}
+.info p{
+	margin-top:15px;
+	font-size:14px;font-weight:bold;
+}
+.infoBtn{
+	border-top:1px #aaa dashed;
+	margin-top:30px;
+	padding-top:30px;
+}
+.button{
+	width:150px;height:42px;line-height:42px;
+	display:inline-block;
+	font-weight:bold;
+	font-size:14px;color:white;
+	margin:0 10px;
+	padding:3px;
+	border-style:solid;
+	border-width:2px;
+	border-radius:3px;
+}
+.button span{
+	display:block;
+	background-color:rgba( 0, 0, 0, .1);
+}
+.button.primary{
+	border-color:#0880d7;
+	color:#0880d7;
+}
+.button.action{
+	border-color:#066;
+	color:#066;
+}
+.button:hover span{color:white;}
+.button.primary:hover span{
+	background-color:#0880d7;
+}
+.button.action:hover span{
+	background-color:#066;
+}
+
+/* error page*/
+h1,h2{text-align:center;color:#222;}
+h1{font-size:72px;}
+h2{font-size:42px;}
+p{
+	padding:1.5%;
+	line-height:30px;
+	font-family:times new roman;
+}
+.error-frame{margin:0 15%;}
+.pre-frame{
+	line-height:30px;font-size:16px;
+	border-radius:3px;
+	padding:10px;
+}
+.pre-frame div{background-color:#f2f2f2;padding:1.5% 2.5%;}
+.pre-frame pre{
+	border-radius:3px;
+	text-shadow:1px 1px white;
+	font-family:times new roman;
+	background-image:-moz-repeating-linear-gradient(center top , #f2f2f2, #f2f2f2 29px, #81cbbc 30px);
+}
+.error-info{
+	font-size:56px;
+	text-shadow:
+	5px 5px 0 rgba(216, 65, 40, 0.5),
+	-5px -5px 0 rgba(37, 166, 164, 0.5)
+}
+
+.angled{
+	background-image:   -webkit-linear-gradient(45deg,
+						rgb(255,255,255) 12.5%,transparent 12.5%,
+						rgb(216,65,40) 12.5%,rgb(216,65,40) 25%,transparent 25%,
+						rgb(255,255,255) 25%,rgb(255,255,255) 37.5%,transparent 37.5%,
+						rgb(37,166,164) 37.5%,rgb(37,166,164) 50%,transparent 50%,
+						rgb(255,255,255) 50%,rgb(255,255,255) 62.5%,transparent 62.5%,
+						rgb(216,65,40) 62.5%,rgb(216,65,40) 75%,transparent 75%,
+						rgb(255,255,255) 75%,rgb(255,255,255) 87.5%,transparent 87.5%,
+						rgb(37,166,164) 87.5%,rgb(37,166,164) 100%,transparent);
+	background-image:   -moz-linear-gradient(45deg,
+						rgb(255,255,255) 12.5%,transparent 12.5%,
+						rgb(216,65,40) 12.5%,rgb(216,65,40) 25%,transparent 25%,
+						rgb(255,255,255) 25%,rgb(255,255,255) 37.5%,transparent 37.5%,
+						rgb(37,166,164) 37.5%,rgb(37,166,164) 50%,transparent 50%,
+						rgb(255,255,255) 50%,rgb(255,255,255) 62.5%,transparent 62.5%,
+						rgb(216,65,40) 62.5%,rgb(216,65,40) 75%,transparent 75%,
+						rgb(255,255,255) 75%,rgb(255,255,255) 87.5%,transparent 87.5%,
+						rgb(37,166,164) 87.5%,rgb(37,166,164) 100%,transparent);
+	background-image:   -o-linear-gradient(45deg,
+						rgb(255,255,255) 12.5%,transparent 12.5%,
+						rgb(216,65,40) 12.5%,rgb(216,65,40) 25%,transparent 25%,
+						rgb(255,255,255) 25%,rgb(255,255,255) 37.5%,transparent 37.5%,
+						rgb(37,166,164) 37.5%,rgb(37,166,164) 50%,transparent 50%,
+						rgb(255,255,255) 50%,rgb(255,255,255) 62.5%,transparent 62.5%,
+						rgb(216,65,40) 62.5%,rgb(216,65,40) 75%,transparent 75%,
+						rgb(255,255,255) 75%,rgb(255,255,255) 87.5%,transparent 87.5%,
+						rgb(37,166,164) 87.5%,rgb(37,166,164) 100%,transparent);
+	background-image:   linear-gradient(45deg,
+						rgb(255,255,255) 12.5%,transparent 12.5%,
+						rgb(216,65,40) 12.5%,rgb(216,65,40) 25%,transparent 25%,
+						rgb(255,255,255) 25%,rgb(255,255,255) 37.5%,transparent 37.5%,
+						rgb(37,166,164) 37.5%,rgb(37,166,164) 50%,transparent 50%,
+						rgb(255,255,255) 50%,rgb(255,255,255) 62.5%,transparent 62.5%,
+						rgb(216,65,40) 62.5%,rgb(216,65,40) 75%,transparent 75%,
+						rgb(255,255,255) 75%,rgb(255,255,255) 87.5%,transparent 87.5%,
+						rgb(37,166,164) 87.5%,rgb(37,166,164) 100%,transparent);
+	background-size:40px 40px;
+}

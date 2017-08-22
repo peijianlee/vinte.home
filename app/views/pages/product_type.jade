@@ -10,7 +10,7 @@ block content
 			//- span #{linkSort}
 			b #{category.attributes.zh_cn}
 		if category.banner
-			div.goodsSortBg.wrap(style="background-image:url(/banner/#{category.banner})")
+			div.goodsSortBg(style="background-image:url(/banner/#{category.banner})")
 		if categories && categories.length > 0
 			.wrap.mt15.mb30
 				dl.type_side_nav
@@ -82,9 +82,9 @@ block content
 													a.On(href=ahref) #{cid.attributes}
 												- else
 													a(href=ahref) #{cid.attributes}
-					.sub_product_frame_row3
+					.sub-product-frame-row3
 						each item in products
-							.sub_page_product.pr(id=item.id)
+							.sub-page-product.pr(id=item.id)
 								include ../themplate/product.jade
 	.bg_fixed
 	script(src="/js/shopcart.js")

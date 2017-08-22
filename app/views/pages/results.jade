@@ -3,42 +3,43 @@ block append head
 	link(href="/css/product.css",rel="stylesheet")
 block content
 	if allCategoryType && allCategoryType.length > 0
-		.wrap.sarch_nav
+		.sarch_nav
 			each type in allCategoryType
 				if type.cid.length > 0
-					dl.search_nav_type
-						- var typeName = type.name=='sort'?'类型' : type.name=='scene'?'场景' : type.name=='material'?'材质': '颜色'
-						dt #{typeName}
-						dd
-							- var all_url_public = '?q='+keyword
-							- var allhref = all_url_public
-							- if(url_key){
-							- 	if(url_key.indexOf(type.name) > -1){
-							-		var tmp = '/([&])('+type.name+'=)([^&]*)/gi'
-							-		allhref += url_key.replace(eval(tmp), '')
-							- 	}else{
-							-		allhref += url_key
-							- 	}
-							- }
-							a(href=allhref) 全部
-							each cid in type.cid
-								- var a_url_public = '?q='+keyword
+					.search-nav-wrap
+						dl.search-nav-type.wrap
+							- var typeName = type.name=='sort'?'类型' : type.name=='scene'?'场景' : type.name=='material'?'材质': '颜色'
+							dt #{typeName} :
+							dd
+								- var all_url_public = '?q='+keyword
+								- var allhref = all_url_public
 								- if(url_key){
 								- 	if(url_key.indexOf(type.name) > -1){
-								-		var replaceText = type.name+'='+cid.id
-								-		var tmp = '/('+type.name+'=)([^&]*)/gi'
-								-		var replaceUrl = url_key.replace(eval(tmp), replaceText)
-								-		var ahref = a_url_public+replaceUrl
+								-		var tmp = '/([&])('+type.name+'=)([^&]*)/gi'
+								-		allhref += url_key.replace(eval(tmp), '')
 								- 	}else{
-								-		var ahref = a_url_public+url_key+'&'+type.name+'='+cid.id
+								-		allhref += url_key
 								- 	}
-								- }else{
-								-	var ahref = a_url_public+'&'+type.name+'='+cid.id
 								- }
-								- if(url_key.indexOf(cid.id) > -1)
-									a.On(href=ahref) #{cid.attributes.zh_cn}
-								- else
-									a(href=ahref) #{cid.attributes.zh_cn}									
+								a(href=allhref) 全部
+								each cid in type.cid
+									- var a_url_public = '?q='+keyword
+									- if(url_key){
+									- 	if(url_key.indexOf(type.name) > -1){
+									-		var replaceText = type.name+'='+cid.id
+									-		var tmp = '/('+type.name+'=)([^&]*)/gi'
+									-		var replaceUrl = url_key.replace(eval(tmp), replaceText)
+									-		var ahref = a_url_public+replaceUrl
+									- 	}else{
+									-		var ahref = a_url_public+url_key+'&'+type.name+'='+cid.id
+									- 	}
+									- }else{
+									-	var ahref = a_url_public+'&'+type.name+'='+cid.id
+									- }
+									- if(url_key.indexOf(cid.id) > -1)
+										a.On(href=ahref) #{cid.attributes.zh_cn}
+									- else
+										a(href=ahref) #{cid.attributes.zh_cn}									
 
 	.search_word_tip.wrap.mt10
 		i.icon-search.mr10.ml10
@@ -49,10 +50,10 @@ block content
 		| 的商品
 	.wrap.iproduct_list
 		.category_list
-		.sub_product_frame_row4
+		.sub-product-frame-row4
 			if products && products.length > 0
 				each item in products
-					.sub_page_product(id=item.id)
+					.sub-page-product(id=item.id)
 						include ../themplate/product.jade
 			else
 				.tip-text-prompt.fb.pl20.pt15.pb15.mt15.base-color-dark
@@ -62,5 +63,4 @@ block content
 		.page.mt15.mb30
 			- url_public = url_pathname+'?q='+keyword+url_key+'&'
 			include ../themplate/page.jade
-	.bg_fixed
 	script(src="/js/shopcart.js")

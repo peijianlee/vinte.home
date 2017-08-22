@@ -1,0 +1,77 @@
+extends ../layout_index
+block append head
+	link(href="/css/product.css",rel="stylesheet")
+block content
+	.store-menu
+		.wrap
+			a.index-button(href="/store")
+				i.icon-menu
+				| 所有商品
+	//- .goodsSortBg(style="background-image:url(http://vinte.xin/banner/1499002324994.png)")
+
+	.wrap.pt10
+		.sort-side-menu.fl
+			if categories['scene'] && categories['scene'].length > 0
+				dl
+					dt 使用场景
+					each cat in categories['scene']
+						if cat.pid.length > 0
+							dd
+								- if( parseInt(now_product_attributes.indexOf(cat.id)) > -1 ){
+								-	var attrStanBtn = 'attrStanBtn'
+								- }else{
+								-	var attrStanBtn = ''
+								- }
+								a(class=attrStanBtn, href="/store?scene=#{cat.id}")
+									i.icon-angle-right.mr10
+									| #{cat.attributes.zh_cn}
+			if categories['sort'] && categories['sort'].length > 0
+				dl.mt10
+					dt 家具类型
+					each cat in categories['sort']
+						if cat.pid.length > 0
+							dd
+								a(href="/store?sort=#{cat.id}")
+									i.icon-angle-right.mr10
+									| #{cat.attributes.zh_cn}
+			if categories['material'] && categories['material'].length > 0
+				dl.mt10
+					dt 材质选择
+					each cat in categories['material']
+						if cat.pid.length > 0
+							dd
+								a(href="/store?material=#{cat.id}")
+									i.icon-angle-right.mr10
+									| #{cat.attributes.zh_cn}
+		.overflow-hidden.pb20
+			.now-select-sort.cd.ml10.mr10
+				a.first-button(href="/"): i.icon-home
+				span 已选择
+				a.select-button(href="/", css-tip='移除 " 客厅 " 属性') 客厅
+					i.icon-remove.ml5
+				a.select-button(href="/", css-tip='移除 " 餐桌 " 属性') 餐桌
+					i.icon-remove.ml5
+				a.select-button(href="/", css-tip='移除 " 水曲柳 " 属性') 水曲柳
+					i.icon-remove.ml5
+			//- .page.bg-gray.mb5.tr
+			//- 	- url_public = url_pathname+'?'
+			//- 	include ../themplate/page.jade
+			//- .nav.ml10.mr10
+			//- 	a(href="/news")
+			//- 		i.fs14.icon-home
+			//- 	a(href="/store") 商品首页
+			//- 	b 书房
+
+			if products && products.length > 0
+				div.sub-product-frame-row4
+					each item in products
+						.sub-page-product(id=item.id)
+							include ../themplate/product.jade
+			.page.mt20.mb10.ml10
+				- if( now_product_attributes ){
+				-	url_public = url_pathname+'?'+now_product_attributes+'&'
+				- } else {
+				-	url_public = url_pathname+'?'
+				- }
+				include ../themplate/page-new.jade
+	script(src="/js/shopcart.js")

@@ -3,77 +3,16 @@ html
 	head
 		meta(charset="utf-8")
 		meta(name="robots" content="nofollow")
+		link(href="/favicon.ico", type="image/x-icon", rel="shortcut icon")
+		link(href="/css/error.css",rel="stylesheet")
 		title #{message}
-		style.
-			body{font-family:arial;}
-			h1,h2{text-align:center;color:#222;}
-			h1{font-size:72px;}
-			h2{font-size:42px;}
-			p{
-				margin:0 15%;padding:1.5%;
-				line-height:30px;
-				font-family:times new roman;
-			}
-			.preFrame{
-				line-height:30px;font-size:16px;
-				border-radius:3px;margin:0 15%;
-				padding:10px;
-			}
-			.preFrame div{background-color:#f2f2f2;padding:1.5% 2.5%;}
-			.preFrame pre{
-				border-radius:3px;margin:0;
-				text-shadow:1px 1px white;
-				font-family:times new roman;
-				background-image:-moz-repeating-linear-gradient(center top , #f2f2f2, #f2f2f2 29px, #81cbbc 30px);
-			}
-			.textShadow{
-				text-shadow:
-				5px 5px 0 rgba(216, 65, 40, 0.5),
-				-5px -5px 0 rgba(37, 166, 164, 0.5)
-			}
-
-			.angled{
-				background-image:   -webkit-linear-gradient(45deg,
-									rgb(255,255,255) 12.5%,transparent 12.5%,
-									rgb(216,65,40) 12.5%,rgb(216,65,40) 25%,transparent 25%,
-									rgb(255,255,255) 25%,rgb(255,255,255) 37.5%,transparent 37.5%,
-									rgb(37,166,164) 37.5%,rgb(37,166,164) 50%,transparent 50%,
-									rgb(255,255,255) 50%,rgb(255,255,255) 62.5%,transparent 62.5%,
-									rgb(216,65,40) 62.5%,rgb(216,65,40) 75%,transparent 75%,
-									rgb(255,255,255) 75%,rgb(255,255,255) 87.5%,transparent 87.5%,
-									rgb(37,166,164) 87.5%,rgb(37,166,164) 100%,transparent);
-				background-image:   -moz-linear-gradient(45deg,
-									rgb(255,255,255) 12.5%,transparent 12.5%,
-									rgb(216,65,40) 12.5%,rgb(216,65,40) 25%,transparent 25%,
-									rgb(255,255,255) 25%,rgb(255,255,255) 37.5%,transparent 37.5%,
-									rgb(37,166,164) 37.5%,rgb(37,166,164) 50%,transparent 50%,
-									rgb(255,255,255) 50%,rgb(255,255,255) 62.5%,transparent 62.5%,
-									rgb(216,65,40) 62.5%,rgb(216,65,40) 75%,transparent 75%,
-									rgb(255,255,255) 75%,rgb(255,255,255) 87.5%,transparent 87.5%,
-									rgb(37,166,164) 87.5%,rgb(37,166,164) 100%,transparent);
-				background-image:   -o-linear-gradient(45deg,
-									rgb(255,255,255) 12.5%,transparent 12.5%,
-									rgb(216,65,40) 12.5%,rgb(216,65,40) 25%,transparent 25%,
-									rgb(255,255,255) 25%,rgb(255,255,255) 37.5%,transparent 37.5%,
-									rgb(37,166,164) 37.5%,rgb(37,166,164) 50%,transparent 50%,
-									rgb(255,255,255) 50%,rgb(255,255,255) 62.5%,transparent 62.5%,
-									rgb(216,65,40) 62.5%,rgb(216,65,40) 75%,transparent 75%,
-									rgb(255,255,255) 75%,rgb(255,255,255) 87.5%,transparent 87.5%,
-									rgb(37,166,164) 87.5%,rgb(37,166,164) 100%,transparent);
-				background-image:   linear-gradient(45deg,
-									rgb(255,255,255) 12.5%,transparent 12.5%,
-									rgb(216,65,40) 12.5%,rgb(216,65,40) 25%,transparent 25%,
-									rgb(255,255,255) 25%,rgb(255,255,255) 37.5%,transparent 37.5%,
-									rgb(37,166,164) 37.5%,rgb(37,166,164) 50%,transparent 50%,
-									rgb(255,255,255) 50%,rgb(255,255,255) 62.5%,transparent 62.5%,
-									rgb(216,65,40) 62.5%,rgb(216,65,40) 75%,transparent 75%,
-									rgb(255,255,255) 75%,rgb(255,255,255) 87.5%,transparent 87.5%,
-									rgb(37,166,164) 87.5%,rgb(37,166,164) 100%,transparent);
-				background-size:40px 40px;
-			}
 	body
-		h1.textShadow #{error.status}
-		p #{message}
-		.preFrame.angled
-			div
-				pre #{error.stack}
+		.error-frame
+			div( style="margin-top:1%;text-align:center;" )
+				a.logo(href="/", title="返回首页")
+					img(src="/images/logo-index.png", alt="")
+			h2.error-info #{error.status}
+			p #{message}
+			.pre-frame.angled
+				div
+					pre #{error.stack}

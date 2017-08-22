@@ -4,111 +4,23 @@ html
 		meta(charset="utf-8")
 		title #{message}
 		meta(name="robots" content="nofollow")
-		link(rel="stylesheet",href="/css/buttons.css")
-		link(rel="stylesheet",href="/css/font-awesome.css")
-		link(href="/css/base.css",rel="stylesheet")
-		style.
-			html,body{width:100%;height:100%;overflow:hidden;}
-			body{
-				background-color:#d0d0d0;}
-			.bgBox{
-				position:fixed;
-				top:0;left:0;
-				height:40%;width:100%;
-				border-bottom:1px solid #ddd;
-				background-color:#25a6a4;
-				background-image:linear-gradient(-45deg,
-					rgba(255,255,255,0.5) 25%,transparent 25%,
-					#25a6a4 25%,#25a6a4 50%,transparent 50%,
-					rgba(255,255,255,0.5) 50%,rgba(255,255,255,0.5) 75%,transparent 75%,
-					#25a6a4 75%,#25a6a4 100%,transparent);
-				background-image:-webkit-linear-gradient(-45deg,
-					rgba(255,255,255,0.5) 25%,transparent 25%,
-					#25a6a4 25%,#25a6a4 50%,transparent 50%,
-					rgba(255,255,255,0.5) 50%,rgba(255,255,255,0.5) 75%,transparent 75%,
-					#25a6a4 75%,#25a6a4 100%,transparent);
-				background-size:4px 4px;
-			}
-			.wrapBox{
-				z-index:1;position:relative;
-				padding-top:10%;
-				height:70%;
-				max-width:500px;
-				margin:0 auto;
-				text-align:center;
-			}
-			.wrapBox h1{
-				color:white;
-				text-shadow:inset 1px 1px #068482;
-			}
-			.infoBoxStand,
-			.infoBox{
-				padding:30px 0;
-				width:100%;
-				position:absolute;
-			}
-			.infoBox{
-				background-color:#e5e3e4;
-				box-shadow:inset 1px -1px rgba(255,255,255,0.5);
-				z-index:2;
-			}
-			.infoBoxStand:after{	
-			    filter: url(blur.svg#blur); /* FireFox, Chrome, Opera */
-			    -webkit-filter: blur(10px); /* Chrome, Opera */
-			       -moz-filter: blur(10px);
-			        -ms-filter: blur(10px);    
-			            filter: blur(10px);
-			    filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=10, MakeShadow=false); /* IE6~IE9 */
-			}
-			.infoBoxStand:after,
-			.infoBoxStand:before{
-				content:"";
-				position:absolute;
-				left:50%
-			}
-			.infoBoxStand:after{
-				top:20%;;margin-left:-300px;
-				width:0;height:0;
-				border-width:0 300px 300px 300px;
-				border-color:rgba(0,0,0,0.4) transparent;
-				border-style:solid;
-			}
-			.infoBoxStand:before{
-				top:0;margin-left:-250px;
-				width:500px;height:200px;border-radius:50%;
-				box-shadow:0 0 150px rgba(255,255,255,0.5);
+		link(href="/favicon.ico", type="image/x-icon", rel="shortcut icon")
+		link(href="/css/error.css",rel="stylesheet")
 
-			}
-
-			.info i{
-				color:#25a6a4;
-				font-size:5em;
-			}
-			.info p{
-				margin-top:15px;
-				font-size:14px;font-weight:bold;
-			}
-			.infoBtn{
-				border-top:1px #aaa dashed;
-				margin-top:30px;
-				padding-top:30px;
-			}
-
-	body
-		.bgBox
-		.wrapBox.textUnSelect
-			h1.pb10 VINTEHOME
-			.infoBoxStand
+	body.bg-gray
+		.bg-box
+		.wrap-box
+			a.logo(href="/", title="返回首页")
+				img(src="/images/logo-index.png", alt="")
+			.info-box-stand
 			.infoBox
 				.info
-					i.icon-exclamation-sign
+					i ！
 					p #{message}
 				.infoBtn
-					a.button.button-primary.button-longshadow-right.ml10.mr10(href="/")
-						i.icon-reply.mr10
-						| 返回首页
-					a.button.button-action.button-longshadow-right.ml10.mr10(href="/store")
-						i.icon-reorder.mr10
-						| 查看商品
+					a.button.primary(href="/")
+						span 返回首页
+					a.button.action(href="/store")
+						span 查看商品
 
 

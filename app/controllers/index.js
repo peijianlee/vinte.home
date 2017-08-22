@@ -9,24 +9,62 @@ var User = require('../models/user')
 
 //index page
 exports.index = function(req,res){
+	var user = req.session.user
+	var cart = req.session.cart
+	var id=req.params.id
+
 	Category
-		.find({}).sort({_id: 1})
-		.populate({
-			path: 'movies',
-			options: {limit:6}
-		})
+		.find({type:'product'})
+		.sort({_id: 1})
 		.exec(function(err, categories){
 			if(err)console.log(err)
 
-			Banner.fetch(function(err,banners){
-				if(err)console.log(err)
-				res.render('index',{
-					title:'nodeJS 首页',
-					categories: categories,
-					banners: banners
+			var materialCategories = [],
+				sceneCategories = [],
+				sortCategories = []
+			for(i in categories){
+				// console.log(categories[i].name)
+				var catName = categories[i].name
+				if( catName.toString() === 'material' ){
+					materialCategories.push(categories[i])
+				}else if( catName.toString() === 'scene' ){
+					sceneCategories.push(categories[i])
+				}else {
+					sortCategories.push(categories[i])
+				}
+			}
+			Product
+				.find({})
+				.limit(8)
+				.sort({'pv': -1})
+				.populate('color material scene sort','attributes')
+				.exec(function(err, recommendProducts){
+					if(err)console.log(err)
+					res.render('index',{
+						materialCategories: materialCategories,
+						sceneCategories: sceneCategories,
+						sortCategories: sortCategories,
+						recommendProducts: recommendProducts,
+						cart_goods: CartGoods(user, cart),
+						cart_goods_num: CartGoods(user, cart).length
+					})
 				})
-			})
 		})
+}
+// 查找购物车商品数量
+function CartGoods(user, cart){
+	var cartGoods = []
+	if(user){
+		cartGoods = user.shopcartgoods
+	}else{
+		if(cart && cart.length > 0){
+			cartGoodsNum = cart.length
+			for(var i=0; i < cartGoodsNum; i++){
+				cartGoods.push(cart[i].pid)
+			}
+		}
+	}
+	return cartGoods
 }
 
 //search page
