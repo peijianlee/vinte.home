@@ -1,32 +1,28 @@
 if !header_hide
-	.header-top
+	.header-top.cd
 		.wrap
-			if moment().format('a') === 'am'
-				| 早上好！
-			else
-				| 下午好！
+			span
+				if moment().format('a') === 'am'
+					| 早上好！
+				else
+					| 下午好！
 			if !user
-				| 欢迎来到 vinte home
-				span.ml10.mr10.cGray |
+				span 欢迎来到 vinte home
 				a(href="/signup")
 					i.icon-pencil.mr5
 					| 注册
-				span.ml10.mr10.cGray |
 				a(href="/signin")
 					i.icon-user.mr5
 					| 登录
 			else
 				span #{user.name}
-				span.ml10.mr10.cGray |
 				a(href="/user/#{user.name}")
 					i.icon-user.mr5
 					| 个人中心
 				if user.role > 50
-					span.ml10.mr10.cGray |
 					a(href="/admin/index")
 						i.icon-cog.mr5
 						| 后台管理
-				span.ml10.mr10.cGray |
 				a.navbar-link.mr5(href="/logout")
 					i.icon-signout.mr5
 					| 退出登录

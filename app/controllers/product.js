@@ -10,92 +10,91 @@ var moment = require('moment')
 
 
 // 所有商品
-exports.store = function(req,res){
-	var user = req.session.user,
-		cart = req.session.cart,
-		page = req.query.p || 1,
-		count = 6,
-		start = (page-1) * count,
-		url = req._parsedUrl.pathname,
-		p = req.query.p
+// exports.store = function(req,res){
+// 	var user = req.session.user,
+// 		cart = req.session.cart,
+// 		page = req.query.p || 1,
+// 		count = 6,
+// 		start = (page-1) * count,
+// 		url = req._parsedUrl.pathname,
+// 		p = req.query.p
 
-	var product_attributes = {
-		'scene': req.query.scene,
-		'sort': req.query.sort,
-		'material': req.query.material
-	}
+// 	var product_attributes = {
+// 		'scene': req.query.scene,
+// 		'sort': req.query.sort,
+// 		'material': req.query.material
+// 	}
 
-	var now_product_attributes = ''
-	for(item in product_attributes){
-		if(!product_attributes[item]){
-			delete product_attributes[item]
-		}else{
-			now_product_attributes += '&'+item+'='+ product_attributes[item]
-		}
-	}
-	// console.log(now_product_attributes.substr(1))
-	// console.log(now_product_attributes)
-	// console.log(now_product_attributes)
-	// console.log(now_product_attributes)
-	// console.log(now_product_attributes)
-	// console.log(url)
+// 	var now_product_attributes = ''
+// 	for(item in product_attributes){
+// 		if(!product_attributes[item]){
+// 			delete product_attributes[item]
+// 		}else{
+// 			now_product_attributes += '&'+item+'='+ product_attributes[item]
+// 		}
+// 	}
+// 	// console.log(now_product_attributes.substr(1))
+// 	// console.log(now_product_attributes)
+// 	// console.log(now_product_attributes)
+// 	// console.log(now_product_attributes)
+// 	// console.log(now_product_attributes)
+// 	// console.log(url)
 
-	// var findObj = {'attributes.zh_cn': material}
+// 	// var findObj = {'attributes.zh_cn': material}
 
-	Category.find({type:'product'},function(err, categories){
-		if(err)console.log(err)
+// 	Category.find({type:'product'},function(err, categories){
+// 		if(err)console.log(err)
 
-		var categories_arry = {
-			scene: [],
-			sort: [],
-			material: []
-		}
-		for( item in categories ){
-			var cat_name = categories[item].name
-			if( cat_name === 'scene' ){
-				categories_arry['scene'].push(categories[item])
-			}else if( cat_name === 'sort' ){
-				categories_arry['sort'].push(categories[item])
-			}else if( cat_name === 'material' ){
-				categories_arry['material'].push(categories[item])
-			}
-		}
-		// console.log(categories_arry)
+// 		var categories_arry = {
+// 			scene: [],
+// 			sort: [],
+// 			material: []
+// 		}
+// 		for( item in categories ){
+// 			var cat_name = categories[item].name
+// 			if( cat_name === 'scene' ){
+// 				categories_arry['scene'].push(categories[item])
+// 			}else if( cat_name === 'sort' ){
+// 				categories_arry['sort'].push(categories[item])
+// 			}else if( cat_name === 'material' ){
+// 				categories_arry['material'].push(categories[item])
+// 			}
+// 		}
+// 		// console.log(categories_arry)
 
 
-		Product.find(product_attributes).count().exec(function(err, productsCount){
-			Product
-				.find(product_attributes)
-				.sort({_id: -1})
-				.skip( start > 0? start : 0 )
-				.limit( count )
-				.populate('scene material color', 'attributes')
-				.exec(function(err, products){
-					if(err)console.log(err)
-					var pageNum = page ++
+// 		Product.find(product_attributes).count().exec(function(err, productsCount){
+// 			Product
+// 				.find(product_attributes)
+// 				.sort({_id: -1})
+// 				.skip( start > 0? start : 0 )
+// 				.limit( count )
+// 				.populate('scene material color', 'attributes')
+// 				.exec(function(err, products){
+// 					if(err)console.log(err)
+// 					var pageNum = page ++
 
-					res.render('store',{
-						title:'所有商品',
-						products: products,
-						categories: categories_arry,
-						now_product_attributes: now_product_attributes.substr(1),
-						currentPage: pageNum,
-						totalPage: Math.ceil(productsCount / count),
-						cart_goods: CartGoods(user, cart),
-						cart_goods_num: CartGoods(user, cart).length,
-						url_pathname: url
-					})
-				})
-		})
-	})
-}
+// 					res.render('store',{
+// 						title:'所有商品',
+// 						products: products,
+// 						categories: categories_arry,
+// 						now_product_attributes: now_product_attributes.substr(1),
+// 						currentPage: pageNum,
+// 						totalPage: Math.ceil(productsCount / count),
+// 						cart_goods: CartGoods(user, cart),
+// 						cart_goods_num: CartGoods(user, cart).length,
+// 						url_pathname: url
+// 					})
+// 				})
+// 		})
+// 	})
+// }
 
 
 // 商品属性
 exports.sort = function(req,res){
 	var sort=req.params.sort,
 		material=req.params.material,
-		searchObj = req.session.searchObj,
 		user = req.session.user,
 		cart = req.session.cart
 
@@ -219,6 +218,57 @@ exports.detail = function(req,res){
 							})
 						})
 				})
+		})
+}
+
+
+//search page
+exports.search = function(req,res){
+	// .query找到路由上的值
+	var user = req.session.user,
+		page = parseInt(req.query.p,8) || 0 ,
+		count = 8,
+		index = page*count,
+		cart = req.session.cart,
+		q = req.query.q,
+		product_attributes = req.session.product_attributes,
+		product_attributes_url = req.session.product_attributes_url
+
+		// 是否是搜索页面
+		if( typeof(q) === 'string' ){
+			product_attributes.title = new RegExp( q+'.*','i' )
+			var tp_page = 'results'
+		} else {
+			var tp_page = 'store'
+		}
+
+	Product
+		.find(product_attributes)
+		.populate({
+			path: 'sort color material scene',
+			select: 'name attributes',
+			model: 'Category'
+		})
+		.exec(function(err, products){
+			if(err)console.log(err)
+
+			var results = products.slice(index, index + count)
+
+			res.render( tp_page ,{
+				title:'搜索结果页',
+				keyword: q,
+				products_total: products.length,
+				currentPage: (page + 1),
+				totalPage: Math.ceil(products.length / count),
+				products: results,
+				allCategoryType: req.session.allCategoryType,
+				href: req._parsedUrl.search,
+				url_pathname: req._parsedUrl.pathname,
+				url_key: product_attributes_url,
+				cart_goods: CartGoods(user, cart),
+				cart_goods_num: CartGoods(user, cart).length
+			})
+
 		})
 }
 

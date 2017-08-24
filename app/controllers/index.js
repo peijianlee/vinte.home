@@ -9,9 +9,9 @@ var User = require('../models/user')
 
 //index page
 exports.index = function(req,res){
-	var user = req.session.user
-	var cart = req.session.cart
-	var id=req.params.id
+	var user = req.session.user,
+		cart = req.session.cart,
+		id=req.params.id
 
 	Category
 		.find({type:'product'})
@@ -70,27 +70,12 @@ function CartGoods(user, cart){
 //search page
 exports.search = function(req,res){
 	// .query找到路由上的值
-	var catId = req.query.cat
-	var page = parseInt(req.query.p,8) || 0 
-	var count = 8
-	var index = page*count
-	var user = req.session.user
-	var cart = req.session.cart
-
-
-	if(user){
-		var cartGoods = user.shopcartgoods
-		var cartGoodsNum = user.shopcartgoods.length
-	}else{
-		var cartGoods = []
-		var cartGoodsNum = 0
-		if(cart && cart.length > 0){
-			var cartGoodsNum = cart.length
-			for(var i=0; i < cartGoodsNum; i++){
-				cartGoods.push(cart[i].pid)
-			}
-		}
-	}
+	var user = req.session.user,
+		catId = req.query.cat,
+		page = parseInt(req.query.p,8) || 0 ,
+		count = 2,
+		index = page*count,
+		cart = req.session.cart
 
 	if(catId){
 		// 在分类上找到路由上对应的值
@@ -118,50 +103,9 @@ exports.search = function(req,res){
 					movies: results
 				})
 			})
-		}else{
-			var _keyword = req.query.q,
-				_searchObj = req.session.searchObj,
-				_url_key = '',
-				_sort = ['sort', 'scene', 'material', 'color']
-			// 获取页面的当前属性
-			for(var i=0; i < _sort.length; i++){
-				var attr_key = _sort[i]
-				var attr_value = _searchObj[''+attr_key+'']
-				if(attr_value){
-					_url_key += '&'+attr_key+'='+ attr_value
-				}
-			}
-
-
-			Product
-				.find(_searchObj)
-				.populate({
-					path: 'sort color material scene',
-					select: 'name attributes',
-					model: 'Category'
-				})
-				.exec(function(err, products){
-					if(err)console.log(err)
-
-					var results = products.slice(index, index + count)
-
-					res.render('results',{
-						title:'搜索结果页',
-						keyword: _keyword,
-						products_total: products.length,
-						currentPage: (page + 1),
-						totalPage: Math.ceil(products.length / count),
-						products: results,
-						allCategoryType: req.session.allCategoryType,
-						href: req._parsedUrl.search,
-						url_pathname: req._parsedUrl.pathname,
-						url_key: _url_key,
-						cart_goods: cartGoods,
-						cart_goods_num: cartGoodsNum
-					})
-
-				})
-		}
+	}else{
+		// 移至 product.js
+	}
 }
 
 

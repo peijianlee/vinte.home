@@ -2,52 +2,56 @@ extends ../layout_index
 block append head
 	link(href="/css/product.css",rel="stylesheet")
 block content
-	if allCategoryType && allCategoryType.length > 0
-		.sarch_nav
-			each type in allCategoryType
-				if type.cid.length > 0
-					.search-nav-wrap
-						dl.search-nav-type.wrap
-							- var typeName = type.name=='sort'?'类型' : type.name=='scene'?'场景' : type.name=='material'?'材质': '颜色'
-							dt #{typeName} :
-							dd
-								- var all_url_public = '?q='+keyword
-								- var allhref = all_url_public
-								- if(url_key){
-								- 	if(url_key.indexOf(type.name) > -1){
-								-		var tmp = '/([&])('+type.name+'=)([^&]*)/gi'
-								-		allhref += url_key.replace(eval(tmp), '')
-								- 	}else{
-								-		allhref += url_key
-								- 	}
-								- }
-								a(href=allhref) 全部
-								each cid in type.cid
-									- var a_url_public = '?q='+keyword
-									- if(url_key){
-									- 	if(url_key.indexOf(type.name) > -1){
-									-		var replaceText = type.name+'='+cid.id
-									-		var tmp = '/('+type.name+'=)([^&]*)/gi'
-									-		var replaceUrl = url_key.replace(eval(tmp), replaceText)
-									-		var ahref = a_url_public+replaceUrl
-									- 	}else{
-									-		var ahref = a_url_public+url_key+'&'+type.name+'='+cid.id
-									- 	}
-									- }else{
-									-	var ahref = a_url_public+'&'+type.name+'='+cid.id
-									- }
-									- if(url_key.indexOf(cid.id) > -1)
-										a.On(href=ahref) #{cid.attributes.zh_cn}
-									- else
-										a(href=ahref) #{cid.attributes.zh_cn}									
+	.search-word-tip-wrap.cd
+		.search-word-tip.wrap
+			span.first-span 商品搜索
+			span.search-icon: i.icon-search
+			span.second-span
+				| 关键字：
+				b.base-color-dark " #{keyword} "
+			span.second-span
+				| 搜索到
+				b.base-color-dark  #{products_total} 
+				| 件商品
+	include ../themplate/fiter_bar.jade
+	//- if allCategoryType && allCategoryType.length > 0
+	//- 	.sarch_nav
+	//- 		each type in allCategoryType
+	//- 			if type.cid.length > 0
+	//- 				.search-nav-wrap
+	//- 					dl.search-nav-type.wrap
+	//- 						- var typeName = type.name=='sort'?'类型' : type.name=='scene'?'场景' : type.name=='material'?'材质': '颜色'
+	//- 						dt.cd #{typeName} :
+	//- 						dd
+	//- 							- var all_href = '?q='+keyword
+	//- 							- if(url_key){
+	//- 							- 	if(url_key.indexOf(type.name) > -1){
+	//- 							-		var tmp = '/([&])(' + type.name + '=)([^&]*)/gi'
+	//- 							-		all_href += url_key.replace(eval(tmp), '')
+	//- 							- 	}else{
+	//- 							-		all_href += url_key
+	//- 							- 	}
+	//- 							- }
+	//- 							a( href=all_href ) 全部
+	//- 							each cid in type.cid
+	//- 								- var a_url_public = '?q='+keyword
+	//- 								- if( url_key ){
+	//- 								- 	if( url_key.indexOf(type.name) > -1 ){
+	//- 								-		var replaceText = type.name + '=' + cid.id
+	//- 								-		var tmp = '/(' + type.name + '=)([^&]*)/gi'
+	//- 								-		var replaceUrl = url_key.replace(eval(tmp), replaceText)
+	//- 								-		var ahref = a_url_public + replaceUrl
+	//- 								- 	} else {
+	//- 								-		var ahref = a_url_public + url_key + '&' + type.name + '=' + cid.id
+	//- 								- 	}
+	//- 								- }else{
+	//- 								-	var ahref = a_url_public + '&' + type.name + '=' + cid.id
+	//- 								- }
+	//- 								- if(url_key.indexOf(cid.id) > -1)
+	//- 									a.cd.On(href=ahref) #{cid.attributes.zh_cn}
+	//- 								- else
+	//- 									a(href=ahref) #{cid.attributes.zh_cn}									
 
-	.search_word_tip.wrap.mt10
-		i.icon-search.mr10.ml10
-		| 找到了 
-		b.cRed #{products_total} 
-		| 条关键词为 
-		b.cRed " #{keyword} " 
-		| 的商品
 	.wrap.iproduct_list
 		.category_list
 		.sub-product-frame-row4

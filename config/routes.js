@@ -11,6 +11,7 @@ var Category = require('../app/controllers/category')
 var Banner = require('../app/controllers/banner')
 var Shopcart = require('../app/controllers/shopcart')
 var Order = require('../app/controllers/order')
+var Global = require('../app/controllers/global')
 var Api = require('../app/controllers/api')
 var ueditor = require('ueditor')
 
@@ -28,7 +29,7 @@ module.exports = function(app){
 	//Index
 	app.get('/', Index.index)
 	// results
-	app.get('/results', Category.fetchAllCategoryType, Category.categoryTypeHref, Index.search)
+	app.get('/results', Global.fetchAllCategoryType, Global.categoryTypeHref, Product.search)
 	// 错误页
 	
 	app.use(function (err, req, res, next) {
@@ -43,9 +44,10 @@ module.exports = function(app){
 	app.post('/message', Index.message)
 
 	// product
-	app.get('/store', Product.store)
+	// app.get('/store', Product.store)
+	app.get('/store', Global.fetchAllCategoryType, Global.categoryTypeHref, Product.search)
 	app.get('/store/id/:id', Product.detail)
-	app.get('/store/sort/:sort', Category.fetchAllCategoryType, Category.categoryTypeHref, Product.sort)
+	app.get('/store/sort/:sort', Global.fetchAllCategoryType, Global.categoryTypeHref, Product.sort)
 	app.get('/store/material/:material', Product.sort)
 	app.get('/admin/product/list', User.signinRequired, User.adminRequired, Product.list)
 	app.get('/admin/product/category/list', User.signinRequired, User.adminRequired, Category.list)

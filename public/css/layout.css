@@ -4,19 +4,31 @@
 /* layout header */
 .wrap{max-width:980px;margin-left:auto;margin-right:auto;}
 .header-top{
-	height:26px;
-	line-height:26px;color:#555;
+	height:30px;
+	line-height:30px;color:#555;
 	background-color:#f7f7f7;
-	font-size:12px;
+	font-size:0;
 	text-align:right;
+	border-bottom:1px solid #eaeaea;
 }
-.header-top a{color:#555;}
+.header-top a,
+.header-top span{
+	font-size:12px;
+	color:#555;
+	display:inline-block;
+	border-left:1px solid #eaeaea;
+	border-right:1px solid #eaeaea;
+	padding:0 12px;
+	margin-right:-1px;
+	box-shadow:inset 1px -1px white;
+}
 .header-top a:hover{
-	color:black;
-	border-bottom:dashed 1px #999;
+	background-color:#e9e9e9;
+	box-shadow:none;
 }
 .header{
-	height:60px;
+	padding-top:10px;
+	height:70px;
 }
 .header .logo{
 	float:left;
@@ -69,7 +81,7 @@ a.head-btn-style{
 	border-radius:3px;
 	border:1px solid #ccc;
 	box-shadow:inset 1px 1px white;
-	margin-top:18px;
+	margin-top:15px;
 	position:relative;
 }
 a.head-btn-style{
@@ -105,7 +117,7 @@ span.head-btn-style a{
 }
 .head-search{
 	background-color:white;
-	margin-top:18px;
+	margin-top:15px;
 	border-radius:3px;
 	border:1px solid #ccc;
 }
@@ -124,14 +136,34 @@ span.head-btn-style a{
 	padding:0 10px;
 	border-left:1px solid #ddd;
 }
-.search_word_tip{
-	border:1px #ddd solid;
-	background-color:white;
-	border-radius:2px;
+.search-word-tip-wrap{
+	background-color:#cbe9e9;
 	font-size:14px;
-	height:32px;line-height:32px;
+	height:42px;line-height:42px;
 }
-
+.search-word-tip{
+	background-color:rgba(255,255,255,.3);
+	height:42px;
+}
+.search-word-tip span{
+	float:left;
+	border-right:1px solid white;
+}
+.search-word-tip .first-span{
+	background-color:#288;
+	color:white;
+	text-align:center;
+	font-weight:bold;
+	width:100px;
+}
+.search-word-tip .second-span{
+	padding:0 25px;
+}
+.search-icon{
+	background-color:rgba(0,0,0,.05);
+	width:60px;text-align:center;
+	padding:0;
+}
 
 /*-----脚部-----*/
 .footer{

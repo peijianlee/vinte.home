@@ -9,17 +9,19 @@
 .store-menu .index-button{
 	background-color:#288;
 	color:white;
-	width:180px;
+	width:150px;
 	text-align:center;
 	font-weight:bold;
 	float:left;
 }
-/*.sub-button a{
-	display:block;
+.sub-button{
+	float:left;
 	padding-left:35px;
 	padding-right:35px;
+	border-left:1px solid white;
+	border-right:1px solid #c5e3e3;
 }
-.sub-button a:hover{background-color:#c5e3e3;}*/
+.sub-button:hover{background-color:#c5e3e3;}
 
 .sort-side-menu{
 	width:180px;
@@ -46,7 +48,7 @@
 .sort-side-menu a.attrStanBtn{background-color:#d8eeee}
 .sort-side-menu a:hover{background-color:#d8eeee}
 
-
+/*属性选中状态 未使用*/
 .now-select-sort{
 	height:36px;line-height:36px;
 	background-color:#f6f6f6;
@@ -105,6 +107,10 @@
 .now-select-sort .select-button:hover:after{
 	bottom:-35px;
 }
+/*--end--*/
+
+
+
 .iproduct_list{
 	margin-top:10px;
 	padding-left:2px;
@@ -357,19 +363,19 @@ span.iproduct_add_cart_btn.Stand{
 
 /*产品搜索*/
 .sarch_nav{
-	margin-top:5px;
-	border-top:3px solid #5aa;
+	/*border-top:1px solid white;*/
 }
 
 .search-nav-wrap{
+	border-top:1px solid white;
+	margin-bottom:-1px;
 	background-color:#e1f2f2;
-	border-bottom:1px solid #c5e5e5;
 }
 .search-nav-type{
 	font-size:14px;line-height:36px;
 }
 .search-nav-type dt{
-	width:80px;
+	width:100px;
 	float:left;text-align:center;
 	background-color:#25a6a4;
 	color:white;
@@ -378,23 +384,35 @@ span.iproduct_add_cart_btn.Stand{
 .search-nav-type dd{
 	font-size:12px;
 	margin-left:80px;
-	background-color:rgba(255,255,255,.8);
+	background-color:rgba(255,255,255,.5);
 }
 .search-nav-type dd a:first-of-type{
 	background-color:#e5e5e5;
 	color:#066;font-weight:bold;
+	width:60px;padding:0;
+	text-align:center;
 }
 .search-nav-type dd a{
 	display:inline-block;
 	background-color:#f5f5f5;
 	padding:0 16px;
 	border-left:1px solid white;
+	border-bottom:1px solid white;
 }
 .search-nav-type dd a:hover{color:#25a6a4;}
 .search-nav-type dd a.On{
 	color:#25a6a4;font-weight:bold;
 	text-shadow:1px 1px white;
 	background-color:#eee;
+	position:relative;
+}
+.search-nav-type dd a.On:before{
+	content: "";
+	position:absolute;
+	top:0;right:0;
+	border-style:solid;
+	border-color:#25a6a4 transparent;
+	border-width:10px 0 0 10px;
 }
 
 /*产品详情*/
