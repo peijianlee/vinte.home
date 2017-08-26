@@ -267,18 +267,18 @@
 .i-material-list a:nth-child(3n){background-color:rgba(51,153,153,.82);}
 
 /* index type selection */
-.i-scene-list{
+.i-sort-list{
 	text-align:center;
 	font-size:0;
 }
-.i-scene-link{
+.i-sort-link{
 	width:21%;
 	margin-right:1%;
 	margin-top:1%;
 	display:inline-block;
 	position:relative;z-index:2;
 }
-.i-scene{
+.i-sort{
 	padding:10px 1.5%;
 	display:block;
 	font-size:16px;
@@ -289,30 +289,30 @@
 	box-shadow:inset 1px 1px white;
 	overflow:hidden;
 }
-.i-scene,
-.i-scene *{
+.i-sort,
+.i-sort *{
 	-webkit-transition:all 0.3s;
 	-moz-transition:all 0.3s;
 	-o-transition:all 0.3s;
 	-ms-transition:all 0.3s;
 	transition:all 0.3s;
 }
-.i-scene-title-cn{margin-left:4px;}
-.i-scene-title-cn span{
+.i-sort-title-cn{margin-left:4px;}
+.i-sort-title-cn span{
 	background-color:white;
 	display:inline-block;
 	width:22px;height:22px;line-height:22px;
 	margin-left:3px;margin-bottom:2px;
 	border-radius:50%;
 }
-.i-scene-line{
+.i-sort-line{
 	margin:5px auto 1px;
 	height:2px;width:22%;
 	overflow:hidden;
 	border-radius:1px;
 	background-color:rgba(0,0,0,.3);
 }
-.i-scene span{
+.i-sort span{
 	font-size:.8em;
 	text-align:center;
 	display:inline-block;
@@ -322,38 +322,38 @@
 	font-size:64px;
 	left:-80px;bottom:-100px;
 }
-.i-scene:nth-child(4n),
-.i-scene:last-child{
+.i-sort:nth-child(4n),
+.i-sort:last-child{
 	margin-right:0;
 }
-div.i-scene-link:hover{z-index:1;}
-div.i-scene-link:hover .i-scene{
+div.i-sort-link:hover{z-index:1;}
+div.i-sort-link:hover .i-sort{
 	background-color:#bfdcdc;
 	color:#066;
 	border-color:#066;
 	box-shadow:inset 1px 1px white,30px 30px #066;
 	/*position:relative;*/
 }
-div.i-scene-link:hover .i-scene .i-scene-line{
+div.i-sort-link:hover .i-sort .i-sort-line{
 	width:35%;background-color:#066;
 }
-div.i-scene-link:hover .i-scene .i-scene-title-cn{
+div.i-sort-link:hover .i-sort .i-sort-title-cn{
 	transform: translateX(-25px);
 	-webkit-transform: translateX(-25px);
 }
-div.i-scene-link:hover .i-scene .i-scene-title-cn span{
+div.i-sort-link:hover .i-sort .i-sort-title-cn span{
 	background-color:#066;color:white;
 	margin-left:10px;
 }
-div.i-scene-link:hover .i-scene .i-scene-title-en{
+div.i-sort-link:hover .i-sort .i-sort-title-en{
 	transform: translateX(25px);
 	-webkit-transform: translateX(25px);
 }
-div.i-scene-link:hover .i-scene .icon-external-link{
+div.i-sort-link:hover .i-sort .icon-external-link{
 	left:5px;bottom:-25px;
 }
-div.i-scene-link:nth-child(4n):hover .i-scene,
-div.i-scene-link:last-child:hover .i-scene{
+div.i-sort-link:nth-child(4n):hover .i-sort,
+div.i-sort-link:last-child:hover .i-sort{
 	box-shadow:inset 1px 1px white,-30px 30px #066;
 }
 

@@ -136,34 +136,6 @@ span.head-btn-style a{
 	padding:0 10px;
 	border-left:1px solid #ddd;
 }
-.search-word-tip-wrap{
-	background-color:#cbe9e9;
-	font-size:14px;
-	height:42px;line-height:42px;
-}
-.search-word-tip{
-	background-color:rgba(255,255,255,.3);
-	height:42px;
-}
-.search-word-tip span{
-	float:left;
-	border-right:1px solid white;
-}
-.search-word-tip .first-span{
-	background-color:#288;
-	color:white;
-	text-align:center;
-	font-weight:bold;
-	width:100px;
-}
-.search-word-tip .second-span{
-	padding:0 25px;
-}
-.search-icon{
-	background-color:rgba(0,0,0,.05);
-	width:60px;text-align:center;
-	padding:0;
-}
 
 /*-----脚部-----*/
 .footer{

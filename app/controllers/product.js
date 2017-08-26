@@ -238,8 +238,10 @@ exports.search = function(req,res){
 		if( typeof(q) === 'string' ){
 			product_attributes.title = new RegExp( q+'.*','i' )
 			var tp_page = 'results'
+			var tp_title = '搜索结果页'
 		} else {
 			var tp_page = 'store'
+			var tp_title = JSON.stringify(req.query) === '{}'? '所有商品' : '家具类型 - 所有商品'
 		}
 
 	Product
@@ -255,15 +257,14 @@ exports.search = function(req,res){
 			var results = products.slice(index, index + count)
 
 			res.render( tp_page ,{
-				title:'搜索结果页',
+				title:tp_title,
 				keyword: q,
 				products_total: products.length,
 				currentPage: (page + 1),
 				totalPage: Math.ceil(products.length / count),
 				products: results,
 				allCategoryType: req.session.allCategoryType,
-				href: req._parsedUrl.search,
-				url_pathname: req._parsedUrl.pathname,
+				// url_pathname: req._parsedUrl.pathname,
 				url_key: product_attributes_url,
 				cart_goods: CartGoods(user, cart),
 				cart_goods_num: CartGoods(user, cart).length

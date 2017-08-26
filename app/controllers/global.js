@@ -4,32 +4,31 @@ var Category = require('../models/category')
 //fetch all category type
 exports.fetchAllCategoryType = function(req, res, next){
 	// var sort=req.params.sort
+	var url_pathname = req._parsedUrl.pathname
 	Category.find({type: 'product'}, function(err, categories){
-		req.session.allCategoryType = [
-			{name:'scene', cid:[]},
-			{name:'sort', cid:[]},
-			{name:'material', cid:[]},
-			{name:'color', cid:[]}
-		]
+		var allCategoryType = []
 		// 对产品类目进行分类
-		for(var i=0; i < categories.length; i++){
+		if(url_pathname.indexOf('store') > 0){
+			var type_names = ["sort", "scene", "material", "color"]
+		}else{
+			var type_names = ["scene", "sort", "material", "color"]
+		}
+		
+		for(n in type_names) allCategoryType.push( { name:type_names[n], cid:[] } )
+
+		for( i in categories ){
 			var that = categories[i]
 			var cid = {
 				id: that.id,
 				attributes: that.attributes
 			}
-			// console.log('属性类型：'+that.name+':'+cid.attributes.zh_cn)
-			
-			if(that.name === "scene"){
-				req.session.allCategoryType[0].cid.push(cid)
-			}else if(that.name === "sort"){
-				req.session.allCategoryType[1].cid.push(cid)
-			}else if(that.name === "material"){
-				req.session.allCategoryType[2].cid.push(cid)
-			}else if(that.name === "color"){
-				req.session.allCategoryType[3].cid.push(cid)
+			for( j in type_names ){
+				if( that.name === type_names[j] ){
+					allCategoryType[j].cid.push(cid)
+				}
 			}
 		}
+		req.session.allCategoryType = allCategoryType
 	})
 	next()
 }
@@ -98,8 +97,6 @@ exports.categoryTypeHref = function(req, res, next){
 	// }else{
 	// 	req.session.searchObj = new Person(null,null,null,null)
 	// }
-
-	
 	var product_attributes_url = ''
 	var product_attributes = {
 		'sort': req.query.sort,

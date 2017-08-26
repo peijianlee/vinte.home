@@ -83,7 +83,7 @@ block content
 							span.i-material-frame.base-color-dark
 								span.imaterial #{material.attributes.zh_cn}
 									b #{material.pid.length}
-	if sceneCategories && sceneCategories.length > 0
+	if sortCategories && sortCategories.length > 0
 		.bgBlue.bg-slash
 			.wrap.pt50.pb50
 				.g-head-title.fb.tc
@@ -91,23 +91,23 @@ block content
 					| 类型选择
 					br
 					span Type selection
-				.i-scene-list.mt20
-					each scene in sceneCategories
-						if scene.pid.length > 0
-							.i-scene-link
-								a.i-scene.pr(href="/store?scene=" + scene.id, target="_blank")
-									.i-scene-title-cn #{scene.attributes.zh_cn}
-										span #{scene.pid.length}
-									.i-scene-line
-									span.i-scene-title-en #{scene.attributes.en_us}
+				.i-sort-list.mt20
+					each sort in sortCategories
+						if sort.pid.length > 0
+							.i-sort-link
+								a.i-sort.pr(href="/store?sort=" + sort.id, target="_blank")
+									.i-sort-title-cn #{sort.attributes.zh_cn}
+										span #{sort.pid.length}
+									.i-sort-line
+									span.i-sort-title-en #{sort.attributes.en_us}
 									i.icon-external-link.pa
 						else
-							span.i-scene-link
-								.i-scene.cd
-									.i-scene-title-cn #{scene.attributes.zh_cn}
-										span #{scene.pid.length}
-									.i-scene-line
-									span #{scene.attributes.en_us}
+							span.i-sort-link
+								.i-sort.cd
+									.i-sort-title-cn #{sort.attributes.zh_cn}
+										span #{sort.pid.length}
+									.i-sort-line
+									span #{sort.attributes.en_us}
 
 	.wrap.pt50.pb50
 		.g-head-title.base-color-dark.fb.tc.mb20

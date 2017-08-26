@@ -2,15 +2,16 @@ extends ../layout_index
 block append head
 	link(href="/css/product.css",rel="stylesheet")
 block content
-	.store-menu
-		.wrap
-			a.index-button(href="/store")
-				i.icon-menu
-				| 所有商品
-			a.sub-button(href="/"): i.icon-home
-			a.sub-button(href="/") 客厅
-			a.sub-button(href="/") 餐桌
-			a.sub-button(href="/") 水曲柳
+	//- .store-menu-wrap
+	//- 	dl.store-menu.wrap
+	//- 		dt: a.index-button(href="/store")
+	//- 			i.icon-menu
+	//- 			| 所有商品
+	//- 		dd
+	//- 			a.sub-button(href="/"): i.icon-home
+	//- 			a.sub-button(href="/") 客厅
+	//- 			a.sub-button(href="/") 餐桌
+	//- 			a.sub-button(href="/") 水曲柳
 	//- .goodsSortBg(style="background-image:url(http://vinte.xin/banner/1499002324994.png)")
 	include ../themplate/fiter_bar.jade
 	.wrap.pt10
