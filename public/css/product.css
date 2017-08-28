@@ -329,7 +329,7 @@ span.iproduct_add_cart_btn.Stand{
 	font-weight:bold;
 	display:block;
 }
-.store-menu dd{background-color:rgba(0,0,0,.05);font-size:0;}
+.store-menu dd{background-color:rgba(255,255,255,.1);font-size:0;}
 .store-menu dd a{
 	font-size:14px;
 	padding-left:35px;

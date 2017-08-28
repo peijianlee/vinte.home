@@ -60,9 +60,10 @@ block content
 					.sub-page-product(id=item.id)
 						include ../themplate/product.jade
 			else
-				.tip-text-prompt.fb.pl20.pt15.pb15.mt15.base-color-dark
-					i.icon-exclamation-sign.mr10
-					| 没有任何数据！
+				.search-empty-tip.bg-slash.bg-gray
+					p 
+						i.icon-exclamation-sign.mr10
+						|没有找到相关的商品 :(
 		
 		.page.mt15.mb30
 			- url_public = url_pathname+'?q='+keyword+url_key+'&'

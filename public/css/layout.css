@@ -222,6 +222,7 @@ span.head-btn-style a{
 	content:attr(focus-tip-text);
 	position:absolute;
 	background-color:#066;color:white;
+	text-shadow: none;
 	padding:0 12px;
 	font-size:12px;
 	line-height:30px;

@@ -264,7 +264,7 @@ exports.search = function(req,res){
 				totalPage: Math.ceil(products.length / count),
 				products: results,
 				allCategoryType: req.session.allCategoryType,
-				// url_pathname: req._parsedUrl.pathname,
+				url_pathname: req._parsedUrl.pathname,
 				url_key: product_attributes_url,
 				cart_goods: CartGoods(user, cart),
 				cart_goods_num: CartGoods(user, cart).length
