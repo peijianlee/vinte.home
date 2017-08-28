@@ -3,18 +3,20 @@ block append head
 	link(rel="stylesheet",href="/css/product.css")
 	link(rel="stylesheet",href="/css/index.css")
 block content
-	if sceneCategories && sceneCategories.length > 0
-		#slide.wrap.slide-banner.slide-banner-children-hide
-			#loading
-				span
-				b 0%
-			each scene in sceneCategories
-				div.slide-img
-					h4.slide-title-cn #{scene.attributes.zh_cn}
-					h5.slide-title-en #{scene.attributes.en_us}
-					img(src="banner/#{scene.banner}")
-			.slide-btn
-		script(src="/js/banner.js")
+	//- if sceneCategories && sceneCategories.length > 0
+	//- 	#slide.wrap.slide-banner.slide-banner-children-hide
+	//- 		#loading
+	//- 			span
+	//- 			b 0%
+	//- 		each scene in sceneCategories
+	//- 			div.slide-img
+	//- 				h4.slide-title-cn #{scene.attributes.zh_cn}
+	//- 				h5.slide-title-en #{scene.attributes.en_us}
+	//- 				img(src="banner/#{scene.banner}")
+	//- 		.slide-btn
+	//- 	script(src="/js/banner.js")
+	div(style="text-align:center;background-color:#f9f9f9;font-size:0;")
+		img(src="/images/banner-1.png", alt="")
 	//- each cat in categories
 	//- 	if cat.pid.length > 2
 	//- 		.wrap.iproduct_list

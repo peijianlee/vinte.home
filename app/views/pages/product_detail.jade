@@ -9,14 +9,14 @@ block content
 			a(href="/store") 商品首页
 			a(href="/store/sort/#{product.sort.attributes.zh_cn}") #{product.sort.attributes.zh_cn}
 			b #{product.title}
-		.side_nav
+		.goods-side-nav
 			//- 商品分类
 			h2
 				i.icon-tags.ml5.mr5
 				| 商品分类
 			each cat in categories
 				if cat.pid && cat.pid.length > 0
-					dl.snCategorylist
+					dl.goods-side-list
 						dt
 							i.icon-magnet.ml5.mr5
 							| #{cat.attributes.zh_cn}
@@ -114,7 +114,7 @@ block content
 						th 主体颜色：
 						td 
 							each item in product.color
-								span.mr15 #{item.attributes}
+								span.mr15 #{item.attributes.zh_cn}
 			if product.content
 				.p_detail_container !{product.content}
 	br.clear
