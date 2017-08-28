@@ -3,8 +3,13 @@
 			span.page_unclick: i.icon-double-angle-left
 			span.page_unclick: i.icon-angle-left
 	- }else{
+			- console.log(currentPage)
+			- console.log(currentPage)
+			- console.log(currentPage)
+			- console.log(currentPage)
+			- console.log(currentPage)
 			a(href=url_public+'p=0', csstip-top='第一页'): i.icon-double-angle-left
-			a(href=url_public+'p=#{currentPage-1}', csstip-top='上一页'): i.icon-angle-left
+			a(href=url_public+'p=#{currentPage-2}', csstip-top='上一页'): i.icon-angle-left
 	- }
 	- for(var i=0; i < totalPage; i++){
 		-	if(currentPage == (i+1)){
