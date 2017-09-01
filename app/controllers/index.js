@@ -19,20 +19,25 @@ exports.index = function(req,res){
 		.exec(function(err, categories){
 			if(err)console.log(err)
 
-			var materialCategories = [],
-				sceneCategories = [],
-				sortCategories = []
+			var goods_attrs = ['scene', 'sort', 'material', 'color'],
+				categoryAttributes = {
+					'scene': [],
+					'sort': [],
+					'material': [],
+					'color': []
+				}
+
 			for(i in categories){
-				// console.log(categories[i].name)
-				var catName = categories[i].name
-				if( catName.toString() === 'material' ){
-					materialCategories.push(categories[i])
-				}else if( catName.toString() === 'scene' ){
-					sceneCategories.push(categories[i])
-				}else {
-					sortCategories.push(categories[i])
+				var catName = categories[i].name.toString()
+				for( j in goods_attrs ){
+					var attr = goods_attrs[j].toString()
+					if( catName === attr ){
+						categoryAttributes[attr].push(categories[i])
+					}
 				}
 			}
+
+
 			Product
 				.find({})
 				.limit(8)
@@ -41,9 +46,9 @@ exports.index = function(req,res){
 				.exec(function(err, recommendProducts){
 					if(err)console.log(err)
 					res.render('index',{
-						materialCategories: materialCategories,
-						sceneCategories: sceneCategories,
-						sortCategories: sortCategories,
+						materialCategories: categoryAttributes['material'],
+						sceneCategories: categoryAttributes['scene'],
+						sortCategories: categoryAttributes['sort'],
 						recommendProducts: recommendProducts,
 						cart_goods: CartGoods(user, cart),
 						cart_goods_num: CartGoods(user, cart).length

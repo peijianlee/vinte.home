@@ -26,7 +26,8 @@ if !header_hide
 				a.navbar-link.mr5(href="/logout")
 					i.icon-signout.mr5
 					| 退出登录
-	.header
+	- if(recommendProducts) var headerHasBgcolor = 'index-banner-bgcolor'
+	div(class="#{headerHasBgcolor + ' header'}")
 		.wrap
 			h2.logo
 				| 梵特家具网

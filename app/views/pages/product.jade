@@ -117,7 +117,6 @@ block content
 			span Recommended Products
 		if recommendProducts && recommendProducts.length > 0
 			each item in recommendProducts
-				- console.log(item)
 				.iproduct(id=item.id)
 					include ../themplate/product.jade
 		br.clear

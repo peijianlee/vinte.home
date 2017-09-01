@@ -2,6 +2,7 @@
 /* index layout */
 
 /* banner style */
+.index-banner-bgcolor{background-color:#f9f9f9;}
 #loading{
 	visibility:visible;
 	position:absolute;
