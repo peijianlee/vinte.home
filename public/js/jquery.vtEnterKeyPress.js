@@ -18,7 +18,6 @@
 					}else if($(this).hasClass('input_sucess')){
 						removeSucessTip($(this))
 					}
-					console.log(option[i].unkeynumber)
 					
 					var e = event || window.event || arguments.callee.caller.arguments[0]
 					var kc = e && e.keyCode

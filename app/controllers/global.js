@@ -4,8 +4,13 @@ var Category = require('../models/category')
 //fetch all category type
 exports.fetchAllCategoryType = function(req, res, next){
 	// var sort=req.params.sort
+	console.log('')
+	console.log('step 1 :')
+	console.log(req.session.allCategoryType)
+	// console.log(req.session.allCategoryType[3].cid[0].attributes.zh_cn)
 	var url_pathname = req._parsedUrl.pathname
 	Category.find({type: 'product'}, function(err, categories){
+		// console.log(categories)
 		var allCategoryType = []
 		// 对产品类目进行分类
 		if(url_pathname.indexOf('store') > 0){
@@ -14,13 +19,20 @@ exports.fetchAllCategoryType = function(req, res, next){
 			var type_names = ["scene", "sort", "material", "color"]
 		}
 		
-		for(n in type_names) allCategoryType.push( { name:type_names[n], cid:[] } )
+		for(n in type_names) {
+			var name = {
+				'zh_cn': type_names[n] === 'sort' ? '类型' : type_names[n] === 'scene' ? '场景' : type_names[n] === 'material' ? '材质' : '颜色' ,
+				'en_us': type_names[n]
+			}
+			allCategoryType.push( { name:name, cid:[] } )
+		}
 
 		for( i in categories ){
 			var that = categories[i]
 			var cid = {
 				id: that.id,
-				attributes: that.attributes
+				attributes: that.attributes,
+				pid: that.pid
 			}
 			for( j in type_names ){
 				if( that.name === type_names[j] ){
@@ -29,6 +41,11 @@ exports.fetchAllCategoryType = function(req, res, next){
 			}
 		}
 		req.session.allCategoryType = allCategoryType
+
+		console.log('')
+		console.log('step 2 :')
+		console.log(req.session.allCategoryType)
+		// console.log(req.session.allCategoryType[3].cid[0].attributes.zh_cn)
 	})
 	next()
 }

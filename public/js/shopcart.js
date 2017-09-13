@@ -5,10 +5,10 @@ $('.iproduct_add_cart_btn').click(function(){
 	var p_id = $that.find("[name='p[id]']").val()
 	var p_quantity = $that.find("[name='p[quantity]']").val()
 
-	arttip('<i class="icon-spinner icon-spin"></i>&nbsp;&nbsp;uploading...')
+	$.artTip('<i class="icon-spinner icon-spin"></i>&nbsp;&nbsp;uploading...')
 
 	if($that.hasClass('Stand')){
-		return arttipclose('已经存在购物车了',800)
+		return $.closeArtTip('已经存在购物车了',800)
 	}
 
 	var pid = $(this).parents('.iproduct').attr('id');
@@ -24,9 +24,9 @@ $('.iproduct_add_cart_btn').click(function(){
 		cache:false,
 		success: function(data){
 			if(data.success===1){
-				arttipclose('已经存在购物车了',800)
+				$.closeArtTip('已经存在购物车了',800)
 			}else if(data.success===2){
-				arttipclose('成功放入购物车了',800)
+				$.closeArtTip('成功放入购物车了',800)
 				$('.head_shopcart_num').html(data.cart_goods_num)
 				$that.addClass('Stand')
 
@@ -35,12 +35,12 @@ $('.iproduct_add_cart_btn').click(function(){
 	});
 });
 $('.iproduct_add_cart_btn_stand').click(function(){
-	arttip('<i class="icon-spinner icon-spin"></i>&nbsp;&nbsp;uploading...')
-	arttipclose('已经存在购物车了',800)
+	$.artTip('<i class="icon-spinner icon-spin"></i>&nbsp;&nbsp;uploading...')
+	$.closeArtTip('已经存在购物车了',800)
 })
 //- 删除购物车商品
 $('.shopcart_goods_remove').click(function(){
-	arttip('<i class="icon-spinner icon-spin"></i>&nbsp;&nbsp;uploading...')
+	$.artTip('<i class="icon-spinner icon-spin"></i>&nbsp;&nbsp;uploading...')
 	var id = $(this).attr('data-id');
 	$.ajax({
 		type: 'DELETE',
@@ -48,7 +48,7 @@ $('.shopcart_goods_remove').click(function(){
 	})
 	.done(function(results){
 		if(results.success===1){
-			arttipclose('删除成功！',800)
+			$.closeArtTip('删除成功！',800)
 			$('.head_shopcart_num').html(results.cart_goods_num)
 			$('#'+id).remove();
 			console.log(results.cart_goods_num===0)
@@ -61,7 +61,7 @@ $('.shopcart_goods_remove').click(function(){
 				$('.shopcart_list > tbody').html(emptyList)
 			}
 		}else{
-			arttipclose('删除失败！',800)
+			$.closeArtTip('删除失败！',800)
 		}
 	})
 });

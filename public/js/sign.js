@@ -71,9 +71,11 @@ function postSignInfo(elements, btn_element, type){
 			success: function(data){
 				if(data.success === 1){
 					if(signtype.toString() === 'inquirylist'){
-						artalert('登录成功','success','/inquirylist');
+						$.artAlert('登录成功!', 'artAlertFrame', 'zh_cn', '/inquirylist' )
+						// artalert('登录成功','success','/inquirylist');
 					}else{
-						artalert('登录成功','success','/store');
+						// artalert('登录成功','success','/');
+						$.artAlert('登录成功!', 'artAlertFrame', 'zh_cn', document.referrer )
 					}
 				}else if(data.success === 2){
 					addErrorTip($name,'该用户不存在！')

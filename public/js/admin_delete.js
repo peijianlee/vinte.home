@@ -3,7 +3,7 @@
 
 function del(btn,url){
 	$('.'+btn).click(function(e){
-		arttip('<i class="icon-spinner icon-spin mr5"></i>loading...')
+		$.artTip('<i class="icon-spinner icon-spin mr5"></i>loading...')
 		$tbody = $(this).parents('tbody')
 		var target = $(e.target)
 		var id = target.data('id')
@@ -30,10 +30,10 @@ function del(btn,url){
 					if(!$(this).attr('data-type') === "productCategory"){
 						list_is_empty()
 					}
-					arttipclose('<i class="icon-ok-cicle mr5"></i>删除成功！','100')
+					$.closeArtTip('<i class="icon-ok-cicle mr5"></i>删除成功！','100')
 				})
 			}else{
-				arttipclose('<i class="icon-remove-circle mr5"></i>删除失败！','100')
+				$.closeArtTip('<i class="icon-remove-circle mr5"></i>删除失败！','100')
 			}
 		})
 	})

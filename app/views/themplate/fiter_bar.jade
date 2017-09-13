@@ -2,27 +2,26 @@
 if allCategoryType && allCategoryType.length > 0
 	each type in allCategoryType
 		if type.cid && type.cid.length > 0
-			- var typeName = type.name=='sort'?'类型' : type.name=='scene'?'场景' : type.name=='material'?'材质': '颜色'
-			- if( typeof(keyword) !== 'string' && type.name=='sort' ) {
-			-	var menu_wrap_class = 'store-menu-wrap'
-			-	var menu_class = 'store-menu'
-			-	typeName = '<a href="/store">所有商品</a>'
+			- if( typeof(keyword) !== 'string' && type.name.en_us === 'sort' ) {
+			-	var menu_wrap_class = 'fiter-head-wrap'
+			-	var menu_class = 'fiter-head'
+			-	var menu_title = '<a class="block cWhite" href="/store" title="全部商品" >全部商品</a>'
 			- } else {
-			-	var menu_wrap_class = 'search-nav-wrap'
-			-	var menu_class = 'search-nav'
-			-	typeName += ' :'
+			-	var menu_wrap_class = 'fiter-nav-wrap'
+			-	var menu_class = 'fiter-nav'
+			-	var menu_title = type.name.zh_cn + ' :'
 			- }
 			div(class="#{menu_wrap_class}")
 				dl(class="#{menu_class + ' wrap'}")
 					dt.cd
-						| !{typeName} 
+						| !{ menu_title }
 					dd
-						- if ( typeof(keyword) !== 'string' && type.name=='sort' ){
-							a( href="/" ): i.icon-home
+						- if ( typeof(keyword) !== 'string' && type.name.en_us === 'sort' ){
+							a( href="/", title="返回首页" ): i.icon-home
 						- } else {
 							- var all_href = ''
-							- if(url_key && url_key.indexOf(type.name) > -1) {
-							-	var tmp = '/([&])(' + type.name + '=)([^&]*)/gi'
+							- if(url_key && url_key.indexOf(type.name.en_us) > -1) {
+							-	var tmp = '/([&])(' + type.name.en_us + '=)([^&]*)/gi'
 							-	all_href += url_key.replace(eval(tmp), '')
 							- }else{
 							-	all_href += url_key
@@ -38,16 +37,16 @@ if allCategoryType && allCategoryType.length > 0
 							
 						each cid in type.cid
 							- if( url_key ){
-							- 	if( url_key.indexOf(type.name) > -1 ){
-							-		var replaceText = type.name + '=' + cid.id
-							-		var tmp = '/(' + type.name + '=)([^&]*)/gi'
+							- 	if( url_key.indexOf(type.name.en_us) > -1 ){
+							-		var replaceText = type.name.en_us + '=' + cid.id
+							-		var tmp = '/(' + type.name.en_us + '=)([^&]*)/gi'
 							-		var replaceUrl = url_key.replace(eval(tmp), replaceText)
 							-		var a_href = replaceUrl
 							- 	} else {
-							-		var a_href = url_key + '&' + type.name + '=' + cid.id
+							-		var a_href = url_key + '&' + type.name.en_us + '=' + cid.id
 							- 	}
 							- }else{
-							-	var a_href = '&' + type.name + '=' + cid.id
+							-	var a_href = '&' + type.name.en_us + '=' + cid.id
 							- }
 							- if ( typeof(keyword) !== 'string' ) {
 							-	var a_url_public = '/store'

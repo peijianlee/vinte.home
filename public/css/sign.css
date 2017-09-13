@@ -1,4 +1,10 @@
 /*登录框*/
+#signinModal{
+	width:700px;display:none;
+	position:fixed;z-index:101;
+	top:10%;left:50%;margin:0 0 0 -200px;
+	background-color:rgba(255,255,255,.60);
+}
 .sign_top{
 	width:400px;height:74px;line-height:74px;
 	border-radius:5px 5px 0 0;

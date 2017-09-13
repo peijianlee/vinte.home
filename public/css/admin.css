@@ -212,11 +212,18 @@ span.menuBtn.Active:before{content:"-";}
 	background-color:#eee;
 }
 .admin_sarch_nav_type ul{
+	background-color:#fafafa;
 	margin-right:1%;border-radius:3px;
 	width:20%;float:left;
 	border:1px solid #ddd;
-	padding:0 10px;margin-bottom:8px;
+	padding:8px 10px;margin-bottom:8px;
 }
+.cat-name-first-li{
+	display:block;
+	line-height:20px;
+	height:40px;
+}
+.admin_sarch_nav_type ul:hover{background-color:#f3f3f3;border-color:#d3d3d3;}
 .admin_sarch_nav_type ul .button{
 	line-height:24px;height:24px;padding:0 20px;
 	border-radius:3px;margin-right:8px;

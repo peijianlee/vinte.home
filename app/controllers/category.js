@@ -19,12 +19,8 @@ exports.save = function(req,res){
 		name = categoryObj.name,
 		id = categoryObj._id
 
-	console.log(categoryObj)
-	// return false
-
 	Category.findOne({"name":name,"attributes":attributes},function(err,category){
 		if(err) console.log(err)
-
 		if(!category){
 			if(!id){
 				var newcategory = new Category(categoryObj)
@@ -41,7 +37,6 @@ exports.save = function(req,res){
 		}else{
 			console.log("已经存在了")
 		}
-
 		res.redirect('/admin/'+type+'/category/list')
 		
 	})
@@ -66,7 +61,6 @@ exports.update = function(req,res){
 //category list page
 exports.list = function(req,res){
 	var href=req._parsedOriginalUrl.href
-
 	if(href.indexOf('movie')>0){
 		var title = '电影分类列表页'
 		var categories_type = 'movie'
@@ -77,42 +71,50 @@ exports.list = function(req,res){
 		var title = '产品分类列表页'
 		var categories_type = 'product'
 	}
-	Category
-		.find({type:categories_type})
-		.exec(function(err, categories){
-			if(err)console.log(err)
-
-			var categories_sort = [],
-				categories_scene = [],
-				categories_material = [],
-				categories_color = []
-
-			// 对产品类目进行分类
-			if(categories_type === "product"){
-				for(var i=0; i < categories.length; i++){
-					var that = categories[i]
-					if(that.name === "sort"){
-						categories_sort.push(that)
-					}else if(that.name === "scene"){
-						categories_scene.push(that)
-					}else if(that.name === "material"){
-						categories_material.push(that)
-					}else if(that.name === "color"){
-						categories_color.push(that)
-					}
-				}
-			}
-
-			res.render('admin/category_list',{
-				title: title,
-				categories:categories,
-				categories_sort: categories_sort,
-				categories_scene: categories_scene,
-				categories_material: categories_material,
-				categories_color: categories_color,
-				categories_type: categories_type
-			})
+	
+	Category.findOne({"name":"jieJueZuoYongYu"},function(err,category){
+		if(err) console.log(err)
+		res.render('admin/category_list',{
+			title: title,
+			allCategoryType: req.session.allCategoryType
 		})
+	})
+	// Category
+	// 	.find({type:categories_type})
+	// 	.exec(function(err, categories){
+	// 		if(err)console.log(err)
+
+	// 		var categories_sort = [],
+	// 			categories_scene = [],
+	// 			categories_material = [],
+	// 			categories_color = []
+
+	// 		// 对产品类目进行分类
+	// 		if(categories_type === "product"){
+	// 			for(var i=0; i < categories.length; i++){
+	// 				var that = categories[i]
+	// 				if(that.name === "sort"){
+	// 					categories_sort.push(that)
+	// 				}else if(that.name === "scene"){
+	// 					categories_scene.push(that)
+	// 				}else if(that.name === "material"){
+	// 					categories_material.push(that)
+	// 				}else if(that.name === "color"){
+	// 					categories_color.push(that)
+	// 				}
+	// 			}
+	// 		}
+
+	// 		res.render('admin/category_list',{
+	// 			title: title,
+	// 			categories:categories,
+	// 			categories_sort: categories_sort,
+	// 			categories_scene: categories_scene,
+	// 			categories_material: categories_material,
+	// 			categories_color: categories_color,
+	// 			categories_type: categories_type
+	// 		})
+	// 	})
 }
 
 

@@ -1,111 +1,110 @@
-
-// 自定义弹出框
-var artalert_close_enter = false;
-function artalert(txt,type,url){
-	artalert_close_enter = true;
-	var $body = $('body');
-	$body.append('<div class="artalert_bg artalert_close"'+
-				' style="background-color:rgba(0,0,0,0.5);'+
-				'position:fixed;top:0;left:0;display:none;'+
-				'width:100%;height:100%;z-index:2010;">');
-	$('.artalert_bg').fadeIn(300);
-	var btnStyle =  'line-height:32px;height:32px;width:100px;display:inline-block;cursor:pointer;'+
-					'background-color:#97c11f;color:white;font-weight:bold;border-radius:3px;';
-
-	if(type==='error'){
-		artalert_head_color='#ff6d60';
-		var artalert_head_title = '<i class="icon-exclamation-sign" '+
-								'style="margin-right:5px;"></i>错误信息</h6>';
-	}else if(type==='success'){
-		artalert_head_color='#00a8b3';
-		var artalert_head_title = '<i class="icon-info-sign" '+
-								'style="margin-right:5px;"></i>提示</h6>';
-	}else{
-		artalert_head_color='#feb322';
-		var artalert_head_title = '<i class="icon-info-sign" '+
-								'style="margin-right:5px;"></i>提示</h6>';
-	}
-	var artalert_head = '<h6 style="height:40px;line-height:40px;padding-left:15px;margin:0;'+
-		'border-radius:5px 5px 0 0;background-color:'+artalert_head_color+';color:white;font-size:14px;'+
-		'box-shadow:inset 1px 1px rgba(255,255,255,0.3);">'+
-		'<i class="icon-remove artalert_close" style="float:right;cursor:pointer;'+
-		'margin:12px 12px 0 0;color:rgba(0,0,0,0.5);text-shadow:1px 1px rgba(255,255,255,0.5);"></i>';
-	var artalert_pop = '<div class="artalert" '+
-		'style="position:fixed;z-index:2011;background-color:white;'+
-		'border-radius:5px;opacity:0;top:-10%;left:50%;width:500px;margin-left:-250px;">'+
-		artalert_head+artalert_head_title+
-		'<div style="line-height:1.6em;padding:30px 10px;border-bottom:1px solid #ddd;'+
-		'text-align:center;font-size:18px;font-weight:bold;">'+txt+'</div>'+
-		'<div class="artalert_foot" style="border-top:1px solid white;text-align:center;padding:12px 0;'+
-		'background-color:#f9f9f9;margin:0;border-radius:0 0 5px 5px;">'+
-		'<span class="artalert_close" style="'+btnStyle+'">确 定</span></div></div>'
-	$body.append(artalert_pop);
-
-	$('.artalert').animate({'opacity':1,'top':50},300);
-
-	$('.artalert_close').click(function(){
-		$('.artalert_bg').fadeOut(300,function(){
-			$(this).remove();
-		});
-		$('.artalert').animate({'opacity':0,'top':'-10%'},300,function(){
-			$(this).remove();
-			if(url){
-				location.href=url;
-			}else{
-				// location.href=document.referrer;
+(function($){
+	$.extend({
+		publicStyle: {
+			bgStyle: {
+				backgroundColor: 'rgba(0,0,0,0.5)',
+				position: 'fixed',
+				top: '0',
+				left: '0',
+				display: 'none',
+				width: '100%',
+				height: '100%',
+				zIndex: '2010'
 			}
-		});
-	});
+		},
+		artconmit: function (value, bgstyle, frameClass, lang, fn) {
+			var eleBg = $('<div></div>').css(this.publicStyle.bgStyle).addClass('artconmit_bg artconmit_close')
+			if (bgstyle) {
+				alert($alertBg.css({bgstyle}))
+			} else {
+				$('body').append(eleBg)
+			}
+			var re = /[\u4E00-\u9FA5]/g
+			var num = value.match(re).length
+			alert(num)
 
-}
-document.onkeydown=function(event){
-	var e = event || window.event || arguments.callee.caller.arguments[0];
-	if(e && e.keyCode==13){
-		if(artalert_close_enter){
-			$('.artalert_close:first').click();
-			artalert_close_enter = false;
-			return false;
+			$('.artconmit_bg').fadeIn(300)
+			var langArr = lang === 'zh_cn' ? ['提示框', '确定', '取消'] : ['tip frame', 'sure', 'cancel']
+			var eleFrame = $('<div><h6><i class="icon-info-sign mr10"></i>' 
+				+ langArr[0] 
+				+ '</h6><p>' 
+				+ value 
+				+ '</p><div class="frameFooter"><span>' 
+				+ langArr[1] 
+				+ '</span><span class="artconmit_close">' 
+				+ langArr[2] 
+				+ '</span></div></div>').addClass(frameClass)
+			$('body').append(eleFrame)
+			$('.frameFooter span').click(function(){
+				$('.'+frameClass + ', .artconmit_bg').fadeOut( function(event){
+					$(this).remove()
+				})
+				fn($(this).index())
+			})
+		},
+		artTip: function (value, time) {
+			var $body = $('body')
+			$body.append('<div class="arttipbg"></div><div class="arttip">'+
+				value+'</div>')
+			$('.arttipbg').fadeIn('200')
+			$('.arttip').animate({'opacity':1,'bottom':'40%'},500)
+			if (time) {
+				var autoTimeOut = setTimeout(function () {
+					$.closeArtTip(null, 10)
+				}, time)
+			}
+		},
+		closeArtTip: function (value, closetime, fn) {
+			if(value) $('.arttip').html(value)
+			var closetime = closetime || 2000
+			var timeOut = setTimeout(function(){
+				$('.arttipbg').fadeIn('200',function(){
+					$(this).remove()
+				})
+				$('.arttip').animate({'opacity':0,'bottom':'30%'},400,function(){
+					$(this).remove()
+				})
+			}, closetime)
+		},
+		artAlert: function ( value, frameClass, lang, url, fn ) {
+			var artalert_close_enter = true
+			var artalertBg = $('<div></div>').css( this.publicStyle.bgStyle ).addClass('artalert_bg artalert_close')
+			$('body').append(artalertBg)
+			$('.artalert_bg').fadeIn()
+			var langArr = lang === 'zh_cn' ? ['信息提示框', '确定'] : ['tip frame', 'sure']
+			var eleFrame = $('<div><h6><i class="icon-info-sign mr10"></i>' 
+				+ langArr[0] 
+				+ '</h6><p>' 
+				+ value 
+				+ '</p><div class="frameFooter"><span class="artalert_close">' 
+				+ langArr[1] 
+				+ '</span></div></div>').addClass(frameClass)
+			$('body').append(eleFrame)
+			$( '.' + frameClass ).animate({'opacity':1,'top':50},300)
+			document.onkeydown = function (event) {
+				var e = event || window.event || arguments.callee.caller.arguments[0];
+				if (e && e.keyCode === 13) {
+					if (artalert_close_enter) {
+						$('.artalert_close:first').click();
+						artalert_close_enter = false;
+						return false;
+					}
+				}
+			}
+			$('.artalert_close').click(function(){
+				$('.artalert_bg').fadeOut(300,function(){
+					$(this).remove()
+				})
+				$('.' + frameClass).animate({'opacity':0,'top':'-10%'},300,function(){
+					$(this).remove();
+					location.href= url ? url : '/'
+					// if(url){
+					// 	location.href= url ? url : '/'
+					// }else{
+					// 	// location.href=document.referrer;
+					// }
+				});
+			});
 		}
-	}
-}
-// 弹出框
-$('[data-toggle="modal"]').click(function(){
-	var $body = $('body');
-	$body.append('<div class="modal_bg modal_close"'+
-				' style="background-color:rgba(0,0,0,0.5);'+
-				'position:fixed;top:0;left:0;'+
-				'width:100%;height:100%;z-index:100;">');
-	var Target = $(this).attr('data-target');
-	$(Target).fadeIn().find('input[type=text]:first').focus();
-	$('.modal_close').click(function(){
-		$('.modal_bg').fadeOut('fast',function(){
-			$(this).remove();
-		});
-		$(Target).fadeOut('fast');
 	})
-});
-
-
-// arttip 提示栏
-function arttip(txt){
-	var $body = $('body');
-	$body.append('<div class="arttipbg"></div><div class="arttip">'+
-		txt+'</div>')
-	$('.arttipbg').fadeIn('200');
-	$('.arttip').animate({'opacity':1,'bottom':'40%'},500);
-}
-function arttipclose(text,closetime,dosomething){
-	if(text){
-		$('.arttip').html(text)
-	}
-	var closetime = closetime || 2000
-	var time = setTimeout(function(){
-		$('.arttipbg').fadeIn('200',function(){
-			$(this).remove();
-		});
-		$('.arttip').animate({'opacity':0,'bottom':'30%'},400,function(){
-			$(this).remove();
-		});
-		if(dosomething) dosomething
-	},closetime)
-}
+}(jQuery));

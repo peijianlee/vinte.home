@@ -17,15 +17,13 @@ ul.ip_description
 	li
 		if item.sale
 			span.ip_tag 特价商品
-		if (moment(item.meta.createAt).add('hour',8).fromNow()).indexOf('ago')<0
+		if (moment(item.meta.createAt).add('hour',8).fromNow()).indexOf('ago') < 0
 			span.ip_tag 新品
+		span.ip_tag.cp.ip_love_btn
+			i.icon-star
+			| &nbsp;100
 	li
-		- if(cart_goods.indexOf(item.id) > -1){
-		-	var btnClass = 'iproduct_add_cart_btn Stand'
-		- }else{
-		-	var btnClass = 'iproduct_add_cart_btn'
-		- }
-		span(class="#{btnClass} cp animation")
+		span(class="iproduct_add_cart_btn #{cart_goods.indexOf(item.id) > -1 ? 'Stand' : '' + ' cp animation'}")
 			i.icon-shopping-cart
 			input(type="hidden",name="p[id]",value=item.id)
 			input(type="hidden",name="p[quantity]",value="1")

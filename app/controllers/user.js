@@ -41,7 +41,7 @@ exports.userRequired = function(req,res,next){
 
 	if(user){
 		console.log('用户已登录')
-		return res.redirect('/news')
+		return res.redirect('/')
 	}
 	next()
 }
@@ -81,7 +81,6 @@ exports.checkedCaptcha = function(req, res, next){
 }
 // 登录界面
 exports.showSignin = function(req, res){
-	console.log(req.session.signup_name_repeat)
 	var name = req.session.signup_name_repeat
 	var password = req.query.password
 	var bgword = bgwords

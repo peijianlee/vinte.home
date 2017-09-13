@@ -11,13 +11,13 @@ if !header_hide
 					i.icon-quote-left.mr5
 					| 我们是一家专业的家具制造厂商，其制造范围有批量家具生产、家具定制、家具重设计，家具风格主要是以乡村风格、工业风格、宫廷风格及其他手工艺绘制风格为主，多年销往欧美及其周边多个国家。
 				p 如果你刚好有这方面的这方面的商务需求，或者是同行业者，都欢迎垂询，或通过右侧的留言栏发送消息给我们，我们收到信息后，将会以最短的时间内回复你。
-				h6
+				p.fb
 					i.icon-phone.mr5
 					| 0760 86697781
-				h6
+				p.fb
 					i.icon-envelope.mr5
 					| xxxx@hotmail.com
-				h6
+				p.fb
 					i.icon-map-marker.mr5
 					| 广东省，中山市，三乡镇，古鹤工业区
 			form(action="/message", method="POST")
@@ -42,7 +42,110 @@ if !header_hide
 
 script(src="/js/artalert.js")
 script(src="/js/jquery.vtEnterKeyPress.js")
+style.
+	.conmitFrame{
+		font-size:15px;
+		background-color:white;
+		width:600px;
+		position:fixed;
+		left:50%;top:15%;
+		margin-left:-300px;
+		z-index:2011;
+		border-radius:6px;
+		box-shadow:0 0 10px rgba(0,0,0,.5);
+	}
+	.conmitFrame h6{
+		color:white;
+		padding-left:20px;
+		background-color:#099;
+		height:46px;line-height:46px;
+		font-size:16px;font-weight:bold;
+		border-radius:5px 5px 0 0;
+	}
+	.conmitFrame p{
+		padding:30px;
+		border-bottom:1px solid #ddd;
+		text-align:center;
+		line-height:2.1em;
+		font-size:16px;font-weight:bold;
+		letter-spacing:0.05em;
+	}
+	.conmitFrame .frameFooter{text-align:center;
+		padding:15px 0;
+		background-color:#fafafa;
+		border-radius:0 0 5px 5px;
+	}
+	.conmitFrame .frameFooter span{
+		display:inline-block;
+		border:1px solid #ddd;
+		background-color:#eee;
+		padding:5px 30px;
+		border-radius:3px;
+		margin-left:12px;margin-right:12px;
+		box-shadow: inset 1px 1px rgba(255,255,255,.3),
+					inset -1px -1px rgba(255,255,255,.5);
+		cursor:pointer;
+		font-weight:bold;
+	}
+	.conmitFrame .frameFooter span:first-child{
+		border-color:#099;
+		background-color:#088;
+		color:white;
+	}
+	.conmitFrame .frameFooter span:hover{
+		box-shadow: inset 1px 1px rgba(255,255,255,.3),
+					inset -1px -1px rgba(255,255,255,.5),
+					inset 2px 2px 30px rgba(0,0,0,.2);
+	}
+	.artAlertFrame{
+		font-size:15px;
+		background-color:white;
+		width:500px;
+		position:fixed;
+		left:50%;top:15%;
+		margin-left:-250px;
+		z-index:2011;
+		border-radius:6px;
+		box-shadow:0 0 10px rgba(0,0,0,.5);
+	}
+	.artAlertFrame h6{
+		color:white;
+		padding-left:20px;
+		background-color:#099;
+		height:46px;line-height:46px;
+		font-size:16px;font-weight:bold;
+		border-radius:5px 5px 0 0;
+		box-shadow:inset 1px 1px rgba(255,255,255,.3);
+	}
+	.artAlertFrame p{
+		padding:30px 0;
+		border-bottom:1px solid #ddd;
+		text-align:center;
+		font-size:18px;font-weight:bold;
+	}
+	.artAlertFrame .frameFooter{
+		border-top:1px solid white;
+		padding:15px 0;
+		background-color:#f9f9f9;
+		border-radius: 0 0 5px 5px;
+		text-align:center;
+	}
+	.artAlertFrame .frameFooter span{
+		height:32px;line-height:32px;
+		width:100px;
+		display:inline-block;
+		cursor:pointer;
+		background-color:#97c11f;color:white;
+		font-weight:bold;
+		border-radius:3px;
+	}
 script.
+	//- $.artconmit('上传成功！！！', null, 'conmitFrame', 'zh_cn', function(i){
+	//- 	alert(i)
+	//- })
+	//- $.artTip('加载中...', 2000)
+	//- $.closeArtTip('加载成功！', 1000)
+	//- $.artAlert('加载成功！！！', 'artAlertFrame', 'zh_cn', document.referrer )
 	var sendMsgConfig = [
 		{
 			element: $('.f-msg-name'),
@@ -64,7 +167,7 @@ script.
 	$('.sign_form_content').enterKeyPress(sendMsgConfig)
 	$('.footer-message-btn').click(function(){
 		if(checkAllElementVal(sendMsgConfig) !== false){
-			arttip('<i class="icon-spinner icon-spin"></i> loading...')
+			$.artTip('<i class="icon-spinner icon-spin"></i> 加载中...')
 			var data = {
 				name: sendMsgConfig[0].element.val(),
 				phone: sendMsgConfig[1].element.val(),
@@ -81,12 +184,13 @@ script.
 				cache:false,
 				success: function(data){
 					if(data.success === 1){
-						arttipclose('<i class="icon-ok-sign mr10"></i>发送成功！', 800)
-						for(var i = 0; i < sendMsgConfig.length; i++){
+						$.closeArtTip('<i class="icon-ok-sign mr10"></i>发送成功！加载成功！', 1200)
+						for(var i = 0; i < sloendMsgConfig.length; i++){
 							sendMsgConfig[i].element.val('').next('b').removeClass()
 						}
 					}else{
-						arttipclose('<i class="icon-exclamation-sign mr10"></i>发送失败！', 800)
+						//- arttipclose('<i class="icon-exclamation-sign mr10"></i>发送失败！', 1200)
+						$.closeArtTip('<i class="icon-exclamation-sign mr10"></i>发送失败！', 1200)
 					}
 				}
 			})

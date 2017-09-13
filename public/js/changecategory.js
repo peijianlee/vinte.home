@@ -13,7 +13,7 @@ $('.changeCategory').click(function(){
 
 	if(inputtype.toString() === "radio"){
 		
-		arttip('<i class="icon-spinner icon-spin mr5"></i>loading...')
+		$.artTip('<i class="icon-spinner icon-spin mr5"></i>loading...')
 		var data = {
 			'pid': pid,
 			'type': dataCategory,
@@ -23,7 +23,7 @@ $('.changeCategory').click(function(){
 		}
 	}else{
 		// 复选项
-		arttip('<i class="icon-spinner icon-spin mr5"></i>loading...')
+		$.artTip('<i class="icon-spinner icon-spin mr5"></i>loading...')
 		var data = {
 			'pid': pid,
 			'type': dataCategory,
@@ -40,10 +40,10 @@ $('.changeCategory').click(function(){
 		cache:false,
 		success: function(data){
 			if(data.success === 1){
-				arttipclose('<i class="icon-ok-cicle mr5"></i>更改成功！','100')
+				$.closeArtTip('<i class="icon-ok-cicle mr5"></i>更改成功！','100')
 				// if(data.newid) sort_id = data.newid
 			}else if(data.success === 2){
-				arttipclose('<i class="icon-ok-cicle mr5"></i>无需修改！','100')
+				$.closeArtTip('<i class="icon-ok-cicle mr5"></i>无需修改！','100')
 			}
 		}
 	})

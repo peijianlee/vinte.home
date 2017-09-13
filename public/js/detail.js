@@ -206,7 +206,7 @@ $('.submitMsn').click(function(){
 				var data = {"from":from,"news":news,"content":content,"tid":tid,"cid":cid ,"replynum":replynum}
 			}
 			
-			arttip('<i class="icon-spinner icon-spin"></i>&nbsp;&nbsp;uploading...')
+			$.artTip('<i class="icon-spinner icon-spin"></i>&nbsp;&nbsp;uploading...')
 
 			$.ajax({
 				type:"POST",
@@ -216,7 +216,7 @@ $('.submitMsn').click(function(){
 				async:false,
 				cache:false,
 				success: function(data){
-					arttipclose()
+					$.closeArtTip()
 					//- var _data = eval("("+data+")");
 					//- 用户评论
 					if(data.success===0){

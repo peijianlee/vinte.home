@@ -241,7 +241,7 @@ exports.search = function(req,res){
 			var tp_title = '搜索结果页'
 		} else {
 			var tp_page = 'store'
-			var tp_title = JSON.stringify(req.query) === '{}'? '所有商品' : '家具类型 - 所有商品'
+			var tp_title = JSON.stringify(req.query) === '{}'? '所有商品' : '类型选择 - 所有商品'
 		}
 
 	Product

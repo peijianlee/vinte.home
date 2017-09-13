@@ -50,7 +50,7 @@ module.exports = function(app){
 	app.get('/store/sort/:sort', Global.fetchAllCategoryType, Global.categoryTypeHref, Product.sort)
 	app.get('/store/material/:material', Product.sort)
 	app.get('/admin/product/list', User.signinRequired, User.adminRequired, Product.list)
-	app.get('/admin/product/category/list', User.signinRequired, User.adminRequired, Category.list)
+	app.get('/admin/product/category/list', User.signinRequired, User.adminRequired, Global.fetchAllCategoryType, Category.list)
 	app.post('/admin/product', User.signinRequired, User.adminRequired, Product.save)
 	app.get('/admin/product/add', User.signinRequired, User.adminRequired, Product.new)
 	app.post('/admin/product/changecategory', User.signinRequired, User.adminRequired, Product.changecategory)
