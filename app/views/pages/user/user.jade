@@ -1,4 +1,4 @@
-extends ../layout_index
+extends ../../layout_index
 block append head
 	link(rel="stylesheet",href="/css/user.css")
 block content
@@ -30,29 +30,36 @@ block content
 				| #{user.name}
 				span.ml5.mr5 欢迎登录
 				| VITEHOME
-			if orders && orders.length > 0
-				.user_details_head
-					if orders.length >= 5
-						a.fr.fn.fs12.cGray(href="/user/#{user.name}/orders") 更多 
-							i.fs14.icon-double-angle-right
-					i.icon-list.mr10
-					a.base-color-dark(href="/user/#{user.name}/orders") 我的订单
-				table.table_striped.table_bordered
-					tr
-						th 订单号
-						th 创建时间
-						th 是否回复
-						th 操作
+			.user_details_head
+				if orders.length >= 5
+					a.fr.fn.fs12.cGray(href="/user/#{user.name}/orders") 更多 
+						i.fs14.icon-double-angle-right
+				i.icon-list.mr10
+				a.base-color-dark(href="/user/#{user.name}/orders") 我的订单
+			table.table_striped.table_bordered
+				tr
+					th 订单号
+					th 创建时间
+					th 是否回复
+					th 操作
+				if orders && orders.length > 0
 					each item in orders
 						tr.tc
 							td: a(href="/user/#{user.name}/orders/#{item._id}") #{item._id}
 							td #{moment(item.meta.createAt).format('YYYY/MM/DD')}
 							td
 							td: a(href="/user/#{user.name}/orders/#{item._id}").button.button-primary.button-tiny 查看
-			else
-				.user_details_empty_tip.tc
-					p.mb15.fs16.fb 目前没有创建任何询价单
-					a.postPasswordBtn.button.button-primary.button-rounded(href="/store")
-						i.icon-magnet.mr10
-						| 浏览商城
+				else
+					tr
+						td.user_details_empty_tip.tc(colspan="4")
+							p.mb15.fs16.fb 目前没有创建任何询价单
+							a.postPasswordBtn.button.button-primary.button-rounded(href="/store")
+								i.icon-magnet.mr10
+								| 浏览商城
+			.user_details_head.mt20
+				if orders.length >= 5
+					a.fr.fn.fs12.cGray(href="/user/#{user.name}/orders") 更多 
+						i.fs14.icon-double-angle-right
+				i.icon-star.mr10
+				a.base-color-dark(href="/user/#{user.name}/orders") 我的收藏
 	.bg_fixed
