@@ -19,9 +19,16 @@ ul.ip_description
 			span.ip_tag 特价商品
 		if (moment(item.meta.createAt).add('hour',8).fromNow()).indexOf('ago') < 0
 			span.ip_tag 新品
-		span.ip_tag.cp.ip_love_btn
-			i.icon-star
-			| &nbsp;100
+		if user
+			span#ip_favourite.ip_tag.cp.ip_favourite_btn(class="#{item.favourite.indexOf(user._id) > -1 ? 'On' : ''}")
+				i.icon-star
+				i.icon-star-empty
+				b.ip_favourite_num #{item.favourite.length}
+		else
+			span#ip_favourite.ip_tag.cp(data-toggle="modal", data-target="#signinModal")
+				i.icon-star
+				i.icon-star-empty
+				b.ip_favourite_num #{item.favourite.length}
 	li
 		span(class="iproduct_add_cart_btn #{cart_goods.indexOf(item.id) > -1 ? 'Stand' : '' + ' cp animation'}")
 			i.icon-shopping-cart

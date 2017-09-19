@@ -2,6 +2,7 @@ var Product = require('../models/product')
 var Category = require('../models/category')
 var Comment = require('../models/comment')
 var Shopcart = require('../models/shopcart')
+var User = require('../models/user')
 var _ = require('underscore')
 var fs = require('fs')
 var path = require('path')
@@ -90,6 +91,43 @@ var moment = require('moment')
 // 	})
 // }
 
+// 商品收藏
+exports.favourite = function(req, res){
+	var uid = req.session.user._id,
+		pid = req.body.pid
+	if (!uid) return res.json({success: 0})
+	User.findOne({'_id': uid}, function(err, user){
+		if (err) console.log(err)
+		var ufavourite = user.favouritegoods,
+			index = ufavourite.indexOf(pid),
+			info = []
+		if (ufavourite.indexOf(pid) > -1) {
+			ufavourite.splice(index,1)
+			info = [0, "取消收藏"]
+		} else {
+			ufavourite.push(pid)
+			info = [1, "收藏成功"]
+		}
+		user.save(function(err, _user){
+			Product.findOne({'_id': pid}, function(err, product){
+				if (err) console.log(err)
+				var pfavourite = product.favourite,
+					index = pfavourite.indexOf(uid)
+				if (!info[0]) {
+					pfavourite.splice(index, 1)
+				} else {
+					pfavourite.push(uid)
+				}
+				product.save(function(err, _product){
+					console.log(_product.favourite.length)
+					return res.json({success: 0, info: info, num: _product.favourite.length})
+				})
+				
+
+			})
+		})
+	})
+}
 
 // 商品属性
 exports.sort = function(req,res){
@@ -150,7 +188,6 @@ exports.sort = function(req,res){
 }
 // 商品详情页
 exports.detail = function(req,res){
-
 	var id = req.params.id,
 		user = req.session.user,
 		cart = req.session.cart

@@ -28,6 +28,10 @@ var ProductSchema = new Schema({
 	// 	type: ObjectId,
 	// 	ref: 'Category'
 	// },
+	favourite: [{
+		type: ObjectId,
+		ref: 'User'
+	}],
 	price: Number,
 	sale: {
 		type: Number,

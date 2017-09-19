@@ -1,4 +1,6 @@
 var mongoose = require('mongoose')
+var Schema = mongoose.Schema
+var ObjectId = Schema.Types.ObjectId
 var bcrypt = require('bcryptjs')
 var SALT_WORK_FACTOR = 10
 
@@ -12,6 +14,10 @@ var UserSchema = new mongoose.Schema({
 		default: 'avatar.png'
 	},
 	shopcartgoods:[],
+	favouritegoods:[{
+		type: ObjectId,
+		ref: 'Product'
+	}],
 	password: String,
 	role: {
 		type: Number,

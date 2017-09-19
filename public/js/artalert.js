@@ -12,18 +12,13 @@
 				zIndex: '2010'
 			}
 		},
-		artconmit: function (value, bgstyle, frameClass, lang, fn) {
-			var eleBg = $('<div></div>').css(this.publicStyle.bgStyle).addClass('artconmit_bg artconmit_close')
-			if (bgstyle) {
-				alert($alertBg.css({bgstyle}))
-			} else {
-				$('body').append(eleBg)
-			}
-			var re = /[\u4E00-\u9FA5]/g
-			var num = value.match(re).length
-			alert(num)
-
-			$('.artconmit_bg').fadeIn(300)
+		artConfirm: function (value, frameClass, lang, fn) {
+			var eleBg = $('<div></div>').css(this.publicStyle.bgStyle).addClass('artconfirm_bg artconfirm_close')
+			$('body').append(eleBg)
+			// var re = /[\u4E00-\u9FA5]/g
+			// var num = value.match(re).length
+			// alert(num)
+			$('.artconfirm_bg').fadeIn(300)
 			var langArr = lang === 'zh_cn' ? ['提示框', '确定', '取消'] : ['tip frame', 'sure', 'cancel']
 			var eleFrame = $('<div><h6><i class="icon-info-sign mr10"></i>' 
 				+ langArr[0] 
@@ -31,12 +26,12 @@
 				+ value 
 				+ '</p><div class="frameFooter"><span>' 
 				+ langArr[1] 
-				+ '</span><span class="artconmit_close">' 
+				+ '</span><span class="artconfirm_close">' 
 				+ langArr[2] 
 				+ '</span></div></div>').addClass(frameClass)
 			$('body').append(eleFrame)
 			$('.frameFooter span').click(function(){
-				$('.'+frameClass + ', .artconmit_bg').fadeOut( function(event){
+				$('.'+frameClass + ', .artconfirm_bg').fadeOut( function(event){
 					$(this).remove()
 				})
 				fn($(this).index())
@@ -66,7 +61,7 @@
 				})
 			}, closetime)
 		},
-		artAlert: function ( value, frameClass, lang, url, fn ) {
+		artAlert: function ( value, frameClass, lang, url, time ) {
 			var artalert_close_enter = true
 			var artalertBg = $('<div></div>').css( this.publicStyle.bgStyle ).addClass('artalert_bg artalert_close')
 			$('body').append(artalertBg)
@@ -76,7 +71,7 @@
 				+ langArr[0] 
 				+ '</h6><p>' 
 				+ value 
-				+ '</p><div class="frameFooter"><span class="artalert_close">' 
+				+ '</p><div class="frameFooter"><span id="artAlertBtn" class="artalert_close">' 
 				+ langArr[1] 
 				+ '</span></div></div>').addClass(frameClass)
 			$('body').append(eleFrame)
@@ -86,8 +81,8 @@
 				if (e && e.keyCode === 13) {
 					if (artalert_close_enter) {
 						$('.artalert_close:first').click();
-						artalert_close_enter = false;
-						return false;
+						artalert_close_enter = false
+						return false
 					}
 				}
 			}
@@ -96,15 +91,21 @@
 					$(this).remove()
 				})
 				$('.' + frameClass).animate({'opacity':0,'top':'-10%'},300,function(){
-					$(this).remove();
+					$(this).remove()
 					location.href= url ? url : '/'
-					// if(url){
-					// 	location.href= url ? url : '/'
-					// }else{
-					// 	// location.href=document.referrer;
-					// }
-				});
-			});
+				})
+			})
+			if (time) {
+				var artAlertBtn = document.getElementById('artAlertBtn'),
+					closetime = time
+				artAlertBtn.innerHTML = langArr[1] + ' ' + closetime
+				function remainTime() {
+					if (closetime === 0) $('.artalert_close').click()
+					artAlertBtn.innerHTML = langArr[1] + ' ' + closetime--
+					setTimeout(remainTime, 1000)
+				}
+				remainTime()
+			}
 		}
 	})
 }(jQuery));

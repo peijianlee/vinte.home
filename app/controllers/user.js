@@ -50,8 +50,8 @@ exports.createCaptcha = function(req, res, next){
 	// 登录验证码
 	var svgCaptcha = require('svg-captcha')
 		svgCaptcha.options.height = '30'
-		svgCaptcha.options.fontSize = '35'
-	var captcha = svgCaptcha.create({
+		svgCaptcha.options.fontSize = '35',
+		captcha = svgCaptcha.create({
 		'size': 4,
 		'ignoreChars': '0oO1iIlL',
 		'noise': 3,
@@ -99,7 +99,7 @@ exports.showSignin = function(req, res){
 }
 // 注册界面
 exports.showSignup = function(req, res){
-	if(req.session.signup_name_repeat) delete req.session.signup_name_repeat
+	// if(req.session.signup_name_repeat) delete req.session.signup_name_repeat
 	var req_path = req.path
 	var bgword = bgwords
 	var bgword = bgword[Math.floor(Math.random()*bgword.length)]
@@ -123,11 +123,12 @@ exports.signup = function(req, res, next){
 	User.findOne({name: name},function(err,user){
 		if(err) console.log('服务器异常' + err)
 		if(user && user.name!==''){
-			console.log('用户名已经存在')
-			req.session.signup_name_repeat = user.name
+			// console.log('用户名已经存在')
+			// req.session.signup_name_repeat = user.name
 			// return res.redirect('/signin')
 			return res.json({success:2})
 		}else{
+			// if(req.session.signup_name_repeat) delete req.session.signup_name_repeat
 			var user = new User({
 				name: name,
 				password: password
@@ -159,6 +160,8 @@ exports.signin = function(req, res, next){
 		}
 
 		user.comparePassword(password, function(err, isMatch){
+
+			console.log(isMatch)
 			if(err) console.log(err)
 			if(isMatch && password!=='') {
 				console.log('Password is matched')
@@ -218,15 +221,16 @@ exports.adminRequired = function(req,res,next){
 
 // 用户中心
 exports.detail = function(req,res){
+	var user = req.session.user
 	var name=req.params.name
 	var page=req.params.page
 	var orderId=req.params.id
 
-	console.log(orderId)
+	
 
-	User.findOne({'name':name},function(err,user){
+	User.findOne({'_id':user._id},function(err,user){
 		if(err) console.log(err)
-
+		console.log(user)
 		if(!user){
 			console.log('非法路径或该用户不存在。')
 			return res.render('prompt',{

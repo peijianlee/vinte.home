@@ -38,114 +38,19 @@ if !header_hide
 	.footer-bottom
 		.wrap.tr.fs12
 			a.cWhite(href="http://www.miitbeian.gov.cn/", target="_blank") 粤ICP备17070570号
-			|	Copyright © 2017, All Rights Reserved 
-
+			|	Copyright © 2017, All Rights Reserved
+	if !user
+		include ../themplate/signin_modal.jade
 script(src="/js/artalert.js")
 script(src="/js/jquery.vtEnterKeyPress.js")
 style.
-	.conmitFrame{
-		font-size:15px;
-		background-color:white;
-		width:600px;
-		position:fixed;
-		left:50%;top:15%;
-		margin-left:-300px;
-		z-index:2011;
-		border-radius:6px;
-		box-shadow:0 0 10px rgba(0,0,0,.5);
-	}
-	.conmitFrame h6{
-		color:white;
-		padding-left:20px;
-		background-color:#099;
-		height:46px;line-height:46px;
-		font-size:16px;font-weight:bold;
-		border-radius:5px 5px 0 0;
-	}
-	.conmitFrame p{
-		padding:30px;
-		border-bottom:1px solid #ddd;
-		text-align:center;
-		line-height:2.1em;
-		font-size:16px;font-weight:bold;
-		letter-spacing:0.05em;
-	}
-	.conmitFrame .frameFooter{text-align:center;
-		padding:15px 0;
-		background-color:#fafafa;
-		border-radius:0 0 5px 5px;
-	}
-	.conmitFrame .frameFooter span{
-		display:inline-block;
-		border:1px solid #ddd;
-		background-color:#eee;
-		padding:5px 30px;
-		border-radius:3px;
-		margin-left:12px;margin-right:12px;
-		box-shadow: inset 1px 1px rgba(255,255,255,.3),
-					inset -1px -1px rgba(255,255,255,.5);
-		cursor:pointer;
-		font-weight:bold;
-	}
-	.conmitFrame .frameFooter span:first-child{
-		border-color:#099;
-		background-color:#088;
-		color:white;
-	}
-	.conmitFrame .frameFooter span:hover{
-		box-shadow: inset 1px 1px rgba(255,255,255,.3),
-					inset -1px -1px rgba(255,255,255,.5),
-					inset 2px 2px 30px rgba(0,0,0,.2);
-	}
-	.artAlertFrame{
-		font-size:15px;
-		background-color:white;
-		width:500px;
-		position:fixed;
-		left:50%;top:15%;
-		margin-left:-250px;
-		z-index:2011;
-		border-radius:6px;
-		box-shadow:0 0 10px rgba(0,0,0,.5);
-	}
-	.artAlertFrame h6{
-		color:white;
-		padding-left:20px;
-		background-color:#099;
-		height:46px;line-height:46px;
-		font-size:16px;font-weight:bold;
-		border-radius:5px 5px 0 0;
-		box-shadow:inset 1px 1px rgba(255,255,255,.3);
-	}
-	.artAlertFrame p{
-		padding:30px 0;
-		border-bottom:1px solid #ddd;
-		text-align:center;
-		font-size:18px;font-weight:bold;
-	}
-	.artAlertFrame .frameFooter{
-		border-top:1px solid white;
-		padding:15px 0;
-		background-color:#f9f9f9;
-		border-radius: 0 0 5px 5px;
-		text-align:center;
-	}
-	.artAlertFrame .frameFooter span{
-		height:32px;line-height:32px;
-		width:100px;
-		display:inline-block;
-		cursor:pointer;
-		background-color:#97c11f;color:white;
-		font-weight:bold;
-		border-radius:3px;
-	}
 script.
-	//- $.artconmit('上传成功！！！', null, 'conmitFrame', 'zh_cn', function(i){
-	//- 	alert(i)
+	//- $.artConfirm('上传成功！！！', 'confirmFrame', 'zh_cn', function(i){
+		//- alert(i)
 	//- })
 	//- $.artTip('加载中...', 2000)
 	//- $.closeArtTip('加载成功！', 1000)
-	//- $.artAlert('加载成功！！！', 'artAlertFrame', 'zh_cn', document.referrer )
+	//- $.artAlert('加载成功！！！', 'artAlertFrame', 'zh_cn', document.referrer, 10 )
 	var sendMsgConfig = [
 		{
 			element: $('.f-msg-name'),

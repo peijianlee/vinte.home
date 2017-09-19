@@ -1,5 +1,5 @@
 var config = {
-	dburl: "mongodb://vinte:LPJ5548744948jd@localhost:27017/lpj_db",
+	dburl: "mongodb://vinte:LPJ5548744948jd@127.0.0.1:27017/lpj_db",
 	port: "3000",
 	global_title_cn: "梵特家具网",
 	global_title_en: "vintehome",

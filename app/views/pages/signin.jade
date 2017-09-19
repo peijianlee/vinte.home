@@ -74,7 +74,7 @@ block content
 		$('.sign_form_content').enterKeyPress(signinConfig)
 
 		$('#signinBtn').click(function(){
-			checkInputValue(signinConfig, $(this), 'signin')
+			CheckInputValue(signinConfig, $(this), 'signin', document.referrer)
 			return false
 		});
 

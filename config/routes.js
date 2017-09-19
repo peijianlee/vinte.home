@@ -22,12 +22,11 @@ module.exports = function(app){
 	app.use(function(req,res,next){
 		var _user = req.session.user
 		app.locals.user = _user
-
 		return next()
 	})
 
 	//Index
-	app.get('/', Index.index)
+	app.get('/', User.createCaptcha, Index.index)
 	// results
 	app.get('/results', Global.fetchAllCategoryType, Global.categoryTypeHref, Product.search)
 	// 错误页
@@ -45,10 +44,11 @@ module.exports = function(app){
 
 	// product
 	// app.get('/store', Product.store)
-	app.get('/store', Global.fetchAllCategoryType, Global.categoryTypeHref, Product.search)
-	app.get('/store/id/:id', Product.detail)
-	app.get('/store/sort/:sort', Global.fetchAllCategoryType, Global.categoryTypeHref, Product.sort)
+	app.get('/store', User.createCaptcha, Global.fetchAllCategoryType, Global.categoryTypeHref, Product.search)
+	app.get('/store/id/:id', User.createCaptcha, Product.detail)
+	app.get('/store/sort/:sort', User.createCaptcha, Global.fetchAllCategoryType, Global.categoryTypeHref, Product.sort)
 	app.get('/store/material/:material', Product.sort)
+	app.post('/goods/favourite', Product.favourite)
 	app.get('/admin/product/list', User.signinRequired, User.adminRequired, Product.list)
 	app.get('/admin/product/category/list', User.signinRequired, User.adminRequired, Global.fetchAllCategoryType, Category.list)
 	app.post('/admin/product', User.signinRequired, User.adminRequired, Product.save)

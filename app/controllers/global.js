@@ -3,14 +3,8 @@ var Category = require('../models/category')
 
 //fetch all category type
 exports.fetchAllCategoryType = function(req, res, next){
-	// var sort=req.params.sort
-	console.log('')
-	console.log('step 1 :')
-	console.log(req.session.allCategoryType)
-	// console.log(req.session.allCategoryType[3].cid[0].attributes.zh_cn)
 	var url_pathname = req._parsedUrl.pathname
 	Category.find({type: 'product'}, function(err, categories){
-		// console.log(categories)
 		var allCategoryType = []
 		// 对产品类目进行分类
 		if(url_pathname.indexOf('store') > 0){
@@ -41,11 +35,6 @@ exports.fetchAllCategoryType = function(req, res, next){
 			}
 		}
 		req.session.allCategoryType = allCategoryType
-
-		console.log('')
-		console.log('step 2 :')
-		console.log(req.session.allCategoryType)
-		// console.log(req.session.allCategoryType[3].cid[0].attributes.zh_cn)
 	})
 	next()
 }

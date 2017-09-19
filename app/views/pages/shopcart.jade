@@ -91,19 +91,16 @@ block content
 
 	.bg_fixed
 	script(src="/js/shopcart.js")
-	if !user
-		include ../themplate/signin_modal.jade
-	else
+	if user
 		script.
 			$('#createOrderBtn').click(function(){
 				if(!CheckboxIsChecked()){
-					arttip('<i class="icon-exclamation-sign mr5"></i>请选择商品 !')
-					arttipclose(0, 900)
+					$.artTip('<i class="icon-exclamation-sign mr5"></i>请选择商品 !', 1000)
 					return false
 				}
 			})
 			function CheckboxIsChecked(){
-				var isCheacked
+				var isCheacked = false
 				$('input.selectProduct').each(function(i){
 					if($(this).is(':checked')){
 						isCheacked = true
