@@ -58,6 +58,10 @@ var OrderSchema = new Schema({
 		type: ObjectId,
 		ref: 'User'
 	},
+	udelete:{
+		type:Number,
+		default:0
+	},
 	pv:{
 		type:Number,
 		default:0

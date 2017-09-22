@@ -66,7 +66,7 @@ script.
 	$('[data-toggle="modal"]').click(function() {
 		var Target = $(this).attr('data-target');
 		if ($(this).children('i').length > 0) {
-			$.artConfirm('用户未登录状态下，商品是不可以收藏的，是否登录？', 'confirmFrame', 'zh_cn', function(info){
+			$.artConfim('用户未登录状态下，商品是不可以收藏的，是否登录？', 'confimFrame', 'zh_cn', function(info){
 				if(!info){
 					PopUpModal ()
 				} else {

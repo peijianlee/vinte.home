@@ -19,7 +19,7 @@ var path = require('path')
 
 module.exports = function(app){
 	// pre handle user
-	app.use(function(req,res,next){
+	app.use( function (req, res, next) {
 		var _user = req.session.user
 		app.locals.user = _user
 		return next()
@@ -77,6 +77,7 @@ module.exports = function(app){
 	// order
 	app.get('/admin/order/list', User.signinRequired, User.adminRequired, Order.adminList)
 	app.get('/admin/order/:id', User.signinRequired, User.adminRequired, Order.detail)
+	app.post('/order/delete', User.signinRequired, User.adminRequired, Order.delete)
 
 
 	// news

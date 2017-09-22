@@ -1,7 +1,6 @@
-var User = require('../models/user')
-var Order = require('../models/order')
-
-
+var User = require('../models/user'),
+	Order = require('../models/order'),
+	Product = require('../models/product')
 
 // req.session.destroy() 
 
@@ -221,61 +220,94 @@ exports.adminRequired = function(req,res,next){
 
 // 用户中心
 exports.detail = function(req,res){
-	var user = req.session.user
-	var name=req.params.name
-	var page=req.params.page
-	var orderId=req.params.id
+	var user = req.session.user,
+		name=req.params.name,
+		page=req.params.page,
+		orderId=req.params.id,
+		shopcartgoodsNum = req.session.user.shopcartgoods.length
 
-	
-
-	User.findOne({'_id':user._id},function(err,user){
+	User.findOne({'_id':user._id}, function (err,user) {
 		if(err) console.log(err)
-		console.log(user)
+
 		if(!user){
-			console.log('非法路径或该用户不存在。')
 			return res.render('prompt',{
 				message:'非法路径或该用户不存在。'
 			})
-		}else{
-			if(!page){
+		} else {
+			var title = user.name + '的个人中心'
+			if (!page) {
 				Order
 					.find({'uid':user.id})
 					.limit(5)
-					.exec(function(err, orders){
+					.exec(function (err, orders) {
 						if(err) console.log(err)
-						res.render('user',{
-							title: user.name+'的个人中心',
-							user: user,
-							orders: orders,
-							cart_goods_num: req.session.user.shopcartgoods.length
+						var favouritegoods = user.favouritegoods,
+							favourite = favouritegoods.length > 5 ? favouritegoods.slice(0, 5) : favouritegoods
+						// console.log(favourite)
+						Product
+							.find({_id:{$in:favourite}})
+							.populate('color material scene sort','attributes')
+							.exec(function (err, favouritegoods) {
+								if (err) console.log(err)
+								res.render('user/user',{
+									title: title,
+									user: user,
+									orders: orders,
+									favouritegoods: favouritegoods,
+									cart_goods_num: shopcartgoodsNum
+								})
+							})
+					})
+			} else if (page.toString() === 'setting') {
+				res.render('user/user_setting',{
+					title: '用户设置 - ' + title,
+					user: user,
+					cart_goods_num: shopcartgoodsNum
+				})
+			} else if (page.toString() === 'orders' && !orderId) {
+				Order.find({'uid': user.id, 'udelete': 0},function (err, orders) {
+					res.render('user/user_order',{
+						title: '所有询价单 - ' + title,
+						page: 'order',
+						orders: orders,
+						cart_goods_num: shopcartgoodsNum
+					})
+				})
+			} else if (page.toString() === 'favourite') {
+				Product
+					.find({_id: {$in: user.favouritegoods}})
+					.populate('color material scene sort', 'attributes')
+					.exec( function (err, favouritegoods) {
+						if (err) console.log (err)
+						res.render('user/user_order', {
+							title: '收藏夹 - ' + title,
+							page: 'favourite',
+							favouritegoods: favouritegoods,
+							cart_goods_num: shopcartgoodsNum
 						})
 					})
-			}else if(page.toString() === 'setting'){
-				res.render('user_setting',{
-					title: '用户设置 - '+user.name+'的个人中心',
-					user: user,
-					cart_goods_num: req.session.user.shopcartgoods.length
-				})
-			}else if(page.toString() === 'orders' && !orderId){
-				Order.find({'uid': user.id},function(err, orders){
-					res.render('user_order',{
-						title: '所有询价单 - '+user.name+'的个人中心',
-						orders: orders,
-						cart_goods_num: req.session.user.shopcartgoods.length
-					})
-				})
-			}else if(orderId){
+			} else if (orderId) {
 				Order
 					.findOne({'_id': orderId})
 					.populate('products.scene products.material products.color','attributes')
 					.exec(function(err, order){
-						console.log(order)
-						res.render('user_order_detail',{
-							title: '询价单' + order.id + ' - '+user.name+'的个人中心',
-							order: order,
-							cart_goods_num: req.session.user.shopcartgoods.length
-						})
+						if (!order) {
+							return res.render('prompt',{
+								message:'非法路径或该订单已经不存在。'
+							})
+						} else {
+							res.render('user/user_order_detail',{
+								title: '询价单' + order._id + ' - ' + title,
+								order: order,
+								cart_goods_num: shopcartgoodsNum
+							})
+						}
 					})
+			} else {
+				res.render('error', {
+					message: 'Not Found',
+					error: {status: '404', stack: 'Error: Not Found'}
+				})
 			}
 		}
 	})

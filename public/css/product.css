@@ -135,7 +135,7 @@
 .ip_tag{
 	font-size:10px;padding:2px 8px;margin-right:5px;
 	height:20px;line-height:20px;
-	color:#999;border:1px solid #999;
+	color:#999;border:1px solid #bbb;
 	border-radius:10px;
 }
 .ip_old_price,
@@ -175,11 +175,12 @@ span.iproduct_add_cart_btn.Stand{
 /*收藏按键*/
 #ip_favourite{position:relative;}
 #ip_favourite i.icon-star{display:none;}
-#ip_favourite.On i.icon-star{display:inline;color:#888;}
+#ip_favourite.On{color:#c66;}
+#ip_favourite.On i.icon-star{display:inline;color:#888;color:#c66;}
 #ip_favourite.On i.icon-star-empty{display:none;}
 .ip_favourite_btn:hover{
 	color:#555;
-	border-color:#555;
+	border-color:#999;
 }
 .ip_favourite_btn.On{background-color:#f6f6f6;}
 .ip_favourite_num{

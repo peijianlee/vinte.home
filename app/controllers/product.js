@@ -6,126 +6,68 @@ var User = require('../models/user')
 var _ = require('underscore')
 var fs = require('fs')
 var path = require('path')
-var moment = require('moment')
-
-
-
-// 所有商品
-// exports.store = function(req,res){
-// 	var user = req.session.user,
-// 		cart = req.session.cart,
-// 		page = req.query.p || 1,
-// 		count = 6,
-// 		start = (page-1) * count,
-// 		url = req._parsedUrl.pathname,
-// 		p = req.query.p
-
-// 	var product_attributes = {
-// 		'scene': req.query.scene,
-// 		'sort': req.query.sort,
-// 		'material': req.query.material
-// 	}
-
-// 	var now_product_attributes = ''
-// 	for(item in product_attributes){
-// 		if(!product_attributes[item]){
-// 			delete product_attributes[item]
-// 		}else{
-// 			now_product_attributes += '&'+item+'='+ product_attributes[item]
-// 		}
-// 	}
-// 	// console.log(now_product_attributes.substr(1))
-// 	// console.log(now_product_attributes)
-// 	// console.log(now_product_attributes)
-// 	// console.log(now_product_attributes)
-// 	// console.log(now_product_attributes)
-// 	// console.log(url)
-
-// 	// var findObj = {'attributes.zh_cn': material}
-
-// 	Category.find({type:'product'},function(err, categories){
-// 		if(err)console.log(err)
-
-// 		var categories_arry = {
-// 			scene: [],
-// 			sort: [],
-// 			material: []
-// 		}
-// 		for( item in categories ){
-// 			var cat_name = categories[item].name
-// 			if( cat_name === 'scene' ){
-// 				categories_arry['scene'].push(categories[item])
-// 			}else if( cat_name === 'sort' ){
-// 				categories_arry['sort'].push(categories[item])
-// 			}else if( cat_name === 'material' ){
-// 				categories_arry['material'].push(categories[item])
-// 			}
-// 		}
-// 		// console.log(categories_arry)
-
-
-// 		Product.find(product_attributes).count().exec(function(err, productsCount){
-// 			Product
-// 				.find(product_attributes)
-// 				.sort({_id: -1})
-// 				.skip( start > 0? start : 0 )
-// 				.limit( count )
-// 				.populate('scene material color', 'attributes')
-// 				.exec(function(err, products){
-// 					if(err)console.log(err)
-// 					var pageNum = page ++
-
-// 					res.render('store',{
-// 						title:'所有商品',
-// 						products: products,
-// 						categories: categories_arry,
-// 						now_product_attributes: now_product_attributes.substr(1),
-// 						currentPage: pageNum,
-// 						totalPage: Math.ceil(productsCount / count),
-// 						cart_goods: CartGoods(user, cart),
-// 						cart_goods_num: CartGoods(user, cart).length,
-// 						url_pathname: url
-// 					})
-// 				})
-// 		})
-// 	})
-// }
 
 // 商品收藏
-exports.favourite = function(req, res){
+exports.favourite = function (req, res) {
 	var uid = req.session.user._id,
-		pid = req.body.pid
-	if (!uid) return res.json({success: 0})
-	User.findOne({'_id': uid}, function(err, user){
-		if (err) console.log(err)
-		var ufavourite = user.favouritegoods,
-			index = ufavourite.indexOf(pid),
-			info = []
-		if (ufavourite.indexOf(pid) > -1) {
-			ufavourite.splice(index,1)
-			info = [0, "取消收藏"]
-		} else {
-			ufavourite.push(pid)
-			info = [1, "收藏成功"]
-		}
-		user.save(function(err, _user){
-			Product.findOne({'_id': pid}, function(err, product){
-				if (err) console.log(err)
-				var pfavourite = product.favourite,
-					index = pfavourite.indexOf(uid)
-				if (!info[0]) {
-					pfavourite.splice(index, 1)
-				} else {
-					pfavourite.push(uid)
-				}
-				product.save(function(err, _product){
-					console.log(_product.favourite.length)
-					return res.json({success: 0, info: info, num: _product.favourite.length})
-				})
-				
+		pid = req.body.pid,
+		page = req.body.page
 
+
+	if (!uid) return res.json({success: 0})
+	User.findOne({'_id': uid}, function (err, user) {
+		if (err) console.log(err)
+		var ufavourite = user.favouritegoods
+
+		if (typeof pid === 'object') {
+			// 批量移除
+			for (var i = 0; i < pid.length; i++) {
+				var index = ufavourite.indexOf(pid[i])
+				if (index > -1) ufavourite.splice(index, 1)
+			}
+			User.update({_id: uid}, {'favouritegoods': ufavourite}, function (err, _user) {
+				if (err) console.log(err)
+				Product.find({_id: {$in: pid}}, function (err, products) {
+					for(item in products){
+						var pfavourite = products[item].favourite
+							index = pfavourite.indexOf(uid)
+						console.log(pfavourite)
+						pfavourite.splice(index, 1)
+						products[item].save(function (err, product) {
+							console.log(product.favourite)
+						})
+					}
+				})
+				return res.json({success:0})
 			})
-		})
+		} else {
+			var	index = ufavourite.indexOf(pid),
+				info = []
+			if (index > -1) {
+				ufavourite.splice(index,1)
+				info = [0, "取消收藏"]
+			} else {
+				ufavourite.push(pid)
+				info = [1, "收藏成功"]
+			}
+			User.update({_id: uid}, {'favouritegoods': ufavourite}, function (err, _user) {
+				if (err) console.log(err)
+				Product.findOne({'_id': pid}, function (err, product) {
+					if (err) console.log(err)
+					var pfavourite = product.favourite
+					if (!info[0]) {
+						var index = pfavourite.indexOf(uid)
+						pfavourite.splice(index, 1)
+					} else {
+						pfavourite.push(uid)
+					}
+					Product.update({_id: pid}, {'favourite': pfavourite}, function (err, _product) {
+						console.log(pfavourite.length)
+						return res.json({success: 0, info: info, num: pfavourite.length})
+					})
+				})
+			})
+		}
 	})
 }
 

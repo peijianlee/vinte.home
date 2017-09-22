@@ -30,31 +30,35 @@ block content
 						th(width="100") 图片
 						th 名称
 						th 官方定价
-						th 目标数量
+						th(width="60") 目标数量
 						th 目标价格
 					if order.products && order.products.length > 0
 						each item in order.products
 							tr.fs12
-								th: img(style="width:100px;height:100px;" src="/data/products/p#{item.id}/#{item.cover}")
-								th: ul.tl
-									li
-										a.base-color-dark.fs14(href="/store/id/#{item.id}" target="_blank") #{item.title} 
+								td: img(style="width:100px;height:100px;" src="/data/products/p#{item.id}/#{item.cover}")
+								td: ul.tl
+									li.mb5
+										a.base-color-dark.fs14.fb(href="/store/id/#{item.id}" target="_blank") #{item.title} 
 									li.fn.cGray 尺寸：宽#{item.size.w} x 深#{item.size.d} x 高#{item.size.h}
-									li.fn.cGray 场景：
-										if item.scene && item.scene.length > 0
+									if item.scene && item.scene.length > 0
+										li.fs12.cGray 场景：
 											each scene in item.scene
-												span.ml5 #{scene.attributes}
-									li.fn.cGray 材质：
-										if item.material && item.material.length > 0
+												span.ml10 #{scene.attributes.zh_cn}
+									if item.sort && item.sort.length > 0
+										li.fs12.cGray 类型：
+											each sort in item.sort
+												span.ml10 #{sort.attributes.zh_cn}
+									if item.material && item.material.length > 0
+										li.fs12.cGray 材质：
 											each material in item.material
-												span.ml5 #{material.attributes}
-									li.fn.cGray 颜色：
-										if item.color && item.color.length > 0
+												span.ml10 #{material.attributes.zh_cn}
+									if item.color && item.color.length > 0
+										li.fs12.cGray 颜色：
 											each color in item.color
-												span.ml5 #{color.attributes}
-								th.fn.cGray #{item.price}.00
-								th #{item.quantity}
-								th #{item.fromprice}
+												span.ml10 #{color.attributes.zh_cn}
+								td.fn.cGray #{'￥' + item.price.toFixed(2)}
+								td.fb #{item.quantity}
+								td.fb #{item.fromprice}
 			dl.order_detail_right
 				dt.order_detail_list_head.fb
 					i.icon-info.mr5

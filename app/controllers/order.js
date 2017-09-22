@@ -50,3 +50,26 @@ exports.detail = function(req, res){
 			})
 		})
 }
+exports.delete = function(req, res){
+	var uid = req.session.user._id,
+		pid = req.body.pid,
+		page = req.body.page
+	if (typeof pid === 'object') {
+		// 批量移除
+		Order.find({_id: {$in: pid}}, function (err, orders) {
+			for(item in orders){
+				console.log(orders[item].udelete)
+				orders[item].update({'udelete': 1})
+			}
+		})
+		return res.json({success:0})
+	} else {
+		Order.findOne({'_id': pid}, function (err, order) {
+			if (err) console.log(err)
+			order.update({'udelete': 1}, function (err, order) {
+				if (err) console.log(err)
+			})
+		})
+		return res.json({success:0})
+	}
+}

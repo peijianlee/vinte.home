@@ -12,7 +12,7 @@
 				zIndex: '2010'
 			}
 		},
-		artConfirm: function (value, frameClass, lang, fn) {
+		artConfim: function (value, frameClass, lang, fn) {
 			var eleBg = $('<div></div>').css(this.publicStyle.bgStyle).addClass('artconfirm_bg artconfirm_close')
 			$('body').append(eleBg)
 			// var re = /[\u4E00-\u9FA5]/g
@@ -105,6 +105,51 @@
 					setTimeout(remainTime, 1000)
 				}
 				remainTime()
+			}
+		},
+		/*--
+			dom为数组,[0]为单选,[1]为全选,[2]为单选的父级
+			event判断是否是全选的checkbox
+		--*/
+		checkBoxSelect: function (dom, fn) {
+			$(dom[0] + ',' +dom[4]).bind({
+				"click": function() { CheckBox() }
+			})
+			$(dom[1]).bind({
+				"click": function(event) { CheckBox(event) }
+			})
+			function CheckBox (type) {
+				var selectInfo = {
+					sid: [],
+					stitle: []
+				}
+				var allSelect = true
+				$(dom[2]).each(function () {
+					var checkBox = $(this).find('input[type="checkbox"]'),
+						sid = $(this).attr('id'),
+						stitle = $(this).attr('stitle')
+					if (typeof type === 'object') {
+						var isAllSelect = $(type.target).is(':checked')
+						if (isAllSelect) {
+							selectInfo.sid.push(sid)
+							selectInfo.stitle.push(stitle)
+							checkBox.prop('checked', isAllSelect)
+						} else {
+							checkBox.prop('checked', isAllSelect)
+							allSelect = false
+						}
+					} else {
+						if (checkBox.is(':checked')) {
+							selectInfo.sid.push($(this).attr('id'))
+							selectInfo.stitle.push($(this).attr('stitle'))
+						} else {
+							allSelect = false
+						}
+					}
+				})
+				$(dom[1]).prop('checked', allSelect)
+				$(dom[3]).text(selectInfo.sid.length)
+				return fn(selectInfo)
 			}
 		}
 	})

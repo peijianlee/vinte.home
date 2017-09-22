@@ -42,8 +42,8 @@ $('.iproduct_add_cart_btn_stand').click(function(){
 $('.shopcart_goods_remove').click(function(){
 	var id = $(this).attr('data-id'),
 		goodsTitle = $(this).parent().prev().prev().text(),
-		artConfirmTip = '是否将询价单中的 “<b class="cBlue">' + goodsTitle + '</b>” 商品移除？'
-	$.artConfirm(artConfirmTip, 'confirmFrame', 'zh_cn', function(i){
+		artConfimTip = '是否将询价单中的 “<b class="cBlue">' + goodsTitle + '</b>” 商品移除？'
+	$.artConfim(artConfimTip, 'confirmFrame', 'zh_cn', function(i){
 		if (!i) {
 			$.artTip('<i class="icon-spinner icon-spin"></i>&nbsp;&nbsp;uploading...')
 			// var id = $(this).attr('data-id');
