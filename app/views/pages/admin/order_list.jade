@@ -37,12 +37,6 @@ block content
 					| 用户，共提交了
 					b  ( #{orders.length} ) 
 					| 条询价单记录
-
-				//- span.button-dropdown(data-buttons="dropdown")
-					span.button.fs14 是否
-					ul.button-dropdown-list.is-below.tc
-						li: a 企业
-						li: a 个人
 			table.table.table_hover.table_bordered.table_striped
 				thead
 					tr
@@ -50,27 +44,28 @@ block content
 						th 发送时间
 						th 是否过期
 						th 发送用户
+						th 主动删除
 						th 类型
 						th 操作
 				tbody
 					if orders && orders.length > 0
 						each item in orders
-							tr
-								td.tc
-									a(href="/admin/order/#{item.id}") #{item.id}
-								td.tc 
+							tr.tc
+								td: a.base-color-dark(href="/admin/order/#{item.id}") #{'No.' + item.id}
+								td 
 									span.cGray #{moment(item.meta.createAt).format('YYYY/MM/DD HH:mm:ss')}
 									br
 									| #{moment(item.meta.createAt).add(5, 'days').format('YYYY/MM/DD HH:mm:ss')}
-								td.tc #{moment(item.meta.createAt).add(5, 'days').fromNow()}
-								//- td.tc #{moment(item.meta.createAt).add(150, 'minute').fromNow()}
-								//- td.tc #{moment().isBetween(moment(item.meta.createAt), moment(item.meta.createAt).add(130, 'minute'))}
-								td.tc
-									a(href="?name=#{item.uid.id}") #{item.uid.name}
-								td.tc
+								td #{moment(item.meta.createAt).add(5, 'days').fromNow()}
+								td: a.base-color-dark(href="?name=#{item.uid.id}") #{item.uid.name}
+								td #{item.udelete ? '已删除' : '否'}
+								td
 									if item.from.company
-										span 企业
+										span.o-green-style
+											i.icon-building
+											| 企业
 									else
-										span 个人
-								td.tc 
-									a(href="#{item.id}").button.button-highlight.button-rounded.button-small(type="button", data-id="#{item._id}", data-src="#{item.imgsrc}") 处理
+										span.o-gray-style
+											i.icon-user
+											| 个人
+								td: a(href="#{item.id}").button.button-highlight.button-rounded.button-small(type="button", data-id="#{item._id}", data-src="#{item.imgsrc}") 处理

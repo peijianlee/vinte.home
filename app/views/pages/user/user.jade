@@ -45,7 +45,7 @@ block content
 				if orders && orders.length > 0
 					each order in orders
 						tr.tc
-							td: a.base-color-dark(href="/user/#{user.name}/orders/#{order._id}") #{order._id}
+							td: a.base-color-dark(href="/user/#{user.name}/orders/#{order._id}") #{'No.' + order._id}
 							td #{moment(order.meta.createAt).format('YYYY/MM/DD')}
 							td
 							td: a(href="/user/#{user.name}/orders/#{order._id}").button.button-primary.button-tiny 查看

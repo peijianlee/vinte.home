@@ -14,24 +14,20 @@ block content
 						th 角色权限
 						th 创建时间
 						th 查看
-						th 更新
 						th 删除
 				tbody.tc
 					each item in users
 						tr(class="item-id-#{item._id}")
 							td 
-								img.user_avatar(src="#{item.avatar}", alt="")
-							td #{item.name}
-							- console.log(_user)
+								img.user_avatar(src="/images/#{item.avatar}", alt="")
+							td: a.base-color-dark.fb(href="#{item.name}", target="_blank") #{item.name}
 							if item.role == 0
 								td 普通用户
 							else
 								td 管理员
 							td #{moment(item.meta.updateAt).format('YYYY/MM/DD/ HH:mm')}
 							td
-								a.button.button-primary.button-rounded.button-small(target="_blank", href="../movie/#{item._id}") 查看
-							td
-								a.button.button-highlight.button-rounded.button-small(target="_blank", href="../admin/update/#{item._id}") 修改
+								a.button.button-primary.button-rounded.button-small(target="_blank", href="#{item.name}") 查看
 							td
 								if item.role == 0
 									button.button.button-caution.button-rounded.button-small.userdel(type="button", data-id="#{item._id}") 删除

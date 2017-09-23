@@ -7,7 +7,7 @@ block content
 			| #{title}
 		.contentpanel
 			dl.admin_order_head.mb10
-				dt 订单号：#{order.id}
+				dt #{'No.' + order.id}
 				dd 创建时间：#{moment(order.meta.createAt).format('YYYY/MM/DD HH:mm:ss')}
 				dd 发送用户：
 					a.cBlue(href="list?name=#{order.uid.id}", title="查看#{order.uid.name}的所有询价单") #{order.uid.name}
@@ -31,20 +31,20 @@ block content
 								td
 									ul
 										li.fs16.fb #{item.title}
+										li.cGray.fs12 尺寸：
+											span.ml5 宽#{item.size.w}×深#{item.size.d}×高#{item.size.h} (cm)
 										if item.scene && item.scene.length > 0
 											li.cGray.fs12 场景：
 												each i_scene in item.scene
-													span.ml5 #{i_scene.attributes}
+													span.ml5 #{i_scene.attributes.zh_cn}
 										if item.material && item.material.length > 0
 											li.cGray.fs12 材质：
 												each i_material in item.material
-													span.ml5 #{i_material.attributes}
+													span.ml5 #{i_material.attributes.zh_cn}
 										if item.color && item.color.length > 0
 											li.cGray.fs12 颜色：
 												each i_color in item.color
-													span.ml5 #{i_color.attributes}
-										li.cGray.fs12 尺寸：
-											span.ml5 宽#{item.size.w}×深#{item.size.d}×高#{item.size.h} (cm)
+													span.ml5 #{i_color.attributes.zh_cn}
 								td.tc #{item.price}
 								td.tc.fb #{item.quantity}
 								td.tc.fb #{item.fromprice}

@@ -58,8 +58,9 @@ exports.delete = function(req, res){
 		// 批量移除
 		Order.find({_id: {$in: pid}}, function (err, orders) {
 			for(item in orders){
-				console.log(orders[item].udelete)
-				orders[item].update({'udelete': 1})
+				orders[item].update({'udelete': 1}, function (err) {
+					if (err) console.log(err)
+				})
 			}
 		})
 		return res.json({success:0})

@@ -105,6 +105,7 @@ module.exports = function(app){
 	app.get('/signin', User.userRequired, User.createCaptcha, User.showSignin)
 	app.get('/logout', User.logout)
 	app.get('/admin/user/list', User.signinRequired, User.adminRequired, User.list)
+	app.get('/admin/user/:name', User.signinRequired, User.adminRequired, User.adminDetail)
 	app.delete('/admin/user/list', User.signinRequired, User.adminRequired, User.del)
 
 	//Movie

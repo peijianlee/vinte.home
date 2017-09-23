@@ -313,6 +313,31 @@ exports.detail = function(req,res){
 	})
 }
 
+// 后台用户详情
+exports.adminDetail = function (req, res) {
+	var name = req.params.name
+	User.findOne({'name': name}, function (err, user) {
+		if (err) console.log(err)
+		// console.log(user)
+		Order.find({'uid': user.id}, function (err, orders){
+			if (err) console.log(err)
+			Product
+				.find({'favourite': user.id})
+				.populate('color material scene sort','attributes')
+				.exec( function (err, products) {
+					if (err) console.log(err)
+					console.log(products)
+					res.render('admin/user_detail', {
+						title: name + '用户的详情资料',
+						user: user,
+						orders: orders,
+						products: products
+					})
+				})
+		})
+	})
+}
+
 // 更改密码
 exports.changeword = function(req, res){
 	var user = req.session.user,

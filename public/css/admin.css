@@ -303,3 +303,40 @@ span.menuBtn.Active:before{content:"-";}
 	border-radius:3px;
 	padding:5px 15px;
 }
+
+/*用户详情*/
+.user-info-frame{
+	font-size:14px;
+	line-height:2em;
+	padding:25px;
+	background-color:#f8f8f8;
+	border-radius:5px;
+}
+.avatar{
+	width:80px;
+	height:80px;
+	border-radius:50%;
+	background-color:white;
+	border:1px solid #ddd;
+	padding:3px;
+}
+.user-info{
+	padding-left:25px;
+	overflow:hidden;
+}
+.o-green-style,
+.o-gray-style{
+	border-width:1px;
+	border-style:solid;
+	border-radius:3px;
+	padding:3px 8px;
+}
+.o-green-style i,
+.o-gray-style i{margin-right:4px;}
+.o-green-style{
+	border-color:#066;
+	color:#066;
+}
+.o-gray-style{
+	border-color:#777;
+	color:#777;}
