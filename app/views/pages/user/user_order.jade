@@ -27,7 +27,7 @@ block content
 								th 询价单号
 								th 创建时间
 								th 是否回复
-								th(width="100") 操作
+								th(width="160") 操作
 						tbody
 							each order in orders
 								tr.tc(id="#{order.id}", stitle="#{order.id}")
@@ -37,7 +37,7 @@ block content
 									td
 									td
 										a(href="/user/#{user.name}/orders/#{order.id}").button.button-primary.button-tiny 查看
-										span.button.button-caution.button-tiny.mt5.remove-item 删除
+										span.button.button-caution.button-tiny.ml5.remove-item 删除
 						tfoot
 							tr
 								td(colspan="5").tl

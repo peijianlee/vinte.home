@@ -275,7 +275,7 @@ exports.detail = function(req,res){
 				})
 			} else if (page.toString() === 'favourite') {
 				Product
-					.find({_id: {$in: user.favouritegoods}})
+					.find({'favourite': user._id})
 					.populate('color material scene sort', 'attributes')
 					.exec( function (err, favouritegoods) {
 						if (err) console.log (err)

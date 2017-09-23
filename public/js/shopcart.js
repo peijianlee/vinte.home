@@ -122,8 +122,8 @@ $('.ip_favourite_btn').click(function(){
 		async:false,
 		cache:false,
 		success: function(data){
-			if (data.success) {
-				$.closeArtTip('收藏失败！', 800)
+			if (data.success === 1) {
+				$.closeArtTip('网络超时, 收藏失败！', 800)
 			} else {
 				$.closeArtTip(data.info[1], 800)
 				if (data.info[1].toString() === '收藏成功') {

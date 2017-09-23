@@ -368,6 +368,7 @@ div.i-sort-link:last-child:hover .i-sort{
 	display:inline-block;
 	border:1px solid #066;
 	width:120px;
+	color:#066;
 }
 .g-remore-btn span{
 	display:block;
