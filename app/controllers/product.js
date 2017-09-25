@@ -9,6 +9,7 @@ var path = require('path')
 
 // 商品收藏
 exports.favourite = function (req, res) {
+	if (!req.session.user) return res.json({success: 1})
 	var uid = req.session.user._id,
 		pid = req.body.pid,
 		page = req.body.page

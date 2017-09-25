@@ -1,8 +1,8 @@
 (function($){
 	$.extend({
 		publicStyle: {
-			bgStyle: {
-				backgroundColor: 'rgba(0,0,0,0.5)',
+			popupBgStyle: {
+				backgroundColor: 'rgba(0,0,0,.5)',
 				position: 'fixed',
 				top: '0',
 				left: '0',
@@ -13,13 +13,10 @@
 			}
 		},
 		artConfim: function (value, frameClass, lang, fn) {
-			var eleBg = $('<div></div>').css(this.publicStyle.bgStyle).addClass('artconfirm_bg artconfirm_close')
+			var eleBg = $('<div></div>').css(this.publicStyle.popupBgStyle).addClass('artconfirm_bg artconfirm_close')
 			$('body').append(eleBg)
-			// var re = /[\u4E00-\u9FA5]/g
-			// var num = value.match(re).length
-			// alert(num)
 			$('.artconfirm_bg').fadeIn(300)
-			var langArr = lang === 'zh_cn' ? ['提示框', '确定', '取消'] : ['tip frame', 'sure', 'cancel']
+			var langArr = lang === 'zh_cn' ? ['提示框', '确定', '取消'] : ['Tip frame', 'Sure', 'Cancel']
 			var eleFrame = $('<div><h6><i class="icon-info-sign mr10"></i>' 
 				+ langArr[0] 
 				+ '</h6><p>' 
@@ -63,7 +60,7 @@
 		},
 		artAlert: function ( value, frameClass, lang, url, time ) {
 			var artalert_close_enter = true
-			var artalertBg = $('<div></div>').css( this.publicStyle.bgStyle ).addClass('artalert_bg artalert_close')
+			var artalertBg = $('<div></div>').css( this.publicStyle.popupBgStyle ).addClass('artalert_bg artalert_close')
 			$('body').append(artalertBg)
 			$('.artalert_bg').fadeIn()
 			var langArr = lang === 'zh_cn' ? ['信息提示框', '确定'] : ['tip frame', 'sure']
@@ -153,4 +150,4 @@
 			}
 		}
 	})
-}(jQuery));
+}(jQuery))

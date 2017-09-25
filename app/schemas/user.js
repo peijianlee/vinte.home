@@ -14,10 +14,6 @@ var UserSchema = new mongoose.Schema({
 		default: 'avatar.png'
 	},
 	shopcartgoods:[],
-	favouritegoods:[{
-		type: ObjectId,
-		ref: 'Product'
-	}],
 	password: String,
 	role: {
 		type: Number,
