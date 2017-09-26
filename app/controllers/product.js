@@ -13,7 +13,6 @@ exports.favourite = function (req, res) {
 	var uid = req.session.user._id,
 		pid = req.body.pid,
 		page = req.body.page
-	if (!uid) return res.json({success: 1})
 	if (typeof pid === 'object') {
 		// 批量移除
 		Product.find({_id: {$in: pid}, 'favourite': uid}, function (err, products) {
