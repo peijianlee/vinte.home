@@ -13,27 +13,6 @@ var bgsrc = [
 	'719896__room-living-beautiful-paper-wallpaper-walls_p.jpg',
 	'720002__room-living-vintage-furniture-ladder-paper-image_p.jpg'
 ]
-// 随机背景图
-var bgwords = [
-	"我喜欢我望向别处时你落在我身上的目光。",
-	"最怕一生碌碌无为，还说平凡难能可贵。",
-	"你那么孤独，却说一个人真好。",
-	"当你觉得孤独无助时，想一想还有十几亿的细胞只为了你一个人而活。",
-	"一个人久了，煮个饺子看见两个粘在一起的也要给它分开！。",
-	"我从未拥有过你一秒钟，心里却失去过你千万次。",
-	"校服是我和她唯一穿过的情侣装，毕业照是我和她唯一的合影。",
-	"人生的出场顺序太重要了。",
-	"理想就是离乡。",
-	"世界如此广阔，人类却走进了悲伤的墙角。",
-	"我想做一个能在你的葬礼上描述你一生的人。",
-	"谢谢你陪我校服到礼服。",
-	"周杰伦把爱情比喻成龙卷风，我觉得特别贴切。因为很多人，像我。一辈子都没见过龙卷风。",
-	"小时候刮奖刮出“谢”字还不扔，非要把“谢谢惠顾”都刮的干干净净才舍得放手，和后来太多的事一模一样。",
-	"喜欢这种东西，捂住嘴巴，也会从眼睛里跑出来。",
-	"我听过一万首歌，看过一千部电影，读过一百本书，却从未俘获一个人的心。",
-	"年轻时我想变成任何人，除了我自己。",
-	"我不喜欢这世界，我只喜欢你。",
-	"我离天空最近的一次，是你把我高高地举过了你的肩头。"]
 // 判断用户是否已经登录
 exports.userRequired = function(req,res,next){
 	var user = req.session.user
@@ -82,15 +61,12 @@ exports.checkedCaptcha = function(req, res, next){
 exports.showSignin = function(req, res){
 	var name = req.session.signup_name_repeat
 	var password = req.query.password
-	var bgword = bgwords
-	var bgword = bgword[Math.floor(Math.random()*bgword.length)]
 	var bgimg = bgsrc
 	var bgimg = bgimg[Math.floor(Math.random()*bgimg.length)]
 	res.render('signin',{
 		title: '用户登陆',
 		name: name,
 		password: password,
-		bgword: bgword,
 		bgsrc: bgimg,
 		captcha: req.session.captcha,
 		header_hide: true
@@ -100,13 +76,10 @@ exports.showSignin = function(req, res){
 exports.showSignup = function(req, res){
 	// if(req.session.signup_name_repeat) delete req.session.signup_name_repeat
 	var req_path = req.path
-	var bgword = bgwords
-	var bgword = bgword[Math.floor(Math.random()*bgword.length)]
 	var bgimg = bgsrc
 	var bgimg = bgimg[Math.floor(Math.random()*bgimg.length)]
 	res.render('signup',{
 		title: '用户注册',
-		bgword: bgword,
 		bgsrc: bgimg,
 		captcha: req.session.captcha,
 		header_hide: true
@@ -237,15 +210,13 @@ exports.detail = function(req,res){
 			var title = user.name + '的个人中心'
 			if (!page) {
 				Order
-					.find({'uid':user.id})
+					.find({'uid': user.id})
 					.limit(5)
 					.exec(function (err, orders) {
 						if(err) console.log(err)
-						var favouritegoods = user.favouritegoods,
-							favourite = favouritegoods.length > 5 ? favouritegoods.slice(0, 5) : favouritegoods
-						// console.log(favourite)
 						Product
-							.find({_id:{$in:favourite}})
+							.find({'favourite': user._id})
+							.limit(5)
 							.populate('color material scene sort','attributes')
 							.exec(function (err, favouritegoods) {
 								if (err) console.log(err)
@@ -288,7 +259,7 @@ exports.detail = function(req,res){
 					})
 			} else if (orderId) {
 				Order
-					.findOne({'_id': orderId})
+					.findOne({'_id': orderId, 'udelete': 0})
 					.populate('products.scene products.material products.color','attributes')
 					.exec(function(err, order){
 						if (!order) {
@@ -297,7 +268,7 @@ exports.detail = function(req,res){
 							})
 						} else {
 							res.render('user/user_order_detail',{
-								title: '询价单' + order._id + ' - ' + title,
+								title: 'No.' + order._id + ' - ' + title,
 								order: order,
 								cart_goods_num: shopcartgoodsNum
 							})

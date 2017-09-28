@@ -14,7 +14,7 @@ block content
 		form(method="POST", action="/user/signup" )
 			ul.sign_form_content
 				li
-					input#signupName.form-control(name="signup[name]", type="text", placeholder="请输入用户名")
+					input#signupName.form-control(name="signup[name]", type="text", placeholder="请输入用户名", style="ime-mode:disabled")
 					label(for="signupName")
 						i.icon-user
 				li
@@ -37,7 +37,10 @@ block content
 					p
 						a.cWhite.fs12(href="http://www.miitbeian.gov.cn/" target="_blank") 粤ICP备17070570号
 						p Copyright © 2017 www.vinte.xin All Rights Reserved
-	h3.bgword
+		div.pa.signup-select-menu
+			a(href="/") 邮箱注册
+			a(href="/") 手机注册
+	//- h3.bgword
 		i.icon-quote-left.icon-3x.pull-left
 		| #{bgword}
 	script(src="js/jquery.vtEnterKeyPress.js")

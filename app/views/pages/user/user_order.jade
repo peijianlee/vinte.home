@@ -117,10 +117,12 @@ block content
 	.bg_fixed
 	if page === 'order'
 		script.
-			var postUrl = '/order/delete'
+			var postUrl = '/order/delete',
+				page = 'order'
 	else
 		script.
-			var postUrl = '/goods/favourite'
+			var postUrl = '/goods/favourite',
+				page = 'favourite'
 	script.
 		$(function(){
 			var sid = [],
@@ -148,7 +150,7 @@ block content
 						$.ajax({
 							type:"POST",
 							url: postUrl,
-							data:{'pid': pid, 'page': 'favourite'},
+							data:{'pid': pid, 'page': page},
 							dataType:"json",
 							async:false,
 							cache:false,

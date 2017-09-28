@@ -27,6 +27,60 @@ a.base-color-dark:visited{color:#088;}
 a.base-color-dark:hover{
 	border-bottom:1px dashed #066;
 }
+/*主体按键*/
+.base-button{
+	color:white;
+	text-align:center;
+	box-shadow:border-box;
+	cursor:pointer;
+	transition-duration: 0.3s;
+	transition-property: all;
+	-webkit-transition-duration: 0.3s;
+	-webkit-transition-property: all;
+	border-style:solid;
+	border-width:1px;
+	font-weight:300;
+}
+.b-normal{
+	font-size:16px;
+	height:40px;line-height:40px;
+	padding:0 40px;
+}
+.b-small{
+	font-size:12px;
+	height:30px;line-height:30px;
+	padding:0 30px;
+}
+.base-button.b-block{display:block;}
+.base-button.b-inline-block{display:inline-block;}
+.base-button.b-radius{border-radius:3px;}
+.base-button:active{text-shadow:0 1px 0 rgba(255, 255, 255, 0.3);}
+/*primary*/
+.b-primary{
+	background-color:#25a6a4;
+	border-color:#25a6a4;}
+.b-primary:hover,
+.b-primary:focus{
+	background-color:#36bfbd;
+	border-color:#36bfbd;}
+.b-primary:active{
+	background-color:#2db2b0;
+	border-color:#2db2b0;color:#159290;}
+/*caution*/
+.b-caution{
+	background-color:#ff4351;
+	border-color:#ff4351;}
+.b-caution:hover,
+.b-caution:focus{
+	background-color:#ff7680;
+	border-color:#ff7680;
+}
+.b-caution:active{
+	background-color:#f64c59;
+	border-color:#f64c59;color:#ff1022;
+}
+
+
 .cAaa{color:#aaa;}
 .cGray{color:gray;}
 .cRed{color:#c8181e;}
@@ -35,7 +89,6 @@ a.base-color-dark:hover{
 .cBlack{color:black;}
 .cGreen{color:green;}
 
-.block{display:block;}
 .none{display:none;}
 .overflow-hidden{overflow:hidden;}
 

@@ -3,6 +3,9 @@
 
 /* banner style */
 .index-banner-bgcolor{background-color:#f9f9f9;}
+.index-banner-bgcolor img{
+	width:980px;height:auto;
+}
 #loading{
 	visibility:visible;
 	position:absolute;

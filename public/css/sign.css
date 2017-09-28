@@ -34,7 +34,7 @@
 }
 .sign_form{
 	cursor:default;
-	margin:6% auto 0;max-width:400px;overflow:hidden;
+	margin:6% auto 0;max-width:400px;
 	position:relative;z-index:1;
 	box-shadow:0 0 8px rgba(0,0,0,0.1);
 }
@@ -72,6 +72,7 @@
 	text-shadow:1px 1px white;
     box-shadow:inset -1px -1px white;
 }
+
 .inputStyle,
 .sign_form_content input{
 	border:0 none;
@@ -193,7 +194,7 @@
 	top:-3px;
 }
 
-.bgword{
+/*.bgword{
 	position:fixed;z-index:-1;
 	color:#333;
 	font-size:20px;
@@ -201,6 +202,27 @@
 	bottom:70px;right:2%;
 	opacity:0.8;
 	font-family:"proxima_nova",Arial,"Microsoft JhengHei","Microsoft Yahei","Heiti TC","PMingLiU",sans-serif;
-	/*font-family:"Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","WenQuanYi Micro Hei",sans-serif;*/
 }
-.bgword i{color:#999;}
+.bgword i{color:#999;}*/
+
+
+.signup-select-menu{
+	top:0;right:-25px;
+	width:25px;text-align:center;
+	padding-top:150px;
+}
+.signup-select-menu a{
+	background-color:#fcfcfc;
+	color:#bbb;
+	text-shadow:1px 1px white;
+	display:inline-block;
+	line-height:18px;
+	font-size:12px;
+	padding:12px 5px;
+	border-radius:0 3px 3px 0;
+	margin-bottom:10px;
+}
+.signup-select-menu a:hover{
+	background-color:#25a6a4;
+	color:white;text-shadow:none;
+}
