@@ -148,6 +148,41 @@
 				$(dom[3]).text(selectInfo.sid.length)
 				return fn(selectInfo)
 			}
+		},
+		vtLazyload: function() {
+			//- lazyload https://zhuanlan.zhihu.com/p/24057749?refer=dreawer
+			var n = 0,
+				img = $(arguments[0])
+				imgNum = img.length
+			function Lazyload (event) {
+				for (var i = n; i < imgNum; i++) {
+					if (img.eq(i).offset().top < parseInt($(window).height()) + parseInt($(window).scrollTop())) {
+						var src = img.eq(i).attr('data-src')
+						img.eq(i).attr('src', src).removeAttr('data-src')
+						n = i + 1
+					}
+				}
+			}
+			Lazyload()
+			function Throttle(fun, delay, time) {
+			    var timeout,
+			        startTime = new Date()
+			    return function() {
+			        var context = this,
+			            args = arguments,
+			            curTime = new Date()
+			        clearTimeout(timeout)
+			        // 如果达到了规定的触发时间间隔，触发 handler
+			        if (curTime - startTime >= time) {
+			            fun.apply(context, args)
+			            startTime = curTime
+			            // 没达到触发间隔，重新设定定时器
+			        } else {
+			            timeout = setTimeout(fun, delay)
+			        }
+			    }
+			}
+			window.addEventListener('scroll', Throttle(Lazyload, arguments[1], arguments[2]))
 		}
 	})
 }(jQuery))

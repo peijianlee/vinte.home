@@ -43,11 +43,9 @@ if !header_hide
 		include ../themplate/signin_modal.jade
 script(src="/js/artalert.js")
 script(src="/js/jquery.vtEnterKeyPress.js")
-style.
 script.
-	//- $.artConfirm('上传成功！！！', 'confirmFrame', 'zh_cn', function(i){
-		//- alert(i)
-	//- })
+	//- 添加懒加载 vtLazyload(class, 延迟时间, 间隔时间)
+	$.vtLazyload('.vtLazyload', 500, 1000)
 	//- $.artTip('加载中...', 2000)
 	//- $.closeArtTip('加载成功！', 1000)
 	//- $.artAlert('加载成功！！！', 'artAlertFrame', 'zh_cn', document.referrer, 10 )
@@ -112,41 +110,3 @@ script.
 			}
 		}
 	}
-	//- lazyload
-	var n = 0,
-		img = $('.vtLazyload')
-		imgNum = img.length
-	function vtLazyload (event) {
-		for (var i = n; i < imgNum; i++) {
-			if (img.eq(i).offset().top < parseInt($(window).height()) + parseInt($(window).scrollTop())) {
-				if (img.eq(i).attr('src') === 'default.png') {
-					var src = img.eq(i).attr('data-src')
-					img.eq(i).attr('src', src)
-					n = i + 1
-				}
-			}
-		}
-	}
-	vtLazyload()
-	function throttle(fun, delay, time) {
-	    var timeout,
-	        startTime = new Date()
-	    return function() {
-	        var context = this,
-	            args = arguments,
-	            curTime = new Date()
-	        clearTimeout(timeout)
-	        // 如果达到了规定的触发时间间隔，触发 handler
-	        if (curTime - startTime >= time) {
-	            fun.apply(context, args)
-	            startTime = curTime
-	            // 没达到触发间隔，重新设定定时器
-	        } else {
-	            timeout = setTimeout(fun, delay)
-	        }
-	    }
-	}
-	window.addEventListener('scroll', throttle(vtLazyload,500,1000))
-
-
-

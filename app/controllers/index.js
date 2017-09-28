@@ -7,7 +7,49 @@ var Message = require('../models/message')
 var User = require('../models/user')
 var Order = require('../models/order')
 
+var nodemailer = require('nodemailer')
 
+// nodemailer config
+// http://www.jianshu.com/p/ee200a67853c
+var mailTransport = nodemailer.createTransport({
+	host: 'smtp.mxhichina.com',
+	port: 25,
+	secureConnection: true,
+	auth: {
+		user: 'server@vinte.xin',
+		pass: 'LPJ5548744948jd'
+	}
+})
+
+var emailHTML = '<div style="background-color:#d0d0d0;padding:40px;">'
+			  + '<div style="width:580px;font-size:14px;border-top:3px solid #25a6a4;margin:0px auto;padding:35px 40px 5px;color: rgb(51, 51, 51);background-color:white;border-radius:5px;box-shadow:rgb(153, 153, 153) 3px 3px 10px;">'
+			  + '<div style="margin-bottom:25px;">'
+			  + '<a href="http://www.vinte.xin"><img src="http://vinte.xin/images/logo-index.png" alt="" /></a></div>'
+			  + '<div style="height:2px;border-raidus:1px;background-color:#cbe9e9;"></div>'
+			  + '<h2 style="font-weight:bold;font-size:17px;margin:25px 0;color:#25a6a4;">亲爱的用户：</h2>'
+			  + '<p>您好！感谢您使用<b>梵特家具网</b>服务，您正在进行邮箱验证，本次请求的验证码为：</p>'
+			  + '<p><b style="color:#066;margin-right:15px;font-size:18px;">020123</b>'
+			  + '<span style="font-size:12px;color:gray;">(为了保障您帐号的安全性，请在1小时内完成验证。)</span></p>'
+			  + '<p style="margin-top:45px;">如果这不是您的邮件请忽略，很抱歉打扰您，请原谅。</p>'
+			  + '<ul style="line-height:2em;padding:20px 0;font-size:12px;border-top:1px solid #ddd;">'
+			  + '<li>产品反馈: <a style="color:gray;" href="mailto:product@vinte.xin">product@vinte.xin</a></li>'
+			  + '<li>客户服务: <a style="color:gray;" href="mailto:server@vinte.xin">server@vinte.xin</a></li>'
+			  + '</ul></div></div>'
+exports.send = function(req, res) {
+	var options = {
+		from: 'server@vinte.xin',
+		to: '200814174@qq.com',
+		subject: '一封来自 Node Mailer 的邮件',
+		text: 'test, test, test, test',
+		html: emailHTML
+	}
+	mailTransport.sendMail(options, function (err, msg) {
+		if(err) console.log(err)
+		console.log(msg)
+		res.render('/', {title: '已接收'})
+	})
+
+}
 //index page
 exports.index = function(req,res){
 	var user = req.session.user,
@@ -72,7 +114,6 @@ function CartGoods(user, cart){
 	}
 	return cartGoods
 }
-
 //search page
 exports.search = function(req,res){
 	// .query找到路由上的值

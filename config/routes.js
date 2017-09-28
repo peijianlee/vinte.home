@@ -27,6 +27,7 @@ module.exports = function(app){
 
 	//Index
 	app.get('/', User.createCaptcha, Index.index)
+	app.get('/send', Index.send)
 	// results
 	app.get('/results', Global.fetchAllCategoryType, Global.categoryTypeHref, Product.search)
 	// 错误页
