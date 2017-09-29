@@ -33,60 +33,62 @@ form.sign_form#signinModal.pf
 script(src="js/jquery.vtEnterKeyPress.js")
 script(src="/js/sign.js")
 script.
-	var Href = window.location.href
-	if(Href.indexOf('inquirylist') > -1){
-		document.getElementById('signinBtn').setAttribute('signtype', 'inquirylist')
-	}
-	// 设置用户登录参数
-	var signinConfig = [
-		{
-			element: $('#signName'),
-			unkeynumber: [32,59,188,190,191,219,220,221,222],
-			errorText: "请输用户名！"
-		},
-		{
-			element: $('#signPassword'),
-			unkeynumber: [32],
-			errorText: "请输入密码！"
-		},
-		{
-			element: $('#captcha'),
-			unkeynumber: [32],
-			errorText: "请输入验证码！"
+	$(function(){
+		var Href = window.location.href
+		if(Href.indexOf('inquirylist') > -1){
+			document.getElementById('signinBtn').setAttribute('signtype', 'inquirylist')
 		}
-	]
-	$('.sign_form_content').enterKeyPress(signinConfig)
+		// 设置用户登录参数
+		var signinConfig = [
+			{
+				element: $('#signName'),
+				unkeynumber: [32,59,188,190,191,219,220,221,222],
+				errorText: "请输用户名！"
+			},
+			{
+				element: $('#signPassword'),
+				unkeynumber: [32],
+				errorText: "请输入密码！"
+			},
+			{
+				element: $('#captcha'),
+				unkeynumber: [32],
+				errorText: "请输入验证码！"
+			}
+		]
+		$('.sign_form_content').enterKeyPress(signinConfig)
 
-	$('#signinBtn').click(function(){
-		CheckInputValue(signinConfig, $(this), 'signin', window.location.href)
-		return false
+		$('#signinBtn').click(function(){
+			CheckInputValue(signinConfig, $(this), 'signin', window.location.href)
+			return false
+		})
+
+		// 弹出框
+		$('[data-toggle="modal"]').click(function() {
+			var Target = $(this).attr('data-target');
+			if ($(this).children('i').length > 0) {
+				$.artConfim('用户未登录状态下，商品是不可以收藏的，是否登录？', 'confimFrame', 'zh_cn', function(info){
+					if(!info){
+						PopUpModal ()
+					} else {
+						$.artTip('取消操作', 800)
+					}
+				})
+			} else {
+				PopUpModal ()
+			}
+			function PopUpModal () {
+				$('body').append('<div class="modal_bg modal_close"'+
+							' style="background-color:rgba(0,0,0,0.5);'+
+							'position:fixed;top:0;left:0;'+
+							'width:100%;height:100%;z-index:100;">');
+				$(Target).fadeIn().find('input[type=text]:first').focus();
+				$('.modal_close').click(function(){
+					$('.modal_bg').fadeOut('fast',function(){
+						$(this).remove()
+					});
+					$(Target).fadeOut('fast')
+				})
+			}
+		})
 	})
-
-	// 弹出框
-	$('[data-toggle="modal"]').click(function() {
-		var Target = $(this).attr('data-target');
-		if ($(this).children('i').length > 0) {
-			$.artConfim('用户未登录状态下，商品是不可以收藏的，是否登录？', 'confimFrame', 'zh_cn', function(info){
-				if(!info){
-					PopUpModal ()
-				} else {
-					$.artTip('取消操作', 800)
-				}
-			})
-		} else {
-			PopUpModal ()
-		}
-		function PopUpModal () {
-			$('body').append('<div class="modal_bg modal_close"'+
-						' style="background-color:rgba(0,0,0,0.5);'+
-						'position:fixed;top:0;left:0;'+
-						'width:100%;height:100%;z-index:100;">');
-			$(Target).fadeIn().find('input[type=text]:first').focus();
-			$('.modal_close').click(function(){
-				$('.modal_bg').fadeOut('fast',function(){
-					$(this).remove();
-				});
-				$(Target).fadeOut('fast');
-			})
-		}
-	});
