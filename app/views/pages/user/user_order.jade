@@ -6,11 +6,11 @@ block content
 		a(href="/")
 			i.fs14.icon-home
 		a(href="/user/#{user.name}") 我的个人中心
-		b #{page === 'order' ? '询价单' : '收藏夹'}
+		b #{page === 'inquiries' ? '询价单' : '收藏夹'}
 	.user_frame.wrap
 		ul.user_page_menu
-			li(class="#{page === 'order' ? 'Stand' : ''}")
-				a.block(href="orders")
+			li(class="#{page === 'inquiries' ? 'Stand' : ''}")
+				a.block(href="inquiries")
 					i.icon-reorder.mr5
 					| 询价单
 			li(class="#{page === 'favourite' ? 'Stand' : ''}")
@@ -18,8 +18,8 @@ block content
 					i.icon-star.mr5
 					| 收藏夹
 		.user_page.p15
-			if page === 'order'
-				if orders && orders.length > 0
+			if page === 'inquiries'
+				if inquiries && inquiries.length > 0
 					table#list-table.table_striped.table_bordered
 						thead
 							tr
@@ -29,15 +29,15 @@ block content
 								th 是否回复
 								th(width="160") 操作
 						tbody
-							each order in orders
-								tr.tc(id="#{order.id}", stitle="#{order.id}")
+							each inquiry in inquiries
+								tr.tc(id="#{inquiry.id}", stitle="#{inquiry.id}")
 									th: input.select-item.cp(type="checkbox")
-									td: a.base-color-dark.fb(href="/user/#{user.name}/orders/#{order.id}") #{'No.' + order.id}
-									td #{moment(order.meta.createAt).format('YYYY/MM/DD')}
+									td: a.base-color-dark.fb(href="/user/#{user.name}/inquiries/#{inquiry.id}") #{'No.' + inquiry.id}
+									td #{moment(inquiry.meta.createAt).format('YYYY/MM/DD')}
 									td
 									td
-										a(href="/user/#{user.name}/orders/#{order.id}").button.button-primary.button-tiny 查看
-										span.button.button-caution.button-tiny.ml5.remove-item 删除
+										a(href="/user/#{user.name}/inquiries/#{inquiry.id}").base-button.b-primary.b-tiny 查看
+										span.base-button.b-caution.b-tiny.ml5.remove-item 删除
 						tfoot
 							tr
 								td(colspan="5").tl
@@ -47,8 +47,8 @@ block content
 									span.ml10
 										| 已选择
 										b#select-num.base-color-dark.ml5.mr5 0
-										| 订单
-									span#remove-all.ml10.button.button-caution.button-small(remove-all="true", del-order="true") 删除
+										| 条询价单
+									span#remove-all.ml10.base-button.b-caution.b-small.b-radius(remove-all="true", del-inquiry="true") 删除
 				else
 					.user_details_empty_tip.tc(colspan="5")
 						p.mb15.fs16.fb 目前没有任何数据
@@ -72,7 +72,7 @@ block content
 									td
 										img(src='/data/products/p'+favourite.id+'/'+favourite.cover, width="80", height="80")
 									td(style="vertical-align:top;")
-										ul.tl.fs12
+										ul.tl.fs11.cGray.line-height-normal
 											li: a.base-color-dark.fb.fs16(href='/store/id/#{favourite.id}', target="_blank") #{favourite.title}
 											li 尺寸：
 												span.ml5 #{'w ' + favourite.size.w + ' x h ' + favourite.size.h + ' * d' + favourite.size.d}
@@ -94,8 +94,8 @@ block content
 														span.ml5 #{color.attributes.zh_cn}
 									td.fb.fs16 #{'￥' + favourite.price.toFixed(2)}
 									td
-										a(href="/store/id/#{favourite.id}", target="_blank").button.button-primary.button-tiny 查看
-										span.mt5.button.button-caution.button-tiny.remove-item(ptitle="#{favourite.title}") 移出
+										a(href="/store/id/#{favourite.id}", target="_blank").base-button.b-primary.b-tiny 查看
+										span.mt5.base-button.b-caution.b-tiny.remove-item(ptitle="#{favourite.title}") 移出
 						tfoot
 							tr
 								td(colspan="5").tl
@@ -106,7 +106,7 @@ block content
 										| 已选择
 										b#select-num.base-color-dark.ml5.mr5 0
 										| 件商品
-									span#remove-all.ml10.button.button-caution.button-small(remove-all="true") 移出
+									span#remove-all.ml10.base-button.b-caution.b-small.b-radius(remove-all="true") 移出
 				else
 					.user_details_empty_tip.tc(colspan="5")
 						p.mb15.fs16.fb 目前没有任何数据
@@ -133,7 +133,7 @@ block content
 			})
 			$('.remove-item, #remove-all').click(function () {
 				if ($(this).attr('remove-all')) {
-					var delOrder = $(this).attr('del-order')
+					var delOrder = $(this).attr('del-inquiry')
 						pid = sid,
 						ptitle = delOrder ? stitle.length : stitle 
 					if(pid.length <= 0) return $.artTip('当前没有选中项', 800)

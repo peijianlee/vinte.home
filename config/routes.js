@@ -10,7 +10,7 @@ var Comment = require('../app/controllers/comment')
 var Category = require('../app/controllers/category')
 var Banner = require('../app/controllers/banner')
 var Shopcart = require('../app/controllers/shopcart')
-var Order = require('../app/controllers/order')
+var Inquiry = require('../app/controllers/Inquiry')
 var Global = require('../app/controllers/global')
 var Api = require('../app/controllers/api')
 var ueditor = require('ueditor')
@@ -63,10 +63,9 @@ module.exports = function(app){
 	
 	// shopcart
 	// app.get('/shopcart', Shopcart.matchcart, Shopcart.detail)
-	app.get('/inquirylist', User.createCaptcha, Shopcart.detail)
-	app.post('/create/inquirylist', Shopcart.createInquirylist)
-	app.post('/create/order', Shopcart.createOrder)
-	app.get('/create/order/success', Shopcart.createOrderSuccess)
+	app.get('/inquiry', User.createCaptcha, Shopcart.detail)
+	app.post('/create/inquiry/info', Shopcart.createInquiryInfo)
+	app.post('/create/inquiry/success', Shopcart.createInquirySuccess)
 	app.post('/shopcart/add', Shopcart.add)
 	app.delete('/shopcart/del', Shopcart.del)
 
@@ -75,10 +74,10 @@ module.exports = function(app){
 	app.get('/admin/index', User.signinRequired, User.adminRequired, Index.admin)
 	// 用户留言
 	app.get('/admin/messages/list', User.signinRequired, User.adminRequired, Index.messageList)
-	// order
-	app.get('/admin/order/list', User.signinRequired, User.adminRequired, Order.adminList)
-	app.get('/admin/order/:id', User.signinRequired, User.adminRequired, Order.detail)
-	app.post('/order/delete', User.signinRequired, User.adminRequired, Order.delete)
+	// Inquiry
+	app.get('/admin/inquiry/list', User.signinRequired, User.adminRequired, Inquiry.adminList)
+	app.get('/admin/inquiry/:id', User.signinRequired, User.adminRequired, Inquiry.detail)
+	app.post('/inquiry/delete', User.signinRequired, User.adminRequired, Inquiry.delete)
 
 
 	// news

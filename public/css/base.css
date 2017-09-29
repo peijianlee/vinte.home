@@ -31,7 +31,7 @@ a.base-color-dark:hover{
 .base-button{
 	color:white;
 	text-align:center;
-	box-shadow:border-box;
+	box-sizing: border-box;
 	cursor:pointer;
 	transition-duration: 0.3s;
 	transition-property: all;
@@ -40,6 +40,7 @@ a.base-color-dark:hover{
 	border-style:solid;
 	border-width:1px;
 	font-weight:300;
+	display:inline-block;
 }
 .b-normal{
 	font-size:16px;
@@ -51,9 +52,14 @@ a.base-color-dark:hover{
 	height:30px;line-height:30px;
 	padding:0 30px;
 }
-.base-button.b-block{display:block;}
+.b-tiny{
+	font-size:10px;
+	height:24px;line-height:24px;
+	padding:0 24px;
+}
+.base-button.b-block{display:block;width:100%;}
 .base-button.b-inline-block{display:inline-block;}
-.base-button.b-radius{border-radius:3px;}
+.base-button.b-rounded{border-radius:3px;}
 .base-button:active{text-shadow:0 1px 0 rgba(255, 255, 255, 0.3);}
 /*primary*/
 .b-primary{
@@ -99,10 +105,13 @@ a.base-color-dark:hover{
 .fs11{font-size:11px;}
 .fs12{font-size:12px;}
 .fs14{font-size:14px;}
+.fs15{font-size:15px;}
 .fs16{font-size:16px;}
 .fs18{font-size:18px;}
 .cd{cursor:default;}
 .cp{cursor:pointer;}
+
+.line-height-normal{line-height:1.7em}
 
 .fl{float:left;}
 .fr{float:right;}

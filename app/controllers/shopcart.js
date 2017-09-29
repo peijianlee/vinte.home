@@ -1,7 +1,7 @@
 var Shopcart = require('../models/shopcart')
 var Product = require('../models/product')
 var User = require('../models/user')
-var Order = require('../models/order')
+var Inquiry = require('../models/inquiry')
 var _ = require('underscore')
 
 
@@ -37,7 +37,7 @@ exports.detail = function(req,res){
 					}
 					productsObj.push(p_obj)
 				}
-				res.render('shopcart',{
+				res.render('user/inquiry',{
 					title: '询价单',
 					products: productsObj,
 					captcha: req.session.captcha,
@@ -66,7 +66,7 @@ exports.detail = function(req,res){
 				}
 				// var cart_goods_num = shopcart.products.length
 
-				res.render('shopcart',{
+				res.render('user/inquiry',{
 					title: '询价单',
 					products: products,
 					cart_goods: user.shopcartgoods
@@ -77,14 +77,14 @@ exports.detail = function(req,res){
 }
 
 // 创建购物清单及填写个人信息
-exports.createInquirylist = function(req, res){
-	var orderObj = req.body.order.pid
+exports.createInquiryInfo = function(req, res){
+	var inquiryObj = req.body.inquiry.pid
 
 	Product
-		.find({_id: {$in: orderObj}})
+		.find({_id: {$in: inquiryObj}})
 		.populate('sort color material scene','attributes')
 		.exec(function(err, products){
-			res.render('create_order',{
+			res.render('user/create_inquiry',{
 				title: '创建询价单',
 				products: products,
 				cart_goods: req.session.user.shopcartgoods
@@ -93,17 +93,17 @@ exports.createInquirylist = function(req, res){
 		})
 }
 // 创建订单
-exports.createOrder = function(req, res){
-	var orderInfo = req.body.order
+exports.createInquirySuccess = function(req, res){
+	var inquiryInfo = req.body.inquiry
 
 	Product
-		.find({_id: {$in: orderInfo.products.id}})
+		.find({_id: {$in: inquiryInfo.products.id}})
 		.exec(function(err, products){
 			// console.log(products)
 			if(products && products.length > 0){
-				var orderObj = {
-					uid: orderInfo.uid,
-					from: orderInfo.from,
+				var inquiryObj = {
+					uid: inquiryInfo.uid,
+					from: inquiryInfo.from,
 					products:[]
 				}
 				for(var i=0; i<products.length; i++){
@@ -117,34 +117,32 @@ exports.createOrder = function(req, res){
 						'color': products[i].color,
 						'material': products[i].material,
 						'scene': products[i].scene,
-						'quantity': orderInfo.products.quantity[i],
-						'fromprice': orderInfo.products.fromprice[i]
+						'quantity': inquiryInfo.products.quantity[i],
+						'fromprice': inquiryInfo.products.fromprice[i]
 					}
-					orderObj.products.push(productObj)
+					inquiryObj.products.push(productObj)
 				}
-				var _orderObj = new Order(orderObj)
-				_orderObj.save(function(err, order){
+				var _inquiryObj = new Inquiry(inquiryObj)
+				_inquiryObj.save(function(err, inquiry){
 					if(err) console.log(err)
-					// req.session.user.order.id = order.id
-					// req.session.user.order.data = order.meta.createAt
-					req.session.user.order = {
-						id: order.id,
-						data: order.meta.createAt
-					}
-					res.redirect('order/success')
+					// req.session.user.inquiry.id = inquiry.id
+					// req.session.user.inquiry.data = inquiry.meta.createAt
+					// req.session.user.inquiry = {
+					// 	id: inquiry.id,
+					// 	data: inquiry.meta.createAt
+					// }
+					// res.redirect('inquiry/success')
+					res.render('user/create_inquiry_success',{
+						title: '询价单创建成功',
+						inquiry: {
+							id: inquiry.id,
+							data: inquiry.meta.createAt
+						},
+						cart_goods: req.session.user.shopcartgoods
+					})
 				})
 			}
-			return false
 		})
-}
-// 创建订单成功信息
-exports.createOrderSuccess = function(req, res){
-	console.log(req.session.user)
-	res.render('create_order_success',{
-		title: '询价单创建成功',
-		order: req.session.user.order,
-		cart_goods: req.session.user.shopcartgoods
-	})
 }
 
 // 添加购物车

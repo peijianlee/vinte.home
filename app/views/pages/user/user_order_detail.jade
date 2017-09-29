@@ -6,12 +6,12 @@ block content
 		a(href="/")
 			i.fs14.icon-home
 		a(href="/user/#{user.name}") 我的个人中心
-		a(href="/user/#{user.name}/orders") 询价单
+		a(href="/user/#{user.name}/inquiries") 询价单
 		b No.#{order.id}
 	.user_frame.wrap
 		ul.user_page_menu
 			li.Stand
-				a.block(href="/user/#{user.name}/orders")
+				a.block(href="/user/#{user.name}/inquiries")
 					i.icon-reorder.mr5
 					|询价单
 			li

@@ -1,0 +1,106 @@
+extends ../../layout_index
+
+block content
+	.wrap
+		.nav.mt10
+			a(href="/news")
+				i.fs14.icon-home
+			a(href="/store") 商城首页
+			a(href="/inquiry") 询价单列表
+			b 创建询价单
+		div.progress.progress_step_2
+			div.progress_step
+				span.s_step 1
+				p 询价单列表
+			div.progress_step
+				span.s_step 2
+					span.s_1
+					span.s_2
+				p 填写信息
+			div.progress_step
+				span.s_step 3
+				p 发送完成
+			div.progress_line
+			div.progress_step_line
+		form(method="post", action="/create/inquiry/success", enctype="multipart/form-data").mb50
+			input(type="hidden", name="inquiry[uid]", value=user._id)
+			dl.create_order_userinfo
+				dt.shopcart_head
+					i.icon-edit.mr10
+					| 我的资料
+				dd.pb5
+					label.selectType.On
+						i.icon-building.mr10
+						| 公司
+					label.selectType
+						i.icon-user.mr10
+						| 个人
+
+				dd.animation
+					.create_order_userinfo_input
+						input(type="text", placeholder="请输入公司名称", name="inquiry.from[company]")
+						i.icon-building
+				dd
+					.create_order_userinfo_input
+						input(type="text", placeholder="请输入联系名字", name="inquiry.from[user]")
+						i.icon-user
+				dd
+					.create_order_userinfo_input
+						input(type="text", placeholder="请输入联系电话", name="inquiry.from[phone]", maxlength="text")
+						i.icon-phone
+				dd
+					.create_order_userinfo_input
+						input(type="text", placeholder="请输入邮箱地址", name="inquiry.from[email]")
+						i.icon-envelope
+				dd
+					textarea.create_order_userinfo_textarea(placeholder="如需备注", name="inquiry.from[description]")
+				dd.pb20.tc
+					//- button#createBtn.createBtn.animation(type="sumbit") 确认创建询价单
+					button#createBtn(type="sumbit") 创建询价单
+			table.shopcart_list(style="width:70%;")
+				caption.shopcart_head
+					i.icon-list.mr10
+					| 询价单列表
+				thead
+					tr
+						th(width="140") 商品图片
+						th.tl 描述
+						th 目标数量
+							i.icon-edit.ml5
+						th(width="150") 目标单价
+							i.icon-edit.ml5
+				tbody
+					if products && products.length>0
+						each item in products
+							tr(id=item.id)
+								td
+									img(src="/data/products/p"+item.id+"/"+item.cover)
+								td.shopcart_goods_name.vatop
+									ul
+										li.mb5
+											h3 #{item.title}
+										li 宽#{item.size.w}×深#{item.size.d}×高#{item.size.h} (cm)
+										if item.material && item.material.length > 0
+											li 材质： 
+												each i_material in item.material
+													span.ml5 #{i_material.attributes.zh_cn}
+										if item.color && item.color.length > 0
+											li 颜色：
+												each i_color in item.color
+													span.ml5 #{i_color.attributes.zh_cn}
+										li.fb.mt5 售价：￥#{item.price}.00
+									input(type="hidden", name="inquiry.products[pid.id]", value=item.id)
+								td.tc.vatop
+									input.fs14.orderQuantity(onfocus="enterKeyPress(this,'quantity')", onblur="onlyNumber(this,'quantity')", maxlength="11", type="text", value="1 PCS", readonly=true, oncontextmenu="return false", name="inquiry.products[pid.quantity]")
+									div.cAaa.fs11.cd.mt5
+										i.icon-lightbulb.mr5
+										span 点击数量修改
+								td.tc.vatop
+									input.fs14.orderPrice(onfocus="enterKeyPress(this)", onblur="onlyNumber(this)", maxlength="11", type="text", value="￥#{item.price}.00", readonly=true, oncontextmenu="return false", name="inquiry.products[pid.fromprice]")
+									//- b.fs16.cp.orderPrice(onkeyup="enterKeyPress(this)", onblur="onlyNumber(this)")￥#{item.price}.00
+									div.cAaa.fs11.cd.mt5
+										i.icon-lightbulb.mr5
+										span 点击价格修改
+			br.clear
+	.bg_fixed
+	script(src="/js/inquiry.js")

@@ -1,5 +1,5 @@
 var User = require('../models/user'),
-	Order = require('../models/order'),
+	Inquiry = require('../models/inquiry'),
 	Product = require('../models/product')
 
 // req.session.destroy() 
@@ -209,10 +209,10 @@ exports.detail = function(req,res){
 		} else {
 			var title = user.name + '的个人中心'
 			if (!page) {
-				Order
+				Inquiry
 					.find({'uid': user.id})
 					.limit(5)
-					.exec(function (err, orders) {
+					.exec(function (err, inquiries) {
 						if(err) console.log(err)
 						Product
 							.find({'favourite': user._id})
@@ -223,7 +223,7 @@ exports.detail = function(req,res){
 								res.render('user/user',{
 									title: title,
 									user: user,
-									orders: orders,
+									inquiries: inquiries,
 									favouritegoods: favouritegoods,
 									cart_goods_num: shopcartgoodsNum
 								})
@@ -235,12 +235,12 @@ exports.detail = function(req,res){
 					user: user,
 					cart_goods_num: shopcartgoodsNum
 				})
-			} else if (page.toString() === 'orders' && !orderId) {
-				Order.find({'uid': user.id, 'udelete': 0},function (err, orders) {
+			} else if (page.toString() === 'inquiries' && !orderId) {
+				Inquiry.find({'uid': user.id, 'udelete': 0},function (err, inquiries) {
 					res.render('user/user_order',{
 						title: '所有询价单 - ' + title,
-						page: 'order',
-						orders: orders,
+						page: 'inquiries',
+						inquiries: inquiries,
 						cart_goods_num: shopcartgoodsNum
 					})
 				})
@@ -258,7 +258,7 @@ exports.detail = function(req,res){
 						})
 					})
 			} else if (orderId) {
-				Order
+				Inquiry
 					.findOne({'_id': orderId, 'udelete': 0})
 					.populate('products.scene products.material products.color','attributes')
 					.exec(function(err, order){
@@ -290,7 +290,7 @@ exports.adminDetail = function (req, res) {
 	User.findOne({'name': name}, function (err, user) {
 		if (err) console.log(err)
 		// console.log(user)
-		Order.find({'uid': user.id}, function (err, orders){
+		Inquiry.find({'uid': user.id}, function (err, orders){
 			if (err) console.log(err)
 			Product
 				.find({'favourite': user.id})

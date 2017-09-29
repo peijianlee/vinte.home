@@ -5,7 +5,7 @@ var Banner = require('../models/banner')
 var Product = require('../models/product')
 var Message = require('../models/message')
 var User = require('../models/user')
-var Order = require('../models/order')
+var Inquiry = require('../models/inquiry')
 
 var nodemailer = require('nodemailer')
 
@@ -164,14 +164,14 @@ exports.admin = function(req, res){
 			if(err) console.log(err)
 			Product.fetch(function(err, products){
 				if(err) console.log(err)
-				Order.fetch(function(err, orders){
+				Inquiry.fetch(function(err, inquiries){
 					if(err) console.log(err)
 					res.render('admin/index', {
 						title: '后台首页',
 						users: users,
 						messages: messages,
 						products: products,
-						orders: orders
+						inquiries: inquiries
 					})
 				})
 			})
