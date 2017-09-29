@@ -410,6 +410,7 @@ div.c_body:after{
 	margin-bottom:10px;cursor:default;
 	background-color:white;
 }
+.nav.wrap{padding-left:0;padding-right:0;}
 .nav a,
 .nav span,
 .nav b{

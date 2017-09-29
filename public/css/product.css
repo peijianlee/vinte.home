@@ -65,7 +65,7 @@
 
 .iproduct_list{
 	margin-top:10px;
-	padding-left:2px;
+	padding-left:1px;
 	border-top:0 none;
 }
 .iproduct_list h3{
@@ -79,14 +79,23 @@
 }
 .iproduct_list h3 a{font-size:12px;}
 .iproduct{
-	float:left;
+/*	float:left;
 	width:25%;min-height:360px;
 	border:1px solid transparent;
 	margin-left:-2px;
 	margin-top:-1px;
 	position:relative;
-	background-color:white;
+	background-color:white;*/
 	/*box-sizing:box-sizing;*/
+	width:25%;
+	border:1px solid transparent;
+	box-sizing: border-box;
+    display: inline-block;
+    font-size: 12px;
+    margin-left:-1px;
+    margin-bottom: 8px;
+    padding-bottom:10px;
+
 }
 /*.iproduct,
 .iproduct *{
