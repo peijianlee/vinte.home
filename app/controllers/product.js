@@ -23,7 +23,6 @@ exports.favourite = function (req, res) {
 				pfavourite.splice(index, 1)
 				products[item].save(function (err, product) {
 					if (err) console.log(err)
-					console.log(product.favourite)
 				})
 			}
 			return res.json({success: 0})
@@ -48,60 +47,6 @@ exports.favourite = function (req, res) {
 			})
 		})
 	}
-	// User.findOne({'_id': uid}, function (err, user) {
-	// 	if (err) console.log(err)
-	// 	var ufavourite = user.favouritegoods
-
-	// 	if (typeof pid === 'object') {
-	// 		// 批量移除
-	// 		for (var i = 0; i < pid.length; i++) {
-	// 			var index = ufavourite.indexOf(pid[i])
-	// 			if (index > -1) ufavourite.splice(index, 1)
-	// 		}
-	// 		User.update({_id: uid}, {'favouritegoods': ufavourite}, function (err, _user) {
-	// 			if (err) console.log(err)
-	// 			Product.find({_id: {$in: pid}}, function (err, products) {
-	// 				for(item in products){
-	// 					var pfavourite = products[item].favourite
-	// 						index = pfavourite.indexOf(uid)
-	// 					console.log(pfavourite)
-	// 					pfavourite.splice(index, 1)
-	// 					products[item].save(function (err, product) {
-	// 						console.log(product.favourite)
-	// 					})
-	// 				}
-	// 			})
-	// 			return res.json({success:0})
-	// 		})
-	// 	} else {
-	// 		var	index = ufavourite.indexOf(pid),
-	// 			info = []
-	// 		if (index > -1) {
-	// 			ufavourite.splice(index,1)
-	// 			info = [0, "取消收藏"]
-	// 		} else {
-	// 			ufavourite.push(pid)
-	// 			info = [1, "收藏成功"]
-	// 		}
-	// 		User.update({_id: uid}, {'favouritegoods': ufavourite}, function (err, _user) {
-	// 			if (err) console.log(err)
-	// 			Product.findOne({'_id': pid}, function (err, product) {
-	// 				if (err) console.log(err)
-	// 				var pfavourite = product.favourite
-	// 				if (!info[0]) {
-	// 					var index = pfavourite.indexOf(uid)
-	// 					pfavourite.splice(index, 1)
-	// 				} else {
-	// 					pfavourite.push(uid)
-	// 				}
-	// 				Product.update({_id: pid}, {'favourite': pfavourite}, function (err, _product) {
-	// 					console.log(pfavourite.length)
-	// 					return res.json({success: 0, info: info, num: pfavourite.length})
-	// 				})
-	// 			})
-	// 		})
-	// 	}
-	// })
 }
 
 // 商品属性
@@ -265,6 +210,8 @@ exports.search = function(req,res){
 		})
 		.exec(function(err, products){
 			if(err)console.log(err)
+
+			console.log(user)
 
 			var results = products.slice(index, index + count)
 

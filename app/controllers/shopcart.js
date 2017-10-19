@@ -9,12 +9,10 @@ var _ = require('underscore')
 exports.detail = function(req,res){
 	var user = req.session.user
 
-	console.log(user)
-
 	if(!user){
 		if(!req.session.cart) req.session.cart = []
-		var session_cart = req.session.cart
 		// 非常愚蠢的循环出来又循环进去
+		var session_cart = req.session.cart
 		var session_pid = []
 		var session_quantity = []
 		if(session_cart.length > 0){
@@ -26,7 +24,7 @@ exports.detail = function(req,res){
 		Product
 			.find({_id:{$in:session_pid}})
 			.populate('sort color material scene','attributes')
-			.exec(function(err,products){
+			.exec(function (err,products){
 				if(err) console.log(err)
 				// 非常愚蠢的循环出来又循环进去
 				var productsObj = []
@@ -57,19 +55,17 @@ exports.detail = function(req,res){
 					model: 'Category'
 				}
 			})
-			.exec(function(err, shopcart){
+			.exec(function (err, shopcart){
 				if(err) console.log(err)
 				if(shopcart){
 					var products = shopcart.products
 				}else{
 					var products = []
 				}
-				// var cart_goods_num = shopcart.products.length
-
 				res.render('user/inquiry',{
 					title: '询价单',
 					products: products,
-					cart_goods: user.shopcartgoods
+					cart_goods: products
 				})
 
 			})
@@ -212,49 +208,98 @@ exports.add = function(req,res){
 
 // 删除购物车
 exports.del = function(req,res){
-	var user = req.session.user
-	var cart = req.session.cart
-	var id = req.query.id
+	var user = req.session.user,
+		id = req.query.id,
+		pid = req.body.pid
+	// console.log(pid)
+	// console.log(typeof pid)
 	if(!user){
-		console.log(cart)
-		for(var i=0; i<cart.length; i++){
-			if(cart[i].pid == id){
-				req.session.cart.splice(i, 1)
-				return res.json({success:1,cart_goods_num:cart.length})
-			}
-		}
+		var cart = req.session.cart
+		// console.log('未登录')
+		// console.log(typeof cart[0].pid)
+		// console.log(cart[0].pid)
+		var diff_cart = diff(pid, cart)
+		return res.json({success:1, cart_goods_num:diff_cart.length})
 
-		return res.json({success:0})
-	}else{
-		Shopcart.findOne({'uid':user._id},function(err,shopcart){
+	} else {
+		Shopcart.findOne({'uid':user._id}, function (err,shopcart){
 			if(err) console.log(err)
-			if(shopcart){
-
-				for(var i=0; i<shopcart.products.length; i++){
-					// 查找购物车里对应的product id,并删除
-					if(shopcart.products[i].pid==id){
-						shopcart.products.splice(i,1)
-						break
-					}
-				}
-
-				// 删除usersession里面的shopcartgoods
-				var index = user.shopcartgoods.indexOf(id)
-				user.shopcartgoods.splice(index, 1)
-
-				shopcart.save(function(err){
-					if(err) console.log(err)
-					// user.shopcartnum = shopcart.products.length
-					// User.findByIdAndUpdate(user.id, {$inc:{shopcartnum:-1}}, function(err){
-					// 	if(err) console.log(err)
-					// })
-					res.json({success:1,cart_goods_num:shopcart.products.length})
-				})
-			}else{
-				res.json({success:0})
-			}
+			// console.log('登录')
+			// console.log(typeof shopcart.products[0].pid)
+			// console.log(shopcart.products[0].pid)
+			var diff_cart = diff(pid, shopcart.products, user.shopcartgoods)
+			shopcart.products = diff_cart
+			shopcart.save(function (err){
+				if(err) console.log(err)
+				return res.json({success:1, cart_goods_num:diff_cart.length})
+			})
 		})
 	}
+	function diff(pid_arr, cart_arr, u_cart) {
+		if(typeof pid_arr === 'object'){
+			for (var i = 0; i < pid_arr.length; i++) {
+				for(var j =0; j < cart_arr.length; j++){
+					if(cart_arr[j].pid == pid_arr[i]){
+						cart_arr.splice(j, 1)
+						u_cart && EditUCart(pid_arr[i])
+					}
+				}
+			}
+		} else {
+			for(var i=0; i < cart_arr.length; i++){
+				if(cart_arr[i].pid == pid_arr){
+					cart_arr.splice(i, 1)
+					u_cart && EditUCart(pid_arr)
+				}
+			}
+		}
+		function EditUCart(pid) {
+			// 删除usersession里面的shopcartgoods
+			var index = u_cart.indexOf(pid)
+			u_cart.splice(index, 1)
+		}
+		return cart_arr
+		// return res.json({success:1,cart_goods_num:cart_arr.length})
+	}
+
+	
+	// if(!user){
+	// 	var cart = req.session.cart
+	// 	console.log(cart)
+	// 	for(var i=0; i<cart.length; i++){
+	// 		if(cart[i].pid == id){
+	// 			req.session.cart.splice(i, 1)
+	// 			return res.json({success:1,cart_goods_num:cart.length})
+	// 		}
+	// 	}
+
+	// 	return res.json({success:0})
+	// }else{
+	// 	Shopcart.findOne({'uid':user._id},function(err,shopcart){
+	// 		if(err) console.log(err)
+	// 		if(shopcart){
+
+	// 			for(var i=0; i<shopcart.products.length; i++){
+	// 				// 查找购物车里对应的product id,并删除
+	// 				if(shopcart.products[i].pid==id){
+	// 					shopcart.products.splice(i,1)
+	// 					break
+	// 				}
+	// 			}
+
+	// 			// 删除usersession里面的shopcartgoods
+	// 			var index = user.shopcartgoods.indexOf(id)
+	// 			user.shopcartgoods.splice(index, 1)
+
+	// 			shopcart.save(function(err){
+	// 				if(err) console.log(err)
+	// 				res.json({success:1,cart_goods_num:shopcart.products.length})
+	// 			})
+	// 		}else{
+	// 			res.json({success:0})
+	// 		}
+	// 	})
+	// }
 }
 
 // 比对购物车

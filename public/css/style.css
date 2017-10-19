@@ -509,22 +509,23 @@ div.c_body:after{
 .progress.progress_step_3 .progress_step_line{left:66.66%;}
 /*购物车*/
 .shopcart_list{line-height:1.7;border:1px solid #ddd;}
-.removeBtn{
+.remove-btn{
+	color:gray;
 	background-color: #eee;
 	border: 1px solid #ccc;
 	border-radius: 3px;
 	box-shadow: 1px 1px white inset;
 	height:26px;line-height:26px;
-	padding-right:8px;margin-top:15px;
+	padding-right:8px;
 	display:inline-block;
 	cursor:pointer;
 }
-.removeBtn i{
+.remove-btn i{
 	float:left;padding:0 8px;margin-right:8px;
 	height:26px;line-height:26px;
 	border-right: 1px solid #ccc;
 }
-.removeBtn:hover{
+.remove-btn:hover{
 	color:#555;
 	background-color: #e9e9e9;
 	border-color:#bbb;

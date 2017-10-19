@@ -109,6 +109,7 @@
 			event判断是否是全选的checkbox
 		--*/
 		checkBoxSelect: function (dom, fn) {
+			CheckBox()
 			$(dom[0] + ',' +dom[4]).bind({
 				"click": function() { CheckBox() }
 			})

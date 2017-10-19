@@ -291,6 +291,7 @@ a.base-color-dark:hover{
 /*布局*/
 .h60{height:60px;}
 /*背景色*/
+.bg-white{background-color:white;}
 .bg-bule{background-color:rgba(230,255,255,0.5);}
 .bg-yellow{background-color:#f8fed7;}
 .bg-gray{background-color:#eee;}

@@ -38,64 +38,6 @@ $('.iproduct_add_cart_btn_stand').click(function(){
 	$.artTip('<i class="icon-spinner icon-spin"></i>&nbsp;&nbsp;uploading...')
 	$.closeArtTip('已经存在购物车了',800)
 })
-//- 删除购物车商品
-$('.shopcart_goods_remove').click(function(){
-	var id = $(this).attr('data-id'),
-		goodsTitle = $(this).parent().prev().prev().text(),
-		artConfimTip = '是否将询价单中的 “<b class="cBlue">' + goodsTitle + '</b>” 商品移除？'
-	$.artConfim(artConfimTip, 'confirmFrame', 'zh_cn', function(i){
-		if (!i) {
-			$.artTip('<i class="icon-spinner icon-spin"></i>&nbsp;&nbsp;uploading...')
-			// var id = $(this).attr('data-id');
-			$.ajax({
-				type: 'DELETE',
-				url: '/shopcart/del?id='+id
-			})
-			.done(function(results){
-				if(results.success===1){
-					$.closeArtTip('删除成功！',800)
-					$('.head_shopcart_num').html(results.cart_goods_num)
-					$('#'+id).remove();
-					console.log(results.cart_goods_num===0)
-					if(results.cart_goods_num===0){
-						var emptyList = '<tr><td class="tc" colspan="6">'+
-										'<div class="pb20">'+
-										'<p class="fb pt20 pb10">购物车没有任何商品，请前往商品中心添加。</p>'+
-										'<a class="button button-royal button-primary" href="/store">商品中心</a>'+
-										'</div></td></tr>'
-						$('.shopcart_list > tbody').html(emptyList)
-					}
-				}else{
-					$.closeArtTip('删除失败！',800)
-				}
-			})
-		}
-	})
-	// $.artTip('<i class="icon-spinner icon-spin"></i>&nbsp;&nbsp;uploading...')
-	// var id = $(this).attr('data-id');
-	// $.ajax({
-	// 	type: 'DELETE',
-	// 	url: '/shopcart/del?id='+id
-	// })
-	// .done(function(results){
-	// 	if(results.success===1){
-	// 		$.closeArtTip('删除成功！',800)
-	// 		$('.head_shopcart_num').html(results.cart_goods_num)
-	// 		$('#'+id).remove();
-	// 		console.log(results.cart_goods_num===0)
-	// 		if(results.cart_goods_num===0){
-	// 			var emptyList = '<tr><td class="tc" colspan="6">'+
-	// 							'<div class="pb20">'+
-	// 							'<p class="fb pt20 pb10">购物车没有任何商品，请前往商品中心添加。</p>'+
-	// 							'<a class="button button-royal button-primary" href="/store">商品中心</a>'+
-	// 							'</div></td></tr>'
-	// 			$('.shopcart_list > tbody').html(emptyList)
-	// 		}
-	// 	}else{
-	// 		$.closeArtTip('删除失败！',800)
-	// 	}
-	// })
-})
 
 
 // 商品选择
