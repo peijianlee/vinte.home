@@ -15,10 +15,9 @@ if !header_hide
 					i.icon-user.mr5
 					| 登录
 			else
-				span #{user.name}
 				a(href="/user/#{user.name}")
 					i.icon-user.mr5
-					| 个人中心
+					| #{user.name} 的个人中心
 				if user.role > 50
 					a(href="/admin/index")
 						i.icon-cog.mr5

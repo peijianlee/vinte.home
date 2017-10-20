@@ -201,6 +201,7 @@ span.menuBtn.Active:before{content:"-";}
 	float:left;
 }
 .admin_sarch_nav_type dd{
+	min-height: 26px;
 	padding:6px 0 6px 1%;font-size:12px;
 	overflow:hidden;
 	background-color:white;

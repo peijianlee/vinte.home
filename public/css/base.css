@@ -88,9 +88,9 @@ a.base-color-dark:hover{
 
 
 .cAaa{color:#aaa;}
-.cGray{color:gray;}
-.cRed{color:#c8181e;}
-.cBlue{color:#0071bd;}
+.cGray,.base-color-gray{color:gray;}
+.cRed,.base-color-red{color:#c8181e;}
+.cBlue,.base-color-blue{color:#0071bd;}
 .cWhite{color:white;}
 .cBlack{color:black;}
 .cGreen{color:green;}

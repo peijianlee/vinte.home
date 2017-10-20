@@ -10,13 +10,42 @@
 				width: '100%',
 				height: '100%',
 				zIndex: '2010'
+			},
+			/*
+				close_btn 关闭按键
+				close_frame 关闭框
+				fn 可不填
+			*/
+			popupBg: function (close_btn, close_frame, fn) {
+				var popupBg = $('<div></div>').css(this.popupBgStyle).addClass('popup_bg popup_close')
+				$('body').append(popupBg)
+				$('.popup_bg').fadeIn(300)
+				// var closeBtn = close_btn || '.popup_close'
+				$(close_btn || '.popup_close').bind({
+					'click': function() {
+						$(close_frame + ', .popup_bg').fadeOut( function(event){
+							// 如果是form便签的话，则不移除
+							$(this)[0].tagName !== 'FORM' ? $(this).remove() : false
+						})
+						fn && fn($(this).index())
+					}
+				})
 			}
 		},
+		toggleModal: function (modal) {
+			var eleId = modal.attr('data-target')
+				$target = $(eleId),
+				$target_input = $target.find('input[type="text"]')
+			$target.css({zIndex: '2011'}).fadeIn()
+			$target_input && $target_input.eq(0).focus()
+			this.publicStyle.popupBg(false, eleId)
+		},
 		artConfim: function (value, frameClass, lang, fn) {
-			var eleBg = $('<div></div>').css(this.publicStyle.popupBgStyle).addClass('artconfirm_bg artconfirm_close')
-			$('body').append(eleBg)
-			$('.artconfirm_bg').fadeIn(300)
-			var langArr = lang === 'zh_cn' ? ['提示框', '确定', '取消'] : ['Tip frame', 'Sure', 'Cancel']
+			var language = [
+				['提示框', '确定', '取消'],
+				['Tip frame', 'Sure', 'Cancel']
+			]
+			var langArr = lang === 'zh_cn' ? language[0] : language[1]
 			var eleFrame = $('<div><h6><i class="icon-info-sign mr10"></i>' 
 				+ langArr[0] 
 				+ '</h6><p>' 
@@ -27,12 +56,8 @@
 				+ langArr[2] 
 				+ '</span></div></div>').addClass(frameClass)
 			$('body').append(eleFrame)
-			$('.frameFooter span').click(function(){
-				$('.'+frameClass + ', .artconfirm_bg').fadeOut( function(event){
-					$(this).remove()
-				})
-				fn($(this).index())
-			})
+
+			this.publicStyle.popupBg('.frameFooter span', '.' + frameClass, fn)
 		},
 		artTip: function (value, time) {
 			var $body = $('body')

@@ -26,102 +26,14 @@ block content
 												span.categorydel.button.button-caution.button-small(data-type="productCategory", data-id="#{item.id}") 删除
 											else
 												span.disabled.button.button-caution.button-small 删除
-										//- li.cGray(style="font-size:0.85em")
-										//- 	i.icon-time.mr5
-										//- 	| 录入时间：
-											//- | #{moment(item.meta.createAt).format('YYYY - MM - DD HH:mm:ss')}
-								div.clear
-									span.addType.button.button-primary.button-small(data-toggle="modal", data-target="#catModal", data-type="#{type.name.en_us}", data-name="#{type.name.zh_cn}") 
-										i.icon-plus.mr5
-										| 新增#{type.name.zh_cn}
-									if type.name !== "color"
-										a.button.button-royal.button-small.ml10(href="/admin/goods/"+ type.name.en_us +"/banner/list")
-											i.icon-cog.mr5
-											| 设置背景图片
-
-			//- if categories_type == 'product'
-			//- 	.admin_sarch_nav
-			//- 		- var categories_array = ['scene','sort','material','color']
-			//- 		each catname in categories_array
-			//- 			- if(catname==='sort'){
-			//- 			-	var category = categories_sort
-			//- 			-	var catname_cn = '类型'
-			//- 			- }else if(catname === 'scene'){
-			//- 			-	var category = categories_scene
-			//- 			-	var catname_cn = '场景'
-			//- 			- }else if(catname === 'material'){
-			//- 			-	var category = categories_material
-			//- 			-	var catname_cn = '材质'
-			//- 			- }else if(catname === 'color'){
-			//- 			-	var category = categories_color
-			//- 			-	var catname_cn = '颜色'
-			//- 			-}
-			//- 			dl.admin_sarch_nav_type
-			//- 				dt #{catname_cn} :
-			//- 				dd
-			//- 					each item in category
-			//- 						ul(class="item-id-"+item.id)
-			//- 							li.fb.fs14
-			//- 								span.catName
-			//- 									b.attributes_zh_cn #{item.attributes.zh_cn}
-			//- 									|, 
-			//- 									b.attributes_en_us #{item.attributes.en_us}
-			//- 								span &nbsp; ( #{item.pid.length} )
-			//- 							li
-			//- 								span.catChange.button.button-highlight.button-small(data-toggle="modal", data-target="#catChangeModal", data-id="#{item.id}", data-name="#{item.name}") 修改
-			//- 								if item.pid.length === 0
-			//- 									span.categorydel.button.button-caution.button-small(data-type="productCategory", data-id="#{item.id}") 删除
-			//- 								else
-			//- 									span.disabled.button.button-caution.button-small 删除
-			//- 							li.cGray(style="font-size:0.85em")
-			//- 								i.icon-time.mr5
-			//- 								| 录入时间：
-			//- 								| #{moment(item.meta.createAt).format('YYYY - MM - DD HH:mm:ss')}
-			//- 					div.clear
-			//- 						span.addType.button.button-primary.button-small(data-toggle="modal", data-target="#catModal", data-type="#{categories_type}", data-name="#{catname}") 
-			//- 							i.icon-plus.mr5
-			//- 							| 新增#{catname_cn}
-			//- 						if catname !== "color"
-			//- 							a.button.button-royal.button-small.ml10(href="/admin/goods/"+catname+"/banner/list")
-			//- 								i.icon-cog.mr5
-			//- 								| 设置背景图片
-			//- else
-			//- 	table.table.table_hover.table_bordered.table_striped
-			//- 		thead
-			//- 			tr
-			//- 				th 分类名称
-			//- 				th 录入时间
-			//- 				th 查看
-			//- 				th 更新
-			//- 				th 删除
-			//- 		tbody.tc
-			//- 			if categories && categories.length > 0
-			//- 				each item in categories
-			//- 					tr(class="item-id-#{item._id}")
-			//- 						td 
-			//- 							a(href='/results?cat=#{item._id}&p=0',target="_blank").btn.btn-info
-			//- 								span.catName #{item.name}
-			//- 								b &nbsp;( #{len} )
-			//- 						td #{moment(item.meta.updateAt).format('YYYY/MM/DD HH:mm:ss')}
-			//- 						td
-			//- 							a.button.button-primary.button-rounded.button-small(href='/results?cat=#{item._id}&p=0',target="_blank") 查看
-			//- 						td
-			//- 							span.button.button-highlight.button-rounded.button-small.catChange(data-toggle="modal", data-target="#catChangeModal", value="#{item._id}") 修改
-			//- 						td
-			//- 							if len == 0
-			//- 								button.button.button-caution.button-rounded.button-small.categorydel(type="button", data-id="#{item._id}") 删除
-			//- 							else
-			//- 								span.button.disabled.button-caution.button-rounded.button-small 删除
-			//- 			else
-			//- 				tr
-			//- 					td.lead.bg-info.text-info(colspan="5")
-			//- 						strong 
-			//- 							i.glyphicon.glyphicon-info-sign(style="margin-left:10px;margin-right:5px")
-			//- 							| #{title}为空！
-					tfood
-						td(colspan="10")
-							//- a.button.button-raised.button-primary(href="/admin/products/category/new") 新增分类
-							span.button.button-raised.button-primary(data-toggle="modal", data-target="#catModal", value="#{categories_type}") 新增场景
+							div.clear
+								span.addType.button.button-primary.button-small(data-toggle="modal", data-target="#catModal", data-type="#{type.name.en_us}", data-name="#{type.name.zh_cn}") 
+									i.icon-plus.mr5
+									| 新增#{type.name.zh_cn}
+								if type.name.en_us !== "color"
+									a.button.button-royal.button-small.ml10(href="/admin/goods/"+ type.name.en_us +"/banner/list")
+										i.icon-cog.mr5
+										| 设置背景图片
 	#catModal.imodal
 		form(method="post", action="/admin/category/save")
 			input(type="hidden", name="category[type]", value="product")
@@ -165,8 +77,7 @@ block content
 	script(src="/js/artalert.js")
 	script.
 		//- 分类删除
-		del('categorydel','category');
-
+		del('categorydel','category')
 		
 		var catId;
 		//- 修改属性
@@ -181,7 +92,7 @@ block content
 			$('.cateChangeGoryname').val(dataname)
 		});
 		$('.catChangeBtn').click(function(){
-			arttip('正在修改中...')
+			$.artTip('<i class="icon-spinner icon-spin"></i>&nbsp;正在修改中...')
 		});
 		//- 添加属性
 		$('.addType').click(function(){
@@ -193,8 +104,8 @@ block content
 
 		$('.categoryBtn').click(function(){
 			if($('#inputCategory_zh_cn').val().replace(/\s/g, "")=="" || $('#inputCategory_en_us').val().replace(/\s/g, "")==""){
-				artalert('分类名称不能为空！')
+				$.artTip('分类名称不能为空！', 1000)
 				return false;
 			}
-			arttip('正在添加中...')
+			$.artTip('正在添加中...', 1000)
 		});
