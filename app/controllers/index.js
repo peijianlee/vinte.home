@@ -37,7 +37,7 @@ var emailHTML = '<div style="background-color:#d0d0d0;padding:40px;">'
 			  + '</ul></div></div>'
 exports.send = function(req, res) {
 	var options = {
-		from: 'server@vinte.xin',
+		from: 'server@icsscn.com',
 		to: '200814174@qq.com',
 		subject: '一封来自 Node Mailer 的邮件',
 		text: 'test, test, test, test',
@@ -62,8 +62,9 @@ exports.index = function(req,res){
 		.exec(function(err, categories){
 			if(err)console.log(err)
 
-			var goods_attrs = ['scene', 'sort', 'material', 'color'],
+			var goods_attrs = ['pstyle', 'scene', 'sort', 'material', 'color'],
 				categoryAttributes = {
+					'pstyle': [],
 					'scene': [],
 					'sort': [],
 					'material': [],
@@ -89,6 +90,7 @@ exports.index = function(req,res){
 				.exec(function(err, recommendProducts){
 					if(err)console.log(err)
 					res.render('index',{
+						pstyleCategories: categoryAttributes['pstyle'],
 						materialCategories: categoryAttributes['material'],
 						sceneCategories: categoryAttributes['scene'],
 						sortCategories: categoryAttributes['sort'],

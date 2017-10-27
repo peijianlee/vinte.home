@@ -8,14 +8,14 @@ exports.fetchAllCategoryType = function(req, res, next){
 		var allCategoryType = []
 		// 对产品类目进行分类
 		if(url_pathname.indexOf('store') > 0){
-			var type_names = ["style", "sort", "scene", "material", "color"]
+			var type_names = ["pstyle", "sort", "scene", "material", "color"]
 		}else{
-			var type_names = ["style", "scene", "sort", "material", "color"]
+			var type_names = ["pstyle", "scene", "sort", "material", "color"]
 		}
 		
 		for(n in type_names) {
 			var name = {
-				'zh_cn': type_names[n] === 'style' ? '风格' : type_names[n] === 'sort' ? '类型' : type_names[n] === 'scene' ? '场景' : type_names[n] === 'material' ? '材质' : '颜色' ,
+				'zh_cn': type_names[n] === 'pstyle' ? '风格' : type_names[n] === 'sort' ? '类型' : type_names[n] === 'scene' ? '场景' : type_names[n] === 'material' ? '材质' : '颜色' ,
 				'en_us': type_names[n]
 			}
 			allCategoryType.push( { name:name, cid:[] } )

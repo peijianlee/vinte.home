@@ -3,89 +3,85 @@ block append head
 	link(rel="stylesheet",href="/css/product.css")
 	link(rel="stylesheet",href="/css/index.css")
 block content
-	//- if sceneCategories && sceneCategories.length > 0
-	//- 	#slide.wrap.slide-banner.slide-banner-children-hide
-	//- 		#loading
-	//- 			span
-	//- 			b 0%
-	//- 		each scene in sceneCategories
-	//- 			div.slide-img
-	//- 				h4.slide-title-cn #{scene.attributes.zh_cn}
-	//- 				h5.slide-title-en #{scene.attributes.en_us}
-	//- 				img(src="banner/#{scene.banner}")
-	//- 		.slide-btn
-	//- 	script(src="/js/banner.js")
-	//- div(style="text-align:center;background-color:#f9f9f9;font-size:0;")
 	.index-banner-bgcolor.tc.fs0
 		img.vtLazyload(src="default.png", data-src="/images/banner-1.png", alt="")
-	//- each cat in categories
-	//- 	if cat.pid.length > 2
-	//- 		.wrap.iproduct_list
-	//- 			h3
-	//- 				a.fr(href="/store/sort/"+cat.attributes.zh_cn )
-	//- 					| 更多
-	//- 					i.icon-double-angle-right
-	//- 				i.icon-magnet.mr10
-	//- 				| #{cat.attributes.zh_cn}
-	//- 			div.iproduct_frame
-	//- 				each item in cat.pid
-	//- 					.iproduct(id=item.id)
-	//- 						include ../themplate/product.jade
-	//- 				br.clear
-	
-	.bgBlue.bg-slash
-		.wrap.pt50.pb50.tc
-			.g-head-title.fb
-				i.icon-bookmark.mr10
-				| 家具风格
-				br
-				span Furniture style
-			.i-furniture-type
-				img.vtLazyload(src="default.png", data-src="/images/style/vintage.png")
-				h6
-					i.icon-star
-					i.icon-star
-					i.icon-star
-					span.ml5.mr5 乡村风格
-					i.icon-star
-					i.icon-star
-					i.icon-star
-				p 所说的乡村风格，绝大多数指的都是美式西部的乡村风格。西部风情运用有节木头以及拼布，主要使用可就地取材的松木、枫木，不用雕饰，仍保有木材原始的纹理和质感，还刻意添上仿古的瘢痕和虫蛀的痕迹，创造出一种古朴的质感，展现原始粗犷的美式风格。
-			.i-furniture-type
-				img.vtLazyload(src="default.png", data-src="/images/style/loft.png")
-				h6
-					i.icon-star
-					i.icon-star
-					i.icon-star
-					span.ml5.mr5 工业风格
-					i.icon-star
-					i.icon-star
-					i.icon-star
-				p 艺术家与设计师们利用废弃的工业厂房，从中分隔出居住、工作、社交、娱乐、收藏等各种空间，在浩大的厂房里，他们构造各种生活方式，创作行为艺术，或者办作品展，淋漓酣畅，快意人生。而这些厂房后来也变成了最具个性、最前卫、最受年轻人青睐的地方。
-			.i-furniture-type
-				img.vtLazyload(src="default.png", data-src="/images/style/classic.png")
-				h6
-					i.icon-star
-					i.icon-star
-					i.icon-star
-					span.ml5.mr5 新古典风格
-					i.icon-star
-					i.icon-star
-					i.icon-star
-				p 欧洲文化丰富的艺术底蕴，开放、创新的设计思想及其尊贵的姿容，一直以来颇受众人喜爱与追求。新古典风格从简单到繁杂、从整体到局部，精雕细琢，镶花刻金都给人一丝不苟的印象。一方面保留了材质、色彩的大致风格，仍然可以很强烈地感受传统的历史痕迹与浑厚的文化底蕴，同时又摒弃了过于复杂的肌理和装饰，简化了线条。
-	if materialCategories && materialCategories.length > 0
-			.wrap.pt50.pb50
-				.g-head-title.base-color-dark.fb.tc
-					i.icon-leaf.mr10
-					| 材质介绍
+	if pstyleCategories && pstyleCategories.length > 0
+		.bgBlue.bg-slash
+			.wrap.pt50.pb50.tc
+				.g-head-title.fb
+					i.icon-bookmark.mr10
+					| 家具风格
 					br
-					span Material Introduction
-				.i-material-list.mb30.mt20
-					each material in materialCategories
-						a(href="/store/material/"+material.attributes.zh_cn style="background-image:url(/banner/#{material.banner})")
-							span.i-material-frame.base-color-dark
-								span.imaterial #{material.attributes.zh_cn}
-									b #{material.pid.length}
+					span Furniture style
+				each pstyle in pstyleCategories
+					- console.log('----')
+					- console.log(pstyle)
+					- console.log('----')
+					.i-furniture-type
+						img.vtLazyload(src="default.png", data-src="/banner/#{pstyle.banner}")
+						h6
+							i.icon-star
+							i.icon-star
+							i.icon-star
+							span.ml5.mr5 #{pstyle.attributes.zh_cn}
+							i.icon-star
+							i.icon-star
+							i.icon-star
+						p #{pstyle.description}
+		
+	//- .bgBlue.bg-slash
+	//- 	.wrap.pt50.pb50.tc
+	//- 		.g-head-title.fb
+	//- 			i.icon-bookmark.mr10
+	//- 			| 家具风格
+	//- 			br
+	//- 			span Furniture style
+	//- 		.i-furniture-type
+	//- 			img.vtLazyload(src="default.png", data-src="/images/style/vintage.png")
+	//- 			h6
+	//- 				i.icon-star
+	//- 				i.icon-star
+	//- 				i.icon-star
+	//- 				span.ml5.mr5 乡村风格
+	//- 				i.icon-star
+	//- 				i.icon-star
+	//- 				i.icon-star
+	//- 			p 所说的乡村风格，绝大多数指的都是美式西部的乡村风格。西部风情运用有节木头以及拼布，主要使用可就地取材的松木、枫木，不用雕饰，仍保有木材原始的纹理和质感，还刻意添上仿古的瘢痕和虫蛀的痕迹，创造出一种古朴的质感，展现原始粗犷的美式风格。
+	//- 		.i-furniture-type
+	//- 			img.vtLazyload(src="default.png", data-src="/images/style/loft.png")
+	//- 			h6
+	//- 				i.icon-star
+	//- 				i.icon-star
+	//- 				i.icon-star
+	//- 				span.ml5.mr5 工业风格
+	//- 				i.icon-star
+	//- 				i.icon-star
+	//- 				i.icon-star
+	//- 			p 艺术家与设计师们利用废弃的工业厂房，从中分隔出居住、工作、社交、娱乐、收藏等各种空间，在浩大的厂房里，他们构造各种生活方式，创作行为艺术，或者办作品展，淋漓酣畅，快意人生。而这些厂房后来也变成了最具个性、最前卫、最受年轻人青睐的地方。
+	//- 		.i-furniture-type
+	//- 			img.vtLazyload(src="default.png", data-src="/images/style/classic.png")
+	//- 			h6
+	//- 				i.icon-star
+	//- 				i.icon-star
+	//- 				i.icon-star
+	//- 				span.ml5.mr5 新古典风格
+	//- 				i.icon-star
+	//- 				i.icon-star
+	//- 				i.icon-star
+	//- 			p 欧洲文化丰富的艺术底蕴，开放、创新的设计思想及其尊贵的姿容，一直以来颇受众人喜爱与追求。新古典风格从简单到繁杂、从整体到局部，精雕细琢，镶花刻金都给人一丝不苟的印象。一方面保留了材质、色彩的大致风格，仍然可以很强烈地感受传统的历史痕迹与浑厚的文化底蕴，同时又摒弃了过于复杂的肌理和装饰，简化了线条。
+	if materialCategories && materialCategories.length > 0
+		.wrap.pt50.pb50
+			.g-head-title.base-color-dark.fb.tc
+				i.icon-leaf.mr10
+				| 材质介绍
+				br
+				span Material Introduction
+			.i-material-list.mb30.mt20
+				each material in materialCategories
+					a(href="/store/material/"+material.attributes.zh_cn style="background-image:url(/banner/#{material.banner})")
+						span.i-material-frame.base-color-dark
+							span.imaterial #{material.attributes.zh_cn}
+								b #{material.pid.length}
 	if sortCategories && sortCategories.length > 0
 		.bgBlue.bg-slash
 			.wrap.pt50.pb50

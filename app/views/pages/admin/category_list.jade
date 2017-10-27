@@ -27,59 +27,61 @@ block content
 											else
 												span.disabled.button.button-caution.button-small 删除
 							div.clear
-								span.addType.button.button-primary.button-small(data-toggle="modal", data-target="#catModal", data-type="#{type.name.en_us}", data-name="#{type.name.zh_cn}") 
+								span.addType.button.button-primary.button-small(data-toggle="modal", data-target="#catModal", data-type="#{type.name.en_us}", data-name="#{type.name.en_us}") 
 									i.icon-plus.mr5
 									| 新增#{type.name.zh_cn}
 								if type.name.en_us !== "color"
 									a.button.button-royal.button-small.ml10(href="/admin/goods/"+ type.name.en_us +"/banner/list")
 										i.icon-cog.mr5
 										| 设置背景图片
-	#catModal.imodal
-		form(method="post", action="/admin/category/save")
-			input(type="hidden", name="category[type]", value="product")
-			input(type="hidden", name="category[name]", class="categoryname")
-			.imodal-header#imodal-header-title 新增分类
-			.imodal-body
-				.form_group
-					label.control_label(for="inputCategory_zh_cn", style="width:12%;") 简体中文：
-					.control_div(style="width:85%;")
-						input#inputCategory_zh_cn.form_control(type="text", name="category[attributes][zh_cn]", placeholder="请输入属性的简体中文名称")
-				.form_group
-					label.control_label(for="inputCategory_en_us", style="width:12%;") 英&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;文：
-					.control_div(style="width:85%;")
-						input#inputCategory_en_us.form_control(type="text", name="category[attributes][en_us]", placeholder="Please enter the English name of the attribute")
-			.imodal-footer
-				.form_group(style="margin:0")
-					label.control_label
-					button.categoryBtn.button.button-raised.button-primary.button-small(type="sumbit") 录入
-					span.button.button-raised.button-small.modal_close(style="margin-left:15px;") 取消
-	#catChangeModal.imodal
-		form(method="post", action="/admin/category/save")
-			input(type="hidden", name="category[type]", value="product")
-			input(type="hidden", name="category[name]", class="cateChangeGoryname")
-			input#categoryid(type="hidden", name="category[_id]")
-			.imodal-header 分类名称修改
-			.imodal-body
-				.form_group
-					label.control_label(for="changeCategory_zh_cn", style="width:12%;") 简体中文：
-					.control_div(style="width:85%;")
-						input#changeCategory_zh_cn.form_control(type="text", name="category[attributes][zh_cn]")
-				.form_group
-					label.control_label(for="changeCategory_en_us", style="width:12%;") 英&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;文：
-					.control_div(style="width:85%;")
-						input#changeCategory_en_us.form_control(type="text", name="category[attributes][en_us]")
-			.imodal-footer
-				.form_group(style="margin:0")
-					label.control_label
-					button.catChangeBtn.button.button-raised.button-primary.button-small(type="sumbit") 修改
-					span.button.button-raised.button-small.modal_close(style="margin-left:15px;") 取消
+	form#catModal.imodal(method="post", action="/admin/category/save")
+		input(type="hidden", name="category[type]", value="product")
+		input(type="hidden", name="category[name]", class="categoryname")
+		.imodal-header#imodal-header-title 新增分类
+		.imodal-body
+			.form_group
+				label.control_label(for="inputCategory_zh_cn", style="width:12%;") 简体中文：
+				.control_div(style="width:85%;")
+					input#inputCategory_zh_cn.form_control(type="text", name="category[attributes][zh_cn]", placeholder="请输入属性的简体中文名称")
+			.form_group
+				label.control_label(for="inputCategory_en_us", style="width:12%;") 英&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;文：
+				.control_div(style="width:85%;")
+					input#inputCategory_en_us.form_control(type="text", name="category[attributes][en_us]", placeholder="Please enter the English name of the attribute")
+		.imodal-footer
+			.form_group(style="margin:0")
+				label.control_label
+				button.categoryBtn.button.button-raised.button-primary.button-small(type="sumbit") 录入
+				span.button.button-raised.button-small.popup_close(style="margin-left:15px;") 取消
+	form#catChangeModal.imodal(method="post", action="/admin/category/save")
+		input(type="hidden", name="category[type]", value="product")
+		input(type="hidden", name="category[name]", class="cateChangeGoryname")
+		input#categoryid(type="hidden", name="category[_id]")
+		.imodal-header 分类名称修改
+		.imodal-body
+			.form_group
+				label.control_label(for="changeCategory_zh_cn", style="width:12%;") 简体中文：
+				.control_div(style="width:85%;")
+					input#changeCategory_zh_cn.form_control(type="text", name="category[attributes][zh_cn]")
+			.form_group
+				label.control_label(for="changeCategory_en_us", style="width:12%;") 英&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;文：
+				.control_div(style="width:85%;")
+					input#changeCategory_en_us.form_control(type="text", name="category[attributes][en_us]")
+		.imodal-footer
+			.form_group(style="margin:0")
+				label.control_label
+				button.catChangeBtn.button.button-raised.button-primary.button-small(type="sumbit") 修改
+				span.button.button-raised.button-small.popup_close(style="margin-left:15px;") 取消
 	script(src="/js/admin_delete.js")
 	script(src="/js/artalert.js")
 	script.
 		//- 分类删除
 		del('categorydel','category')
 		
-		var catId;
+		var catId
+		//- 弹出框
+		$('[data-toggle="modal"]').click(function() {
+			$.toggleModal($(this))
+		})
 		//- 修改属性
 		$('.catChange').click(function(){
 			var $t = $(this),
@@ -96,8 +98,8 @@ block content
 		});
 		//- 添加属性
 		$('.addType').click(function(){
-			var dataname = $(this).attr('data-name')
-			var dataTypeName = $(this).html()
+			var dataname = $(this).attr('data-name'),
+				dataTypeName = $(this).html()
 			$('#imodal-header-title').html(dataTypeName)
 			$('.categoryname').val(dataname)
 		})

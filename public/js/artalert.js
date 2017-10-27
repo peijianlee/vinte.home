@@ -33,7 +33,7 @@
 			}
 		},
 		toggleModal: function (modal) {
-			var eleId = modal.attr('data-target')
+			var eleId = modal.attr('data-target'),
 				$target = $(eleId),
 				$target_input = $target.find('input[type="text"]')
 			$target.css({zIndex: '2011'}).fadeIn()

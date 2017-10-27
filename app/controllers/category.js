@@ -19,6 +19,11 @@ exports.save = function(req,res){
 		name = categoryObj.name,
 		id = categoryObj._id
 
+	console.log('---attributes----')
+	console.log(attributes)
+	console.log(type)
+	console.log(name)
+	console.log('---attributes----')
 	Category.findOne({"name":name,"attributes":attributes},function(err,category){
 		if(err) console.log(err)
 		if(!category){
@@ -60,16 +65,17 @@ exports.update = function(req,res){
 
 //category list page
 exports.list = function(req,res){
-	var href=req._parsedOriginalUrl.href
+	var href=req._parsedOriginalUrl.href,
+		title,categories_type
 	if(href.indexOf('movie')>0){
-		var title = '电影分类列表页'
-		var categories_type = 'movie'
+		title = '电影分类列表页'
+		categories_type = 'movie'
 	}else if(href.indexOf('news')>0){
-		var title = '文章分类列表页'
-		var categories_type = 'news'
+		title = '文章分类列表页'
+		categories_type = 'news'
 	}else if(href.indexOf('product')>0){
-		var title = '产品分类列表页'
-		var categories_type = 'product'
+		title = '产品分类列表页'
+		categories_type = 'product'
 	}
 	
 	Category.findOne({"name":"jieJueZuoYongYu"},function(err,category){

@@ -87,12 +87,13 @@ block content
 					button.button.button-small.button-glow.button-primary.button-rounded.button-raised.button-primary() 确认更新
 	script.
 		$('.editGoodsBanner').click(function(){
-			var id = $(this).attr('data-id')
-			if($("input[name='googsbanner[id]']").val() == id) return false
+			var $modal = $(this),
+				id = $modal.attr('data-id')
+			if($("input[name='googsbanner[id]']").val() === id) return $.toggleModal($modal)
 			$('#gbmImg').removeAttr('style')
 			$('#gbmTextarea').val('')
 			$("input[name='uploadPoster']").val('')
-			arttip('loading')
+			$.artTip('loading')
 			$.ajax({
 				type: 'get',
 				url: '/admin/goods/banner/update/'+id
@@ -100,6 +101,7 @@ block content
 			.done(function(results){
 				console.log(results)
 				if(results.success === 1){
+					$.toggleModal($modal)
 					$('#gbmId').val(results.id)
 					$('#gbmAttributes').html(results.attributes.zh_cn+'&nbsp;')
 					if(results.banner){
@@ -108,9 +110,9 @@ block content
 						$('#gbmImg').removeAttr('style')
 					}
 					$('#gbmTextarea').val(results.description)
-					arttipclose('获取数据成功',100)
+					$.closeArtTip('获取数据成功',100)
 				}else{
-					arttipclose('获取数据失败',1000,$('.modal_close').click())
+					$.closeArtTip('获取数据失败',1000,$('.modal_close').click())
 					
 				}
 			})

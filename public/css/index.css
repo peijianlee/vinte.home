@@ -207,13 +207,19 @@
 }
 .i-furniture-type img{width:100%;border-radius:3px;}
 .i-furniture-type h6{
-	font-size:1em;padding:8px 0;
+	font-size:1em;padding:3px 0;
+	border:3px solid rgba(0,0,0,.7);
 	width:70%;
 	margin:-30px auto 10px;
 	background-color:rgba(0,0,0,.7);
 	color:white;
 	border-radius:3px;
 	position:relative;z-index: 1;
+	box-shadow:
+		inset 1px 1px rgba(255,255,255,.3),
+		inset -1px 1px rgba(255,255,255,.3),
+		inset 1px -1px rgba(255,255,255,.3),
+		inset -1px -1px rgba(255,255,255,.3);
 }
 .i-furniture-type h6 i{
 	font-size:.7em;
