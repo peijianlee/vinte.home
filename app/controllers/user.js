@@ -29,7 +29,7 @@ exports.createCaptcha = function(req, res, next){
 	var svgCaptcha = require('svg-captcha')
 		svgCaptcha.options.height = '30'
 		svgCaptcha.options.fontSize = '35'
-	var	captcha = svgCaptcha.create({
+		captcha = svgCaptcha.create({
 		'size': 4,
 		'ignoreChars': '0oO1iIlL',
 		'noise': 3,
