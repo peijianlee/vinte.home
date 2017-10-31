@@ -3,16 +3,24 @@ var Category = require('../models/category')
 
 //fetch all category type
 exports.fetchAllCategoryType = function(req, res, next){
-	var url_pathname = req._parsedUrl.pathname
+	function MatchUrl (url) {
+		var url_pathname = req._parsedUrl.pathname
+		return url_pathname.indexOf(url) > 0
+	}
 	Category.find({type: 'product'}, function(err, categories){
-		var allCategoryType = []
+		var allCategoryType = [],
+			type_names
 		// 对产品类目进行分类
-		if(url_pathname.indexOf('store') > 0){
-			var type_names = ["pstyle", "sort", "scene", "material", "color"]
+		if(MatchUrl('store')){
+			type_names = ["sort", "scene", "material", "color"]
+		}else if(MatchUrl('results')){
+			type_names = ["scene", "sort", "material", "color"]
 		}else{
-			var type_names = ["pstyle", "scene", "sort", "material", "color"]
+			type_names = ["pstyle", "scene", "sort", "material", "color"]
 		}
 		
+
+
 		for(n in type_names) {
 			var name = {
 				'zh_cn': type_names[n] === 'pstyle' ? '风格' : type_names[n] === 'sort' ? '类型' : type_names[n] === 'scene' ? '场景' : type_names[n] === 'material' ? '材质' : '颜色' ,
@@ -41,68 +49,6 @@ exports.fetchAllCategoryType = function(req, res, next){
 
 // 当前分类链接状态
 exports.categoryTypeHref = function(req, res, next){
-	// var g_sort=req.query.sort,
-	// 	g_scene=req.query.scene,
-	// 	g_material=req.query.material,
-	// 	g_color=req.query.color
-
-	// function Person(sort, scene, material, color){
-	// 	req.query.q? this.title = new RegExp(req.query.q+'.*','i') : false
-	// 	sort? this.sort = sort : false
-	// 	scene? this.scene = scene : false
-	// 	material? this.material = material : false
-	// 	color? this.color = color : false
-	// }
-
-
-	// if(g_sort && g_scene && g_material && g_color){
-	// 	req.session.searchObj = new Person(g_sort, g_scene,g_material, g_color)
-	// 	var href = "?sort="+g_sort+"&scene="+g_scene+"material="+g_material+"&color="+g_color
-	// }else if(g_sort && g_scene && g_material){
-	// 	req.session.searchObj = new Person(g_sort, g_scene, g_material, null)
-	// 	var href = "?sort="+g_sort+"&scene="+g_scene+"material="+g_material
-	// }else if(g_sort && g_scene && g_color){
-	// 	req.session.searchObj = new Person(g_sort, g_scene, null, g_color)
-	// 	var href = "?sort="+g_sort+"&scene="+g_scene+"&color="+g_color
-	// }else if(g_sort && g_material && g_color){
-	// 	req.session.searchObj = new Person(g_sort, null, g_material, g_color)
-	// 	var href = "?sort="+g_sort+"material="+g_material+"&color="+g_color
-	// }else if(g_scene && g_material && g_color){
-	// 	req.session.searchObj = new Person(null, g_scene, g_material, g_color)
-	// 	var href = "&scene="+g_scene+"material="+g_material+"&color="+g_color
-	// }else if(g_sort && g_scene){
-	// 	req.session.searchObj = new Person(g_sort, g_scene, null, null)
-	// 	var href = "?sort="+g_sort+"&scene="+g_scene
-	// }else if(g_sort && g_material){
-	// 	req.session.searchObj = new Person(g_sort, null, g_material, null)
-	// 	var href = "?sort="+g_sort+"material="+g_material
-	// }else if(g_sort && g_color){
-	// 	req.session.searchObj = new Person(g_sort,null,null,g_color)
-	// 	var href = "?sort="+g_sort+"&color="+g_color
-	// }else if(g_material && g_color){
-	// 	req.session.searchObj = new Person(null, null, g_material, g_color)
-	// 	var href = "?material="+g_material+"&color="+g_color
-	// }else if(g_scene && g_color){
-	// 	req.session.searchObj = new Person(null,g_scene,null,g_color)
-	// 	var href = "?scene="+g_scene+"&color="+g_color
-	// }else if(g_scene && g_material){
-	// 	req.session.searchObj = new Person(null,g_scene,g_material,null)
-	// 	var href = "?scene="+g_scene+"material="+g_material
-	// }else if(g_sort){
-	// 	req.session.searchObj = new Person(g_sort,null,null,null)
-	// 	var href = "?sort="+g_sort
-	// }else if(g_scene){
-	// 	req.session.searchObj = new Person(null,g_scene,null,null)
-	// 	var href = "?scene="+g_scene
-	// }else if(g_material){
-	// 	req.session.searchObj = new Person(null,null,g_material,null)
-	// 	var href = "?material="+g_material
-	// }else if(g_color){
-	// 	req.session.searchObj = new Person(null,null,null,g_color)
-	// 	var href = "?color="+g_color
-	// }else{
-	// 	req.session.searchObj = new Person(null,null,null,null)
-	// }
 	var product_attributes_url = ''
 	var product_attributes = {
 		'sort': req.query.sort,
