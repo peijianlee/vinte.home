@@ -237,17 +237,17 @@ exports.del = function(req,res){
 	}
 	function diff(pid_arr, cart_arr, u_cart) {
 		if(typeof pid_arr === 'object'){
-			for (var i = 0; i < pid_arr.length; i++) {
-				for(var j =0; j < cart_arr.length; j++){
-					if(cart_arr[j].pid == pid_arr[i]){
+			for (var i in pid_arr) {
+				for(var j in cart_arr){
+					if(cart_arr[j].pid + '' === pid_arr[i] + ''){
 						cart_arr.splice(j, 1)
 						u_cart && EditUCart(pid_arr[i])
 					}
 				}
 			}
 		} else {
-			for(var i=0; i < cart_arr.length; i++){
-				if(cart_arr[i].pid == pid_arr){
+			for(var i in cart_arr){
+				if(cart_arr[i].pid + '' === pid_arr + ''){
 					cart_arr.splice(i, 1)
 					u_cart && EditUCart(pid_arr)
 				}

@@ -7,14 +7,14 @@ $('.iproduct_add_cart_btn').click(function(){
 
 	$.artTip('<i class="icon-spinner icon-spin"></i>&nbsp;&nbsp;uploading...')
 
-	if($that.hasClass('Stand')){
-		return $.closeArtTip('已经存在购物车了',800)
-	}
+	// if($that.hasClass('Stand')){
+	// 	return $.closeArtTip('已经存在购物车了',800)
+	// }
 
 	var pid = $(this).parents('.iproduct').attr('id');
 	$.ajax({
 		type:'POST',
-		url:'/shopcart/add',
+		url:'/api/goods/addcart',
 		data:{
 			'pid':p_id,
 			'quantity':p_quantity
@@ -34,10 +34,10 @@ $('.iproduct_add_cart_btn').click(function(){
 		}
 	})
 })
-$('.iproduct_add_cart_btn_stand').click(function(){
-	$.artTip('<i class="icon-spinner icon-spin"></i>&nbsp;&nbsp;uploading...')
-	$.closeArtTip('已经存在购物车了',800)
-})
+// $('.iproduct_add_cart_btn_stand').click(function(){
+// 	$.artTip('<i class="icon-spinner icon-spin"></i>&nbsp;&nbsp;uploading...')
+// 	$.closeArtTip('已经存在购物车了',800)
+// })
 
 
 // 商品选择

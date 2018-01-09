@@ -1,5 +1,6 @@
 var Product = require('../models/product')
 var Category = require('../models/category')
+var Shopcart = require('../models/shopcart')
 
 var c_type = 'application/json;charset=utf-8'
 
@@ -45,7 +46,6 @@ exports.categories = function(req, res){
 }
 
 exports.sort = function(req, res){
-	
 	var sort = req.params.sort
 	Category
 		.find({'attributes.zh_cn': sort})
@@ -73,5 +73,71 @@ function CallbackData(_callback, res, data){
 		res.send(_callback + '('+JSON.stringify(data)+')')
 	}else{
 		res.json(data)
+	}
+}
+
+
+exports.addShoppingCart = function (req, res) {
+	var user = req.session.user,
+		cartinfo = req.body,
+		pid = cartinfo.pid,
+		cart_goods_num = 0
+
+	if(!user){
+		// 如果用户不存在新建个临时购物表
+		if(!req.session.cart) req.session.cart = []
+		EditCart (
+			req.session.cart,
+			user
+		)
+	}else{
+		Shopcart.findOne({'uid':user._id},function(err,shopcart){
+			if(err) console.log(err)
+			EditCart (
+				shopcart,
+				user
+			)
+		})
+
+	}
+
+	function EditCart (cartArr, isuser) {
+		var check_same_pid = false,
+			Arr = isuser ?  cartArr.products : cartArr
+
+		if (Arr.length > 0) {
+			// 判断下面临时购物车下是否有重复
+			for(var i in Arr) {
+				if(Arr[i].pid + '' === pid + ''){
+					check_same_pid = true
+					break
+				}
+			}
+		}
+		if(check_same_pid) {return res.json({success:1})}
+
+		
+		if(!isuser) {
+			Arr.push(cartinfo)
+			return res.json({
+				success:2,
+				cart_goods_num:Arr.length
+			})
+		} else {
+			Arr.push(cartinfo)
+			cartArr.save(function(err, _shopcart){
+				if(err) console.log(err)
+				// console.log(user.shopcartgoods)
+				// console.log(pid)
+				// console.log(user.shopcartgoods.indexOf(pid))
+				// console.log(user.shopcartgoods.indexOf(pid) > -1)
+				if(user.shopcartgoods.indexOf(pid) > -1) user.shopcartgoods.push(pid)
+				
+				return res.json({
+					success:2,
+					cart_goods_num:_shopcart.products.length
+				})
+			})
+		}
 	}
 }

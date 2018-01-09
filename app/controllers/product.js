@@ -211,7 +211,7 @@ exports.search = function(req,res){
 		.exec(function(err, products){
 			if(err)console.log(err)
 
-			console.log(user)
+			// console.log(user.shopcartgoods)
 
 			var results = products.slice(index, index + count)
 
@@ -553,8 +553,7 @@ function CartGoods(user, cart){
 		cartGoods = user.shopcartgoods
 	}else{
 		if(cart && cart.length > 0){
-			cartGoodsNum = cart.length
-			for(var i=0; i < cartGoodsNum; i++){
+			for(var i in cart){
 				cartGoods.push(cart[i].pid)
 			}
 		}

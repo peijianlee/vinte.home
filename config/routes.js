@@ -147,4 +147,5 @@ module.exports = function(app){
 	app.get('/api/categories', Api.categories)
 	app.get('/api/categories/:sort', Api.sort)
 
+	app.post('/api/goods/addcart', Api.addShoppingCart)
 }
