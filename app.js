@@ -1,8 +1,16 @@
+var http = require('http')
+var https = require('https')
 var express = require('express')
 var path = require('path')
 var mongoose = require('mongoose')
+var fs = require('fs')
 
 var config = require('./config/config.js')
+
+var options = {
+    key: fs.readFileSync('./214286788250330.key'),
+    cert: fs.readFileSync('./214286788250330.pem'),
+}
 
 var port = config.port
 var app = express()
@@ -10,7 +18,7 @@ var app = express()
 var logger = require('morgan')
 
 var dbUrl = config.dburl
-mongoose.connect(dbUrl)
+mongoose.connect(dbUrl, {useMongoClient: true})
 
 mongoose.connection.on('error', function(error){
 	console.log('数据库连接失败' + error)
@@ -117,5 +125,7 @@ app.use(function (err, req, res, next) {
     })
 })
 
-console.log('nodeJS started on port ' + port)
+// console.log('nodeJS started on port ' + port)
+http.createServer(app).listen(80)
+https.createServer(options, app).listen(443)
 
