@@ -1,16 +1,8 @@
-var http = require('http')
-var https = require('https')
 var express = require('express')
 var path = require('path')
 var mongoose = require('mongoose')
-var fs = require('fs')
 
 var config = require('./config/config.js')
-
-var options = {
-    key: fs.readFileSync('./214286788250330.key'),
-    cert: fs.readFileSync('./214286788250330.pem'),
-}
 
 var port = config.port
 var app = express()
@@ -125,7 +117,5 @@ app.use(function (err, req, res, next) {
     })
 })
 
-// console.log('nodeJS started on port ' + port)
-http.createServer(app).listen(80)
-https.createServer(options, app).listen(443)
+console.log('nodeJS started on port ' + port)
 
