@@ -1,0 +1,78 @@
+extends ../../layout_admin
+
+block content
+	.admin_wrap
+		h2.pageheader
+			i.icon-magnet
+			| #{title}
+		.contentpanel
+			.col-md-12(style="padding-bottom:15px;")
+				a.button.button-raised.button-primary.button-small(href="/admin/product/add") 新增产品
+				a.button.button-raised.button-royal.button-small.ml10(href="/store") 前台产品列表
+			table.table.table_hover.table_bordered.table_striped
+				thead
+					tr
+						th 封面
+						th 分类
+						th 更新时间
+						th 产品名称
+						th 价格
+						th 更新
+						th(style="width:100px;") 删除
+				tbody
+					if products && products.length > 0
+						each item in products
+							tr(class="item-id-#{item._id}")
+								if item.cover
+									td.tc
+										img(src="/data/products/p#{item.id}/#{item.cover}", style="width:80px;height:80px")
+								if item.sort
+									td.tc #{item.sort.attributes.zh_cn}
+								else
+									td.tc --
+								td.tc #{moment(item.meta.updateAt).format('YYYY/MM/DD')}
+								td.tc
+									a(target="_blank", href="/store/id/#{item._id}") #{item.title}
+								td.tc #{item.price}
+								td.tc
+									a.button.button-highlight.button-rounded.button-small(href="/admin/product/update/#{item._id}?edit=info") 基本信息
+									a.button.button-highlight.button-rounded.button-small.ml10(href="/admin/product/update/#{item._id}?edit=photo") 图片管理
+									a.button.button-highlight.button-rounded.button-small.ml10(href="/admin/product/update/#{item._id}?edit=content") 商品详情
+								td.tc
+									button.productdel.button.button-caution.button-rounded.button-small(type="button", data-id="#{item._id}", data-src="#{item.imgsrc}") 删除
+					else
+						tr
+							td.lead.bg-info.text-info(colspan="5")
+								strong 
+									i.icon-info-sign(style="margin-left:10px;margin-right:5px")
+									| 没有任何产品！
+			.page(style="margin-top:15px;margin-bottom:30px;")
+				- if(totalPage>1){
+					- if(currentPage-1 == 0){
+							span.page_unclick: i.icon-double-angle-left
+							span.page_unclick: i.icon-angle-left
+					-	}else{
+							a(href='/admin/product/list?p=1',csstip-top='第一页'): i.icon-double-angle-left
+							a(href='/admin/product/list?p=#{currentPage-1}',csstip-top='上一页'): i.icon-angle-left
+					-	}
+					-	for(var i=0;i<totalPage; i++){
+						-	if(currentPage == (i+1)){
+								span.page_stand #{currentPage}
+						-	}else{
+								a(href='/admin/product/list?p=#{i+1}') #{i+1}
+						-	}
+					-	}
+					- if(currentPage < totalPage){
+							a(href='/admin/product/list?p=#{currentPage+1}',csstip-top='下一页'): i.icon-angle-right
+							a(href='/admin/product/list?p=#{totalPage}',csstip-top='最后一页'): i.icon-double-angle-right
+					-	}else{
+							span.page_unclick: i.icon-angle-right
+							span.page_unclick: i.icon-double-angle-right
+					-	}
+				- }
+			script(src="/js/admin_delete.js")
+			script(src="/js/artalert.js")
+			//- 产品删除
+			script.
+				del('productdel','product');
+

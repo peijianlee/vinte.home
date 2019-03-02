@@ -1,0 +1,188 @@
+.headerbar
+	a.navbar-link(href="/logout")
+		i.icon-signout &nbsp;&nbsp;
+		| 退出登录
+	span
+		i.icon-user &nbsp;&nbsp;
+		| 欢迎您，#{user.name}
+	span
+		i.icon-time &nbsp;&nbsp;
+		b.fn#system-time 0000-00-00 星期一 00:00:00
+.menu
+	.menuHead
+		h1
+			a.block(href="/",target="_blank") VINTEHOME
+		span.menutoggle
+			i.icon-reorder
+	dl
+		dd
+			a.menuBtn(href="/admin/index")
+				i.icon-home
+				span 后台首页
+		dd
+			span.menuBtn
+				i.icon-magnet
+				span 商品管理
+			ul.sMenu
+				li
+					a(href="/admin/product/category/list") 商品分类
+				li
+					a(href="/admin/product/list") 商品列表
+		//- dd
+		//- 	span.menuBtn
+		//- 		i.icon-list-alt
+		//- 		span 文章设置
+		//- 	ul.sMenu
+		//- 		li
+		//- 			a(href="/admin/news/category/list") 分类列表
+		//- 		li
+		//- 			a(href="/admin/news/list") 文章列表
+		//- dd
+		//- 	span.menuBtn
+		//- 		i.icon-film
+		//- 		span 电影设置
+		//- 	ul.sMenu
+		//- 		li
+		//- 			a(href="/admin/movie/category/list") 分类列表
+		//- 		li
+		//- 			a(href="/admin/movie/list") 电影列表
+		dd
+			span.menuBtn
+				i.icon-picture
+				span 海报设置
+			ul.sMenu
+				li
+					a(href="/admin/banner/list") 首页海报
+				li
+					a(href="/admin/goods/scene/banner/list") 商品场景海报
+				li
+					a(href="/admin/goods/sort/banner/list") 商品类型海报
+				li
+					a(href="/admin/goods/material/banner/list") 商品材质海报
+		dd
+			a.menuBtn(href="/admin/user/list")
+				i.icon-user
+				span 用户列表
+		dd
+			a.menuBtn(href="/admin/messages/list")
+				i.icon-comments
+				span 留言列表
+		dd
+			a.menuBtn(href="/admin/inquiry/list")
+				i.icon-list
+				span 咨询单列表
+
+script.
+	(function(){
+	    var system_timestamp=parseInt('{{$system_timestamp}}');
+	    if(!isNaN(system_timestamp) && 0<system_timestamp){
+	        system_timestamp*=1000;
+	    } else {
+	        system_timestamp=(new Date()).getTime();
+	    }
+	    var interval = setInterval(function(){
+	        // 简体、繁体的时间格式可以用 “2016-09-10 星期一 17:11:07”
+	        var d=CurentTime(system_timestamp),
+	        	time=document.getElementById('system-time');
+	    	time.innerHTML='<i class="icon-clock2 mr5"></i>'+d;
+	    	system_timestamp+=1000;
+	    }, 1000);
+	})();
+
+	function CurentTime(system_timestamp) {
+	    if(system_timestamp){
+	        var now=new Date(system_timestamp);
+	    }
+	    else {
+	        var now = new Date();
+	    }
+
+	    var Week = [ '日', '一', '二', '三', '四', '五', '六' ];
+	    var weekday = '星期' + Week[now.getDay()];
+	    var timestr=now.getFullYear()
+	                +'-'+('0'+now.getMonth()+1).slice(-2)
+	                +'-'+('0'+now.getDate()).slice(-2)
+	                +' '+weekday
+	                +' '+('0'+now.getHours()).slice(-2)
+	                +':'+('0'+now.getMinutes()).slice(-2)
+	                +':'+('0'+now.getSeconds()).slice(-2);
+	    return timestr;
+	}
+
+
+	//- 菜单设置
+	var url = window.location.pathname;
+	$('.menu dl').find('a').each(function(){
+		var $t = $(this);
+		var href = $t.attr('href');
+
+		var ahref = url.indexOf(href);
+		if(ahref === 0){
+			$t.addClass('Stand');
+			return false;
+		}
+	});
+	var menuname = [
+		{url:'product', cname:'商品管理'},
+		{url:'news', cname:'文章设置'},
+		{url:'movie', cname:'电影设置'},
+		{url:'banner', cname:'海报设置'},
+		{url:'user', cname:'用户列表'},
+		{url:'inquiry', cname:'咨询单列表'}
+	]
+	for(var i=0; i < menuname.length; i++){
+		if(url.indexOf(menuname[i].url) > 0 ){
+			var m_name = menuname[i].cname
+			break
+		}
+	}
+	$('.menuBtn').each(function(){
+		if($(this).text().indexOf(m_name) > -1){
+			$(this).addClass('Stand Active').next('ul').show()
+		}
+	})
+
+
+
+
+	$(function(){
+		// 缩小菜单
+		var $menu = $('.menu'),
+			$admin_wrap = $('.admin_wrap'),
+			isMax = true;
+		$('.menutoggle').click(function(){
+			if(!$menu.hasClass('mMini')){
+				$menu.addClass('mMini');
+				$admin_wrap.css('margin-left','50px');
+				$('.sMenu').attr('style','');
+				isMax = false;
+			}else{
+				$menu.removeClass('mMini');
+				$admin_wrap.css('margin-left','210px');
+				isMax = true;
+			}
+		});
+		// 正常菜单点击
+		$('.menuBtn').click(function(){
+			if(isMax){
+				var $this = $(this),
+				thisParents = $this.parents('dl'),
+				thisUl = $(this).next('ul'),
+				thisLi = thisUl.children('li'),
+				liLen = thisLi.length;
+				if(!$this.hasClass('Active')){
+					var i = thisParents.find('.Active').parent('dd').index();
+					thisParents.find('.Active').parent('dd').children('.menuBtn').removeClass('Active').next('ul').animate({'height':0},200,function(){
+					    $(this).hide();
+					});
+					$this.addClass('Active');
+					thisUl.show().animate({'height':liLen*35},200);
+				}else{
+					$this.removeClass('Active');
+					thisUl.animate({'height':0},200,function(){
+					    $(this).hide();
+					});
+				}
+			}
+		});
+	});

@@ -1,0 +1,112 @@
+if !header_hide
+	.footer.bg-slash
+		.g-head-title.fb.tc
+			i.icon-comments.mr10
+			| 商务咨询
+			br
+			span Business inquiries
+		.wrap.cd.mt20
+			div.footer-info
+				p
+					i.icon-quote-left.mr5
+					| 我们是一家专业的家具制造厂商，其制造范围有批量家具生产、家具定制、家具重设计，家具风格主要是以乡村风格、工业风格、宫廷风格及其他手工艺绘制风格为主，多年销往欧美及其周边多个国家。
+				p 如果你刚好有这方面的这方面的商务需求，或者是同行业者，都欢迎垂询，或通过右侧的留言栏发送消息给我们，我们收到信息后，将会以最短的时间内回复你。
+				p.fb
+					i.icon-phone.mr5
+					| 0760 86697781
+				p.fb
+					i.icon-envelope.mr5
+					| xxxx@hotmail.com
+				p.fb
+					i.icon-map-marker.mr5
+					| 广东省，中山市，三乡镇，古鹤工业区
+			form(action="/message", method="POST")
+				ul.footer-message
+					li(focus-tip-text="请输入公司名称或者你的名字")
+						input.f-msg-name(type="text", name="name", placeholder="请输入公司名称或者你的名字" )
+					li(focus-tip-text="请输入你的电话号码")
+						input.f-msg-phone(type="text", name="phone", placeholder="请输入你的电话号码")
+					li(focus-tip-text="请输入你的电子邮箱地址")
+						input.f-msg-email(type="text", name="email", placeholder="请输入你的电子邮箱地址")
+					li(focus-tip-text="请输入你的留言内容")
+						textarea.f-msg-info(name="infomation", placeholder="请输入你的留言内容")
+					li
+						if user
+							input.f-user-id(type="hidden", value=user._id)
+						button.cp.footer-message-btn(type="submit") 确认发送
+			br.clear
+	.footer-bottom
+		.wrap.tr.fs12
+			a.cWhite(href="http://www.miitbeian.gov.cn/", target="_blank") 粤ICP备17070570号
+			|	Copyright © 2017, All Rights Reserved
+	if !user
+		include ../themplate/signin_modal
+script(src="/js/artalert.js")
+script(src="/js/jquery.vtEnterKeyPress.js")
+script.
+	//- 添加懒加载 vtLazyload(class, 延迟时间, 间隔时间)
+	$.vtLazyload('.vtLazyload', 500, 1000)
+	//- $.artTip('加载中...', 2000)
+	//- $.closeArtTip('加载成功！', 1000)
+	//- $.artAlert('加载成功！！！', 'artAlertFrame', 'zh_cn', document.referrer, 10 )
+	var sendMsgConfig = [
+		{
+			element: $('.f-msg-name'),
+			unkeynumber: [32,59,188,190,191,219,220,221,222]
+		},
+		{
+			element: $('.f-msg-phone'),
+			unkeynumber: [32]
+		},
+		{
+			element: $('.f-msg-email'),
+			unkeynumber: [32]
+		},
+		{
+			element: $('.f-msg-info'),
+			unkeynumber: [32]
+		}
+	]
+	$('.sign_form_content').enterKeyPress(sendMsgConfig)
+	$('.footer-message-btn').click(function(){
+		if(checkAllElementVal(sendMsgConfig) !== false){
+			$.artTip('<i class="icon-spinner icon-spin"></i> 加载中...')
+			var data = {
+				name: sendMsgConfig[0].element.val(),
+				phone: sendMsgConfig[1].element.val(),
+				email: sendMsgConfig[2].element.val(),
+				infomation: sendMsgConfig[3].element.val(),
+				uid: $('.f-user-id').val()
+			}
+			$.ajax({
+				type:"POST",
+				url:"/message",
+				data:data,
+				dataType:"json",
+				async:false,
+				cache:false,
+				success: function(data){
+					if(data.success === 1){
+						$.closeArtTip('<i class="icon-ok-sign mr10"></i>发送成功！加载成功！', 1200)
+						for(var i = 0; i < sloendMsgConfig.length; i++){
+							sendMsgConfig[i].element.val('').next('b').removeClass()
+						}
+					}else{
+						//- arttipclose('<i class="icon-exclamation-sign mr10"></i>发送失败！', 1200)
+						$.closeArtTip('<i class="icon-exclamation-sign mr10"></i>发送失败！', 1200)
+					}
+				}
+			})
+		}
+		return false
+	})
+
+	function checkAllElementVal(config){
+		for(i=0; i<config.length; i++){
+			var $element = config[i].element
+			if(!$element.next('b').hasClass('icon-ok-sign')){
+				$element.focus()
+				return false
+			}
+		}
+	}

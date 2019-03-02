@@ -1,0 +1,39 @@
+extends ../../layout_admin
+
+block content
+	.admin_wrap
+		h2.pageheader
+			i.icon-user
+			| #{title}
+		.contentpanel
+			table.table.table_hover.table_bordered.table_striped
+				thead
+					tr
+						th 头像
+						th 用户名称
+						th 角色权限
+						th 创建时间
+						th 查看
+						th 删除
+				tbody.tc
+					each item in users
+						tr(class="item-id-#{item._id}")
+							td 
+								img.user_avatar(src="/images/#{item.avatar}", alt="")
+							td: a.base-color-dark.fb(href="#{item.name}", target="_blank") #{item.name}
+							if item.role == 0
+								td 普通用户
+							else
+								td 管理员
+							td #{moment(item.meta.updateAt).format('YYYY/MM/DD/ HH:mm')}
+							td
+								a.button.button-primary.button-rounded.button-small(target="_blank", href="#{item.name}") 查看
+							td
+								if item.role == 0
+									button.button.button-caution.button-rounded.button-small.userdel(type="button", data-id="#{item._id}") 删除
+								else
+									span.button.button-caution.button-rounded.button-small(disabled="disabled") 删除
+	script(src="/js/admin_delete.js")
+	script.
+		//- 用户删除
+		del('userdel','user');

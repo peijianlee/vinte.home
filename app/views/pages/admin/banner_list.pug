@@ -1,0 +1,41 @@
+extends ../../layout_admin
+
+block content
+	.admin_wrap
+		h2.pageheader
+			i.icon-picture
+			| #{title}
+		.contentpanel
+			table.table.table_hover.table_bordered.table_striped
+				thead
+					tr
+						th 图片
+						th 标题
+						th 背景颜色
+						th 描述
+						th(style="width:90px") 更新
+						th(style="width:90px") 删除
+				tbody
+					if banners && banners.length > 0
+						each item in banners
+							tr(class="item-id-#{item._id}")
+								td: img(src="/banner/#{item.imgsrc}", style="width:150px;height:auto;")
+								td #{item.title}
+								td: div(style='width:60px;height:40px;background-color:#{item.bgcolor}')
+								td #{item.description}
+								td.tc: a.button.button-highlight.button-rounded.button-small(target="_blank", href="/admin/banner/update/#{item._id}") 修改
+								td.tc
+									button.button.button-caution.button-rounded.button-small.bannerdel(type="button", data-id="#{item._id}", data-src="#{item.imgsrc}") 删除
+					else
+						tr
+							td.lead.bg-info.text-info(colspan="5")
+								strong 
+									i.glyphicon.glyphicon-info-sign(style="margin-left:10px;margin-right:5px")
+									| 没有任何海报！
+				tfood
+					td(colspan="10")
+						a.button.button-raised.button-primary(href="/admin/banner/new") 新增海报
+	script(src="/js/admin_delete.js")
+	//- 海报删除
+	script.
+		del('bannerdel','banner');

@@ -182,6 +182,8 @@ exports.signinRequired = function(req,res,next){
 exports.adminRequired = function(req,res,next){
 	var user = req.session.user
 
+	console.log(user)
+
 	if(user.role <=10){
 		console.log('没有权限')
 		return res.render('prompt',{

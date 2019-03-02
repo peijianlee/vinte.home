@@ -1,0 +1,33 @@
+doctype
+html
+	head
+		meta(charset="utf-8")
+		if title
+			title #{title + ' - '} 梵特家具网
+		else
+			title 梵特家具网
+
+		- var _keywords = "梵特家具网,中山梵特家具网,乡村风格家具,中山乡村风格家具,仿古家具,中山仿古家具"
+		- var _description = "梵特家具是一家专业的家具制造厂商，其制造范围有批量家具生产、家具定制、家具重设计，家具风格主要是以乡村风格、工业风格、宫廷风格及其他手工艺绘制风格为主，多年销往欧美及其周边多个国家。"
+		- if(product){
+		-	_keywords = product.title +','+_keywords
+		-	_description = product.description?product.description:_description
+		- }
+
+		meta(name="keywords", content= _keywords )
+		meta(name="description", content= _description)
+		link(href="/favicon.ico", type="image/x-icon", rel="shortcut icon")
+		block head
+			script(src="/libs/jquery/dist/jquery.min.js")
+			script(src="/js/moment.js")
+			//- Buttons 库的核心文件
+			link(href="/css/layout.css", rel="stylesheet")
+			link(href="/css/buttons.css", rel="stylesheet")
+			link(href="/css/base.css", rel="stylesheet")
+			link(href="/css/style.css", rel="stylesheet")
+			link(href="/css/font-awesome.css", rel="stylesheet")
+	body
+		include ./includes/header
+		block content
+		//- include ./includes/sign_menu
+		include ./includes/footer

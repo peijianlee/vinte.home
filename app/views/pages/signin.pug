@@ -1,0 +1,80 @@
+extends ../layout_index
+block append head
+	link(rel="stylesheet",href="/css/sign.css")
+block content
+	.sign_bg.blur(style=`background-image:url(images/background/${bgsrc})`)
+	form.sign_form
+		h1.sign_top
+			| 梵特家具网
+			a.logo-icon.mt20(href="/")
+				i.icon-home.base-color-dark
+		.sign_form_head &nbsp;
+			i.icon-lock
+			span #{title}
+		ul.sign_form_content
+			li
+				if name
+					input#signName.signName.form_control(type="text", value="#{name}", placeholder="请输入用户名", autocomplete="off")
+					if !password
+						.sign_tip.error
+							i.icon-info-sign
+							| 用户名 “&nbsp;
+							strong #{name}
+							|&nbsp;” 已经存在了
+				else
+					input#signName.signName.form_control(type="text", placeholder="请输入用户名", autocomplete="off")
+				label(for="signName")
+					i.icon-user
+			li
+				input#signPassword.signPassword.form_control(type="password", placeholder="请输入密码")
+				label(for="signPassword")
+					i.icon-key 
+			li.captchaContainer
+				input#captcha.captcha.form_control.fl(type="text", placeholder="请输入验证码",maxlength="4")
+				label(for="captcha")
+					i.icon-lock
+				span.cp.changeCaptcha !{captcha.data}
+			li.sign_tip
+					i.icon-question-sign
+					| &nbsp;还没有注册会员？
+					a.cBlue.textUnderline(href="signup") 点击注册
+			
+		.sign_form_foot.cd
+			button.button.button-raised.button-primary#signinBtn(signtype="signin", type="submit") 登 录
+			.sign_form_foot_info
+				h6 VINTE
+				p
+					a.cWhite.fs12(href="http://www.miitbeian.gov.cn/" target="_blank") 粤ICP备17070570号
+					p Copyright © 2017 www.vinte.xin All Rights Reserved
+	//- h3.bgword
+		i.icon-quote-left.icon-3x.pull-left
+		| #{bgword}
+	script(src="js/jquery.vtEnterKeyPress.js")
+	script(src="js/sign.js")
+	script.
+		$('#signName').focus()
+		// 设置用户登录参数
+		var signinConfig = [
+			{
+				element: $('#signName'),
+				unkeynumber: [32,59,188,190,191,219,220,221,222],
+				errorText: "请输用户名！"
+			},
+			{
+				element: $('#signPassword'),
+				unkeynumber: [32],
+				errorText: "请输入密码！"
+			},
+			{
+				element: $('#captcha'),
+				unkeynumber: [32],
+				errorText: "请输入验证码！"
+			}
+		]
+		$('.sign_form_content').enterKeyPress(signinConfig)
+
+		$('#signinBtn').click(function(){
+			CheckInputValue(signinConfig, $(this), 'signin', document.referrer)
+			return false
+		});
+

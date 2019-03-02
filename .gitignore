@@ -1,5 +1,6 @@
 # ignore packages installed by npm
 node_modules
+vinte_db
 public/libs/bootsrtap
 public/libs/jquery
 public/data

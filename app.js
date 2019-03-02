@@ -20,7 +20,7 @@ mongoose.connection.on('open',function(){
 })
 // 访问路径、方式
 app.set('views','./app/views/pages')
-app.set('view engine','jade')
+app.set('view engine','pug')
 // 可视化
 var bodyParser = require('body-parser')
 app.use(bodyParser.json({limit: '1mb'}))
@@ -31,15 +31,25 @@ var cookieParser = require('cookie-parser')
 var session = require('express-session')
 var mongoStore = require('connect-mongo')(session)
 app.use(cookieParser())
+// app.use(session({
+// 	secret: 'nodeJS',
+// 	store: new mongoStore({
+// 		url: dbUrl,
+// 		collection: 'sessions'
+// 	}),
+// 	resave: false,
+// 	saveUninitalized: true
+// }))
+
+// 使用 session 中间件
 app.use(session({
-	secret: 'nodeJS',
-	store: new mongoStore({
-		url: dbUrl,
-		collection: 'sessions'
-	}),
-	resave: false,
-	saveUninitalized: true
-}))
+    secret :  'vinte_cookie', // 对session id 相关的cookie 进行签名
+    resave : true,
+    saveUninitialized: false, // 是否保存未初始化的会话
+    cookie : {
+        // maxAge : 1000 * 60 * 3, // 设置 session 的有效时间，单位毫秒
+    },
+}));
 
 //ueditor
 var ueditor = require('ueditor')

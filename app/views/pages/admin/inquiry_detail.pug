@@ -1,0 +1,80 @@
+extends ../../layout_admin
+
+block content
+	.admin_wrap
+		h2.pageheader
+			i.icon-list
+			| #{title}
+		.contentpanel
+			dl.admin_order_head.mb10
+				dt #{'No.' + inquiry.id}
+				dd 创建时间：#{moment(inquiry.meta.createAt).format('YYYY/MM/DD HH:mm:ss')}
+				dd 发送用户：
+					a.cBlue(href="list?name=#{inquiry.uid.id}", title="查看#{inquiry.uid.name}的所有询价单") #{inquiry.uid.name}
+						i.icon-external-link.ml5
+			div.admin_order_left
+				if inquiry.products && inquiry.products.length > 0
+					h6.admin_order_list_head
+						i.icon-list.mr10
+						|询价单列表
+					table.table_striped.table_bordered
+						tr
+							th(width="150") 图片
+							th 名称
+							th 官方定价
+							th 目标数量
+							th 目标价格
+						each item in inquiry.products
+							tr
+								td: a(href="/store/id/#{item.id}" target="_blank")
+									img(src="/data/products/p"+item.id+"/"+item.cover, width="150px", height="150px")
+								td
+									ul.line-height-normal
+										li.fs16.fb #{item.title}
+										li.cGray.fs12 尺寸：
+											span.ml5 宽#{item.size.w}×深#{item.size.d}×高#{item.size.h} (cm)
+										if item.scene && item.scene.length > 0
+											li.cGray.fs12 场景：
+												each i_scene in item.scene
+													span.ml5 #{i_scene.attributes.zh_cn}
+										if item.material && item.material.length > 0
+											li.cGray.fs12 材质：
+												each i_material in item.material
+													span.ml5 #{i_material.attributes.zh_cn}
+										if item.color && item.color.length > 0
+											li.cGray.fs12 颜色：
+												each i_color in item.color
+													span.ml5 #{i_color.attributes.zh_cn}
+								td.tc #{'￥' + item.price.toFixed(2)}
+								td.tc.fb #{item.quantity}
+								td.tc.fb #{item.fromprice}
+			div.admin_order_right
+				h6.admin_order_list_head
+					i.icon-info.mr10
+					|客户资料
+				ul
+					if inquiry.from.company
+						li
+							i.icon-building.mr5.ml5
+							| 公司名称：
+							b #{inquiry.from.company}
+					li
+						i.icon-user.mr5.ml5
+						| 联系人：
+						b #{inquiry.from.user}
+					li
+						i.icon-phone.mr5.ml5
+						| 联系电话：
+						b #{inquiry.from.phone}
+					li
+						i.icon-envelope.mr5.ml5
+						| Email：
+						b #{inquiry.from.email}
+					li
+						i.icon-comment-alt.mr5.ml5
+						| 留言：
+						p.fb #{inquiry.from.description}
+					li
+						span.base-button.b-primary.b-rounded.b-normal.block 立即处理
+
+

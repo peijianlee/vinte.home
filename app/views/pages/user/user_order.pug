@@ -1,0 +1,192 @@
+extends ../../layout_index
+block append head
+	link(rel="stylesheet",href="/css/user.css")
+block content
+	.wrap.nav
+		a(href="/")
+			i.fs14.icon-home
+		a(href="/user/#{user.name}") 我的个人中心
+		b #{page === 'inquiries' ? '询价单' : '收藏夹'}
+	.user_frame
+		ul.user_page_menu
+			li(class="#{page === 'inquiries' ? 'Stand' : ''}")
+				a.block(href="inquiries")
+					i.icon-reorder.mr5
+					| 询价单
+			li(class="#{page === 'favourite' ? 'Stand' : ''}")
+				a.block(href="favourite")
+					i.icon-star.mr5
+					| 收藏夹
+		.user_page.p15
+			if page === 'inquiries'
+				if inquiries && inquiries.length > 0
+					table#list-table.table_striped.table_bordered
+						thead
+							tr
+								th(width="40")
+								th 询价单号
+								th 创建时间
+								th 是否回复
+								th(width="160") 操作
+						tbody
+							each inquiry in inquiries
+								tr.tc(id="#{inquiry.id}", stitle="#{inquiry.id}")
+									th: input.select-item.cp(type="checkbox")
+									td: a.base-color-dark.fb(href="/user/#{user.name}/inquiries/#{inquiry.id}") #{'No.' + inquiry.id}
+									td #{moment(inquiry.meta.createAt).format('YYYY/MM/DD')}
+									td
+									td
+										a(href="/user/#{user.name}/inquiries/#{inquiry.id}").base-button.b-primary.b-tiny 查看
+										span.base-button.b-caution.b-tiny.ml5.remove-item 删除
+						tfoot
+							tr
+								td(colspan="5").tl
+									span.ml10
+										input#select-all.cp.mr10(type="checkbox")
+										| 全选
+									span.ml10
+										| 已选择
+										b#select-num.base-color-dark.ml5.mr5 0
+										| 条询价单
+									span#remove-all.ml10.base-button.b-caution.b-small.b-radius(remove-all="true", del-inquiry="true") 删除
+				else
+					.user_details_empty_tip.tc(colspan="5")
+						p.mb15.fs16.fb 目前没有任何数据
+						a.button.button-primary.button-rounded(href="/store")
+							i.icon-magnet.mr10
+							| 浏览商城
+			else
+				if favouritegoods && favouritegoods.length > 0
+					table#list-table.table_striped.table_bordered.tc
+						thead
+							tr
+								th(width="40")
+								th(width="80") 图片
+								th 名称
+								th 单价
+								th(width="100") 操作
+						tbody
+							each favourite in favouritegoods
+								tr(id="#{favourite.id}", stitle="#{favourite.title}")
+									th: input.select-item.cp(type="checkbox")
+									td
+										img(src='/data/products/p'+favourite.id+'/'+favourite.cover, width="80", height="80")
+									td(style="vertical-align:top;")
+										ul.tl.fs11.cGray.line-height-normal
+											li: a.base-color-dark.fb.fs16(href='/store/id/#{favourite.id}', target="_blank") #{favourite.title}
+											li 尺寸：
+												span.ml5 #{'w ' + favourite.size.w + ' x h ' + favourite.size.h + ' * d' + favourite.size.d}
+											if favourite.scene && favourite.scene.length > 0
+												li 场景：
+													each scene in favourite.scene
+														span.ml5 #{scene.attributes.zh_cn}
+											if favourite.sort && favourite.sort.length > 0
+												li 类型：
+													each sort in favourite.sort
+														span.ml5 #{sort.attributes.zh_cn}
+											if favourite.material && favourite.material.length > 0
+												li 材质：
+													each material in favourite.material
+														span.ml5 #{material.attributes.zh_cn}
+											if favourite.color && favourite.color.length > 0
+												li 颜色：
+													each color in favourite.color
+														span.ml5 #{color.attributes.zh_cn}
+									td.fb.fs16 #{'￥' + favourite.price.toFixed(2)}
+									td
+										a(href="/store/id/#{favourite.id}", target="_blank").base-button.b-primary.b-tiny 查看
+										span.mt5.base-button.b-caution.b-tiny.remove-item(ptitle="#{favourite.title}") 移出
+						tfoot
+							tr
+								td(colspan="5").tl
+									span.ml10
+										input#select-all.cp.mr10(type="checkbox")
+										| 全选
+									span.ml10
+										| 已选择
+										b#select-num.base-color-dark.ml5.mr5 0
+										| 件商品
+									span#remove-all.ml10.base-button.b-caution.b-small.b-radius(remove-all="true") 移出
+				else
+					.user_details_empty_tip.tc(colspan="5")
+						p.mb15.fs16.fb 目前没有任何数据
+						a.button.button-primary.button-rounded(href="/store")
+							i.icon-magnet.mr10
+							| 浏览商城
+
+	.bg_fixed
+	if page === 'order'
+		script.
+			var postUrl = '/order/delete',
+				page = 'order'
+	else
+		script.
+			var postUrl = '/goods/favourite',
+				page = 'favourite'
+	script.
+		$(function(){
+			var sid = [],
+				stitle = []
+			$.checkBoxSelect(['.select-item', '#select-all', 'tbody tr', '#select-num', '#remove-all'], function (info) {
+				sid = info.sid
+				stitle = info.stitle
+			})
+			$('.remove-item, #remove-all').click(function () {
+				if ($(this).attr('remove-all')) {
+					var delOrder = $(this).attr('del-inquiry')
+						pid = sid,
+						ptitle = delOrder ? stitle.length : stitle 
+					if(pid.length <= 0) return $.artTip('当前没有选中项', 800)
+				} else {
+					var pid = $(this).parents('tr').attr('id'),
+						ptitle = $(this).parents('tr').attr('stitle')
+				}
+				var tip = '是否移出该 <b class="base-color-dark">' + ptitle + '</b> 条信息？'
+				$.artConfim(tip, 'confimFrame', 'zh_cn', function (info) {
+					if (info) {
+						$.artTip('取消操作', 800)
+					} else {
+						$.artTip('<i class="icon-spinner icon-spin"></i> 加载中...')
+						$.ajax({
+							type:"POST",
+							url: postUrl,
+							data:{'pid': pid, 'page': page},
+							dataType:"json",
+							async:false,
+							cache:false,
+							success: function(data){
+								if (data.success) {
+									$.closeArtTip('网路错误', 800)
+								} else {
+									$.closeArtTip('成功移出', 800)
+									if (typeof pid === 'string') {
+										$('#' + pid).remove()
+										var selectNum = $('#select-num').text()
+										selectNum > 0 ? $('#select-num').text(selectNum - 1) : false
+									} else {
+										for(i in pid){
+											$('#' + pid[i]).remove()
+										}
+										$('#select-num').text('0')
+									}
+									ListIsEmpty ()
+								}
+							}
+						})
+					}
+				})
+			})
+			function ListIsEmpty () {
+				var listNum = $('tbody tr').length
+				if (!listNum) {
+					var emptyTip = '<div class="user_details_empty_tip tc">' 
+								 + '<p class="mb15 fs16 fb">目前没有任何数据</p>'
+								 + '<a class="button button-primary button-rounded">'
+								 + '<i class="icon-magnet mr10"></i>浏览商城'
+								 + '</a></div>'
+					$('#list-table').remove()
+					$('.user_page').append(emptyTip)
+				}
+			}
+
+		})

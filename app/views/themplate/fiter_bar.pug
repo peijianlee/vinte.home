@@ -1,0 +1,61 @@
+
+if allCategoryType && allCategoryType.length > 0
+	each type in allCategoryType
+		if type.cid && type.cid.length > 0
+			- if( typeof(keyword) !== 'string' && type.name.en_us === 'sort' ) {
+			-	var menu_wrap_class = 'fiter-head-wrap'
+			-	var menu_class = 'fiter-head'
+			-	var menu_title = '<a class="block cWhite" href="/store" title="全部商品" >全部商品</a>'
+			- } else {
+			-	var menu_wrap_class = 'fiter-nav-wrap'
+			-	var menu_class = 'fiter-nav'
+			-	var menu_title = type.name.zh_cn + ' :'
+			- }
+			div(class="#{menu_wrap_class}")
+				dl(class="#{menu_class + ' wrap'}")
+					dt.cd
+						| !{ menu_title }
+					dd
+						- if ( typeof(keyword) !== 'string' && type.name.en_us === 'sort' ){
+							a( href="/", title="返回首页" ): i.icon-home
+						- } else {
+							- var all_href = ''
+							- if(url_key && url_key.indexOf(type.name.en_us) > -1) {
+							-	var tmp = '/([&])(' + type.name.en_us + '=)([^&]*)/gi'
+							-	all_href += url_key.replace(eval(tmp), '')
+							- }else{
+							-	all_href += url_key
+							- }
+							- if ( typeof(keyword) !== 'string' ) {
+							-	var all_first_href = '/store'
+							- 	all_href = all_href.substr(0,1) === "&"? '?' + all_href.replace('&','') : all_href
+							- } else {
+							-	var all_first_href = '?q='+keyword 
+							- }
+							a( href= all_first_href + all_href ) 全部
+						- }
+							
+						each cid in type.cid
+							- if( url_key ){
+							- 	if( url_key.indexOf(type.name.en_us) > -1 ){
+							-		var replaceText = type.name.en_us + '=' + cid.id
+							-		var tmp = '/(' + type.name.en_us + '=)([^&]*)/gi'
+							-		var replaceUrl = url_key.replace(eval(tmp), replaceText)
+							-		var a_href = replaceUrl
+							- 	} else {
+							-		var a_href = url_key + '&' + type.name.en_us + '=' + cid.id
+							- 	}
+							- }else{
+							-	var a_href = '&' + type.name.en_us + '=' + cid.id
+							- }
+							- if ( typeof(keyword) !== 'string' ) {
+							-	var a_url_public = '/store'
+							-	a_href = a_href.substr(0,1) === '&'? '?' + a_href.replace('&','') : a_href
+							- } else {
+							-	var a_url_public = '?q='+keyword
+							- 	a_href = a_href.substr(1,1) === '&'? a_href.replace('&','') : a_href
+							- }
+							- if(url_key.indexOf(cid.id) > -1)
+								a.cd.On(href= a_url_public+a_href ) #{cid.attributes.zh_cn}
+							- else
+								a(href= a_url_public+a_href) #{cid.attributes.zh_cn}

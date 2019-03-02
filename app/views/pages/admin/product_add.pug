@@ -1,0 +1,135 @@
+extends ../../layout_admin
+
+block content
+	.admin_wrap
+		h2.pageheader
+			i.icon-magnet
+			| #{title}
+		.button-group.pl20.pt20
+			if product._id
+				button.button.button-royal.button-rounded.button-raised.button-small(type="button") 基本信息
+				a.button.button-rounded.button-raised.button-small(type="button", href="/admin/product/update/"+product._id+"?edit=photo") 图片管理
+				a.button.button-rounded.button-raised.button-small(type="button", href="/admin/product/update/"+product._id+"?edit=content") 商品详情
+			else
+				button.button.button-royal.button-rounded.button-raised.button-small(type="button") 基本信息
+				button.button.button-rounded.button-raised.button-small(type="button", disabled="") 图片管理
+				button.button.button-rounded.button-raised.button-small(type="button", disabled="") 商品详情
+		.contentpanel
+			- console.log(product)
+			form.form_horizontal(method="post", action="/admin/product", enctype="multipart/form-data")
+				if product._id
+					input(type="hidden", name="product[_id]", value=product._id)
+				.form_group
+					label.control_label 商品名称：
+					.control_div
+						input(type="text", name="product[title]",placeholder="请输入商品名称", value=product.title)
+				.form_group
+					label.control_label 商品描述：
+					.control_div
+						textarea(type="text", name="product[description]",placeholder="请输入商品描述，可不填", style="height:48px;") #{product.description}
+					br.clear
+				.form_group
+					label.control_label 商品尺寸：
+					.control_div.product_size_input
+						if product._id
+							label 长
+							input(type="text", name="product[size].h", value=product.size.h)
+							label *
+							label 宽
+							input(type="text", name="product[size].w", value=product.size.w)
+							label *
+							label 高
+							input(type="text", name="product[size].d", value=product.size.d)
+							label (CM)
+						else
+							label 长
+							input(type="text", name="product[size].h")
+							label *
+							label 宽
+							input(type="text", name="product[size].w")
+							label *
+							label 高
+							input(type="text", name="product[size].d")
+							label (CM)
+				
+				- var categories_array = ['sort','scene','material','color']
+				each catname in categories_array
+					- if(catname === 'sort'){
+					-	var category = categories_sort
+					-	var catname_cn = '类型'
+					-	var pro_attr_len = product.sort
+					- }else if(catname === 'scene'){
+					-	var category = categories_scene
+					-	var catname_cn = '场景'
+					-	var pro_attr_len = product.scene
+					- }else if(catname === 'material'){
+					-	var category = categories_material
+					-	var catname_cn = '材质'
+					-	var pro_attr_len = product.material
+					- }else if(catname === 'color'){
+					-	var category = categories_color
+					-	var catname_cn = '颜色'
+					-	var pro_attr_len = product.color
+					-}
+					if category && category.length > 0
+						.form_group
+							label.control_label #{catname_cn} ：
+							.control_div.category_label(data-category=catname)
+								each item in category
+									label.textUnSelect
+										if product._id && pro_attr_len
+											if catname === 'sort'
+												input(type="radio", class="changeCategory" name="product["+item.name+"]", value=item._id, checked=item._id.toString()===product.sort.toString())
+											else
+												- var checked = false
+												- for(var i=0; i < pro_attr_len.length; i++){
+												-	if(item._id.toString()===pro_attr_len[i].toString()){
+												-		checked = true
+												-		break
+												-	}
+												- }
+												input(type="checkbox", class="changeCategory" name="product["+item.name+"]", value=item._id, checked=checked)
+										else
+											if catname === 'sort'
+												input(type="radio", class="changeCategory" name="product["+item.name+"]", value=item._id )
+											else
+												input(type="checkbox", class="changeCategory" name="product["+item.name+"]", value=item._id )
+
+										span
+											i.icon-check-empty.mr5
+											i.icon-check.mr5
+											| #{item.attributes.zh_cn}
+				//- .form_group
+					label.control_label 使用材质：
+					.control_div
+						input(style="width:150px;", type="text", name="product[material]",placeholder="请输入使用材质", value=product.material)
+				//- .form_group
+					label.control_label 主体颜色：
+					.control_div
+						input(style="width:150px;", type="text", name="product[colour]",placeholder="请输入主体颜色", value=product.colour)
+				.form_group
+					label.control_label 销售价格：
+					.control_div
+						input(style="width:150px;", type="text", name="product[price]",placeholder="请输入销售价格", value=product.price)
+				.form_group
+					label.control_label 促销价格：
+					.control_div
+						input(style="width:150px;", type="text", name="product[sale]",placeholder="请输入促销价格", value=product.sale)
+
+				.form_group
+					.col-sm-offset-1.col-sm-1
+						if product._id
+							button#btn_save.button.button-primary.button-primary.button-longshadow-right(type="sumbit")
+								b.icon-upload
+								| &nbsp;&nbsp;更 新
+						else
+							button#btn_save.button.button-primary.button-primary.button-longshadow-right(type="sumbit")
+								b.icon-hdd
+								| &nbsp;&nbsp;录 入
+				input(type="hidden", name="product[uid]", value="#{user._id}")
+
+	if product._id
+		script(src="/js/changecategory.js")
+		script(src="/js/artalert.js")
+
+

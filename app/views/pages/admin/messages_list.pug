@@ -1,0 +1,34 @@
+extends ../../layout_admin
+
+block content
+	.admin_wrap
+		h2.pageheader
+			i.icon-user
+			| #{title}
+		.contentpanel
+			table.table.table_hover.table_bordered.table_striped
+				thead
+					tr
+						th 发送时间
+						th 公司名称/个人名字
+						th 电话号码
+						th 电子邮箱
+						th 留言内容
+						//- th 查看
+						th 删除
+				tbody.tc
+					each item in messages
+						tr(class="item-id-#{item._id}")
+							td #{moment(item.meta.updateAt).format('YYYY/MM/DD/ HH:mm')}
+							td #{item.name}
+							td #{item.phone}
+							td #{item.email}
+							td #{item.infomation}
+							//- td
+								a.button.button-primary.button-rounded.button-small(target="_blank", href="../movie/#{item._id}") 查看
+							td
+								button.button.button-caution.button-rounded.button-small.userdel(type="button", data-id="#{item._id}") 删除
+	script(src="/js/admin_delete.js")
+	script.
+		//- 用户删除
+		del('userdel','user');
