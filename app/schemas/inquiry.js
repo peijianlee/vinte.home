@@ -14,7 +14,7 @@ var InquirySchema = new Schema({
 		email: String,
 		description: String
 	},
-	products: [{
+	goods: [{
 		_id: String,
 		title: String,
 		content: String,

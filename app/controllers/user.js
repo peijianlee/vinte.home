@@ -1,6 +1,6 @@
 var User = require('../models/user'),
 	Inquiry = require('../models/inquiry'),
-	Product = require('../models/product')
+	Product = require('../models/goods')
 
 // req.session.destroy() 
 
@@ -57,34 +57,25 @@ exports.checkedCaptcha = function(req, res, next){
 		next()
 	}
 }
-// 登录界面
-exports.showSignin = function(req, res){
-	var name = req.session.signup_name_repeat
-	var password = req.query.password
-	var bgimg = bgsrc
-	var bgimg = bgimg[Math.floor(Math.random()*bgimg.length)]
-	res.render('signin',{
-		title: '用户登陆',
-		name: name,
-		password: password,
+// 登录&注册界面
+exports.sign = function(req, res){
+	var bgimg = bgsrc[Math.floor(Math.random()*bgsrc.length)],
+		isSignin = req.originalUrl.indexOf('signin') === 1,
+		page = 'signin',
+		title = '登录'
+
+	if(!isSignin){
+		page = 'signup'
+		title = '注册'
+	}
+	res.render('index/sign/'+page,{
+		title: '用户'+title,
 		bgsrc: bgimg,
 		captcha: req.session.captcha,
 		header_hide: true
 	})
 }
-// 注册界面
-exports.showSignup = function(req, res){
-	// if(req.session.signup_name_repeat) delete req.session.signup_name_repeat
-	var req_path = req.path
-	var bgimg = bgsrc
-	var bgimg = bgimg[Math.floor(Math.random()*bgimg.length)]
-	res.render('signup',{
-		title: '用户注册',
-		bgsrc: bgimg,
-		captcha: req.session.captcha,
-		header_hide: true
-	})
-}
+
 // signup
 exports.signup = function(req, res, next){
 	// var _user =req.body.signup
@@ -196,7 +187,6 @@ exports.adminRequired = function(req,res,next){
 // 用户中心
 exports.detail = function(req,res){
 	var user = req.session.user,
-		name=req.params.name,
 		page=req.params.page,
 		orderId=req.params.id,
 		shopcartgoodsNum = req.session.user.shopcartgoods.length
@@ -222,7 +212,7 @@ exports.detail = function(req,res){
 							.populate('color material scene sort','attributes')
 							.exec(function (err, favouritegoods) {
 								if (err) console.log(err)
-								res.render('user/user',{
+								res.render('index/user',{
 									title: title,
 									user: user,
 									inquiries: inquiries,
@@ -232,14 +222,14 @@ exports.detail = function(req,res){
 							})
 					})
 			} else if (page.toString() === 'setting') {
-				res.render('user/user_setting',{
+				res.render('user/setting',{
 					title: '用户设置 - ' + title,
 					user: user,
 					cart_goods_num: shopcartgoodsNum
 				})
 			} else if (page.toString() === 'inquiries' && !orderId) {
 				Inquiry.find({'uid': user.id, 'udelete': 0},function (err, inquiries) {
-					res.render('user/user_order',{
+					res.render('index/user/order',{
 						title: '所有询价单 - ' + title,
 						page: 'inquiries',
 						inquiries: inquiries,
@@ -252,7 +242,7 @@ exports.detail = function(req,res){
 					.populate('color material scene sort', 'attributes')
 					.exec( function (err, favouritegoods) {
 						if (err) console.log (err)
-						res.render('user/user_order', {
+						res.render('index/user/order', {
 							title: '收藏夹 - ' + title,
 							page: 'favourite',
 							favouritegoods: favouritegoods,
@@ -269,7 +259,7 @@ exports.detail = function(req,res){
 								message:'非法路径或该订单已经不存在。'
 							})
 						} else {
-							res.render('user/user_order_detail',{
+							res.render('index/user/order_detail',{
 								title: 'No.' + order._id + ' - ' + title,
 								order: order,
 								cart_goods_num: shopcartgoodsNum

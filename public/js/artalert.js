@@ -28,17 +28,18 @@
 							$(this)[0].tagName !== 'FORM' ? $(this).remove() : false
 						})
 						fn && fn($(this).index())
+						$(this).unbind('click')
 					}
 				})
 			}
 		},
-		toggleModal: function (modal) {
+		toggleModal: function (modal, fn) {
 			var eleId = modal.attr('data-target'),
 				$target = $(eleId),
 				$target_input = $target.find('input[type="text"]')
 			$target.css({zIndex: '2011'}).fadeIn()
 			$target_input && $target_input.eq(0).focus()
-			this.publicStyle.popupBg(false, eleId)
+			this.publicStyle.popupBg(false, eleId, fn)
 		},
 		artConfim: function (value, frameClass, lang, fn) {
 			var language = [
@@ -59,19 +60,17 @@
 
 			this.publicStyle.popupBg('.frameFooter span', '.' + frameClass, fn)
 		},
-		artTip: function (value, time) {
+		artTip: function (value, time, url) {
 			var $body = $('body')
 			$body.append('<div class="arttipbg"></div><div class="arttip">'+
 				value+'</div>')
 			$('.arttipbg').fadeIn('200')
 			$('.arttip').animate({'opacity':1,'bottom':'40%'},500)
-			if (time) {
-				var autoTimeOut = setTimeout(function () {
-					$.closeArtTip(null, 10)
-				}, time)
-			}
+			setTimeout(function () {
+				$.closeArtTip(null, 10, url || '')
+			}, time || 1200)
 		},
-		closeArtTip: function (value, closetime, fn) {
+		closeArtTip: function (value, closetime, url) {
 			if(value) $('.arttip').html(value)
 			var closetime = closetime || 2000
 			var timeOut = setTimeout(function(){
@@ -80,6 +79,7 @@
 				})
 				$('.arttip').animate({'opacity':0,'bottom':'30%'},400,function(){
 					$(this).remove()
+					url?url==='reload'?location.reload():location.href=url : false
 				})
 			}, closetime)
 		},

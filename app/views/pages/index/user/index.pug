@@ -1,4 +1,4 @@
-extends ../../layout_index
+extends ../../../layout_index
 block append head
 	link(rel="stylesheet",href="/css/user.css")
 block content
@@ -8,7 +8,7 @@ block content
 		b 我的个人中心
 	.user_frame
 		.user_info
-			img(src="/images/#{user.avatar}")
+			img(src=`/images/${user.avatar}`)
 			h3.base-color-dark.mt5 #{user.name}
 			.user_role.mt15
 				span
@@ -16,7 +16,7 @@ block content
 						| 超级管理员
 					else
 						| 注册会员
-				a.user_setting_btn.animation(href="/user/#{user.name}/setting")
+				a.user_setting_btn.animation(href=`/user/${user.name}/setting`)
 					i.icon-cog
 			.user_role.mt15
 				span 注册时间：#{moment(user.meta.createAt).format('YYYY / MM / DD')}
@@ -45,10 +45,12 @@ block content
 				if inquiries && inquiries.length > 0
 					each order in inquiries
 						tr.tc
-							td: a.base-color-dark(href="/user/#{user.name}/inquiries/#{order._id}") #{'No.' + order._id}
+							td
+								a.base-color-dark(href=`/user/${user.name}/inquiries/${order._id}`) #{'No.' + order._id}
 							td #{moment(order.meta.createAt).format('YYYY/MM/DD')}
 							td
-							td: a(href="/user/#{user.name}/inquiries/#{order._id}").base-button.b-primary.b-tiny 查看
+							td
+								a(href=`/user/${user.name}/inquiries/${order._id}`).base-button.b-primary.b-tiny 查看
 				else
 					tr
 						td.user_details_empty_tip.tc(colspan="4")
@@ -58,10 +60,10 @@ block content
 								| 我的询价单
 			.user_details_head.mt20
 				if favouritegoods.length >= 5
-					a.fr.fn.fs12.cGray(href="/user/#{user.name}/favourite") 更多 
+					a.fr.fn.fs12.cGray(href=`/user/${user.name}/favourite`) 更多 
 						i.fs14.icon-double-angle-right
 				i.icon-star.mr10
-				a.base-color-dark(href="/user/#{user.name}/favourite") 我的收藏
+				a.base-color-dark(href=`/user/${user.name}/favourite`) 我的收藏
 			table.table_striped.table_bordered.tc
 				tr
 					th(width="80") 图片
@@ -70,12 +72,13 @@ block content
 					th(width="100") 操作
 				if favouritegoods && favouritegoods.length > 0
 					each favourite in favouritegoods
-						tr(id="#{favourite.id}")
+						tr(id=favourite.id)
 							td
-								img(src='/data/products/p'+favourite.id+'/'+favourite.cover, width="80", height="80")
+								img(src=`/data/products/p${favourite.id}/${favourite.cover}` width="80" height="80")
 							td(style="vertical-align:top;")
 								ul.tl.fs11.cGray.line-height-normal
-									li: a.base-color-dark.fb.fs15(href='/store/id/#{favourite.id}', target="_blank") #{favourite.title}
+									li
+										a.base-color-dark.fb.fs15(href=`/goods/id/${favourite.id}` target="_blank") #{favourite.title}
 									li 尺寸：
 										span.ml5 #{'w ' + favourite.size.w + ' x h ' + favourite.size.h + ' * d' + favourite.size.d}
 									if favourite.scene && favourite.scene.length > 0
@@ -96,7 +99,7 @@ block content
 												span.ml5 #{color.attributes.zh_cn}
 							td.fb.fs16 #{'￥' + favourite.price.toFixed(2)}
 							td
-								a(href="/store/id/#{favourite.id}", target="_blank").base-button.b-primary.b-tiny 查看
+								a(href=`/goods/id/${favourite.id}`, target="_blank").base-button.b-primary.b-tiny 查看
 				else
 					tr
 						td.user_details_empty_tip.tc(colspan="4")

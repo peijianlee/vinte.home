@@ -1,8 +1,8 @@
 
-var Movie = require('../models/movie')
+// var Movie = require('../models/movie')
 var Category = require('../models/category')
-var Banner = require('../models/banner')
-var Product = require('../models/product')
+// var Banner = require('../models/banner')
+var Product = require('../models/goods')
 var Message = require('../models/message')
 var User = require('../models/user')
 var Inquiry = require('../models/inquiry')
@@ -89,7 +89,7 @@ exports.index = function(req,res){
 				.populate('color material scene sort','attributes')
 				.exec(function(err, recommendProducts){
 					if(err)console.log(err)
-					res.render('index',{
+					res.render('index/index',{
 						pstyleCategories: categoryAttributes['pstyle'],
 						materialCategories: categoryAttributes['material'],
 						sceneCategories: categoryAttributes['scene'],

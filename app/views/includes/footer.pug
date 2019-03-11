@@ -41,8 +41,6 @@ if !header_hide
 			|	Copyright © 2017, All Rights Reserved
 	if !user
 		include ../themplate/signin_modal
-script(src="/js/artalert.js")
-script(src="/js/jquery.vtEnterKeyPress.js")
 script.
 	//- 添加懒加载 vtLazyload(class, 延迟时间, 间隔时间)
 	$.vtLazyload('.vtLazyload', 500, 1000)
@@ -88,7 +86,7 @@ script.
 				success: function(data){
 					if(data.success === 1){
 						$.closeArtTip('<i class="icon-ok-sign mr10"></i>发送成功！加载成功！', 1200)
-						for(var i = 0; i < sloendMsgConfig.length; i++){
+						for(var i = 0; i < sendMsgConfig.length; i++){
 							sendMsgConfig[i].element.val('').next('b').removeClass()
 						}
 					}else{

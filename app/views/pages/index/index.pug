@@ -1,0 +1,79 @@
+extends ../../layout_index
+block append head
+	//- link(rel="stylesheet",href="/css/goods.css")
+	link(rel="stylesheet",href="/css/index.css")
+block content
+	.index-banner-bgcolor.tc.fs0
+		img.vtLazyload(src="default.png", data-src="/images/banner-1.png", alt="")
+	if pstyleCategories && pstyleCategories.length > 0
+		.bgBlue.bg-slash
+			.wrap.pt50.pb50.tc
+				.g-head-title.fb
+					i.icon-bookmark.mr10
+					| 家具风格
+					br
+					span Furniture style
+				each pstyle in pstyleCategories
+					.i-furniture-type
+						img.vtLazyload(src="default.png", data-src=`/banner/${pstyle.banner}` )
+						h6 #{pstyle.attributes.zh_cn}
+						p #{pstyle.description}
+	if materialCategories && materialCategories.length > 0
+		.wrap.pt50.pb50
+			.g-head-title.base-color-dark.fb.tc
+				i.icon-leaf.mr10
+				| 材质介绍
+				br
+				span Material Introduction
+			.i-material-list.mb30.mt20
+				each material in materialCategories
+					a(href="/store/material/"+material.attributes.zh_cn style="background-image:url(/banner/#{material.banner})")
+						span.i-material-frame.base-color-dark
+							span.imaterial #{material.attributes.zh_cn}
+								b #{material.pid.length}
+	if sortCategories && sortCategories.length > 0
+		.bgBlue.bg-slash
+			.wrap.pt50.pb50
+				.g-head-title.fb.tc
+					i.icon-th-large.mr10
+					| 类型选择
+					br
+					span Type selection
+				.i-sort-list.mt20
+					each sort in sortCategories
+						if sort.pid.length > 0
+							.i-sort-link
+								a.i-sort.pr(href="/store?sort=" + sort.id, target="_blank")
+									.i-sort-title-cn #{sort.attributes.zh_cn}
+										span #{sort.pid.length}
+									.i-sort-line
+									span.i-sort-title-en #{sort.attributes.en_us}
+									i.icon-external-link.pa
+						else
+							span.i-sort-link
+								.i-sort.cd
+									.i-sort-title-cn #{sort.attributes.zh_cn}
+										span #{sort.pid.length}
+									.i-sort-line
+									span #{sort.attributes.en_us}
+
+	.wrap.pt50.pb50
+		.g-head-title.base-color-dark.fb.tc.mb20
+			block append head
+				link(rel="stylesheet",href="/css/goods/item.css")
+			i.icon-magnet.mr10
+			| 推荐产品
+			br
+			span Recommended Products
+		if recommendProducts && recommendProducts.length > 0
+			each item in recommendProducts
+				.iproduct(id=item.id)
+					include ../../themplate/goods
+		br.clear
+		.tc.mt20
+			a.g-remore-btn(href="/store")
+				span.animation 查看全部商品
+	//- .bg_fixed
+	script(src="/js/shopcart.js")
+	script.
+		$.artTip('hello!!!')

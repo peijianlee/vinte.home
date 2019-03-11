@@ -11,8 +11,8 @@ if allCategoryType && allCategoryType.length > 0
 			-	var menu_class = 'fiter-nav'
 			-	var menu_title = type.name.zh_cn + ' :'
 			- }
-			div(class="#{menu_wrap_class}")
-				dl(class="#{menu_class + ' wrap'}")
+			div(class=menu_wrap_class)
+				dl(class=`${menu_class} wrap`)
 					dt.cd
 						| !{ menu_title }
 					dd

@@ -1,5 +1,5 @@
 var Shopcart = require('../models/shopcart')
-var Product = require('../models/product')
+var Goods = require('../models/goods')
 var User = require('../models/user')
 var Inquiry = require('../models/inquiry')
 var _ = require('underscore')
@@ -10,36 +10,43 @@ exports.detail = function(req,res){
 	var user = req.session.user
 
 	if(!user){
-		if(!req.session.cart) req.session.cart = []
+		var cart = req.session.cart
+		if(!cart) req.session.cart = []
 		// 非常愚蠢的循环出来又循环进去
-		var session_cart = req.session.cart
-		var session_pid = []
-		var session_quantity = []
-		if(session_cart.length > 0){
+		var session_cart = cart,
+			session_gid = [],
+			session_quantity = []
+		
+		console.log('用户不存在的情况下')
+		console.log(user)
+		
+		if(session_cart && session_cart.length > 0){
 			for(var i = 0; i < session_cart.length; i++){
-				session_pid.push(session_cart[i].pid)
+				session_gid.push(session_cart[i].pid)
 				session_quantity.push(session_cart[i].quantity)
 			}
 		}
-		Product
-			.find({_id:{$in:session_pid}})
+
+		Goods
+			.find({_id:{$in:session_gid}})
 			.populate('sort color material scene','attributes')
-			.exec(function (err,products){
+			.exec(function (err,goods){
 				if(err) console.log(err)
+
 				// 非常愚蠢的循环出来又循环进去
 				var productsObj = []
 				for(var i=0; i < session_quantity.length; i++){
 					var p_obj = {
 						'quantity':session_quantity[i],
-						'pid': products[i]
+						'pid': goods[i]
 					}
 					productsObj.push(p_obj)
 				}
-				res.render('user/inquiry',{
+				res.render('index/inquiry/',{
 					title: '询价单',
-					products: productsObj,
+					goods: productsObj,
 					captcha: req.session.captcha,
-					cart_goods: products
+					cart_goods: goods
 				})
 			})
 	}else{
@@ -47,8 +54,8 @@ exports.detail = function(req,res){
 		Shopcart
 			.findOne({'uid':user._id})
 			.populate({
-				path: 'products.pid',
-				model: 'Product',
+				path: 'goods.pid',
+				model: 'Goods',
 				populate: {
 					path: 'sort color material scene',
 					select: 'attributes',
@@ -58,14 +65,14 @@ exports.detail = function(req,res){
 			.exec(function (err, shopcart){
 				if(err) console.log(err)
 				if(shopcart){
-					var products = shopcart.products
+					var goods = shopcart.goods
 				}else{
-					var products = []
+					var goods = []
 				}
-				res.render('user/inquiry',{
+				res.render('index/inquiry/index',{
 					title: '询价单',
-					products: products,
-					cart_goods: products
+					goods: goods,
+					cart_goods: goods
 				})
 
 			})
@@ -74,15 +81,15 @@ exports.detail = function(req,res){
 
 // 创建购物清单及填写个人信息
 exports.createInquiryInfo = function(req, res){
-	var inquiryObj = req.body.inquiry.pid
+	var inquiryObj = req.query.inquiry.pid
 
-	Product
+	Goods
 		.find({_id: {$in: inquiryObj}})
 		.populate('sort color material scene','attributes')
-		.exec(function(err, products){
-			res.render('user/create_inquiry',{
+		.exec(function(err, goods){
+			res.render('index/inquiry/create',{
 				title: '创建询价单',
-				products: products,
+				goods: goods,
 				cart_goods: req.session.user.shopcartgoods
 			})
 
@@ -92,31 +99,31 @@ exports.createInquiryInfo = function(req, res){
 exports.createInquirySuccess = function(req, res){
 	var inquiryInfo = req.body.inquiry
 
-	Product
-		.find({_id: {$in: inquiryInfo.products.id}})
-		.exec(function(err, products){
-			// console.log(products)
-			if(products && products.length > 0){
+	Goods
+		.find({_id: {$in: inquiryInfo.goods.id}})
+		.exec(function(err, goods){
+			// console.log(goods)
+			if(goods && goods.length > 0){
 				var inquiryObj = {
 					uid: inquiryInfo.uid,
 					from: inquiryInfo.from,
-					products:[]
+					goods:[]
 				}
-				for(var i=0; i<products.length; i++){
+				for(var i=0; i<goods.length; i++){
 					var productObj = {
-						'_id': products[i].id,
-						'title': products[i].title,
-						'cover': products[i].cover,
-						'price': products[i].price,
-						'size': products[i].size,
-						'sale': products[i].sale,
-						'color': products[i].color,
-						'material': products[i].material,
-						'scene': products[i].scene,
-						'quantity': inquiryInfo.products.quantity[i],
-						'fromprice': inquiryInfo.products.fromprice[i]
+						'_id': goods[i].id,
+						'title': goods[i].title,
+						'cover': goods[i].cover,
+						'price': goods[i].price,
+						'size': goods[i].size,
+						'sale': goods[i].sale,
+						'color': goods[i].color,
+						'material': goods[i].material,
+						'scene': goods[i].scene,
+						'quantity': inquiryInfo.goods.quantity[i],
+						'fromprice': inquiryInfo.goods.fromprice[i]
 					}
-					inquiryObj.products.push(productObj)
+					inquiryObj.goods.push(productObj)
 				}
 				var _inquiryObj = new Inquiry(inquiryObj)
 				_inquiryObj.save(function(err, inquiry){
@@ -128,7 +135,7 @@ exports.createInquirySuccess = function(req, res){
 					// 	data: inquiry.meta.createAt
 					// }
 					// res.redirect('inquiry/success')
-					res.render('user/create_inquiry_success',{
+					res.render('index/inquiry/create_success',{
 						title: '询价单创建成功',
 						inquiry: {
 							id: inquiry.id,
@@ -180,8 +187,8 @@ exports.add = function(req,res){
 			if(err) console.log(err)
 
 			var check_same_id = false
-			for(var i=0; i<shopcart.products.length; i++){
-				if(shopcart.products[i].pid.toString() === pid.toString()){
+			for(var i=0; i<shopcart.goods.length; i++){
+				if(shopcart.goods[i].pid.toString() === pid.toString()){
 					check_same_id = true
 					break
 				}
@@ -189,7 +196,7 @@ exports.add = function(req,res){
 			if(check_same_id) return res.json({success:1})
 
 
-			shopcart.products.push(cartinfo)
+			shopcart.goods.push(cartinfo)
 			shopcart.save(function(err, _shopcart){
 				console.log(err)
 				user.shopcartgoods.push(pid)
@@ -197,7 +204,7 @@ exports.add = function(req,res){
 				// User.findByIdAndUpdate(user.id, {$set:{shopcartgoods:1}}, function(err){
 				// 	if(err) console.log(err)
 				// })
-				return res.json({success:2,cart_goods_num:_shopcart.products.length})
+				return res.json({success:2,cart_goods_num:_shopcart.goods.length})
 			})
 
 		})
@@ -225,10 +232,10 @@ exports.del = function(req,res){
 		Shopcart.findOne({'uid':user._id}, function (err,shopcart){
 			if(err) console.log(err)
 			// console.log('登录')
-			// console.log(typeof shopcart.products[0].pid)
-			// console.log(shopcart.products[0].pid)
-			var diff_cart = diff(pid, shopcart.products, user.shopcartgoods)
-			shopcart.products = diff_cart
+			// console.log(typeof shopcart.goods[0].pid)
+			// console.log(shopcart.goods[0].pid)
+			var diff_cart = diff(pid, shopcart.goods, user.shopcartgoods)
+			shopcart.goods = diff_cart
 			shopcart.save(function (err){
 				if(err) console.log(err)
 				return res.json({success:1, cart_goods_num:diff_cart.length})
@@ -261,45 +268,6 @@ exports.del = function(req,res){
 		return cart_arr
 		// return res.json({success:1,cart_goods_num:cart_arr.length})
 	}
-
-	
-	// if(!user){
-	// 	var cart = req.session.cart
-	// 	console.log(cart)
-	// 	for(var i=0; i<cart.length; i++){
-	// 		if(cart[i].pid == id){
-	// 			req.session.cart.splice(i, 1)
-	// 			return res.json({success:1,cart_goods_num:cart.length})
-	// 		}
-	// 	}
-
-	// 	return res.json({success:0})
-	// }else{
-	// 	Shopcart.findOne({'uid':user._id},function(err,shopcart){
-	// 		if(err) console.log(err)
-	// 		if(shopcart){
-
-	// 			for(var i=0; i<shopcart.products.length; i++){
-	// 				// 查找购物车里对应的product id,并删除
-	// 				if(shopcart.products[i].pid==id){
-	// 					shopcart.products.splice(i,1)
-	// 					break
-	// 				}
-	// 			}
-
-	// 			// 删除usersession里面的shopcartgoods
-	// 			var index = user.shopcartgoods.indexOf(id)
-	// 			user.shopcartgoods.splice(index, 1)
-
-	// 			shopcart.save(function(err){
-	// 				if(err) console.log(err)
-	// 				res.json({success:1,cart_goods_num:shopcart.products.length})
-	// 			})
-	// 		}else{
-	// 			res.json({success:0})
-	// 		}
-	// 	})
-	// }
 }
 
 // 比对购物车
@@ -318,7 +286,7 @@ exports.matchcart = function(req, res){
 
 				if(s_shopcart  && s_shopcart.length > 0){
 					for(var i=0; i<s_shopcart.length; i++){
-						newShopcart.products.push(s_shopcart[i])
+						newShopcart.goods.push(s_shopcart[i])
 					}
 					delete req.session.cart
 				}
@@ -331,19 +299,19 @@ exports.matchcart = function(req, res){
 			}else{
 				console.log('合并缓存数据')
 
-				var products = shopcart.products
+				var goods = shopcart.goods
 
 				if(s_shopcart  && s_shopcart.length > 0){
 					for(var i=0; i<s_shopcart.length; i++){
 						var is_same_id = false
-						for(var j=0; j<products.length; j++){
-							if(s_shopcart[i].pid==products[j].pid){
+						for(var j=0; j<goods.length; j++){
+							if(s_shopcart[i].pid==goods[j].pid){
 								is_same_id = true
 								break
 							}
 						}
 						if(!is_same_id){
-							products.push(s_shopcart[i])
+							goods.push(s_shopcart[i])
 						}
 					}
 					// delete req.session.cart
@@ -358,9 +326,9 @@ exports.matchcart = function(req, res){
 			// 获取所有购物车的商品ID
 			function returnShopcartGoods(obj){
 				var shopcartgoods = []
-				if(obj && obj.products.length > 0){
-					for(var i=0; i < obj.products.length; i++){
-						shopcartgoods.push(obj.products[i].pid)
+				if(obj && obj.goods.length > 0){
+					for(var i=0; i < obj.goods.length; i++){
+						shopcartgoods.push(obj.goods[i].pid)
 					}
 				}
 				return shopcartgoods

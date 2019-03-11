@@ -1,6 +1,6 @@
-extends ../layout_index
+extends ../../../layout_index
 block append head
-	link(rel="stylesheet",href="/css/product.css")
+	link(rel="stylesheet",href="/css/goods/item.css")
 block content
 	.wrap.nav
 		a(href="/news")
@@ -36,6 +36,6 @@ block content
 							| 推荐商品
 						each item in products
 							.sub-page-product(id=item.id)
-								include ../themplate/product.jade
+								include ../../../themplate/goods
 	.bg_fixed
 	script(src="/js/shopcart.js")

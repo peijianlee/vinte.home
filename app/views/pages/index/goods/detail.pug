@@ -1,35 +1,36 @@
-extends ../layout_index
+extends ../../../layout_index
 block append head
-	link(rel="stylesheet",href="/css/product.css")
+	link(rel="stylesheet",href="/css/goods/detail.css")
 block content
 	.wrap
 		.nav
 			a(href="/")
 				i.fs14.icon-home
 			a(href="/store") 商品首页
-			a(href="/store/sort/#{product.sort.attributes.zh_cn}") #{product.sort.attributes.zh_cn}
+			//- a(href=`/store/sort/${product.sort.attributes.zh_cn}`) ${product.sort.attributes.zh_cn}
 			b #{product.title}
 		.goods-side-nav
 			//- 商品分类
 			h2
 				i.icon-tags.ml5.mr5
 				| 商品分类
-			each cat in categories
-				if cat.pid && cat.pid.length > 0
-					dl.goods-side-list
-						dt
-							i.icon-magnet.ml5.mr5
-							| #{cat.attributes.zh_cn}
-						each item in cat.pid
-							dd
-								if item.id == product.id
-									a(href="#{item._id}" class="Stand")
-										i.icon-angle-right.ml10.mr5
-										| #{item.title}
-								else
-									a(href="#{item._id}")
-										i.icon-angle-right.ml10.mr5
-										| #{item.title}
+			if categories
+				each cat in categories
+					if cat.pid && cat.pid.length > 0
+						dl.goods-side-list
+							dt
+								i.icon-magnet.ml5.mr5
+								| #{cat.attributes.zh_cn}
+							each item in cat.pid
+								dd
+									if item.id == product.id
+										a(href="#{item._id}" class="Stand")
+											i.icon-angle-right.ml10.mr5
+											| #{item.title}
+									else
+										a(href="#{item._id}")
+											i.icon-angle-right.ml10.mr5
+											| #{item.title}
 
 			//- 浏览过的商品
 			if find_view_products && find_view_products.length > 0
@@ -49,13 +50,13 @@ block content
 								| （#{item.color[0].attributes.zh_cn}） 
 							else
 								|&nbsp;（未知颜色）
-		.p_detail
-			.p_picture.fl.mb10
-				div.p_picture_cover
+		.goods-detail
+			.picture.fl.mb10
+				div.picture_cover
 					img(src='/data/products/p'+product.id+'/'+product.cover)
-			.p_panel
+			.panel
 				dl
-					dd.p_panel_info
+					dd.panel_info
 						h1 
 							|#{product.title}
 							if product.material && product.material.length > 0
@@ -68,26 +69,26 @@ block content
 								|&nbsp;（未知颜色） 
 							|&nbsp;宽#{product.size.w}×深#{product.size.d}×高#{product.size.h}cm
 					if product.description
-						dd.p_panel_info
+						dd.panel_info
 							p.fs14 #{product.description} 
-					dd.p_panel_sort
+					dd.panel_sort
 						h6.fs14 商品尺寸：
-						a.p_sort_btn
+						a.sort_btn
 							span 宽#{product.size.w} × 深#{product.size.d} × 高#{product.size.h}cm
-					dd.p_panel_sort
+					dd.panel_sort
 						h6.fs14 商品材质：
 						each item in product.material
-							a.p_sort_btn.mr5
+							a.sort_btn.mr5
 								span #{item.attributes.zh_cn}
-					dt.p_panel_add_cart
+					dt.panel_add_cart
 						div
 							if product.sale
-								span.p_panel_price.line_through.fs12.pl10 零售价：
+								span.panel_price.line_through.fs12.pl10 零售价：
 									b $#{product.price}.00
-								span.p_panel_price.fs12.pl10 折扣价：
+								span.panel_price.fs12.pl10 折扣价：
 									b.fs18.cRed $#{product.sale}.00
 							else
-								span.p_panel_price.fs12.pl10 零售价：
+								span.panel_price.fs12.pl10 零售价：
 									b.fs18.cRed $#{product.price}.00
 							a.iproduct_add_cart_btn.fr.cp
 								i.icon-shopping-cart.mr10
@@ -95,7 +96,7 @@ block content
 								input(type="hidden",name="p[id]",value=product.id)
 								input(type="hidden",name="p[quantity]",value="1")
 							br.clear
-			table.p_detail_sort.table_bordered.table_striped
+			table.sort.table_bordered.table_striped
 				tr
 					th 商品名称：
 					td
@@ -116,7 +117,7 @@ block content
 							each item in product.color
 								span.mr15 #{item.attributes.zh_cn}
 			if product.content
-				.p_detail_container !{product.content}
+				.container !{product.content}
 	br.clear
 	.bg_fixed
 	script(src="/js/shopcart.js")

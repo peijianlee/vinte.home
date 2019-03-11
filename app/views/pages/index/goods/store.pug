@@ -1,15 +1,19 @@
-extends ../layout_index
+extends ../../../layout_index
 block append head
-	link(href="/css/product.css",rel="stylesheet")
+	link(href="/css/goods/item.css",rel="stylesheet")
 block content
-	include ../themplate/fiter_bar.jade
+	include ../../../themplate/fiter_bar
 	.wrap.pt10
 		.overflow-hidden.pb20
 			if products && products.length > 0
+				- function formatPrice(price) {
+				-	var Price = '￥'+price.toLocaleString('zh', {minimumFractionDigits: 2, maximumFractionDigits: 2, useGrouping: true })
+				-	return Price
+				- }
 				.sub-product-frame-row4
 					each item in products
 						.sub-page-product(id=item.id)
-							include ../themplate/product.jade
+							include ../../../themplate/goods
 			else
 				.search-empty-tip.bg-slash.bg-gray
 					p 
@@ -21,5 +25,5 @@ block content
 				- } else {
 				-	url_public = url_pathname+'?'
 				- }
-				include ../themplate/page.jade
+				include ../../../themplate/page
 	script(src="/js/shopcart.js")

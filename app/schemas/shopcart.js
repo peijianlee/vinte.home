@@ -3,8 +3,8 @@ var Schema = mongoose.Schema
 var ObjectId = Schema.Types.ObjectId
 
 var ShopcartSchema = new Schema({
-	products: [{
-		pid: {type: ObjectId,ref: 'Product'},
+	goods: [{
+		pid: {type: ObjectId,ref: 'goods'},
 		quantity: String
 	}],
 	uid:{
@@ -21,6 +21,8 @@ var ShopcartSchema = new Schema({
 			default: Date.now()
 		}
 	}
+}, {
+	usePushEach: true
 })
 
 // 判断保存的数据是否是新增的

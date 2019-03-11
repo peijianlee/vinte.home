@@ -15,7 +15,7 @@ if !header_hide
 					i.icon-user.mr5
 					| 登录
 			else
-				a(href="/user/#{user.name}")
+				a(href=`/user/${user.name}`)
 					i.icon-user.mr5
 					| #{user.name} 的个人中心
 				if user.role > 50

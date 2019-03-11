@@ -1,4 +1,4 @@
-var Product = require('../models/product')
+var Goods = require('../models/goods')
 var Category = require('../models/category')
 var Shopcart = require('../models/shopcart')
 
@@ -6,7 +6,7 @@ var c_type = 'application/json;charset=utf-8'
 
 exports.products = function(req,res){
 	// var _callback = req.query.callback
-	Product.find({})
+	Goods.find({})
 		.populate('color material scene sort', 'attributes')
 		.exec(function(err, products){
 			if(err) console.log(err)
@@ -22,7 +22,7 @@ exports.products = function(req,res){
 
 exports.product = function(req,res){
 	var id = req.params.id
-	Product
+	Goods
 		.findOne({'_id':id})
 		.populate('color material scene sort', 'attributes')
 		.exec(function(err, product){
@@ -51,7 +51,7 @@ exports.sort = function(req, res){
 		.find({'attributes.zh_cn': sort})
 		.populate({
 			path: 'pid',
-			model: 'Product',
+			model: 'Goods',
 			populate: {
 				path: 'sort scene material color',
 				select: 'attributes',
@@ -83,6 +83,9 @@ exports.addShoppingCart = function (req, res) {
 		pid = cartinfo.pid,
 		cart_goods_num = 0
 
+
+	console.log(req.session.cart)
+
 	if(!user){
 		// 如果用户不存在新建个临时购物表
 		if(!req.session.cart) req.session.cart = []
@@ -101,14 +104,14 @@ exports.addShoppingCart = function (req, res) {
 
 	}
 
-	function EditCart (cartArr, isuser) {
+	function EditCart (ShopCart, isUser) {
 		var check_same_pid = false,
-			Arr = isuser ?  cartArr.products : cartArr
+			ShopCartArr = isUser ?  ShopCart.goods : ShopCart
 
-		if (Arr.length > 0) {
+		if (ShopCartArr.length > 0) {
 			// 判断下面临时购物车下是否有重复
-			for(var i in Arr) {
-				if(Arr[i].pid + '' === pid + ''){
+			for(var i in ShopCartArr) {
+				if(ShopCartArr[i].pid + '' === pid + ''){
 					check_same_pid = true
 					break
 				}
@@ -117,15 +120,15 @@ exports.addShoppingCart = function (req, res) {
 		if(check_same_pid) {return res.json({success:1})}
 
 		
-		if(!isuser) {
-			Arr.push(cartinfo)
+		if(!isUser) {
+			ShopCartArr.push(cartinfo)
 			return res.json({
 				success:2,
-				cart_goods_num:Arr.length
+				cart_goods_num:ShopCartArr.length
 			})
 		} else {
-			Arr.push(cartinfo)
-			cartArr.save(function(err, _shopcart){
+			ShopCartArr.push(cartinfo)
+			ShopCart.save(function(err, _shopcart){
 				if(err) console.log(err)
 				// console.log(user.shopcartgoods)
 				// console.log(pid)
@@ -135,7 +138,7 @@ exports.addShoppingCart = function (req, res) {
 				
 				return res.json({
 					success:2,
-					cart_goods_num:_shopcart.products.length
+					cart_goods_num:_shopcart.goods.length
 				})
 			})
 		}

@@ -13,7 +13,7 @@ block content
 			form(method="post", action="/admin/product/update/content", enctype="multipart/form-data")
 				input(type="hidden", name="product[_id]", value=product._id)
 				input#productContent(type="hidden", name="product[content]",value=product.content)
-				input(type="hidden", name="product[uid]", value="#{user._id}")
+				input(type="hidden", name="product[uid]", value="${user._id}")
 				.form_group
 					script.
 						window.UEDITOR_HOME_URL = '/libs/ueditor/'

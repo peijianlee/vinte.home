@@ -21,13 +21,13 @@ block content
 												b.attributes_en_us #{item.attributes.en_us}
 											span &nbsp; ( #{item.pid.length} )
 										li
-											span.catChange.button.button-highlight.button-small(data-toggle="modal", data-target="#catChangeModal", data-id="#{item.id}", data-name="#{type.name.en_us}") 修改
+											span.catChange.button.button-highlight.button-small(data-toggle="modal", data-target="#catChangeModal", data-id="#{item.id}", data-name=type.name.en_us) 修改
 											if item.pid.length === 0
 												span.categorydel.button.button-caution.button-small(data-type="productCategory", data-id="#{item.id}") 删除
 											else
 												span.disabled.button.button-caution.button-small 删除
 							div.clear
-								span.addType.button.button-primary.button-small(data-toggle="modal", data-target="#catModal", data-type="#{type.name.en_us}", data-name="#{type.name.en_us}") 
+								span.addType.button.button-primary.button-small(data-toggle="modal", data-target="#catModal", data-type=type.name.en_us, data-name=type.name.en_us) 
 									i.icon-plus.mr5
 									| 新增#{type.name.zh_cn}
 								if type.name.en_us !== "color"

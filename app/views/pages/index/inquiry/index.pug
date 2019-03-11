@@ -1,11 +1,11 @@
-extends ../../layout_index
+extends ../../../layout_index
 
 block content
 	.wrap
 		.nav.mt10
 			a(href="/news")
 				i.fs14.icon-home
-			a(href="/store") 商城首页
+			a(href="/store") 商城首页dfdsfsdfsdf
 			b 询价单列表
 		div.progress.progress_step_1
 			div.progress_step
@@ -21,8 +21,8 @@ block content
 				p 发送完成
 			div.progress_line
 			div.progress_step_line
-		form#inquiry-form(method="post", action="/create/inquiry/info", enctype="multipart/form-data")
-			if products && products.length>0
+		form#inquiry-form(method="get", action="/create/inquiry/info", enctype="multipart/form-data")
+			if goods && goods.length>0
 				table.shopcart_list.mb50
 					caption.shopcart_head
 						i.icon-list.mr10
@@ -36,8 +36,8 @@ block content
 							th 单价
 							th(width="70") 数量
 					tbody
-						each item in products
-							tr(id="#{item.pid.id}", stitle="#{item.pid.title}")
+						each item in goods
+							tr(id=item.pid.id, stitle=item.pid.title)
 								td.tc.pr
 									input.select-product.pa(name="inquiry[pid]", type="checkbox", value=item.pid.id)
 									span.icon-check-empty.cGray.fs18
@@ -71,7 +71,7 @@ block content
 												each color in item.pid.color
 													span.ml5 #{color.attributes.zh_cn}
 										li
-											span.remove-btn.mt15.shopcart_goods_remove(data-id="#{item.pid.id}")
+											span.remove-btn.mt15.shopcart_goods_remove(data-id=item.pid.id)
 												i.icon-remove
 												| REMOVE
 								td.tc.vatop 宽#{item.pid.size.w}×深#{item.pid.size.d}×高#{item.pid.size.h} (cm)
@@ -107,7 +107,6 @@ block content
 				.shopcart_list.pb20.mb50.tc.bg-white
 					p.fb.pt20.pb10 询价单列表里没有任何商品，请前往商品中心添加。
 					a(href="/store").button.button-royal.button-primary 商品中心
-
 	.bg_fixed
 	script(src="/js/shopcart.js")
 	script.

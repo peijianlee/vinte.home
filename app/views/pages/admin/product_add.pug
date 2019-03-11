@@ -126,7 +126,7 @@ block content
 							button#btn_save.button.button-primary.button-primary.button-longshadow-right(type="sumbit")
 								b.icon-hdd
 								| &nbsp;&nbsp;录 入
-				input(type="hidden", name="product[uid]", value="#{user._id}")
+				input(type="hidden", name="product[uid]", value=user._id)
 
 	if product._id
 		script(src="/js/changecategory.js")

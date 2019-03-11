@@ -1,4 +1,4 @@
-extends ../../layout_index
+extends ../../../layout_index
 
 block content
 	.wrap
@@ -70,8 +70,8 @@ block content
 						th(width="150") 目标单价
 							i.icon-edit.ml5
 				tbody
-					if products && products.length>0
-						each item in products
+					if goods && goods.length>0
+						each item in goods
 							tr(id=item.id)
 								td
 									img(src="/data/products/p"+item.id+"/"+item.cover)
@@ -91,13 +91,26 @@ block content
 										li.fb.mt5 售价：￥#{item.price}.00
 									input(type="hidden", name="inquiry.products[pid.id]", value=item.id)
 								td.tc.vatop
-									input.fs14.orderQuantity(onfocus="enterKeyPress(this,'quantity')", onblur="onlyNumber(this,'quantity')", maxlength="11", type="text", value="1 PCS", readonly=true, oncontextmenu="return false", name="inquiry.products[pid.quantity]")
+									input.fs14.orderQuantity(onfocus="enterKeyPress(this,'quantity')" 
+										onblur="onlyNumber(this,'quantity')" 
+										maxlength="11" 
+										type="text" 
+										value="1 PCS" 
+										readonly=true 
+										oncontextmenu="return false" 
+										name="inquiry.products[pid.quantity]")
 									div.cAaa.fs11.cd.mt5
 										i.icon-lightbulb.mr5
 										span 点击数量修改
 								td.tc.vatop
-									input.fs14.orderPrice(onfocus="enterKeyPress(this)", onblur="onlyNumber(this)", maxlength="11", type="text", value="￥#{item.price}.00", readonly=true, oncontextmenu="return false", name="inquiry.products[pid.fromprice]")
-									//- b.fs16.cp.orderPrice(onkeyup="enterKeyPress(this)", onblur="onlyNumber(this)")￥#{item.price}.00
+									input.fs14.orderPrice(onfocus="enterKeyPress(this)" 
+										onblur="onlyNumber(this)" 
+										maxlength="11" 
+										type="text" 
+										value=item.price 
+										readonly=true 
+										oncontextmenu="return false" 
+										name="inquiry.products[pid.fromprice]")
 									div.cAaa.fs11.cd.mt5
 										i.icon-lightbulb.mr5
 										span 点击价格修改

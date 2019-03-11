@@ -21,6 +21,19 @@ mongoose.connection.on('open',function(){
 // 访问路径、方式
 app.set('views','./app/views/pages')
 app.set('view engine','pug')
+// app.locals.filters = {
+//     'formatPriceRMB': function (text, options) {
+
+//         // toLocaleString API 的调用方法
+//         // https://www.colabug.com/2626489.html
+//         var Price = options.price.toLocaleString('zh', {
+//             minimumFractionDigits: 2, 
+//             maximumFractionDigits: 2, 
+//             useGrouping: true 
+//         })
+//         return Price
+//     }
+// }
 // 可视化
 var bodyParser = require('body-parser')
 app.use(bodyParser.json({limit: '1mb'}))
@@ -47,9 +60,10 @@ app.use(session({
     resave : true,
     saveUninitialized: false, // 是否保存未初始化的会话
     cookie : {
-        // maxAge : 1000 * 60 * 3, // 设置 session 的有效时间，单位毫秒
+        // maxAge : 1000 * 60 * 12, // 设置 session 的有效时间，单位毫秒
+        // maxAge : 1000 * 60 * 60 * 24, // 设置 session 的有效时间，单位毫秒
     },
-}));
+}))
 
 //ueditor
 var ueditor = require('ueditor')
@@ -128,4 +142,3 @@ app.use(function (err, req, res, next) {
 })
 
 console.log('nodeJS started on port ' + port)
-

@@ -1,4 +1,4 @@
-extends ../layout_index
+extends ../../../layout_index
 block append head
 	link(rel="stylesheet",href="/css/sign.css")
 block content
@@ -13,16 +13,17 @@ block content
 			span #{title}
 		ul.sign_form_content
 			li
-				if name
-					input#signName.signName.form_control(type="text", value="#{name}", placeholder="请输入用户名", autocomplete="off")
-					if !password
-						.sign_tip.error
-							i.icon-info-sign
-							| 用户名 “&nbsp;
-							strong #{name}
-							|&nbsp;” 已经存在了
-				else
-					input#signName.signName.form_control(type="text", placeholder="请输入用户名", autocomplete="off")
+				//- if name
+				//- 	input#signName.signName.form_control(type="text", value="#{name}", placeholder="请输入用户名", autocomplete="off")
+				//- 	if !password
+				//- 		.sign_tip.error
+				//- 			i.icon-info-sign
+				//- 			| 用户名 “&nbsp;
+				//- 			strong #{name}
+				//- 			|&nbsp;” 已经存在了
+				//- else
+				//- 	input#signName.signName.form_control(type="text", placeholder="请输入用户名", autocomplete="off")
+				input#signName.signName.form_control(type="text", placeholder="请输入用户名", autocomplete="off")
 				label(for="signName")
 					i.icon-user
 			li
@@ -49,7 +50,6 @@ block content
 	//- h3.bgword
 		i.icon-quote-left.icon-3x.pull-left
 		| #{bgword}
-	script(src="js/jquery.vtEnterKeyPress.js")
 	script(src="js/sign.js")
 	script.
 		$('#signName').focus()

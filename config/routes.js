@@ -2,7 +2,7 @@
 var _ = require('underscore')
 var Index = require('../app/controllers/index')
 var News = require('../app/controllers/news')
-var Product = require('../app/controllers/product')
+var Goods = require('../app/controllers/goods')
 // var Newscategory = require('../app/controllers/news_category')
 var User = require('../app/controllers/user')
 var Movie = require('../app/controllers/movie')
@@ -29,9 +29,8 @@ module.exports = function(app){
 	app.get('/', User.createCaptcha, Index.index)
 	app.get('/send', Index.send)
 	// results
-	app.get('/results', Global.fetchAllCategoryType, Global.categoryTypeHref, Product.search)
+	app.get('/results', Global.fetchAllCategoryType, Global.categoryTypeHref, Goods.search)
 	// 错误页
-	
 	app.use(function (err, req, res, next) {
 	    res.status(err.status || 500)
 	    res.render('error', {
@@ -44,27 +43,27 @@ module.exports = function(app){
 	app.post('/message', Index.message)
 
 	// product
-	// app.get('/store', Product.store)
-	app.get('/store', User.createCaptcha, Global.fetchAllCategoryType, Global.categoryTypeHref, Product.search)
-	app.get('/store/id/:id', User.createCaptcha, Product.detail)
-	app.get('/store/sort/:sort', User.createCaptcha, Global.fetchAllCategoryType, Global.categoryTypeHref, Product.sort)
-	app.get('/store/material/:material', Product.sort)
-	app.post('/goods/favourite', Product.favourite)
-	app.get('/admin/product/list', User.signinRequired, User.adminRequired, Product.list)
+	// app.get('/store', Goods.store)
+	app.get('/store', User.createCaptcha, Global.fetchAllCategoryType, Global.categoryTypeHref, Goods.search)
+	app.get('/goods/id/:id', User.createCaptcha, Goods.detail)
+	app.get('/store/sort/:sort', User.createCaptcha, Global.fetchAllCategoryType, Global.categoryTypeHref, Goods.sort)
+	app.get('/store/material/:material', Goods.sort)
+	app.post('/goods/favourite', Goods.favourite)
+	app.get('/admin/product/list', User.signinRequired, User.adminRequired, Goods.list)
 	app.get('/admin/product/category/list', User.signinRequired, User.adminRequired, Global.fetchAllCategoryType, Category.list)
-	app.post('/admin/product', User.signinRequired, User.adminRequired, Product.save)
-	app.get('/admin/product/add', User.signinRequired, User.adminRequired, Product.new)
-	app.post('/admin/product/changecategory', User.signinRequired, User.adminRequired, Product.changecategory)
-	app.get('/admin/product/update/:id', User.signinRequired, User.adminRequired, Product.new)
-	app.post('/admin/update/checkedimagesdata', Product.checkImageData)
-	app.post('/admin/product/update/photo', User.signinRequired, User.adminRequired, Product.updatephoto)
-	app.post('/admin/product/update/content', User.signinRequired, User.adminRequired, Product.updatecontent)
-	app.delete('/admin/product/list', User.signinRequired, User.adminRequired, Product.del)
+	app.post('/admin/product', User.signinRequired, User.adminRequired, Goods.save)
+	app.get('/admin/product/add', User.signinRequired, User.adminRequired, Goods.new)
+	app.post('/admin/product/changecategory', User.signinRequired, User.adminRequired, Goods.changecategory)
+	app.get('/admin/product/update/:id', User.signinRequired, User.adminRequired, Goods.new)
+	app.post('/admin/update/checkedimagesdata', Goods.checkImageData)
+	app.post('/admin/product/update/photo', User.signinRequired, User.adminRequired, Goods.updatephoto)
+	app.post('/admin/product/update/content', User.signinRequired, User.adminRequired, Goods.updatecontent)
+	app.delete('/admin/product/list', User.signinRequired, User.adminRequired, Goods.del)
 	
 	// shopcart
 	// app.get('/shopcart', Shopcart.matchcart, Shopcart.detail)
 	app.get('/inquiry', User.createCaptcha, Shopcart.detail)
-	app.post('/create/inquiry/info', Shopcart.createInquiryInfo)
+	app.get('/create/inquiry/info', Shopcart.createInquiryInfo)
 	app.post('/create/inquiry/success', Shopcart.createInquirySuccess)
 	app.post('/shopcart/add', Shopcart.add)
 	app.delete('/shopcart/del', Shopcart.del)
@@ -101,8 +100,8 @@ module.exports = function(app){
 	app.get('/captcha',User.createCaptcha)
 	app.post('/user/signup', User.signup, Shopcart.matchcart)
 	app.post('/user/signin', User.checkedCaptcha, User.signin, Shopcart.matchcart)
-	app.get('/signup', User.userRequired, User.createCaptcha, User.showSignup)
-	app.get('/signin', User.userRequired, User.createCaptcha, User.showSignin)
+	app.get('/signup', User.userRequired, User.createCaptcha, User.sign)
+	app.get('/signin', User.userRequired, User.createCaptcha, User.sign)
 	app.get('/logout', User.logout)
 	app.get('/admin/user/list', User.signinRequired, User.adminRequired, User.list)
 	app.get('/admin/user/:name', User.signinRequired, User.adminRequired, User.adminDetail)
@@ -142,8 +141,8 @@ module.exports = function(app){
 
 
 	// api接口
-	app.get('/api/products', Api.products)
-	app.get('/api/product/:id', Api.product)
+	// app.get('/api/products', Api.products)
+	// app.get('/api/product/:id', Api.product)
 	app.get('/api/categories', Api.categories)
 	app.get('/api/categories/:sort', Api.sort)
 
