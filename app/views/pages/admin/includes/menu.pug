@@ -4,7 +4,10 @@
 		| 退出登录
 	span
 		i.icon-user &nbsp;&nbsp;
-		| 欢迎您，#{user.name}
+		if(user)
+			| 欢迎您，#{user.name}
+		else
+			| 开发模式，上线需要加验证路由
 	span
 		i.icon-time &nbsp;&nbsp;
 		b.fn#system-time 0000-00-00 星期一 00:00:00
@@ -25,9 +28,9 @@
 				span 商品管理
 			ul.sMenu
 				li
-					a(href="/admin/product/category/list") 商品分类
+					a(href="/admin/goods/category/list") 商品分类
 				li
-					a(href="/admin/product/list") 商品列表
+					a(href="/admin/goods/list") 商品列表
 		//- dd
 		//- 	span.menuBtn
 		//- 		i.icon-list-alt
@@ -123,7 +126,7 @@ script.
 		}
 	});
 	var menuname = [
-		{url:'product', cname:'商品管理'},
+		{url:'goods', cname:'商品管理'},
 		{url:'news', cname:'文章设置'},
 		{url:'movie', cname:'电影设置'},
 		{url:'banner', cname:'海报设置'},

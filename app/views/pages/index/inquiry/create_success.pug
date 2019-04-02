@@ -1,13 +1,14 @@
 extends ../../../layout_index
-
+block append head
+	link(rel="stylesheet" href="/css/inquiry.css")
 block content
 	.wrap
 		.nav.mt10
 			a(href="/news")
 				i.fs14.icon-home
-			a(href="/store") 商城首页
-			a(href="/inquiry") 询价单
-			b 询价单创建成功
+			a(href="/store" onclick="javascript:location.replace(this.href);event.returnValue=false;") 商城首页
+			a(href="/inquiry" onclick="javascript:location.replace(this.href);event.returnValue=false;") 询价单
+			b #{title}
 		div.progress.progress_step_3
 			div.progress_step
 				span.s_step 1
@@ -23,20 +24,25 @@ block content
 			div.progress_line
 			div.progress_step_line
 		.shopcart_head
-			i.icon-ok-circle.mr10
-			| 询价单创建成功
+			i.mr10(class=`${inquiry? 'icon-ok-circle' : 'icon-exclamation-sign'}`)
+			| #{title}
 		dl.order_success
 			dt.success_tip
-				i.icon-ok-circle.mr10
-				| 询价单创建成功！
-			dd: span.cGray 创建时间：#{moment(inquiry.data).format('YYYY-MM-DD dddd HH:mm:ss')}
+				i.mr10(class=`${inquiry? 'icon-ok-circle' : 'icon-exclamation-sign'}`)
+				| #{title + '！'}
+			if inquiry
+				dd
+					span.cGray 咨询单编号：
+					a.order_link(href=`/user/${user.name}/inquirys/${inquiry.id}` onclick="javascript:location.replace(this.href);event.returnValue=false;") #{inquiry.id}
+				dd
+					span.cGray 创建时间：#{moment(inquiry.data).format('YYYY-MM-DD HH:mm:ss')}
+				dd(style="color:#088") 我们会在创建时间之后的 5 个工作内通过电子邮箱或你的联系电话回复你，请耐心等待！
+			else
+				dd(style="color:#088") 无法查询到相对应的咨询单，可能是用户未登录，或者是该用户下不存在该订单！
 			dd
-				span.cGray 订单编号：
-				a.order_link(href="/user/#{user.name}/inquirys/#{inquiry.id}") #{inquiry.id}
-			dd(style="color:#088") 我们会在创建时间之后的5个工作内通过电子邮箱或你的联系电话回复你，请耐心等待！
-			dd
-				p.pb10.cGray 你可通过以下方式继续访问：
-				a.button.button-primary.button-small(href="/user/#{user.name}/inquirys") 我的订单
-				a.button.button-primary.button-small.ml10(href="/store") 浏览商城
-				a.button.button-primary.button-small.ml10(href="/index") 首页
+				p.pb20.cGray 你可通过以下方式继续访问：
+				//- a.button.button-primary.button-small(href=`/user/${user.name}/inquirys`) 我的订单
+				a.button.button-primary.button-small.mr10(href="/inquiry" onclick="javascript:location.replace(this.href);event.returnValue=false;") 咨询单
+				a.button.button-primary.button-small.mr10(href="/store" onclick="javascript:location.replace(this.href);event.returnValue=false;") 浏览商城
+				a.button.button-primary.button-small.mr10(href="/index" onclick="javascript:location.replace(this.href);event.returnValue=false;") 首页
 	.bg_fixed

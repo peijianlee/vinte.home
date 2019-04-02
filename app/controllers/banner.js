@@ -7,7 +7,7 @@ var path = require('path')
 
 //banner new page
 exports.new = function(req,res){
-	res.render('admin/banner_add',{
+	res.render('admin/banner/add',{
 		title:'首页海报上传',
 		banner:{}
 	})
@@ -22,7 +22,7 @@ exports.update = function(req,res){
 
 	if(id){
 		Banner.findById(id,function(err,banners){
-			res.render('admin/banner_add',{
+			res.render('admin/banner/add',{
 				title: '首页海报更新',
 				banner: banners
 			})
@@ -35,7 +35,7 @@ exports.list = function(req,res){
 	Banner.fetch(function(err,banners){
 		if(err)console.log(err)
 
-		res.render('admin/banner_list', {
+		res.render('admin/banner/list', {
 			title: '首页海报列表页',
 			banners: banners
 		})
@@ -64,7 +64,7 @@ exports.goodsbanner = function(req, res){
 	}
 	Category.find({'name':bannertype}, function(err, categories){
 		if(err) console.log(err)
-		res.render('admin/product_banner',{
+		res.render('admin/banner/goods',{
 			title: title,
 			categories: categories,
 			bannertype: bannertype

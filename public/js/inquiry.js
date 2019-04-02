@@ -27,18 +27,33 @@ function editBtn(obj, obj2){
 editBtn('orderPrice','editPrice')
 editBtn('orderQuantity','editQuantity')
 
-function onlyNumber(obj,type){
+function blurFormatNumber(obj, trgetId, type){
 	// obj.value = obj.innerHTML)
 	// console.log(obj.innerHTML.indexOf(/[^\d\.]/g, ''))
-	if(type=='quantity'){
-		obj.value = obj.value.replace(/[^\d\.]/g, '')
-		obj.value = obj.value.replace(/^\./g, '')
-		obj.value = obj.value.replace('.', '$#$').replace(/\./g, '').replace('$#$', '') + ' PCS'
+	if(type==='quantity'){
+		var Quantity = obj.value.replace(/[^\d\.]/g, '')
+		Quantity = Quantity.replace(/^\./g, '')
+		Quantity = Quantity.replace('.', '$#$').replace(/\./g, '').replace('$#$', '')
+		Quantity = parseInt(Quantity)
+		trgetId.value = Quantity
+		obj.value = Quantity + ' PCS'
 	}else{
-		obj.value = obj.value.replace(/[^\d\.]/g, '')
-		obj.value = obj.value.replace(/^\./g, '')
-		obj.value = obj.value.replace(/\.{2,}/g, '.')
-		obj.value = '￥'+obj.value.replace('.', '$#$').replace(/\./g, '').replace('$#$', '.')
+		// var Price = obj.value.replace(/[^\d\.]/g, '')
+		// Price = Price.replace(/^\./g, '')
+		// Price = Price.replace(/\.{2,}/g, '.')
+		// Price = '￥'+Price.replace('.', '$#$').replace(/\./g, '').replace('$#$', '.')
+		// obj.value = Price
+
+		var Price = obj.value.replace(/[^\d\.]/g, '')
+		Price = parseFloat(Price.replace(/^\./g, ''))
+		trgetId.value = Price
+		obj.value = '￥' + Price.toLocaleString('zh', {
+			minimumFractionDigits: 2, 
+			maximumFractionDigits: 2, 
+			useGrouping: true 
+		})
+		// var Price = parseInt(obj.value)
+		// trgetId.value = Price
 	}
 }
 
@@ -46,7 +61,7 @@ function enterKeyPress(element){
 	element.onkeydown = function(event){
 		var e = event || window.event || arguments.callee.caller.arguments[0]
 		var kc = e && e.keyCode
-		console.log(kc)
+		// console.log(kc)
 		var kn = [8,37,39,46,49,50,51,52,53,54,55,56,57,48,96,97,98,99,100,101,102,103,104,105,110,190]
 		if(kc == 13) element.blur()
 		if(kn.indexOf(kc) == -1) return false

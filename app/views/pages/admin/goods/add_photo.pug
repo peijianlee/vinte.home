@@ -1,4 +1,4 @@
-extends ../../layout_admin
+extends ../includes/layout
 
 block content
 	style.
@@ -14,19 +14,21 @@ block content
 			i.icon-magnet
 			| #{title}
 		.button-group.pl20.pt20
-			a.button.button-rounded.button-raised.button-small(type="button", href="/admin/product/update/"+product._id+"?edit=info") 基本信息
+			a.button.button-rounded.button-raised.button-small(type="button" href="/admin/goods/update/"+goods._id+"?edit=info") 基本信息
 			button.button.button-royal.button-rounded.button-raised.button-small(type="button") 图片管理
-			a.button.button-rounded.button-raised.button-small(type="button", href="/admin/product/update/"+product._id+"?edit=content") 商品详情
+			a.button.button-rounded.button-raised.button-small(type="button" href="/admin/goods/update/"+goods._id+"?edit=content") 商品详情
 		.contentpanel
-			form#product_cover.form_horizontal(name="photoform",method="post", action="/admin/product/update/photo", enctype="multipart/form-data")
+			form#product_cover.form_horizontal(name="photoform" method="post" action="/admin/goods/update/photo" enctype="multipart/form-data")
 				.form_group
 					label.control_label 封面：
 					.control_div
-						input#img_btn.mr10(type="file", onchange="setImagePreview('img_btn','img_view','img_ie_view');", name="productCover", accept="image/*", value="单张")
+						input#img_btn.mr10(type="file" 
+							onchange="setImagePreview('img_btn','img_view','img_ie_view');" 
+							name="productCover" accept="image/*" value="单张")
 						//- span.button.button-caution.button-jumbo.button-small 删除
 						#img_ie_view.img_view
-							if product.cover
-								img#img_view(src='/data/products/p'+product._id+'/'+product.cover)
+							if goods.cover
+								img#img_view(src='/data/goods/'+goods._id+'/'+goods.cover)
 							else
 								img#img_view
 				.form_group
@@ -40,10 +42,9 @@ block content
 						button#btn_save.button.button-primary.button-primary.button-longshadow-right(type="sumbit")
 							b.icon-upload
 							&nbsp;&nbsp;更 新
-				input(type="hidden", name="product[_id]", value=product._id)
-				input(type="hidden", name="product[uid]", value="#{user._id}")
-				input(type="hidden", name="product[cover]", value="#{product.cover}")
-		script(src="/js/artalert.js")
+				input(type="hidden" name="goods[_id]" value=goods._id)
+				//- input(type="hidden" name="goods[uid]" value=user._id)
+				input(type="hidden" name="goods[cover]" value=goods.cover)
 		script.
 			var updateImgNext = false
 			$('#updateImgBtn').click(function(){

@@ -16,7 +16,7 @@ var CategorySchema = new Schema({
 	description: String,
 	pid: [{
 		type: ObjectId,
-		ref: 'Product'
+		ref: 'Goods'
 	}],
 	meta:{
 		createAt:{
@@ -28,6 +28,8 @@ var CategorySchema = new Schema({
 			default: Date.now()
 		}
 	}
+}, {
+	usePushEach: true
 })
 
 // 判断保存的数据是否是新增的

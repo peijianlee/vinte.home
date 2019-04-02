@@ -17,7 +17,7 @@ exports.adminList = function(req, res){
 		.exec(function(err, inquiries){
 			console.log(inquiries)
 			if(err) console.log(err)
-			res.render('admin/inquiry_list',{
+			res.render('admin/inquiry/list',{
 				title: "订单列表",
 				inquiries: inquiries,
 				type: req.query.type,
@@ -31,7 +31,7 @@ exports.detail = function(req, res){
 	Inquiry
 		.findOne({_id: id})
 		.populate('uid', 'name')
-		.populate('products.sort products.color products.material products.scene', 'attributes')
+		.populate('goods.sort goods.color goods.material goods.scene', 'attributes')
 		// .populate({
 		// 	path: 'products._id',
 		// 	model: 'Product',
@@ -43,7 +43,7 @@ exports.detail = function(req, res){
 		// })
 		.exec(function(err, inquiry){
 			if(err) console.log(err)
-			res.render('admin/inquiry_detail', {
+			res.render('admin/inquiry/detail', {
 				title: "订单详情",
 				inquiry: inquiry
 			})
@@ -57,7 +57,7 @@ exports.delete = function(req, res){
 		// 批量移除
 		Inquiry.find({_id: {$in: pid}}, function (err, inquirys) {
 			for(item in inquirys){
-				inquirys[item].update({'udelete': 1}, function (err) {
+				inquirys[item].update({'user_delete': 1}, function (err) {
 					if (err) console.log(err)
 				})
 			}
@@ -66,7 +66,7 @@ exports.delete = function(req, res){
 	} else {
 		Inquiry.findOne({'_id': pid}, function (err, inquiry) {
 			if (err) console.log(err)
-			inquiry.update({'udelete': 1}, function (err, inquiry) {
+			inquiry.update({'user_delete': 1}, function (err, inquiry) {
 				if (err) console.log(err)
 			})
 		})

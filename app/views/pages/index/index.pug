@@ -17,7 +17,7 @@ block content
 					.i-furniture-type
 						img.vtLazyload(src="default.png", data-src=`/banner/${pstyle.banner}` )
 						h6 #{pstyle.attributes.zh_cn}
-						p #{pstyle.description}
+						p #{pstyle.description.length<116?pstyle.description:pstyle.description.substring(0, 116)+'...'}
 	if materialCategories && materialCategories.length > 0
 		.wrap.pt50.pb50
 			.g-head-title.base-color-dark.fb.tc
@@ -67,7 +67,7 @@ block content
 			span Recommended Products
 		if recommendProducts && recommendProducts.length > 0
 			each item in recommendProducts
-				.iproduct(id=item.id)
+				.igoods(id=item.id)
 					include ../../themplate/goods
 		br.clear
 		.tc.mt20
@@ -75,5 +75,3 @@ block content
 				span.animation 查看全部商品
 	//- .bg_fixed
 	script(src="/js/shopcart.js")
-	script.
-		$.artTip('hello!!!')

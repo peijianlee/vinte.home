@@ -60,28 +60,35 @@
 
 			this.publicStyle.popupBg('.frameFooter span', '.' + frameClass, fn)
 		},
-		artTip: function (value, time, url) {
+		artTip: function () {
 			var $body = $('body')
-			$body.append('<div class="arttipbg"></div><div class="arttip">'+
-				value+'</div>')
+			var Title = arguments[0].title,
+				Time = arguments[0].time,
+				URL = arguments[0].url
+			$body.append('<div class="arttipbg"></div><div class="arttip">'+Title+'</div>')
 			$('.arttipbg').fadeIn('200')
 			$('.arttip').animate({'opacity':1,'bottom':'40%'},500)
+			if(!Time) return false
 			setTimeout(function () {
-				$.closeArtTip(null, 10, url || '')
-			}, time || 1200)
+				// $.closeArtTip(null, 10, URL || '')
+				$.closeArtTip(arguments)
+			}, Time)
 		},
 		closeArtTip: function (value, closetime, url) {
-			if(value) $('.arttip').html(value)
-			var closetime = closetime || 2000
-			var timeOut = setTimeout(function(){
+			var Title = arguments[0].title,
+				Time = arguments[0].time,
+				URL = arguments[0].url
+			if(Title) $('.arttip').html(Title)
+			// var Time = Time || 2000
+			setTimeout(function(){
 				$('.arttipbg').fadeIn('200',function(){
 					$(this).remove()
 				})
 				$('.arttip').animate({'opacity':0,'bottom':'30%'},400,function(){
 					$(this).remove()
-					url?url==='reload'?location.reload():location.href=url : false
+					URL?URL==='reload'?location.reload():location.href=URL : false
 				})
-			}, closetime)
+			}, Time)
 		},
 		artAlert: function ( value, frameClass, lang, url, time ) {
 			var artalert_close_enter = true

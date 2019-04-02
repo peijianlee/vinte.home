@@ -1,6 +1,6 @@
 var config = {
 	dburl: "mongodb://127.0.0.1:27017/vinte_db",
-	port: "3000",
+	port: "4000",
 	global_title_cn: "梵特家具网",
 	global_title_en: "vintehome",
 	global_keyword_cn: "梵特家具网,中山梵特家具网,乡村风格家具,中山乡村风格家具,仿古家具,中山仿古家具",

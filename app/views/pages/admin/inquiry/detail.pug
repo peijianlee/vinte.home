@@ -1,4 +1,4 @@
-extends ../../layout_admin
+extends ../includes/layout
 
 block content
 	.admin_wrap
@@ -10,10 +10,10 @@ block content
 				dt #{'No.' + inquiry.id}
 				dd 创建时间：#{moment(inquiry.meta.createAt).format('YYYY/MM/DD HH:mm:ss')}
 				dd 发送用户：
-					a.cBlue(href="list?name=#{inquiry.uid.id}", title="查看#{inquiry.uid.name}的所有询价单") #{inquiry.uid.name}
+					a.cBlue(href=`list?name=${inquiry.uid.id}` title=`查看${inquiry.uid.name}的所有询价单`) #{inquiry.uid.name}
 						i.icon-external-link.ml5
-			div.admin_order_left
-				if inquiry.products && inquiry.products.length > 0
+			div.admin_order_left.mb20
+				if inquiry.goods && inquiry.goods.length > 0
 					h6.admin_order_list_head
 						i.icon-list.mr10
 						|询价单列表
@@ -24,15 +24,19 @@ block content
 							th 官方定价
 							th 目标数量
 							th 目标价格
-						each item in inquiry.products
+						each item in inquiry.goods
+							- console.log(item)
 							tr
-								td: a(href="/store/id/#{item.id}" target="_blank")
-									img(src="/data/products/p"+item.id+"/"+item.cover, width="150px", height="150px")
+								td
+									a(href=`/goods/id/${item.id}` target="_blank")
+										img(src=`/data/goods/${item.id}/${item.cover}` width=150 height=150)
 								td
 									ul.line-height-normal
-										li.fs16.fb #{item.title}
+										li.mb10
+											a.fs16.fb(href=`/goods/id/${item.id}` target="_blank") #{item.title}
 										li.cGray.fs12 尺寸：
-											span.ml5 宽#{item.size.w}×深#{item.size.d}×高#{item.size.h} (cm)
+											//- span.ml5 宽#{item.size.w}×深#{item.size.d}×高#{item.size.h} (cm)
+											span.ml5 #{formatSize(item.size)}
 										if item.scene && item.scene.length > 0
 											li.cGray.fs12 场景：
 												each i_scene in item.scene
@@ -45,9 +49,9 @@ block content
 											li.cGray.fs12 颜色：
 												each i_color in item.color
 													span.ml5 #{i_color.attributes.zh_cn}
-								td.tc #{'￥' + item.price.toFixed(2)}
+								td.tc #{formatPrice(item.price)}
 								td.tc.fb #{item.quantity}
-								td.tc.fb #{item.fromprice}
+								td.tc.fb #{formatPrice(item.fromprice)}
 			div.admin_order_right
 				h6.admin_order_list_head
 					i.icon-info.mr10

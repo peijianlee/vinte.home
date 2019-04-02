@@ -1,4 +1,4 @@
-extends ../../layout_admin
+extends ../includes/layout
 
 block content
 	.admin_wrap
@@ -6,21 +6,21 @@ block content
 			i.icon-magnet
 			| #{title}
 		.button-group.pl20.pt20
-			a.button.button-rounded.button-raised.button-small(type="button", href="/admin/product/update/"+product._id+"?edit=info") 基本信息
-			a.button.button-rounded.button-raised.button-small(type="button", href="/admin/product/update/"+product._id+"?edit=photo") 图片管理
+			a.button.button-rounded.button-raised.button-small(type="button" href="/admin/goods/update/"+goods._id+"?edit=info") 基本信息
+			a.button.button-rounded.button-raised.button-small(type="button" href="/admin/goods/update/"+goods._id+"?edit=photo") 图片管理
 			button.button.button-royal.button-rounded.button-raised.button-small(type="button") 商品详情
 		.contentpanel
-			form(method="post", action="/admin/product/update/content", enctype="multipart/form-data")
-				input(type="hidden", name="product[_id]", value=product._id)
-				input#productContent(type="hidden", name="product[content]",value=product.content)
-				input(type="hidden", name="product[uid]", value="${user._id}")
+			form(method="post", action="/admin/goods/update/content", enctype="multipart/form-data")
+				input(type="hidden" name="goods[_id]" value=goods._id)
+				input(type="hidden" name="goods[uid]" value=`${user?user._id : '5c78db023a3aab2af80e213b'}`)
+				input#productContent(type="hidden" name="goods[content]" value=goods.content)
 				.form_group
 					script.
 						window.UEDITOR_HOME_URL = '/libs/ueditor/'
-					script(type="text/javascript",src="/libs/ueditor/ueditor.config.js")
-					script(type="text/javascript",src="/libs/ueditor/ueditor.all.min.js")
-					script(type="text/javascript",src="/libs/ueditor/lang/en/en.js")
-					script#editor(type="text/plain",style="width:100%;height:500px;")
+					script(type="text/javascript" src="/libs/ueditor/ueditor.config.js")
+					script(type="text/javascript" src="/libs/ueditor/ueditor.all.min.js")
+					//- script(type="text/javascript" src="/libs/ueditor/lang/en/en.js")
+					script#editor(type="text/plain" style="width:100%;height:500px;")
 
 				.form_group
 					.col-sm-offset-1.col-sm-1

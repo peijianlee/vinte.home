@@ -21,7 +21,10 @@ var InquirySchema = new Schema({
 		text: String,
 		cover: String,
 		quantity: String,
-		fromprice: String,
+		fromprice: {
+			type: Number,
+			default: 0
+		},
 		scene: [{
 			type: ObjectId,
 			ref: 'Category'
@@ -58,7 +61,7 @@ var InquirySchema = new Schema({
 		type: ObjectId,
 		ref: 'User'
 	},
-	udelete:{
+	user_delete:{
 		type:Number,
 		default:0
 	},

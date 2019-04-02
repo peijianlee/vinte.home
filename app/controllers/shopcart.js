@@ -34,17 +34,17 @@ exports.detail = function(req,res){
 				if(err) console.log(err)
 
 				// 非常愚蠢的循环出来又循环进去
-				var productsObj = []
+				var goodsObj = []
 				for(var i=0; i < session_quantity.length; i++){
 					var p_obj = {
 						'quantity':session_quantity[i],
 						'pid': goods[i]
 					}
-					productsObj.push(p_obj)
+					goodsObj.push(p_obj)
 				}
 				res.render('index/inquiry/',{
 					title: '询价单',
-					goods: productsObj,
+					goods: goodsObj,
 					captcha: req.session.captcha,
 					cart_goods: goods
 				})
@@ -81,71 +81,102 @@ exports.detail = function(req,res){
 
 // 创建购物清单及填写个人信息
 exports.createInquiryInfo = function(req, res){
-	var inquiryObj = req.query.inquiry.pid
-
-	Goods
-		.find({_id: {$in: inquiryObj}})
-		.populate('sort color material scene','attributes')
-		.exec(function(err, goods){
-			res.render('index/inquiry/create',{
-				title: '创建询价单',
-				goods: goods,
-				cart_goods: req.session.user.shopcartgoods
+	var inquiryObj = req.query.inquiry.pid,
+		User = req.session.user
+	if(User){
+		Goods
+			.find({_id: {$in: inquiryObj}})
+			.populate('sort color material scene','attributes')
+			.exec(function(err, goods){
+				res.render('index/inquiry/create',{
+					title: '创建询价单',
+					goods: goods,
+					cart_goods: User.shopcartgoods
+				})
 			})
-
-		})
+	} else{
+		res.redirect('back')
+	}
 }
 // 创建订单
-exports.createInquirySuccess = function(req, res){
+exports.createInquiry = function(req, res){
 	var inquiryInfo = req.body.inquiry
+
+	console.log(inquiryInfo)
+	// console.log(inquiryInfo.goods)
+
+	// return false
 
 	Goods
 		.find({_id: {$in: inquiryInfo.goods.id}})
-		.exec(function(err, goods){
-			// console.log(goods)
-			if(goods && goods.length > 0){
-				var inquiryObj = {
-					uid: inquiryInfo.uid,
-					from: inquiryInfo.from,
-					goods:[]
-				}
-				for(var i=0; i<goods.length; i++){
-					var productObj = {
-						'_id': goods[i].id,
-						'title': goods[i].title,
-						'cover': goods[i].cover,
-						'price': goods[i].price,
-						'size': goods[i].size,
-						'sale': goods[i].sale,
-						'color': goods[i].color,
-						'material': goods[i].material,
-						'scene': goods[i].scene,
+		.exec(function(err, _goods){
+			// console.log(_goods)
+			var inquiryObj = {
+				uid: inquiryInfo.uid,
+				from: inquiryInfo.from,
+				goods:[]
+			}
+			if(_goods && _goods.length > 0){
+				for(var i=0; i<_goods.length; i++){
+					var goodsObj = {
+						'_id': _goods[i].id,
+						'title': _goods[i].title,
+						'cover': _goods[i].cover,
+						'price': _goods[i].price,
+						'size': _goods[i].size,
+						'sale': _goods[i].sale,
+						'color': _goods[i].color,
+						'material': _goods[i].material,
+						'scene': _goods[i].scene,
 						'quantity': inquiryInfo.goods.quantity[i],
 						'fromprice': inquiryInfo.goods.fromprice[i]
 					}
-					inquiryObj.goods.push(productObj)
+					inquiryObj.goods.push(goodsObj)
 				}
 				var _inquiryObj = new Inquiry(inquiryObj)
 				_inquiryObj.save(function(err, inquiry){
 					if(err) console.log(err)
-					// req.session.user.inquiry.id = inquiry.id
-					// req.session.user.inquiry.data = inquiry.meta.createAt
-					// req.session.user.inquiry = {
-					// 	id: inquiry.id,
-					// 	data: inquiry.meta.createAt
-					// }
-					// res.redirect('inquiry/success')
-					res.render('index/inquiry/create_success',{
-						title: '询价单创建成功',
-						inquiry: {
-							id: inquiry.id,
-							data: inquiry.meta.createAt
-						},
-						cart_goods: req.session.user.shopcartgoods
-					})
+					res.redirect('/create/inquiry/success/'+inquiry.id)
+					// res.render('index/inquiry/create_success',{
+					// 	title: '询价单创建成功',
+					// 	inquiry: {
+					// 		id: inquiry.id,
+					// 		data: inquiry.meta.createAt
+					// 	},
+					// 	cart_goods: req.session.user.shopcartgoods
+					// })
 				})
+			} else {
+				res.redirect('/inquiry')
 			}
 		})
+}
+// 创建咨询单成功信息
+exports.createInquirySuccess = function(req, res){
+	var id = req.params.id,
+		user = req.session.user
+	// console.log(id)
+	console.log(id)
+	if(user){
+		Inquiry.findOne({uid: user._id, _id: id}, function(err, _inquiry){
+			console.log(_inquiry)
+			res.render('index/inquiry/create_success',{
+				title: '询价单创建成功',
+				inquiry: {
+					id: _inquiry._id,
+					data: _inquiry.meta.createAt
+				},
+				cart_goods: req.session.user.shopcartgoods
+			})
+		})
+	} else {
+		res.render('index/inquiry/create_success',{
+			title: '询价单查询失败',
+			cart_goods: []
+		})
+	}
+
+
 }
 
 // 添加购物车

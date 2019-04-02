@@ -1,0 +1,27 @@
+{
+    "apps": [
+        {
+            "name": "vinte",
+            "script": "app.js",
+            "env": {
+                "COMMON_VARIABLE": "true",
+            },
+            "env_production": {
+                "NODE_ENV": "production"
+            }
+        }
+    ],
+    "deploy": {
+        "production": {
+            "user": "lpj",
+            "host": ["119.23.214.185"],
+            "port": "40019",
+            "ref": "origin/master",
+            "repo": "git@github.com:peijianlee/vinte.home.git",
+            "path": "/www/vinte.home",
+            "env": {
+                "NODE_ENV": "production"
+            }
+        }
+    }
+}

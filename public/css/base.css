@@ -4,7 +4,6 @@ html,body,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,p{padding:0;margin:0;}
 body{
 	font-family:"Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","WenQuanYi Micro Hei",sans-serif;
 	color:#3e3e3e;
-	line-height:1.7;
 }
 a{text-decoration:none;color:#333;outline:0 none;}
 img{border:0 none;}
@@ -94,6 +93,9 @@ a.base-color-dark:hover{
 .cWhite{color:white;}
 .cBlack{color:black;}
 .cGreen{color:green;}
+.base-color{
+	color: #0f807e;
+}
 
 .none{display:none;}
 .overflow-hidden{overflow:hidden;}
@@ -108,6 +110,8 @@ a.base-color-dark:hover{
 .fs15{font-size:15px;}
 .fs16{font-size:16px;}
 .fs18{font-size:18px;}
+.fs22{font-size:22px;}
+.fs26{font-size:26px;}
 .cd{cursor:default;}
 .cp{cursor:pointer;}
 
@@ -266,6 +270,7 @@ a.base-color-dark:hover{
 .mr5{margin-right:5px;}
 .mr10{margin-right:10px;}
 .mr15{margin-right:15px;}
+.mr20{margin-right:20px;}
 .mt10{margin-top:10px;}
 .mt15{margin-top:15px;}
 .mt20{margin-top:20px;}
@@ -280,11 +285,13 @@ a.base-color-dark:hover{
 .pt10{padding-top:10px;}
 .pt15{padding-top:15px;}
 .pt20{padding-top:20px;}
+.pt30{padding-top:30px;}
 .pt50{padding-top:50px;}
 .pb5{padding-bottom:5px;}
 .pb10{padding-bottom:10px;}
 .pb15{padding-bottom:15px;}
 .pb20{padding-bottom:20px;}
+.pb30{padding-bottom:30px;}
 .pb50{padding-bottom:50px;}
 .pl10{padding-left:10px;}
 .pl20{padding-left:20px;}

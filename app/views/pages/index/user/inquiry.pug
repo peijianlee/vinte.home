@@ -5,15 +5,15 @@ block content
 	.wrap.nav
 		a(href="/")
 			i.fs14.icon-home
-		a(href="/user/#{user.name}") 我的个人中心
+		a(href=`/user/${user.name}`) 我的个人中心
 		b #{page === 'inquiries' ? '询价单' : '收藏夹'}
-	.user_frame
+	.user-frame.wrap
 		ul.user_page_menu
-			li(class="#{page === 'inquiries' ? 'Stand' : ''}")
+			li(class=`${page === 'inquiries' ? 'Stand' : ''}`)
 				a.block(href="inquiries")
 					i.icon-reorder.mr5
 					| 询价单
-			li(class="#{page === 'favourite' ? 'Stand' : ''}")
+			li(class=`${page === 'favourite' ? 'Stand' : ''}`)
 				a.block(href="favourite")
 					i.icon-star.mr5
 					| 收藏夹
@@ -30,13 +30,14 @@ block content
 								th(width="160") 操作
 						tbody
 							each inquiry in inquiries
-								tr.tc(id="#{inquiry.id}", stitle="#{inquiry.id}")
+								tr.tc(id=inquiry.id stitle=inquiry.id)
 									th: input.select-item.cp(type="checkbox")
-									td: a.base-color-dark.fb(href="/user/#{user.name}/inquiries/#{inquiry.id}") #{'No.' + inquiry.id}
-									td #{moment(inquiry.meta.createAt).format('YYYY/MM/DD')}
+									td
+										a.base-color-dark.fb(href=`/user/${user.name}/inquiries/${inquiry.id}`) #{'No.' + inquiry.id}
+									td #{moment(inquiry.meta.createAt).format('YYYY-MM-DD')}
 									td
 									td
-										a(href="/user/#{user.name}/inquiries/#{inquiry.id}").base-button.b-primary.b-tiny 查看
+										a(href=`/user/${user.name}/inquiries/${inquiry.id}`).base-button.b-primary.b-tiny 查看
 										span.base-button.b-caution.b-tiny.ml5.remove-item 删除
 						tfoot
 							tr
@@ -48,7 +49,7 @@ block content
 										| 已选择
 										b#select-num.base-color-dark.ml5.mr5 0
 										| 条询价单
-									span#remove-all.ml10.base-button.b-caution.b-small.b-radius(remove-all="true", del-inquiry="true") 删除
+									span#remove-all.ml10.base-button.b-caution.b-small.b-radius(remove-all="true" del-inquiry="true") 删除
 				else
 					.user_details_empty_tip.tc(colspan="5")
 						p.mb15.fs16.fb 目前没有任何数据
@@ -67,15 +68,16 @@ block content
 								th(width="100") 操作
 						tbody
 							each favourite in favouritegoods
-								tr(id="#{favourite.id}", stitle="#{favourite.title}")
+								tr(id=favourite.id stitle=favourite.title)
 									th: input.select-item.cp(type="checkbox")
 									td
-										img(src='/data/products/p'+favourite.id+'/'+favourite.cover, width="80", height="80")
+										img(src=`/data/goods/${favourite.id}/${favourite.cover}` width="80" height="80")
 									td(style="vertical-align:top;")
 										ul.tl.fs11.cGray.line-height-normal
-											li: a.base-color-dark.fb.fs16(href='/store/id/#{favourite.id}', target="_blank") #{favourite.title}
+											li
+												a.base-color-dark.fb.fs16(href=`/store/id/${favourite.id}` target="_blank") #{favourite.title}
 											li 尺寸：
-												span.ml5 #{'w ' + favourite.size.w + ' x h ' + favourite.size.h + ' * d' + favourite.size.d}
+												span.ml5 #{formatSize(favourite.size)}
 											if favourite.scene && favourite.scene.length > 0
 												li 场景：
 													each scene in favourite.scene
@@ -92,10 +94,13 @@ block content
 												li 颜色：
 													each color in favourite.color
 														span.ml5 #{color.attributes.zh_cn}
-									td.fb.fs16 #{'￥' + favourite.price.toFixed(2)}
+									td.fb.fs16(class=favourite.sale&&'goods-sale')
+										span #{formatPrice(favourite.price)}
+										if favourite.sale
+											span #{formatPrice(favourite.sale)}
 									td
-										a(href="/store/id/#{favourite.id}", target="_blank").base-button.b-primary.b-tiny 查看
-										span.mt5.base-button.b-caution.b-tiny.remove-item(ptitle="#{favourite.title}") 移出
+										a(href=`/store/id/${favourite.id}` target="_blank").base-button.b-primary.b-tiny 查看
+										span.mt5.base-button.b-caution.b-tiny.remove-item(ptitle=favourite.title) 移出
 						tfoot
 							tr
 								td(colspan="5").tl
@@ -144,9 +149,12 @@ block content
 				var tip = '是否移出该 <b class="base-color-dark">' + ptitle + '</b> 条信息？'
 				$.artConfim(tip, 'confimFrame', 'zh_cn', function (info) {
 					if (info) {
-						$.artTip('取消操作', 800)
+						$.artTip({
+							title: '取消操作', 
+							time: 800
+						})
 					} else {
-						$.artTip('<i class="icon-spinner icon-spin"></i> 加载中...')
+						$.artTip({title: '<i class="icon-spinner icon-spin"></i> 加载中...'})
 						$.ajax({
 							type:"POST",
 							url: postUrl,
@@ -156,9 +164,15 @@ block content
 							cache:false,
 							success: function(data){
 								if (data.success) {
-									$.closeArtTip('网路错误', 800)
+									$.closeArtTip({
+										title: '网路错误', 
+										time: 800
+									})
 								} else {
-									$.closeArtTip('成功移出', 800)
+									$.closeArtTip({
+										title:'成功移出', 
+										time:800
+									})
 									if (typeof pid === 'string') {
 										$('#' + pid).remove()
 										var selectNum = $('#select-num').text()

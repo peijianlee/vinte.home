@@ -1,0 +1,106 @@
+extends ../includes/layout
+
+block content
+	.admin_wrap
+		h2.pageheader
+			i.icon-magnet
+			| #{title}
+		.button-group.pl20.pt20
+			if goods._id
+				button.button.button-royal.button-rounded.button-raised.button-small(type="button") 基本信息
+				a.button.button-rounded.button-raised.button-small(type="button" href="/admin/goods/update/"+goods._id+"?edit=photo") 图片管理
+				a.button.button-rounded.button-raised.button-small(type="button" href="/admin/goods/update/"+goods._id+"?edit=content") 商品详情
+			else
+				button.button.button-royal.button-rounded.button-raised.button-small(type="button") 基本信息
+				button.button.button-rounded.button-raised.button-small(type="button" disabled="") 图片管理
+				button.button.button-rounded.button-raised.button-small(type="button" disabled="") 商品详情
+		.contentpanel
+			form.form_horizontal(method="post" action="/admin/goods/save" enctype="multipart/form-data")
+				if goods._id
+					input(type="hidden" name="goods[_id]" value=goods._id)
+				.form_group
+					label.control_label 商品名称：
+					.control_div
+						input(type="text" name="goods[title]" placeholder="请输入商品名称" value=goods.title)
+				.form_group
+					label.control_label 商品描述：
+					.control_div
+						textarea(type="text" name="goods[description]" placeholder="请输入商品描述，可不填" style="height:48px;") #{goods.description}
+					br.clear
+				.form_group
+					label.control_label 商品尺寸：
+					.control_div.product_size_input
+						if goods._id
+							label 长
+							input(type="text" name="goods[size].h" value=goods.size.h)
+							label *
+							label 宽
+							input(type="text" name="goods[size].w" value=goods.size.w)
+							label *
+							label 高
+							input(type="text" name="goods[size].d" value=goods.size.d)
+							label (CM)
+						else
+							label 长
+							input(type="text" name="goods[size].h")
+							label *
+							label 宽
+							input(type="text" name="goods[size].w")
+							label *
+							label 高
+							input(type="text" name="goods[size].d")
+							label (CM)
+				if allCategoryType && allCategoryType.length > 0
+					each category in allCategoryType
+						if category.cid && category.cid.length > 0
+							.form_group
+								label.control_label #{category.name.zh_cn} ：
+								.control_div.category_label(data-category=category.name.en_us)
+									for item in category.cid
+										label.textUnSelect
+											- var isChecked = !!item.pid.length
+											- if(isChecked){
+											-	isChecked = JSON.stringify(item.pid).indexOf(goods.id) === -1 ? false : true
+											- }
+											input(type="checkbox" 
+												class="changeCategory" 
+												name="goods["+item.name+"]" 
+												value=item._id 
+												checked=isChecked)
+											span
+												i.icon-check-empty.mr5
+												i.icon-check.mr5
+												| #{item.attributes.zh_cn}
+				.form_group
+					label.control_label 销售价格：
+					.control_div
+						input(style="width:150px;" 
+							type="text" 
+							name="goods[price]" 
+							placeholder="请输入销售价格" 
+							value=goods.price)
+				.form_group
+					label.control_label 促销价格：
+					.control_div
+						input(style="width:150px;" 
+							type="text" 
+							name="goods[sale]" 
+							placeholder="请输入促销价格" 
+							value=goods.sale)
+
+				.form_group
+					.col-sm-offset-1.col-sm-1
+						if goods._id
+							button#btn_save.button.button-primary.button-primary.button-longshadow-right(type="sumbit")
+								b.icon-upload
+								| &nbsp;&nbsp;更 新
+						else
+							button#btn_save.button.button-primary.button-primary.button-longshadow-right(type="sumbit")
+								b.icon-hdd
+								| &nbsp;&nbsp;录 入
+				input(type="hidden" name="goods[uid]" value=`${user? user._id : '5c78db023a3aab2af80e213b'}`)
+
+	if goods._id
+		script(src="/js/admin/change-goods-category.js")
+
+

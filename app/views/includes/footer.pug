@@ -23,13 +23,13 @@ if !header_hide
 			form(action="/message", method="POST")
 				ul.footer-message
 					li(focus-tip-text="请输入公司名称或者你的名字")
-						input.f-msg-name(type="text", name="name", placeholder="请输入公司名称或者你的名字" )
+						input.f-msg-name(type="text", name="name" placeholder="请输入公司名称或者你的名字" )
 					li(focus-tip-text="请输入你的电话号码")
-						input.f-msg-phone(type="text", name="phone", placeholder="请输入你的电话号码")
+						input.f-msg-phone(type="text" name="phone" placeholder="请输入你的电话号码")
 					li(focus-tip-text="请输入你的电子邮箱地址")
-						input.f-msg-email(type="text", name="email", placeholder="请输入你的电子邮箱地址")
+						input.f-msg-email(type="text" name="email" placeholder="请输入你的电子邮箱地址")
 					li(focus-tip-text="请输入你的留言内容")
-						textarea.f-msg-info(name="infomation", placeholder="请输入你的留言内容")
+						textarea.f-msg-info(name="infomation" placeholder="请输入你的留言内容")
 					li
 						if user
 							input.f-user-id(type="hidden", value=user._id)
@@ -37,9 +37,10 @@ if !header_hide
 			br.clear
 	.footer-bottom
 		.wrap.tr.fs12
-			a.cWhite(href="http://www.miitbeian.gov.cn/", target="_blank") 粤ICP备17070570号
+			a.cWhite(href="http://www.miitbeian.gov.cn/" target="_blank") 粤ICP备17070570号
 			|	Copyright © 2017, All Rights Reserved
-	if !user
+	//- - console.log('captcha:'+!captcha)
+	if !urser && captcha
 		include ../themplate/signin_modal
 script.
 	//- 添加懒加载 vtLazyload(class, 延迟时间, 间隔时间)
@@ -68,7 +69,7 @@ script.
 	$('.sign_form_content').enterKeyPress(sendMsgConfig)
 	$('.footer-message-btn').click(function(){
 		if(checkAllElementVal(sendMsgConfig) !== false){
-			$.artTip('<i class="icon-spinner icon-spin"></i> 加载中...')
+			$.artTip({title: '<i class="icon-spinner icon-spin"></i> 加载中...'})
 			var data = {
 				name: sendMsgConfig[0].element.val(),
 				phone: sendMsgConfig[1].element.val(),
@@ -85,13 +86,19 @@ script.
 				cache:false,
 				success: function(data){
 					if(data.success === 1){
-						$.closeArtTip('<i class="icon-ok-sign mr10"></i>发送成功！加载成功！', 1200)
+						$.closeArtTip({
+							title: '<i class="icon-ok-sign mr10"></i>发送成功！加载成功！',
+							time: 800
+						})
 						for(var i = 0; i < sendMsgConfig.length; i++){
 							sendMsgConfig[i].element.val('').next('b').removeClass()
 						}
 					}else{
 						//- arttipclose('<i class="icon-exclamation-sign mr10"></i>发送失败！', 1200)
-						$.closeArtTip('<i class="icon-exclamation-sign mr10"></i>发送失败！', 1200)
+						$.closeArtTip({
+							title: '<i class="icon-exclamation-sign mr10"></i>发送失败！',
+							time: 800
+						})
 					}
 				}
 			})

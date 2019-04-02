@@ -1,4 +1,4 @@
-extends ../../layout_admin
+extends ../includes/layout
 
 block content
 	.admin_wrap
@@ -51,13 +51,15 @@ block content
 					if inquiries && inquiries.length > 0
 						each item in inquiries
 							tr.tc
-								td: a.base-color-dark(href="#{item.id}") #{'No.' + item.id}
+								td
+									a.base-color-dark(href=item.id) #{'No.' + item.id}
 								td 
 									span.cGray #{moment(item.meta.createAt).format('YYYY/MM/DD HH:mm:ss')}
 									br
 									| #{moment(item.meta.createAt).add(5, 'days').format('YYYY/MM/DD HH:mm:ss')}
 								td #{moment(item.meta.createAt).add(5, 'days').fromNow()}
-								td: a.base-color-dark(href="?name=#{item.uid.id}") #{item.uid.name}
+								td
+									a.base-color-dark(href=`?name=${item.uid.id}`) #{item.uid.name}
 								td #{item.udelete ? '已删除' : '否'}
 								td
 									if item.from.company
@@ -68,4 +70,14 @@ block content
 										span.o-gray-style
 											i.icon-user
 											| 个人
-								td: a(href="#{item.id}").button.button-highlight.button-rounded.button-small(type="button", data-id="#{item.id}", data-src="#{item.imgsrc}") 处理
+								td
+									a(href=item.id).button.button-highlight.button-rounded.button-small(
+										type="button" 
+										data-id="#{item.id}" 
+										data-src="#{item.imgsrc}") 处理
+					else
+						tr.tc
+							td.lead.bg-info.text-info(colspan="10")
+								strong
+									i.icon-info-sign(style="margin-left:10px;margin-right:5px")
+									| 没有任何数据！

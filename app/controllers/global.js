@@ -7,7 +7,7 @@ exports.fetchAllCategoryType = function(req, res, next){
 		var url_pathname = req._parsedUrl.pathname
 		return url_pathname.indexOf(url) > 0
 	}
-	Category.find({type: 'product'}, function(err, categories){
+	Category.find({type: 'goods'}, function(err, categories){
 		var allCategoryType = [],
 			type_names
 		// 对产品类目进行分类

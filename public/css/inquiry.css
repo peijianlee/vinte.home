@@ -1,0 +1,268 @@
+/*购物进度*/
+.progress{
+	height:75px;
+	position:relative;
+}
+.progress_step{
+	width:33.333%;float:left;
+	padding-top:4px;
+	text-align:center;
+}
+.s_step{
+	font-size:14px;
+	display:inline-block;
+	width:24px;height:24px;line-height:24px;
+	border-radius:50%;
+	position:relative;
+	background-color:white;
+	font-weight:bold;
+	border:4px solid #ddd;
+}
+.s_step span{
+	position:absolute;
+	top:-4px;left:-4px;
+	width:30px;height:30px;
+	border-radius:50%;opacity:0;
+	border:1px solid #25a6a4;
+	animation:light_show 5s infinite linear;
+}
+.s_1{
+	transform:scale(1.2);
+	animation-delay:5s;
+}
+.s_2{
+	transform:scale(1.4);
+	animation-delay:3s;
+}
+@keyframes light_show{
+	0%{opacity:0;}
+	50%{opacity:0.6;}
+	80%{opacity:0;}
+	100%{opacity:0;}
+}
+.progress_step p{font-size:12px;margin-top:7px;}
+.progress_line,
+.progress_step_line{
+	position:absolute;
+	top:18px;left:0;
+	height:4px;width:100%;
+	border-radius:2px;
+	z-index:-1;background-color:#25a6a4;
+	width:33.33%;
+}
+.progress_line{
+	z-index:-2;background-color:#ddd;
+	width:100%;
+}
+
+.progress.progress_step_1 .progress_step:nth-child(1) .s_step,
+.progress.progress_step_2 .progress_step:nth-child(2) .s_step,
+.progress.progress_step_3 .progress_step:nth-child(3) .s_step{
+	background-color:#25a6a4;color:white;
+	border-color:#25a6a4;
+}
+.progress.progress_step_2 .progress_step_line{left:33.33%;}
+.progress.progress_step_3 .progress_step_line{left:66.66%;}
+/*购物车*/
+.shopcart_list{line-height:1.7;border:1px solid #ddd;}
+.remove-btn{
+	color:gray;
+	background-color: #eee;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	box-shadow: 1px 1px white inset;
+	height:26px;line-height:26px;
+	padding-right:8px;
+	display:inline-block;
+	cursor:pointer;
+}
+.remove-btn i{
+	float:left;padding:0 8px;margin-right:8px;
+	height:26px;line-height:26px;
+	border-right: 1px solid #ccc;
+}
+.remove-btn:hover{
+	color:#555;
+	background-color: #e9e9e9;
+	border-color:#bbb;
+	box-shadow:0 0 3px rgba(0,0,0,0.2);
+}
+.shopcart_head{
+	background-color:#4dc7c5;
+	color:white;
+	font-weight:bold;font-size:16px;
+	padding-left:20px;
+	height:50px;line-height:50px;
+	text-align:left;
+}
+.shopcart_list th{
+	background-color:#fafafa;
+}
+.shopcart_list td{
+	border-top:1px solid #ddd;
+}
+.shopcart_list td.vatop{vertical-align:top;}
+.shopcart_list img{
+ 	width:140px;height:140px;
+}
+.shopcart_goods_name h3{color:#333;font-size:14px;}
+.shopcart_goods_name li{
+	font-size:12px;color:gray;
+}
+.shopcart_list input[type="checkbox"]{
+	opacity:0;cursor:pointer;width:20px;height:20px;margin:0;}
+.shopcart_list span.icon-check{display:none;}
+.shopcart_list input[type="checkbox"]:checked ~ span.icon-check{display:inline-block;}
+.shopcart_list input[type="checkbox"]:checked ~ span.icon-check-empty{display:none;}
+
+/*创建订单*/
+.orderPrice,
+.orderQuantity,
+.editPrice,
+.editQuantity{
+	padding:5px 10px;
+	max-width:100px;overflow:hidden;
+	display:inline-block;
+	border:1px solid white;
+}
+.orderPrice,
+.orderQuantity{
+	font-family:"Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","WenQuanYi Micro Hei",sans-serif;
+	font-weight:bold;text-align:center;
+	cursor:pointer;
+}
+.editPrice,
+.editQuantity{
+	border-color:#999;border-radius:3px;
+	background-color:#ffc;cursor:text;
+	box-shadow:inset 2px 2px 3px rgba(0,0,0,.1), 0 0 3px rgba(0,0,0,.3);
+}
+
+/*创建订单客户信息*/
+.create_order_userinfo{
+	float:right;width:29%;
+	background-color:white;
+	box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+}
+.create_order_userinfo dd{
+	padding-left:10px;padding-right:10px;padding-top:10px;
+	position:relative;
+	border-left:1px solid #ddd;
+	border-right:1px solid #ddd;
+}
+.create_order_userinfo dd.hidden{
+	height:0;
+	padding-top:0;
+	padding-bottom:0;
+	opacity:0
+}
+.create_order_userinfo_input,
+.create_order_userinfo_input input[type=text]{
+	height:30px;
+	line-height:30px;
+}
+.create_order_userinfo_input input[type=text]{
+	float:left;
+}
+.create_order_userinfo_input,
+.create_order_userinfo_textarea{
+	border:1px solid #bbb;border-radius:3px;
+}
+.create_order_userinfo_input input[type=text]{
+	border:0 none;
+	outline:0 none;
+	margin-left:32px;
+	width:248px;
+	text-indent:0.7em;
+	box-sizing:border-box;
+}
+.create_order_userinfo_input input[type=text]:focus,
+.create_order_userinfo_textarea:focus{
+	background-color:#ffe;
+	box-shadow:inset 2px 2px 3px rgba(0,0,0,.1),inset 1px 1px white;
+}
+.create_order_userinfo_input input[type=text]:focus~i{
+	background-color:#dee;box-shadow:none;color:#066;
+}
+.create_order_userinfo_textarea{
+	margin-bottom:10px;
+	display:block;
+	width:100%;padding:5px 10px;
+	box-sizing:border-box;
+	height:120px;
+	font-size:14px;
+	font-family:"Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","WenQuanYi Micro Hei",sans-serif;
+	resize:none;
+}
+.create_order_userinfo_input i{
+	position:absolute;text-align:center;
+	left:12px;top:11px;
+	background-color:#eee;border-right:1px solid #bbb;
+	width:30px;height:30px;line-height:30px;
+	box-shadow:inset -1px -1px white;
+	text-shadow:1px 1px white;
+}
+.create_order_userinfo label{
+	cursor:pointer;
+	font-size:12px;text-align:center;font-weight:bold;
+	width:50%;height:32px;line-height:32px;
+	display:inline-block;
+	padding-right:10px;
+	border:1px solid #ccc;
+	box-sizing:border-box;
+}
+.create_order_userinfo label:nth-child(1){
+	border-radius:3px 0 0 3px;
+	border-right-color:white;
+}
+.create_order_userinfo label:nth-child(2){
+	border-radius:0 3px 3px 0;
+}
+.create_order_userinfo label.On{
+	background-color:#888;border-color:#888;color:white;
+	position:relative;
+}
+.create_order_userinfo label.On:before{
+	content:"";width:0;height:0;
+	position:absolute;bottom:-8px;left:50%;
+	margin-left:-8px;
+	border-width:8px 8px 0;
+	border-style:solid;
+	border-color:#888 transparent;
+}
+#createBtn{
+	margin:0;padding:0;
+	display:block;width:100%;
+	font-size:16px;font-weight:bold;
+	border:none 0;
+	background-color:#57c1bf;color:white;
+	height:54px;cursor:pointer;
+	border-radius:3px;
+	text-shadow:0 0 5px #088;
+}
+#createBtn:hover{
+	background-color:#088;
+}
+/*创建成功信息*/
+.order_success{
+	padding:25px;border:1px solid #ccc;
+	margin-bottom:50px;
+	background-color:white;
+	box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+}
+.order_success dd{
+	border-top:1px dashed #ddd;
+	padding:18px 10px;
+	font-size:14px;
+}
+.success_tip{
+	font-size:22px;
+	color:#088;
+	font-weight:bold;
+	padding-left:10px;
+	padding-bottom:20px;
+}
+.order_link{
+	color:#099;
+	border-bottom:1px dashed #099;
+}

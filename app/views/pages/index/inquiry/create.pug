@@ -1,9 +1,10 @@
 extends ../../../layout_index
-
+block append head
+	link(rel="stylesheet" href="/css/inquiry.css")
 block content
 	.wrap
 		.nav.mt10
-			a(href="/news")
+			a(href="/news" )
 				i.fs14.icon-home
 			a(href="/store") 商城首页
 			a(href="/inquiry") 询价单列表
@@ -22,8 +23,8 @@ block content
 				p 发送完成
 			div.progress_line
 			div.progress_step_line
-		form(method="post", action="/create/inquiry/success", enctype="multipart/form-data").mb50
-			input(type="hidden", name="inquiry[uid]", value=user._id)
+		form(method="post" action="/create/inquiry" enctype="multipart/form-data").mb50
+			input(type="hidden" name="inquiry[uid]" value=user._id)
 			dl.create_order_userinfo
 				dt.shopcart_head
 					i.icon-edit.mr10
@@ -38,22 +39,22 @@ block content
 
 				dd.animation
 					.create_order_userinfo_input
-						input(type="text", placeholder="请输入公司名称", name="inquiry.from[company]")
+						input(type="text" placeholder="请输入公司名称" name="inquiry.from[company]")
 						i.icon-building
 				dd
 					.create_order_userinfo_input
-						input(type="text", placeholder="请输入联系名字", name="inquiry.from[user]")
+						input(type="text" placeholder="请输入联系名字" name="inquiry.from[user]")
 						i.icon-user
 				dd
 					.create_order_userinfo_input
-						input(type="text", placeholder="请输入联系电话", name="inquiry.from[phone]", maxlength="text")
+						input(type="text" placeholder="请输入联系电话" name="inquiry.from[phone]" maxlength="text")
 						i.icon-phone
 				dd
 					.create_order_userinfo_input
-						input(type="text", placeholder="请输入邮箱地址", name="inquiry.from[email]")
+						input(type="text" placeholder="请输入邮箱地址" name="inquiry.from[email]")
 						i.icon-envelope
 				dd
-					textarea.create_order_userinfo_textarea(placeholder="如需备注", name="inquiry.from[description]")
+					textarea.create_order_userinfo_textarea(placeholder="如需备注" name="inquiry.from[description]")
 				dd.pb20.tc
 					//- button#createBtn.createBtn.animation(type="sumbit") 确认创建询价单
 					button#createBtn(type="sumbit") 创建询价单
@@ -74,7 +75,7 @@ block content
 						each item in goods
 							tr(id=item.id)
 								td
-									img(src="/data/products/p"+item.id+"/"+item.cover)
+									img(src="/data/goods/"+item.id+"/"+item.cover)
 								td.shopcart_goods_name.vatop
 									ul
 										li.mb5
@@ -88,29 +89,33 @@ block content
 											li 颜色：
 												each i_color in item.color
 													span.ml5 #{i_color.attributes.zh_cn}
-										li.fb.mt5 售价：￥#{item.price}.00
-									input(type="hidden", name="inquiry.products[pid.id]", value=item.id)
+										li.mt5
+											| 售价：
+											span.fb.base-color.fs18 #{formatPrice(item.sale || item.price)}
+									input(type="hidden" name="inquiry.goods[pid.id]" value=item.id)
 								td.tc.vatop
-									input.fs14.orderQuantity(onfocus="enterKeyPress(this,'quantity')" 
-										onblur="onlyNumber(this,'quantity')" 
+									input.fs14.orderQuantity(
+										onfocus="enterKeyPress(this,'quantity')" 
+										onblur=`blurFormatNumber(this, Quantity${item.id}, 'quantity')` 
 										maxlength="11" 
 										type="text" 
 										value="1 PCS" 
 										readonly=true 
-										oncontextmenu="return false" 
-										name="inquiry.products[pid.quantity]")
+										oncontextmenu="return false" )
+									input(id=`Quantity${item.id}` type="hidden" name="inquiry.goods[pid.quantity]" value="1 PCS")
 									div.cAaa.fs11.cd.mt5
 										i.icon-lightbulb.mr5
 										span 点击数量修改
 								td.tc.vatop
-									input.fs14.orderPrice(onfocus="enterKeyPress(this)" 
-										onblur="onlyNumber(this)" 
+									input.fs14.orderPrice(
+										onfocus="enterKeyPress(this)" 
+										onblur=`blurFormatNumber(this, Price${item.id})` 
 										maxlength="11" 
 										type="text" 
-										value=item.price 
+										value=`${formatPrice(item.sale || item.price)}` 
 										readonly=true 
-										oncontextmenu="return false" 
-										name="inquiry.products[pid.fromprice]")
+										oncontextmenu="return false" )
+									input(id=`Price${item.id}` type="hidden" name="inquiry.goods[pid.fromprice]" value=`${item.sale || item.price}`)
 									div.cAaa.fs11.cd.mt5
 										i.icon-lightbulb.mr5
 										span 点击价格修改

@@ -87,7 +87,21 @@
 }
 
 /*浏览过的商品*/
-.side_nav_view_over{
+.view-over-goods{
+	background-color: white;
+	border:1px solid #ddd;
+	margin-bottom: 25px;
+}
+.view-over-goods h5{
+	font-size:14px;
+	padding-left:15px;
+	font-weight:bold;
+	line-height:50px;
+	border-bottom:1px solid #ddd;
+	background-color:#efefef;
+	box-shadow:inset 1px 1px white;
+}
+/* .side_nav_view_over{
 	margin-top:15px;
 	border:1px solid #ddd;
 	background-color:#efefef;
@@ -118,7 +132,7 @@
 .side_nav_view_over a:hover{
 	box-shadow:inset 1px 1px white,inset -2px -2px 8px rgba(0,0,0,.1);
 	color:black;
-}
+} */
 /*-----侧边导航栏-----*/
 .goods-side-nav{
 	float:left;width:150px;

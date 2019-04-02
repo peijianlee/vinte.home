@@ -1,17 +1,17 @@
 
 //- 添加购物车商品
-$('.iproduct_add_cart_btn').click(function(){
+$('.igoods_add_cart_btn').click(function(){
 	var $that = $(this)
 	var p_id = $that.find("[name='p[id]']").val()
 	var p_quantity = $that.find("[name='p[quantity]']").val()
 
-	$.artTip('<i class="icon-spinner icon-spin"></i>&nbsp;&nbsp;uploading...')
+	$.artTip({title: '<i class="icon-spinner icon-spin"></i>&nbsp;&nbsp;uploading...'})
 
 	// if($that.hasClass('Stand')){
 	// 	return $.closeArtTip('已经存在购物车了',800)
 	// }
 
-	var pid = $(this).parents('.iproduct').attr('id');
+	var pid = $(this).parents('.igoods').attr('id');
 	$.ajax({
 		type:'POST',
 		url:'/api/goods/addcart',
@@ -24,9 +24,15 @@ $('.iproduct_add_cart_btn').click(function(){
 		cache:false,
 		success: function(data){
 			if(data.success===1){
-				$.closeArtTip('已经存在购物车了',800)
+				$.closeArtTip({
+					title: '已经存在购物车了',
+					time: 800
+				})
 			}else if(data.success===2){
-				$.closeArtTip('成功放入购物车了',800)
+				$.closeArtTip({
+					title: '成功放入购物车了',
+					time: 800
+				})
 				$('.head_shopcart_num').html(data.cart_goods_num)
 				$that.addClass('Stand')
 
@@ -34,7 +40,7 @@ $('.iproduct_add_cart_btn').click(function(){
 		}
 	})
 })
-// $('.iproduct_add_cart_btn_stand').click(function(){
+// $('.igoods_add_cart_btn_stand').click(function(){
 // 	$.artTip('<i class="icon-spinner icon-spin"></i>&nbsp;&nbsp;uploading...')
 // 	$.closeArtTip('已经存在购物车了',800)
 // })
@@ -53,7 +59,7 @@ $('.selectProduct').click(function(){
 })
 
 $('.ip_favourite_btn').click(function(){
-	$.artTip('<i class="icon-spinner icon-spin mr5"></i> 收藏中...')
+	$.artTip({title: '<i class="icon-spinner icon-spin mr5"></i> 收藏中...'})
 	var $that = $(this)
 	var p_id = $that.parent('li').next('li').find('input[name="p[id]"]').val()
 	$.ajax({
@@ -65,9 +71,15 @@ $('.ip_favourite_btn').click(function(){
 		cache:false,
 		success: function(data){
 			if (data.success === 1) {
-				$.closeArtTip('网络超时, 收藏失败！', 800)
+				$.closeArtTip({
+					title: '网络超时, 收藏失败！',
+					time: 800
+				})
 			} else {
-				$.closeArtTip(data.info[1], 800)
+				$.closeArtTip({
+					title: data.info[1], 
+					time: 800
+				})
 				if (data.info[1].toString() === '收藏成功') {
 					$that.addClass('On').children('b').text(data.num)
 				} else {

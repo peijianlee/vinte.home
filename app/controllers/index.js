@@ -56,8 +56,19 @@ exports.index = function(req,res){
 		cart = req.session.cart,
 		id=req.params.id
 
+
+
+	Category.aggregate([{
+		'$group': {
+			_id: '$name', 
+			cid: {$push: '$$ROOT'}
+		}
+	}], function(err, _category){
+		console.log(_category)
+	})
+
 	Category
-		.find({type:'product'})
+		.find({type:'goods'})
 		.sort({_id: 1})
 		.exec(function(err, categories){
 			if(err)console.log(err)
@@ -211,10 +222,24 @@ function getClientIp(req) {
 exports.messageList = function(req, res){
 	Message.fetch(function(err, messages){
 		if(err) console.log(err)
-		console.log(messages)
-		res.render('admin/messages_list',{
+		res.render('admin/messages/list',{
 			title: "用户留言列表",
 			messages: messages
 		})
+	})
+}
+// 删除留言
+exports.messageDel = function(req,res){
+	var id = req.query.id
+	
+	if(!id) return res.json({success:0})
+
+	Message.remove({_id: id},function(err){
+		if(err){
+			console.log(err)
+			res.json({success:0})
+		}else{
+			res.json({success:1})
+		}
 	})
 }

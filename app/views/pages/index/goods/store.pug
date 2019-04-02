@@ -1,18 +1,14 @@
 extends ../../../layout_index
 block append head
-	link(href="/css/goods/item.css",rel="stylesheet")
+	link(rel="stylesheet" href="/css/goods/item.css")
 block content
 	include ../../../themplate/fiter_bar
 	.wrap.pt10
 		.overflow-hidden.pb20
-			if products && products.length > 0
-				- function formatPrice(price) {
-				-	var Price = '￥'+price.toLocaleString('zh', {minimumFractionDigits: 2, maximumFractionDigits: 2, useGrouping: true })
-				-	return Price
-				- }
-				.sub-product-frame-row4
-					each item in products
-						.sub-page-product(id=item.id)
+			if goods && goods.length > 0
+				.sub-goods-frame-row4
+					each item in goods
+						.sub-page-goods(id=item.id)
 							include ../../../themplate/goods
 			else
 				.search-empty-tip.bg-slash.bg-gray

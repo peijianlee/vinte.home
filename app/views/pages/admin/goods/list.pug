@@ -1,4 +1,4 @@
-extends ../../layout_admin
+extends ../includes/layout
 
 block content
 	.admin_wrap
@@ -7,7 +7,7 @@ block content
 			| #{title}
 		.contentpanel
 			.col-md-12(style="padding-bottom:15px;")
-				a.button.button-raised.button-primary.button-small(href="/admin/product/add") 新增产品
+				a.button.button-raised.button-primary.button-small(href="/admin/goods/add") 新增产品
 				a.button.button-raised.button-royal.button-small.ml10(href="/store") 前台产品列表
 			table.table.table_hover.table_bordered.table_striped
 				thead
@@ -17,27 +17,27 @@ block content
 						th 更新时间
 						th 产品名称
 						th 价格
-						th 更新
+						th(width=250) 更新
 						th(style="width:100px;") 删除
 				tbody
 					if products && products.length > 0
 						each item in products
 							tr(class="item-id-#{item._id}")
-								if item.cover
-									td.tc
-										img(src=`/data/products/p${item.id}/${item.cover}` style="width:80px;height:80px")
+								td.tc
+									if item.cover
+										img(src=`/data/goods/${item.id}/${item.cover}` style="width:80px;height:80px")
 								if item.sort
 									td.tc #{item.sort.attributes.zh_cn}
 								else
 									td.tc --
 								td.tc #{moment(item.meta.updateAt).format('YYYY/MM/DD')}
 								td.tc
-									a(target="_blank", href=`/store/id/${item._id}`) #{item.title}
-								td.tc #{item.price}
+									a(target="_blank" href=`/goods/id/${item._id}`) #{item.title}
+								td.tc #{formatPrice(item.price)}
 								td.tc
-									a.button.button-highlight.button-rounded.button-small(href=`/admin/product/update/${item._id}?edit=info`) 基本信息
-									a.button.button-highlight.button-rounded.button-small.ml10(href=`/admin/product/update/${item._id}?edit=photo`) 图片管理
-									a.button.button-highlight.button-rounded.button-small.ml10(href=`/admin/product/update/${item._id}?edit=content`) 商品详情
+									a.button.button-highlight.button-rounded.button-small(href=`/admin/goods/update/${item._id}?edit=info`) 基本信息
+									a.button.button-highlight.button-rounded.button-small.ml10(href=`/admin/goods/update/${item._id}?edit=photo`) 图片管理
+									a.button.button-highlight.button-rounded.button-small.mt10(href=`/admin/goods/update/${item._id}?edit=content`) 商品详情
 								td.tc
 									button.productdel.button.button-caution.button-rounded.button-small(type="button", data-id="#{item._id}", data-src="#{item.imgsrc}") 删除
 					else

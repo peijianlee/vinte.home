@@ -74,6 +74,8 @@ var GoodsSchema = new Schema({
 			default: Date.now()
 		}
 	}
+}, {
+	usePushEach: true
 })
 
 // 判断保存的数据是否是新增的

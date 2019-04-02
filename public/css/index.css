@@ -205,7 +205,11 @@
 	border-radius:5px;
 	cursor:default;
 }
-.i-furniture-type img{width:100%;border-radius:3px;}
+.i-furniture-type img{
+	width:100%;
+	height: 250px;
+	border-radius:3px;
+}
 .i-furniture-type h6{
 	font-size:1em;padding:3px 0;
 	border:3px solid rgba(0,0,0,.5);

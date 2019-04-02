@@ -238,6 +238,7 @@ span.menuBtn.Active:before{content:"-";}
 	/*position:absolute;top:0;left:0;*/
 	font-size:14px;
 	margin-right:10px;
+	line-height: 28px;
 	display:inline-block;
 	box-sizing:box-sizing;
 	border:1px solid #ddd;border-radius:3px;

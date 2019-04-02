@@ -1,4 +1,4 @@
-extends ../../layout_admin
+extends ../includes/layout
 
 block content
 	.admin_wrap
@@ -7,7 +7,7 @@ block content
 			| #{title}
 		.contentpanel
 			div.user-info-frame
-				img.avatar.fl.mt10(src="/images/#{user.avatar}", width="80", height="80")
+				img.avatar.fl.mt10(src=`/images/${user.avatar}`, width="80", height="80")
 				ul.user-info
 					li 用户名：
 						b.base-color-dark #{user.name}
@@ -36,7 +36,8 @@ block content
 								th 操作
 							each order in orders
 								tr.tc
-									td: a.base-color-dark(href="/admin/order/#{order.id}") #{'No.' + order.id}
+									td
+										a.base-color-dark(href=`/admin/order/${order.id}`) #{'No.' + order.id}
 									td: span.cGray #{moment(order.meta.createAt).format('YYYY-MM-DD HH:mm:ss')}
 									td #{order.udelete ? '已删除' : '否'}
 									td
@@ -66,12 +67,14 @@ block content
 								th 操作
 							each product in products
 								tr(id="#{product.id}").tc
-									td: img(src='/data/products/p'+product.id+'/'+product.cover, width="80", height="80")
+									td
+										img(src='/data/products/p'+product.id+'/'+product.cover width="80" height="80")
 									td(style="vertical-align:top;")
 										ul.tl.fs12
-											li: a.base-color-dark.fb.fs16(href='/store/id/#{product.id}', target="_blank") #{product.title}
+											li
+												a.base-color-dark.fb.fs16(href=`/store/id/${product.id}` target="_blank") #{product.title}
 											li 尺寸：
-												span.ml5 #{'w ' + product.size.w + ' x h ' + product.size.h + ' * d' + product.size.d}
+												span.ml5 #{formatSize(product.size)}
 											if product.scene && product.scene.length > 0
 												li 场景：
 													each scene in product.scene
@@ -88,6 +91,7 @@ block content
 												li 颜色：
 													each color in product.color
 														span.ml5 #{color.attributes.zh_cn}
-									td.fb.fs16 #{'￥' + product.price.toFixed(2)}
-									td: a(href="/store/id/#{product.id}", target="_blank").button.button-primary.button-tiny 查看
+									td.fb.fs16 #{formatPrice(product.price)}
+									td
+										a(href=`/store/id/${product.id}` target="_blank").button.button-primary.button-tiny 查看
 

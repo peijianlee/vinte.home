@@ -66,7 +66,7 @@ exports.sort = function(req,res){
 			title = material+'材质详情介绍'
 	}
 
-	Category.find({type:'product', name:linkSort},function(err, categories){
+	Category.find({type:'goods', name:linkSort},function(err, categories){
 		if(err) console.log(err)
 		Category
 			.findOne(findObj)
@@ -115,12 +115,12 @@ exports.detail = function(req,res){
 	})
 
 	// 浏览过的商品
-	if(!req.session.view_product){
-		req.session.view_product = []
+	if(!req.session.view_goods){
+		req.session.view_goods = []
 	}
 
 	Category
-		.find({type:'product', name: 'sort'})
+		.find({type:'goods', name: 'sort'})
 		.sort({_id: -1})
 		.populate('pid', 'title id')
 		.exec(function(err, categories){
@@ -128,44 +128,44 @@ exports.detail = function(req,res){
 			Goods
 				.findOne({'_id':id})
 				.populate('color material scene sort','attributes')
-				.exec(function(err, _product){
+				.exec(function(err, _goods){
 					if(err) console.log(err)
-					if(!_product){
+					if(!_goods){
 						console.log('该商品不存在或者已经被删除了。')
 						return res.render('prompt',{
 							message:'该商品不存在或者已经被删除了。'
 						})
 					}
-					// delete req.session.view_product
-					var view_product = req.session.view_product
-					if(view_product.indexOf(id) > -1){
-						view_product.splice(view_product.indexOf(id), 1)
+					// delete req.session.view_goods
+					var view_goods = req.session.view_goods
+					if(view_goods.indexOf(id) > -1){
+						view_goods.splice(view_goods.indexOf(id), 1)
 					}else{
 						
 					}
-					view_product.unshift(id)
+					view_goods.unshift(id)
 					// 找到当前的id在缓存的位置
-					var index = view_product.indexOf(id)
+					var index = view_goods.indexOf(id)
 
 					// 新建并合并新数组，并删除当前的id,并查找
 					var new_view_product = []
-					var find_view_product = new_view_product.concat(view_product)
-					find_view_product.splice(index,1)
+					var find_view_goods = new_view_product.concat(view_goods)
+					find_view_goods.splice(index,1)
 					var v_p_num = 6
-					if( find_view_product.length > v_p_num ){
-						find_view_product = find_view_product.slice(0, v_p_num)
+					if( find_view_goods.length > v_p_num ){
+						find_view_goods = find_view_goods.slice(0, v_p_num)
 					}
 					
 
 					Goods
-						.find({_id:{$in:find_view_product}})
+						.find({_id:{$in:find_view_goods}})
 						.populate('color material','attributes')
 						.exec(function(err, find_view_products){
 							if(err) console.log(err)
 							res.render('index/goods/detail',{
-								title: _product.title,
+								title: _goods.title,
 								categories: categories,
-								product: _product,
+								product: _goods,
 								find_view_products: find_view_products,
 								cart_goods: CartGoods(user, cart),
 								cart_goods_num: CartGoods(user, cart).length
@@ -181,16 +181,12 @@ exports.search = function(req,res){
 	// .query找到路由上的值
 	var user = req.session.user,
 		page = parseInt(req.query.p,8) || 0 ,
-		count = 8,
+		count = 12,
 		index = page*count,
 		cart = req.session.cart,
 		q = req.query.q,
 		product_attributes = req.session.product_attributes,
 		product_attributes_url = req.session.product_attributes_url
-
-
-		console.log('-----')
-		console.log(cart)
 
 	// 是否是搜索页面
 	if( typeof(q) === 'string' ){
@@ -204,25 +200,26 @@ exports.search = function(req,res){
 
 	Goods
 		.find(product_attributes)
+		.sort({_id: -1})
 		.populate({
 			path: 'sort color material scene',
 			select: 'name attributes',
 			model: 'Category'
 		})
-		.exec(function(err, products){
+		.exec(function(err, goods){
 			if(err)console.log(err)
 
-			// console.log(user.shopcartgoods)
+			console.log(goods)
 
-			var results = products.slice(index, index + count)
+			var results = goods.slice(index, index + count)
 
 			res.render( tp_page ,{
 				title:tp_title,
 				keyword: q,
-				products_total: products.length,
+				goods_total: goods.length,
 				currentPage: (page + 1),
-				totalPage: Math.ceil(products.length / count),
-				products: results,
+				totalPage: Math.ceil(goods.length / count),
+				goods: results,
 				allCategoryType: req.session.allCategoryType,
 				url_pathname: req._parsedUrl.pathname,
 				url_key: product_attributes_url,
@@ -250,7 +247,7 @@ exports.list = function(req,res){
 			// 截取当前商品总数
 			var results = products.slice(index, index + count)
 
-			res.render('admin/product_list',{
+			res.render('admin/goods/list',{
 				title:'后台产品列表',
 				currentPage: (page + 1),
 				totalPage: Math.ceil(products.length / count),
@@ -258,139 +255,155 @@ exports.list = function(req,res){
 			})
 		})
 }
-// admin new product
+
+// admin new goods
 exports.new = function(req,res){
 	var id = req.params.id
 	var edittype = req.query.edit
 
+	var baseCategory = {
+		pstyle: {
+			name: {zh_cn: '风格', en_us: 'pstyle'},
+			cid: []
+		},
+		scene: {
+			name: {zh_cn: '场景', en_us: 'scene'},
+			cid: []
+		},
+		sort: {
+			name: {zh_cn: '类型', en_us: 'sort'},
+			cid: []
+		},
+		material: {
+			name: {zh_cn: '材质', en_us: 'material'},
+			cid: []
+		},
+		color: {
+			name: {zh_cn: '颜色', en_us: 'color'},
+			cid: []
+		}
+	}
 
-	Category.find({type:'product'}, function(err, categories){
-		if(err)console.log(err)
-
-		var categories_sort = [],
-			categories_scene = [],
-			categories_material = [],
-			categories_color = []
-
-		// 对产品类目进行分类
-		for(var i=0; i < categories.length; i++){
-			var that = categories[i]
-			if(that.name === "sort"){
-				categories_sort.push(that)
-			}else if(that.name === "scene"){
-				categories_scene.push(that)
-			}else if(that.name === "material"){
-				categories_material.push(that)
-			}else if(that.name === "color"){
-				categories_color.push(that)
+	Category.aggregate([{
+			'$group': {
+				_id: '$name', 
+				cid: {$push: '$$ROOT'}
 			}
-		}
-		if(!id){
-			// 新建页面
-			res.render('admin/product_add',{
-				title:'新建商品编辑页',
-				categories_sort: categories_sort,
-				categories_scene: categories_scene,
-				categories_material: categories_material,
-				categories_color: categories_color,
-				product: {}
+		}], function(err, _category){
+			if(err) console.log(err)
+			// 获取所有的分类类型分组，并将 baseCategory 赋值
+			_category.forEach(function(item){
+				baseCategory[item._id].cid = item.cid
 			})
-		}else{
-			Goods.findById(id,function(err,product){
-				if(err)console.log(err)
-				// 更新页面
-				if(edittype=='photo'){
-					return res.render('admin/product_add_photo',{
-						title: '商品 "'+product.title+'" - 图片管理',
-						product: product
-					})
-				}else if(edittype=='content'){
-					req.session.ueditortype = {type:"product", dirname:id}
-					return res.render('admin/product_add_content',{
-						title: '商品 "'+product.title+'" - 商品详情',
-						product: product
-					})
-				}else{
-					res.render('admin/product_add',{
-						title: '商品 "'+product.title+'" - 基本信息',
-						categories_sort: categories_sort,
-						categories_scene: categories_scene,
-						categories_material: categories_material,
-						categories_color: categories_color,
-						product: product
-					})
-				}
+			// baseCategory 对象转为数组
+			var allCategoryType = []
+			Object.keys(baseCategory).forEach(function(key, index){
+				allCategoryType[index] = baseCategory[key]
 			})
 
-		}
-	})
+			if(!id){
+				res.render('admin/goods/add',{
+					title: '新建商品编辑页',
+					allCategoryType: allCategoryType,
+					goods: {}
+				})
+			} else {
+				Goods.findById(id,function(err,goods){
+					if(err)console.log(err)
+					// 更新页面
+					if(edittype=='photo'){
+						return res.render('admin/goods/add_photo',{
+							title: '商品 "'+goods.title+'" - 图片管理',
+							goods: goods
+						})
+					}else if(edittype=='content'){
+						req.session.ueditortype = {type:"goods", dirname:id}
+						return res.render('admin/goods/add_content',{
+							title: '商品 "'+goods.title+'" - 商品详情',
+							goods: goods
+						})
+					}else{
+						res.render('admin/goods/add',{
+							title: '商品 "'+goods.title+'" - 基本信息',
+							allCategoryType: allCategoryType,
+							goods: goods
+						})
+					}
+				})
+			}
+		})
 }
 
 
 // admin new product save
 exports.save = function(req,res){
-	var productObj = req.body.product
-	var id = productObj._id
+	var goodsObj = req.body.goods
+	var id = goodsObj._id
 
 	if(!id){
 		// 新增
-		var	product = new Goods(productObj)
+		var	goods = new Goods(goodsObj)
 
-		product.save(function(err,_product){
+		// console.log(goods)
+
+		// return false
+
+		goods.save(function(err,_goods){
 			if(err) console.log(err)
 
-			var sort = _product.sort,
-				scene = _product.scene,
-				material = _product.material,
-				color = _product.color
+			var pstyle = _goods.pstyle,
+				sort = _goods.sort,
+				scene = _goods.scene,
+				material = _goods.material,
+				color = _goods.color
 
 			function cat_add_pid(obj){
 				if(obj === undefined) return false
 				if(obj.length > 0){
 					for(var i = 0; i < obj.length; i++){
 						console.log(obj[i])
-						Category.update({'_id': obj[i]},{$push: {'pid': _product._id}}, function(err){
+						Category.update({'_id': obj[i]},{$push: {'pid': _goods._id}}, function(err){
 							if(err) console.log(err)
 						})
 					}
 				}else{
-					Category.update({'_id': obj},{$push: {'pid': _product._id}}, function(err){
+					Category.update({'_id': obj},{$push: {'pid': _goods._id}}, function(err){
 						if(err) console.log(err)
 					})
 				}
 			}
+			cat_add_pid(pstyle)
 			cat_add_pid(sort)
 			cat_add_pid(scene)
 			cat_add_pid(material)
 			cat_add_pid(color)
 			// 创建一个以当前ID为名的文件夹
-			var filename = 'p'+_product._id
-			fs.mkdir(__dirname + '/../../public/data/products/'+filename, function(err){
-				if(err) console.log(err)
-				console.log('创建目录成功')
-			})
+			Mkdir('/../../public/data/goods/'+_goods._id)
 
-			res.redirect('/admin/product/update/'+_product._id+'?edit=photo')
+			res.redirect('/admin/goods/update/'+_goods._id+'?edit=photo')
 		})
 	}else{
 		// 更新
 		Goods.findById(id, function(err, _product){
 			if(err) console.log(err)
+
 			var updateProduct = {
-				_id: productObj._id,
-				description: productObj.description,
+				title: goodsObj.title,
+				description: goodsObj.description,
 				size: {
-					h: productObj.size.h,
-					w: productObj.size.w,
-					d: productObj.size.d,
+					h: goodsObj.size.h,
+					w: goodsObj.size.w,
+					d: goodsObj.size.d,
 				},
-				price: productObj.price,
-				sale: productObj.sale
+				price: goodsObj.price,
+				sale: goodsObj.sale
 			}
+
 			_product = _.extend(_product, updateProduct)
 			_product.save(function(err){
 				if(err) console.log(err)
-				res.redirect('/admin/product/list')
+				// goods/update/5c7ce3921f59078e046a736f?edit=info
+				res.redirect('/admin/goods/update/'+goodsObj._id+'?edit=info')
 			})
 		})
 
@@ -485,49 +498,73 @@ exports.checkImageData = function(req, res){
 	}
 }
 
+
+var {Mkdir, WiteFile, DeletelFile} = require('../utils/file')
+
 exports.updatephoto = function(req,res){
-	var id = req.body.product._id
-	var cover = req.body.product.cover
+	var id = req.body.goods._id
+	var cover = req.body.goods.cover
 	var files = req.files.productCover
-	var filePath = files.path
 
 	if(!files.originalFilename || files.size > 10485760 || files.type.indexOf('image') == -1){
-		return res.redirect('/admin/product/update/'+id+'?edit=photo')
+		return res.redirect('/admin/goods/update/'+id+'?edit=photo')
 	}
 
-	fs.readFile(filePath,function(err,data){
 
-		var timestamp = Date.now()
-		var type = files.type.split('/')[1] ? "jpeg" : "jpg"
-		if(type == 'jpeg') type = "jpg"
-		var imgsrc = timestamp + '.' +type
-		// fs.mkdir(__dirname + '/../../public/images_data/'+filename,function(err){
-		var newPath = path.join(__dirname, '../../', '/public/data/products/p'+id+'/'+imgsrc)
-
-		fs.writeFile(newPath, data, function(err){
+	WiteFile(files, '/public/data/goods/'+id+'/', function(new_file_name){
+		// 删除旧图片
+		if(cover){
+			DeletelFile('/public/data/goods/'+id+'/'+cover, function(re) {
+				console.log("删除旧图片成功")
+			})
+		}
+		// 保存新图片
+		Goods.findById(id,function(err,_product){
 			if(err)console.log(err)
-			// 删除旧图片
-			if(cover){
-				rmdirSync(__dirname + '/../../public/data/products/p'+id+'/'+cover, function(err){
-					if(err) console.log(err)
-					console.log("删除目录以及子目录成功")
-				})
-			}
-			// 保存新图片
-			Goods.findById(id,function(err,_product){
+			_product.cover = new_file_name
+			_product.save(function(err){
 				if(err)console.log(err)
-				_product.cover = imgsrc
-				_product.save(function(err){
-					if(err)console.log(err)
-					res.redirect('/admin/product/update/'+id+'?edit=photo')
-				})
+				res.redirect('/admin/goods/update/'+id+'?edit=photo')
 			})
 		})
 	})
+
+	// fs.readFile(filePath,function(err,data){
+
+	// 	var timestamp = Date.now()
+	// 	var type = files.type.split('/')[1] ? "jpeg" : "jpg"
+	// 	if(type == 'jpeg') type = "jpg"
+	// 	var imgsrc = timestamp + '.' +type
+	// 	// fs.mkdir(__dirname + '/../../public/images_data/'+filename,function(err){
+	// 	var newPath = path.join(__dirname, '../../', '/public/data/products/p'+id+'/'+imgsrc)
+
+	// 	fs.writeFile(newPath, data, function(err){
+	// 		if(err)console.log(err)
+	// 		// 删除旧图片
+	// 		if(cover){
+	// 			// rmdirSync(__dirname + '/../../public/data/products/p'+id+'/'+cover, function(err){
+	// 			// 	if(err) console.log(err)
+	// 			// 	console.log("删除目录以及子目录成功")
+	// 			// })
+	// 			DeletelFile('/public/data/products/p'+id+'/'+cover, function(re) {
+	// 				console.log("删除旧图片成功")
+	// 			})
+	// 		}
+	// 		// 保存新图片
+	// 		Goods.findById(id,function(err,_product){
+	// 			if(err)console.log(err)
+	// 			_product.cover = imgsrc
+	// 			_product.save(function(err){
+	// 				if(err)console.log(err)
+	// 				res.redirect('/admin/goods/update/'+id+'?edit=photo')
+	// 			})
+	// 		})
+	// 	})
+	// })
 }
 
 exports.updatecontent = function(req, res){
-	var postProductInfo = req.body.product,
+	var postProductInfo = req.body.goods,
 		id = postProductInfo._id,
 		content = postProductInfo.content,
 		uid = postProductInfo.uid
@@ -543,7 +580,7 @@ exports.updatecontent = function(req, res){
 				if(err) console.log(err)
 			})
 		}
-		res.redirect('/admin/product/update/'+id+'?edit=content')
+		res.redirect('/admin/goods/update/'+id+'?edit=content')
 	})
 }
 

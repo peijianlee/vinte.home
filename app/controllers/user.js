@@ -1,6 +1,6 @@
 var User = require('../models/user'),
 	Inquiry = require('../models/inquiry'),
-	Product = require('../models/goods')
+	Goods = require('../models/goods')
 
 // req.session.destroy() 
 
@@ -152,8 +152,8 @@ exports.logout = function(req, res){
 exports.list = function(req,res){
 	User.fetch(function(err,users){
 		if(err)console.log(err)
-
-		res.render('admin/user_list', {
+		console.log(users)
+		res.render('admin/user/list', {
 			title: '用户列表页',
 			users: users
 		})
@@ -161,117 +161,117 @@ exports.list = function(req,res){
 }
 
 exports.signinRequired = function(req,res,next){
-	var user = req.session.user
+	// var user = req.session.user
 
-	if(!user){
-		console.log('未登录')
-		return res.redirect('/signin')
-	}
+	// if(!user){
+	// 	console.log('未登录')
+	// 	return res.redirect('/signin')
+	// }
 	next()
 }
 
 exports.adminRequired = function(req,res,next){
-	var user = req.session.user
+	// var user = req.session.user
 
-	console.log(user)
+	// console.log(user)
 
-	if(user.role <=10){
-		console.log('没有权限')
-		return res.render('prompt',{
-			message:'你的权限不够，无法访问该页面！'
-		})
-	}
+	// if(user.role <=10){
+	// 	console.log('没有权限')
+	// 	return res.render('prompt',{
+	// 		message:'你的权限不够，无法访问该页面！'
+	// 	})
+	// }
 	next()
 }
 
 // 用户中心
 exports.detail = function(req,res){
-	var user = req.session.user,
-		page=req.params.page,
+	var user = req.session.user
+	if(!user){
+		return res.render('prompt',{
+			message:'非法路径或该用户不存在。'
+		})
+	}
+
+	var	page=req.params.page,
 		orderId=req.params.id,
-		shopcartgoodsNum = req.session.user.shopcartgoods.length
+		shopcartgoodsNum = user.shopcartgoods.length
 
-	User.findOne({'_id':user._id}, function (err,user) {
+	User.findOne({'_id':user._id}, function (err,_user) {
 		if(err) console.log(err)
-
-		if(!user){
-			return res.render('prompt',{
-				message:'非法路径或该用户不存在。'
-			})
-		} else {
-			var title = user.name + '的个人中心'
-			if (!page) {
-				Inquiry
-					.find({'uid': user.id})
-					.limit(5)
-					.exec(function (err, inquiries) {
-						if(err) console.log(err)
-						Product
-							.find({'favourite': user._id})
-							.limit(5)
-							.populate('color material scene sort','attributes')
-							.exec(function (err, favouritegoods) {
-								if (err) console.log(err)
-								res.render('index/user',{
-									title: title,
-									user: user,
-									inquiries: inquiries,
-									favouritegoods: favouritegoods,
-									cart_goods_num: shopcartgoodsNum
-								})
+		var title = _user.name + '的个人中心'
+		if (!page) {
+			Inquiry
+				.find({'uid': _user.id, 'user_delete': 0})
+				.limit(5)
+				.exec(function (err, inquiries) {
+					if(err) console.log(err)
+					Goods
+						.find({'favourite': _user._id})
+						.limit(5)
+						.populate('color material scene sort','attributes')
+						.exec(function (err, favouritegoods) {
+							if (err) console.log(err)
+							console.log(favouritegoods)
+							res.render('index/user',{
+								title: title,
+								user: _user,
+								inquiries: inquiries,
+								favouritegoods: favouritegoods,
+								cart_goods_num: shopcartgoodsNum
 							})
-					})
-			} else if (page.toString() === 'setting') {
-				res.render('user/setting',{
-					title: '用户设置 - ' + title,
-					user: user,
+						})
+				})
+		} else if (page.toString() === 'setting') {
+			res.render('user/setting',{
+				title: '用户设置 - ' + title,
+				user: user,
+				cart_goods_num: shopcartgoodsNum
+			})
+		} else if (page.toString() === 'inquiries' && !orderId) {
+			Inquiry.find({'uid': user._id, 'user_delete': 0},function (err, _inquiries) {
+				res.render('index/user/inquiry',{
+					title: '所有询价单 - ' + title,
+					page: 'inquiries',
+					inquiries: _inquiries,
 					cart_goods_num: shopcartgoodsNum
 				})
-			} else if (page.toString() === 'inquiries' && !orderId) {
-				Inquiry.find({'uid': user.id, 'udelete': 0},function (err, inquiries) {
-					res.render('index/user/order',{
-						title: '所有询价单 - ' + title,
-						page: 'inquiries',
-						inquiries: inquiries,
+			})
+		} else if (page.toString() === 'favourite') {
+			Goods
+				.find({'favourite': user._id})
+				.populate('color material scene sort', 'attributes')
+				.exec( function (err, favouritegoods) {
+					if (err) console.log (err)
+					res.render('index/user/inquiry', {
+						title: '收藏夹 - ' + title,
+						page: 'favourite',
+						favouritegoods: favouritegoods,
 						cart_goods_num: shopcartgoodsNum
 					})
 				})
-			} else if (page.toString() === 'favourite') {
-				Product
-					.find({'favourite': user._id})
-					.populate('color material scene sort', 'attributes')
-					.exec( function (err, favouritegoods) {
-						if (err) console.log (err)
-						res.render('index/user/order', {
-							title: '收藏夹 - ' + title,
-							page: 'favourite',
-							favouritegoods: favouritegoods,
+		} else if (orderId) {
+			Inquiry
+				.findOne({'_id': orderId, 'user_delete': 0})
+				.populate('goods.scene goods.material goods.color','attributes')
+				.exec(function(err, _inquiry){
+					if (!_inquiry) {
+						return res.render('prompt',{
+							message:'非法路径或该订单已经不存在。'
+						})
+					} else {
+						res.render('index/user/inquiry_detail',{
+							title: 'No.' + _inquiry._id + ' - ' + title,
+							inquiry: _inquiry,
 							cart_goods_num: shopcartgoodsNum
 						})
-					})
-			} else if (orderId) {
-				Inquiry
-					.findOne({'_id': orderId, 'udelete': 0})
-					.populate('products.scene products.material products.color','attributes')
-					.exec(function(err, order){
-						if (!order) {
-							return res.render('prompt',{
-								message:'非法路径或该订单已经不存在。'
-							})
-						} else {
-							res.render('index/user/order_detail',{
-								title: 'No.' + order._id + ' - ' + title,
-								order: order,
-								cart_goods_num: shopcartgoodsNum
-							})
-						}
-					})
-			} else {
-				res.render('error', {
-					message: 'Not Found',
-					error: {status: '404', stack: 'Error: Not Found'}
+					}
 				})
-			}
+		} else {
+			res.render('error', {
+				message: 'Not Found',
+				error: {status: '404', stack: 'Error: Not Found'}
+			})
 		}
 	})
 }
@@ -284,13 +284,13 @@ exports.adminDetail = function (req, res) {
 		// console.log(user)
 		Inquiry.find({'uid': user.id}, function (err, orders){
 			if (err) console.log(err)
-			Product
+			Goods
 				.find({'favourite': user.id})
 				.populate('color material scene sort','attributes')
 				.exec( function (err, products) {
 					if (err) console.log(err)
 					console.log(products)
-					res.render('admin/user_detail', {
+					res.render('admin/user/detail', {
 						title: name + '用户的详情资料',
 						user: user,
 						orders: orders,
@@ -351,14 +351,16 @@ exports.changeword = function(req, res){
 //userlist delete user
 exports.del = function(req,res){
 	var id = req.query.id
-	if(id){
-		User.remove({_id: id},function(err,users){
-			if(err){
-				console.log(err)
-				res.json({success:0})
-			}else{
-				res.json({success:1})
-			}
-		})
-	}
+
+	res.json({success:1})
+
+	// if(!id) return res.json({success:0})
+	// User.remove({_id: id},function(err){
+	// 	if(err){
+	// 		console.log(err)
+	// 		res.json({success:0})
+	// 	}else{
+	// 		res.json({success:1})
+	// 	}
+	// })
 }

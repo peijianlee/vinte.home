@@ -1,11 +1,12 @@
 extends ../../../layout_index
-
+block append head
+	link(rel="stylesheet" href="/css/inquiry.css")
 block content
 	.wrap
 		.nav.mt10
 			a(href="/news")
 				i.fs14.icon-home
-			a(href="/store") 商城首页dfdsfsdfsdf
+			a(href="/store") 商城首页
 			b 询价单列表
 		div.progress.progress_step_1
 			div.progress_step
@@ -34,17 +35,17 @@ block content
 							th.tl 描述
 							th 尺寸
 							th 单价
-							th(width="70") 数量
+							th(width="150") 数量
 					tbody
 						each item in goods
 							tr(id=item.pid.id, stitle=item.pid.title)
 								td.tc.pr
-									input.select-product.pa(name="inquiry[pid]", type="checkbox", value=item.pid.id)
+									input.select-goods.pa(name="inquiry[pid]", type="checkbox", value=item.pid.id)
 									span.icon-check-empty.cGray.fs18
 									span.icon-check.none.fs18
 								td
 									a(target="_bank", href="/store/id/"+item.pid.id)
-										img(src="/data/products/p"+item.pid.id+"/"+item.pid.cover)
+										img(src="/data/goods/"+item.pid.id+"/"+item.pid.cover)
 								td.shopcart_goods_name.vatop
 									ul
 										li
@@ -74,9 +75,10 @@ block content
 											span.remove-btn.mt15.shopcart_goods_remove(data-id=item.pid.id)
 												i.icon-remove
 												| REMOVE
-								td.tc.vatop 宽#{item.pid.size.w}×深#{item.pid.size.d}×高#{item.pid.size.h} (cm)
+								//- td.tc.vatop 宽#{item.pid.size.w}×深#{item.pid.size.d}×高#{item.pid.size.h} (cm)
+								td.tc.vatop #{formatSize(item.pid.size)}
 								td.tc.vatop
-									b.fs16 $#{item.pid.price}.00
+									b.fs16 #{formatPrice(item.pid.sale || item.pid.price)}
 								td.tc.vatop #{item.quantity}
 					tfoot
 						tr
@@ -92,14 +94,17 @@ block content
 									i.icon-remove
 									| REMOVE ALL
 						tr
-							if user
-								td(colspan="6")
-									button#createOrderBtn.button.button-glow.button-primary.button-rounded.button-raised.button-primary(type="sumbit") 创建询价单
-							else
-								td(colspan="6")
-									span.button.button-glow.button-primary.button-rounded.button-raised.button-primary(data-toggle="modal", data-target="#signinModal", page-name="inquiry") 创建询价单
-									span.gray.ml20.fs12 你尚未登录，请
-									span.base-color-dark.fs12.cp(data-toggle="modal", data-target="#signinModal", page-name="inquiry") 登录
+							td(colspan="6").tr.pt20.pb20
+								if user
+									button#createOrderBtn.button.button-glow.button-primary.button-rounded.button-raised.button-primary.mr20(type="sumbit") 创建询价单
+								else
+									span.gray.fs12 你尚未登录，请
+									span.base-color-dark.fs12.cp(data-toggle="modal" data-target="#signinModal" page-name="inquiry") 登录
+									span.button.button-glow.button-primary.button-rounded.button-raised.button-primary.ml20.mr20(
+										data-toggle="modal" 
+										data-target="#signinModal" 
+										page-name="inquiry"
+									) 创建询价单
 			else
 				.shopcart_head
 					i.icon-list.mr10
@@ -112,7 +117,7 @@ block content
 	script.
 		$(function(){
 			var sid = [], stitle = []
-			$.checkBoxSelect(['.select-product', '#select-all', 'tbody tr', '#select-num', '#remove-all'], function (info) {
+			$.checkBoxSelect(['.select-goods', '#select-all', 'tbody tr', '#select-num', '#remove-all'], function (info) {
 				sid = info.sid
 				stitle = info.stitle
 			})
@@ -186,7 +191,7 @@ block content
 			})
 			function CheckboxIsChecked(){
 				var isCheacked = false
-				$('input.select-product').each(function(i){
+				$('input.select-goods').each(function(i){
 					if($(this).is(':checked')){
 						isCheacked = true
 						return

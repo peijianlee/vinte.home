@@ -1,6 +1,7 @@
 extends ../../../layout_index
 block append head
-	link(rel="stylesheet",href="/css/goods/detail.css")
+	link(rel="stylesheet" href="/css/goods/detail.css")
+	link(rel="stylesheet" href="/css/goods/item.css")
 block content
 	.wrap
 		.nav
@@ -31,50 +32,27 @@ block content
 										a(href="#{item._id}")
 											i.icon-angle-right.ml10.mr5
 											| #{item.title}
-
-			//- 浏览过的商品
-			if find_view_products && find_view_products.length > 0
-				.side_nav_view_over.mb15
-					h5
-						i.icon-magnet.ml5.mr5
-						| 浏览过的商品
-					each item in find_view_products
-						a(href="#{item._id}")
-							img(src='/data/products/p'+item.id+'/'+item.cover)
-							|#{item.title}
-							if item.material && item.material.length > 0
-								|&nbsp;#{item.material[0].attributes.zh_cn}
-							else
-								|&nbsp;未知材料
-							if item.color && item.color.length > 0
-								| （#{item.color[0].attributes.zh_cn}） 
-							else
-								|&nbsp;（未知颜色）
 		.goods-detail
 			.picture.fl.mb10
 				div.picture_cover
-					img(src='/data/products/p'+product.id+'/'+product.cover)
+					img(src='/data/goods/'+product.id+'/'+product.cover)
 			.panel
 				dl
 					dd.panel_info
 						h1 
 							|#{product.title}
-							if product.material && product.material.length > 0
-								|&nbsp;#{product.material[0].attributes.zh_cn}
-							else
-								|&nbsp;未知材料
-							if product.color && product.color.length > 0
-								|&nbsp;（#{product.color[0].attributes.zh_cn}） 
-							else
-								|&nbsp;（未知颜色） 
-							|&nbsp;宽#{product.size.w}×深#{product.size.d}×高#{product.size.h}cm
+							//- if product.material && product.material.length > 0
+							//- 	|&nbsp;#{product.material[0].attributes.zh_cn}
+							//- if product.color && product.color.length > 0
+							//- 	|&nbsp;（#{product.color[0].attributes.zh_cn}）
+							//- |&nbsp;宽#{product.size.w}×深#{product.size.d}×高#{product.size.h}cm
 					if product.description
 						dd.panel_info
 							p.fs14 #{product.description} 
 					dd.panel_sort
 						h6.fs14 商品尺寸：
 						a.sort_btn
-							span 宽#{product.size.w} × 深#{product.size.d} × 高#{product.size.h}cm
+							span #{formatSize(product.size)}
 					dd.panel_sort
 						h6.fs14 商品材质：
 						each item in product.material
@@ -84,13 +62,13 @@ block content
 						div
 							if product.sale
 								span.panel_price.line_through.fs12.pl10 零售价：
-									b $#{product.price}.00
-								span.panel_price.fs12.pl10 折扣价：
-									b.fs18.cRed $#{product.sale}.00
+									b #{formatPrice(product.price)}
+								span.panel_price.fs12.pl10.mt10 折扣价：
+									b.fs18.cRed #{formatPrice(product.sale)}
 							else
 								span.panel_price.fs12.pl10 零售价：
-									b.fs18.cRed $#{product.price}.00
-							a.iproduct_add_cart_btn.fr.cp
+									b.fs18.cRed #{formatPrice(product.price)}
+							a.igoods_add_cart_btn.fr.cp
 								i.icon-shopping-cart.mr10
 								| 加入询价单
 								input(type="hidden",name="p[id]",value=product.id)
@@ -103,7 +81,7 @@ block content
 						b #{product.title}
 				tr
 					th 尺寸规格：
-					td 宽 #{product.size.w} × 深 #{product.size.d} × 高 #{product.size.h}cm
+					td #{formatSize(product.size)}
 				if product.material && product.material.length > 0
 					tr
 						th 商品材质：
@@ -119,5 +97,27 @@ block content
 			if product.content
 				.container !{product.content}
 	br.clear
+	//- 浏览过的商品
+	if find_view_products && find_view_products.length > 0
+		.view-over-goods.wrap
+			h5
+				i.icon-magnet.ml5.mr5
+				| 浏览过的商品
+			//- each item in find_view_products
+			//- 	a(href="#{item._id}")
+			//- 		img(src='/data/products/p'+item.id+'/'+item.cover)
+			//- 		|#{item.title}
+			//- 		if item.material && item.material.length > 0
+			//- 			|&nbsp;#{item.material[0].attributes.zh_cn}
+			//- 		else
+			//- 			|&nbsp;未知材料
+			//- 		if item.color && item.color.length > 0
+			//- 			| （#{item.color[0].attributes.zh_cn}） 
+			//- 		else
+			//- 			|&nbsp;（未知颜色）
+			.sub-goods-frame-row4
+				each item in find_view_products
+					.sub-page-goods(id=item.id)
+						include ../../../themplate/goods
 	.bg_fixed
 	script(src="/js/shopcart.js")
