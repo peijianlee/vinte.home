@@ -1,3 +1,8 @@
+//- .bg_fixed
+script(src="/js/shopcart.js")
+script(src="/js/artalert.js")
+script(src="/js/jquery.vtEnterKeyPress.js")
+
 if !header_hide
 	.footer.bg-slash
 		.g-head-title.fb.tc
@@ -32,7 +37,7 @@ if !header_hide
 						textarea.f-msg-info(name="infomation" placeholder="请输入你的留言内容")
 					li
 						if user
-							input.f-user-id(type="hidden", value=user._id)
+							input.f-user-id(type="hidden" value=user._id)
 						button.cp.footer-message-btn(type="submit") 确认发送
 			br.clear
 	.footer-bottom
@@ -41,7 +46,7 @@ if !header_hide
 			|	Copyright © 2017, All Rights Reserved
 	//- - console.log('captcha:'+!captcha)
 	if !urser && captcha
-		include ../themplate/signin_modal
+		include ../../../themplate/signin_modal
 script.
 	//- 添加懒加载 vtLazyload(class, 延迟时间, 间隔时间)
 	$.vtLazyload('.vtLazyload', 500, 1000)
@@ -94,7 +99,6 @@ script.
 							sendMsgConfig[i].element.val('').next('b').removeClass()
 						}
 					}else{
-						//- arttipclose('<i class="icon-exclamation-sign mr10"></i>发送失败！', 1200)
 						$.closeArtTip({
 							title: '<i class="icon-exclamation-sign mr10"></i>发送失败！',
 							time: 800

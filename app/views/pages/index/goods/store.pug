@@ -1,4 +1,4 @@
-extends ../../../layout_index
+extends ../layout_index
 block append head
 	link(rel="stylesheet" href="/css/goods/item.css")
 block content
@@ -16,10 +16,4 @@ block content
 						i.icon-exclamation-sign.mr10
 						|没有找到相关的商品 :(
 			.page.mt20.mb10.ml10
-				- if( url_key ){
-				-	url_public = url_pathname+'?'+url_key+'&'
-				- } else {
-				-	url_public = url_pathname+'?'
-				- }
 				include ../../../themplate/page
-	script(src="/js/shopcart.js")

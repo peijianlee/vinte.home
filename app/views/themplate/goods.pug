@@ -4,20 +4,20 @@ a.fs0.block(href="/goods/id/"+item.id)
 ul.ip_description
 	li
 		a(href="/goods/id/"+item.id).ip_title
-			|#{item.title}
-			if item.material && item.material.length > 0
-				|&nbsp;#{item.material[0].attributes.zh_cn}
+			| #{item.title}
+			
+			if item.attributes.material && item.attributes.material.length > 0
+				|&nbsp;#{item.attributes.material[0].attributes.zh_cn}
 			//- else
 			//- 	|&nbsp;未知材料
 			|&nbsp;#{formatSize(item.size)}
-			if item.color && item.color.length > 0
-				|&nbsp;/ #{item.color[0].attributes.zh_cn}
+			if item.attributes.color && item.attributes.color.length > 0
+				|&nbsp;/ #{item.attributes.color[0].attributes.zh_cn}
 			//- else
 			//- 	|&nbsp;/ 未知颜色
 	li
 		if item.sale
 			span.ip_tag 特价商品
-		- console.log(moment)
 		if (moment(item.meta.createAt).add('hour',8).fromNow()).indexOf('ago') < 0
 			span.ip_tag 新品
 		if user
@@ -26,7 +26,7 @@ ul.ip_description
 				i.icon-star-empty
 				b.ip_favourite_num #{item.favourite.length}
 		else
-			span#ip_favourite.ip_tag.cp(data-toggle="modal", data-target="#signinModal")
+			span#ip_favourite.ip_tag.cp(data-toggle="modal" data-target="#signinModal")
 				i.icon-star
 				i.icon-star-empty
 				b.ip_favourite_num #{item.favourite.length}

@@ -1,4 +1,4 @@
-extends ../../../layout_index
+extends ../layout_index
 block append head
 	link(rel="stylesheet" href="/css/inquiry.css")
 block content
@@ -80,7 +80,7 @@ block content
 									ul
 										li.mb5
 											h3 #{item.title}
-										li 宽#{item.size.w}×深#{item.size.d}×高#{item.size.h} (cm)
+										li #{formatSize(item.size)}
 										if item.material && item.material.length > 0
 											li 材质： 
 												each i_material in item.material

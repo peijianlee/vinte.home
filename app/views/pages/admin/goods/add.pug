@@ -55,7 +55,7 @@ block content
 						if category.cid && category.cid.length > 0
 							.form_group
 								label.control_label #{category.name.zh_cn} ：
-								.control_div.category_label(data-category=category.name.en_us)
+								.control_div.category_label(data-category=`attributes.${category.name.en_us}`)
 									for item in category.cid
 										label.textUnSelect
 											- var isChecked = !!item.pid.length
@@ -64,7 +64,7 @@ block content
 											- }
 											input(type="checkbox" 
 												class="changeCategory" 
-												name="goods["+item.name+"]" 
+												name="goods[attributes]["+item.name+"]" 
 												value=item._id 
 												checked=isChecked)
 											span

@@ -323,10 +323,11 @@ a.base-color-dark:hover{
 	cursor:default;
 }
 .search-empty-tip p{
-	border:3px solid white;
-	text-align:center;
-	padding:6% 0;
+	font-size: 1.4em;
 	font-weight:bold;
+	text-align:center;
+	border:3px solid white;
+	padding:120px 0;
 }
 
 /*---------表单----------*/
@@ -520,4 +521,32 @@ table td{
 *[csstip-top]:hover:before,
 *[csstip-top]:hover:after{
 	display:block;
+}
+
+/* 优惠价格显示 */
+.goods-sale span,
+.goods-sale-no-label span{
+	display: block;
+}
+.goods-sale span:nth-child(1),
+.goods-sale-no-label span:nth-child(1){
+	color: #999;
+	font-size: 0.7em;
+	text-decoration: line-through green;
+}
+.goods-sale span:nth-child(2){
+	position: relative;
+	margin-top: 10px;
+}
+.goods-sale span:nth-child(2):after{
+	content: 'sale';
+	position: absolute;
+	top:-6px;
+	margin-left: 10px;
+	display: inline-block;
+	font-size: 0.7em;
+	color: white;
+	background-color: #c00;
+	border-radius: 3px;
+	padding: 0 5px;
 }

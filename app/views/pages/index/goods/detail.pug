@@ -1,4 +1,4 @@
-extends ../../../layout_index
+extends ../layout_index
 block append head
 	link(rel="stylesheet" href="/css/goods/detail.css")
 	link(rel="stylesheet" href="/css/goods/item.css")
@@ -8,8 +8,7 @@ block content
 			a(href="/")
 				i.fs14.icon-home
 			a(href="/store") 商品首页
-			//- a(href=`/store/sort/${product.sort.attributes.zh_cn}`) ${product.sort.attributes.zh_cn}
-			b #{product.title}
+			b #{goods.title}
 		.goods-side-nav
 			//- 商品分类
 			h2
@@ -24,99 +23,82 @@ block content
 								| #{cat.attributes.zh_cn}
 							each item in cat.pid
 								dd
-									if item.id == product.id
-										a(href="#{item._id}" class="Stand")
+									if item.id == goods.id
+										a(href=item._id class="Stand")
 											i.icon-angle-right.ml10.mr5
 											| #{item.title}
 									else
-										a(href="#{item._id}")
+										a(href=item._id)
 											i.icon-angle-right.ml10.mr5
 											| #{item.title}
 		.goods-detail
 			.picture.fl.mb10
 				div.picture_cover
-					img(src='/data/goods/'+product.id+'/'+product.cover)
+					img(src='/data/goods/'+goods.id+'/'+goods.cover)
 			.panel
 				dl
 					dd.panel_info
 						h1 
-							|#{product.title}
-							//- if product.material && product.material.length > 0
-							//- 	|&nbsp;#{product.material[0].attributes.zh_cn}
-							//- if product.color && product.color.length > 0
-							//- 	|&nbsp;（#{product.color[0].attributes.zh_cn}）
-							//- |&nbsp;宽#{product.size.w}×深#{product.size.d}×高#{product.size.h}cm
-					if product.description
+							|#{goods.title}
+					if goods.description
 						dd.panel_info
-							p.fs14 #{product.description} 
+							p.fs14 #{goods.description} 
 					dd.panel_sort
 						h6.fs14 商品尺寸：
 						a.sort_btn
-							span #{formatSize(product.size)}
+							span #{formatSize(goods.size)}
 					dd.panel_sort
 						h6.fs14 商品材质：
-						each item in product.material
+						each item in goods.attributes.material
 							a.sort_btn.mr5
 								span #{item.attributes.zh_cn}
 					dt.panel_add_cart
 						div
-							if product.sale
+							if goods.sale
 								span.panel_price.line_through.fs12.pl10 零售价：
-									b #{formatPrice(product.price)}
+									b #{formatPrice(goods.price)}
 								span.panel_price.fs12.pl10.mt10 折扣价：
-									b.fs18.cRed #{formatPrice(product.sale)}
+									b.fs18.cRed #{formatPrice(goods.sale)}
 							else
 								span.panel_price.fs12.pl10 零售价：
-									b.fs18.cRed #{formatPrice(product.price)}
+									b.fs18.cRed #{formatPrice(goods.price)}
 							a.igoods_add_cart_btn.fr.cp
 								i.icon-shopping-cart.mr10
 								| 加入询价单
-								input(type="hidden",name="p[id]",value=product.id)
-								input(type="hidden",name="p[quantity]",value="1")
+								input(type="hidden" name="p[id]" value=goods.id)
+								input(type="hidden" name="p[quantity]" value="1")
 							br.clear
 			table.sort.table_bordered.table_striped
 				tr
 					th 商品名称：
 					td
-						b #{product.title}
+						b #{goods.title}
 				tr
 					th 尺寸规格：
-					td #{formatSize(product.size)}
-				if product.material && product.material.length > 0
+					td #{formatSize(goods.size)}
+				if goods.attributes.material && goods.attributes.material.length > 0
 					tr
 						th 商品材质：
 						td 
-							each item in product.material
-								span.mr15 #{item.attributes.zh_cn}
-				if product.color && product.color.length > 0
+							each item,index in goods.attributes.material
+								span #{(!index? '' :'，')+ item.attributes.zh_cn}
+				if goods.attributes.color && goods.attributes.color.length > 0
 					tr
 						th 主体颜色：
 						td 
-							each item in product.color
+							each item in goods.attributes.color
 								span.mr15 #{item.attributes.zh_cn}
-			if product.content
-				.container !{product.content}
+			if goods.content
+				.container !{goods.content}
 	br.clear
 	//- 浏览过的商品
-	if find_view_products && find_view_products.length > 0
+	if find_view_goods && find_view_goods.length > 0
 		.view-over-goods.wrap
 			h5
 				i.icon-magnet.ml5.mr5
 				| 浏览过的商品
-			//- each item in find_view_products
-			//- 	a(href="#{item._id}")
-			//- 		img(src='/data/products/p'+item.id+'/'+item.cover)
-			//- 		|#{item.title}
-			//- 		if item.material && item.material.length > 0
-			//- 			|&nbsp;#{item.material[0].attributes.zh_cn}
-			//- 		else
-			//- 			|&nbsp;未知材料
-			//- 		if item.color && item.color.length > 0
-			//- 			| （#{item.color[0].attributes.zh_cn}） 
-			//- 		else
-			//- 			|&nbsp;（未知颜色）
 			.sub-goods-frame-row4
-				each item in find_view_products
+				each item in find_view_goods
 					.sub-page-goods(id=item.id)
 						include ../../../themplate/goods
 	.bg_fixed

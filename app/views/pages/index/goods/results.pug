@@ -1,12 +1,15 @@
 extends ../layout_index
 block append head
-	link(href="/css/goods/item.css",rel="stylesheet")
+	link(href="/css/goods/item.css" rel="stylesheet")
 block content
 	.fiter-head-wrap.cd
 		dl.fiter-head.wrap
 			dt.first-span 商品搜索
 			dd
-				span.search-icon: i.icon-search
+				span
+					a.block(href="/store" title="全部商品"): i.icon-home
+				span.cWhite
+					i.icon-search
 				span.second-span
 					| 关键字：
 					b.base-color-dark " #{keyword} "
@@ -14,14 +17,14 @@ block content
 					| 搜索到
 					b.base-color-dark  #{goods_total} 
 					| 件商品
-	include ../themplate/fiter_bar
+	include ../../../themplate/fiter_bar
 	.wrap.igoods_list
 		.category_list
 		.sub-goods-frame-row4
 			if goods && goods.length > 0
 				each item in goods
 					.sub-page-goods(id=item.id)
-						include ../themplate/goods
+						include ../../../themplate/goods
 			else
 				.search-empty-tip.bg-slash.bg-gray
 					p 
@@ -29,6 +32,4 @@ block content
 						|没有找到相关的商品 :(
 		
 		.page.mt15.mb30
-			- url_public = url_pathname+'?q='+keyword+url_key+'&'
-			include ../themplate/page
-	script(src="/js/shopcart.js")
+			include ../../../themplate/page

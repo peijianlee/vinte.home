@@ -195,31 +195,3 @@
 .order_detail_right dd{padding:10px 15px;font-size:12px;}
 .order_detail_right dd:nth-of-type(2n){background-color:#dfdfdf;}
 
-
-/* 优惠价格显示 */
-.goods-sale span,
-.goods-sale-no-label span{
-	display: block;
-}
-.goods-sale span:nth-child(1),
-.goods-sale-no-label span:nth-child(1){
-	color: #999;
-	font-size: 0.7em;
-	text-decoration: line-through green;
-}
-.goods-sale span:nth-child(2){
-	position: relative;
-	margin-top: 10px;
-}
-.goods-sale span:nth-child(2):after{
-	content: 'sale';
-	position: absolute;
-	top:-6px;
-	right: 10px;
-	display: inline-block;
-	font-size: 0.7em;
-	color: white;
-	background-color: #c00;
-	border-radius: 3px;
-	padding: 0 5px;
-}

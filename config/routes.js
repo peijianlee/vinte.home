@@ -43,9 +43,9 @@ module.exports = function(app){
 
 	// goods
 	// app.get('/store', Goods.store)
-	app.get('/store', User.createCaptcha, Global.fetchAllCategoryType, Global.categoryTypeHref, Goods.search)
+	app.get('/store', User.createCaptcha, Goods.search)
 	app.get('/goods/id/:id', User.createCaptcha, Goods.detail)
-	app.get('/store/sort/:sort', User.createCaptcha, Global.fetchAllCategoryType, Global.categoryTypeHref, Goods.sort)
+	// app.get('/store/sort/:sort', User.createCaptcha, Global.fetchAllCategoryType, Global.categoryTypeHref, Goods.sort)
 	app.get('/store/material/:material', Goods.sort)
 	app.post('/goods/favourite', Goods.favourite)
 

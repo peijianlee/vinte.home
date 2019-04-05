@@ -1,23 +1,47 @@
-- if( totalPage > 1 ){
-	- if(currentPage-1 === 0){
-			span.page_unclick: i.icon-double-angle-left
-			span.page_unclick: i.icon-angle-left
-	- }else{
-			a(href=`${url_public}p=0` csstip-top='第一页'): i.icon-double-angle-left
-			a(href=`${url_public}p=${currentPage-2}` csstip-top='上一页'): i.icon-angle-left
-	- }
+
+
+if totalPage > 1
+	- var URL_HREF = (url_href?'?'+url_href+'&':'?')+'p='
+	if currentPage-1 === 0
+		span.page_unclick: i.icon-double-angle-left
+		span.page_unclick: i.icon-angle-left
+	else
+		a(href=`${URL_HREF + 0}` csstip-top='第一页'): i.icon-double-angle-left
+		a(href=`${URL_HREF+(currentPage-2)}` csstip-top='上一页'): i.icon-angle-left
 	- for(var i=0; i < totalPage; i++){
-		-	if(currentPage == (i+1)){
-				span.page_stand #{currentPage}
-		-	}else{
-				a(href=`${url_public}p=${i}`) #{i+1}
-		-	}
+		if currentPage == (i+1)
+			span.page_stand #{currentPage}
+		else
+			a(href=`${URL_HREF+i}`) #{i+1}
+			//- a(href=#{GetUrlHref(URL_HREF)+'p='+i}) #{i+1}
 	- }
-	- if( currentPage < totalPage ){
-			a(href=`${url_public}p=${currentPage}` csstip-top='下一页'): i.icon-angle-right
-			a(href=`${url_public}p=${totalPage-1}` csstip-top='最后一页'): i.icon-double-angle-right
-	- }else{
-			span.page_unclick: i.icon-angle-right
-			span.page_unclick: i.icon-double-angle-right
-	- }
-- }
+	if currentPage < totalPage
+		a(href=`${URL_HREF+currentPage}` csstip-top='下一页'): i.icon-angle-right
+		a(href=`${URL_HREF+(totalPage-1)}` csstip-top='最后一页'): i.icon-double-angle-right
+	else
+		span.page_unclick: i.icon-angle-right
+		span.page_unclick: i.icon-double-angle-right
+
+//- - if( totalPage > 1 ){
+//- 	- if(currentPage-1 === 0){
+//- 			span.page_unclick: i.icon-double-angle-left
+//- 			span.page_unclick: i.icon-angle-left
+//- 	- }else{
+//- 			a(href=`${url_href}&p=0` csstip-top='第一页'): i.icon-double-angle-left
+//- 			a(href=`${url_href}&p=${currentPage-2}` csstip-top='上一页'): i.icon-angle-left
+//- 	- }
+//- 	- for(var i=0; i < totalPage; i++){
+//- 		-	if(currentPage == (i+1)){
+//- 				span.page_stand #{currentPage}
+//- 		-	}else{
+//- 				a(href=`${url_href}&p=${i}`) #{i+1}
+//- 		-	}
+//- 	- }
+//- 	- if( currentPage < totalPage ){
+//- 			a(href=`${url_href}&p=${currentPage}` csstip-top='下一页'): i.icon-angle-right
+//- 			a(href=`${url_href}&p=${totalPage-1}` csstip-top='最后一页'): i.icon-double-angle-right
+//- 	- }else{
+//- 			span.page_unclick: i.icon-angle-right
+//- 			span.page_unclick: i.icon-double-angle-right
+//- 	- }
+//- - }
