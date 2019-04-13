@@ -43,43 +43,42 @@ exports.list = function(req,res){
 }
 
 // 商品类型海报列表
-exports.goodsbanner = function(req, res){
-	var url = req.url,
-		sort = url.indexOf('sort') > 0,
-		material = url.indexOf('material') > 0,
-		scene = url.indexOf('scene') > 0,
-		pstyle = url.indexOf('pstyle') > 0
-	if(sort){
-		var title = '商品材质海报设置'
-		var bannertype = 'sort'
-	}else if(material){
-		var title = '商品类型海报设置'
-		var bannertype = 'material'
-	}else if(scene){
-		var title = '商品场景海报设置'
-		var bannertype = 'scene'
-	}else if(pstyle){
-		var title = '商品场景海报设置'
-		var bannertype = 'pstyle'
+exports.goodsBanner = function(req, res){
+	var ATTR = req.params.attr
+	var title = '商品'
+	switch(ATTR){
+		case 'style':
+			title += '风格'
+			break
+		case 'sort':
+			title += '材质'
+			break
+		case 'material':
+			title += '类型'
+			break
+		case 'scene':
+			title += '场景'
+			break
 	}
-	Category.find({'name':bannertype}, function(err, categories){
+	title += '海报设置'
+	Category.find({'name':ATTR}, function(err, _categories){
 		if(err) console.log(err)
-		res.render('admin/banner/goods',{
+		res.render('admin/banner/goods_banner',{
 			title: title,
-			categories: categories,
-			bannertype: bannertype
+			categories: _categories,
+			bannertype: ATTR
 		})
 	})
 }
 
 // 商品类型海报获取
-exports.goodsbannerupdate = function(req, res){
+exports.getBannerInfo = function(req, res){
 	var id = req.params.id
 
 	// console.log(id)
 	Category.findById(id, function(err, category){
 		if(err) console.log(err)
-		var time = setTimeout(function(){
+		setTimeout(function(){
 			res.json({
 				success:1,
 				id: category.id,
@@ -103,7 +102,7 @@ exports.saveImage = function(req,res,next){
 			var timestamp = Date.now()
 			var type = imgsrcData.type.split('/')[1]
 			var imgsrc = timestamp + '.' +type
-			var newPath = path.join(__dirname, '../../', '/public/banner/'+imgsrc)
+			var newPath = path.join(__dirname, '../../', '/public/data/banner/'+imgsrc)
 
 			fs.writeFile(newPath, data, function(err){
 				if(err)console.log(err)
@@ -116,7 +115,7 @@ exports.saveImage = function(req,res,next){
 	}
 }
 // 商品类型海报保存
-exports.goodsbannersave = function(req, res){
+exports.goodsBannerSave = function(req, res){
 	var googsbanner = req.body.googsbanner,
 		g_description = googsbanner.description
 	if(!g_description && !req.imgsrc){

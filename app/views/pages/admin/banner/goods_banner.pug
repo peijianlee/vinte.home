@@ -1,0 +1,95 @@
+extends ../includes/layout
+block append head
+	link(href="/css/admin/banner.css" rel="stylesheet")
+block content
+	link(href="/css/admin/banner.css" rel="stylesheet")
+	.admin_wrap
+		h2.pageheader
+			i.icon-picture
+			| #{title}
+		.contentpanel
+			table.table.table_hover.table_bordered.table_striped
+				thead
+					tr
+						th(width="100") 属性名称
+						th(width="450") 图片
+						th 描述
+						th(width="100") 更新
+				tbody
+					if categories && categories.length > 0
+						each item in categories
+							tr(class=`item-id-${item._id}`)
+								td.tc #{item.attributes.zh_cn}
+								td
+									if item.banner
+										div.list-banner(style=`background-image:url("/data/banner/${item.banner}");`)
+									else
+										div.list-banner
+								td #{item.description}
+								td.tc: span.editGoodsBanner.button.button-highlight.button-rounded.button-small(
+									data-toggle="modal" 
+									data-target="#goodsBannerModal" 
+									data-id=item.id) 修改
+					else
+						tr
+							td.lead.bg-info.text-info.tc(colspan="5")
+								div.fb.pt10 
+									i.icon-exclamation-sign.mr5
+									| 没有对应的商品属性！
+								div.pt10.pb10
+									a.button.button-raised.button-primary(href="/admin/product/category/list") 添加商品属性
+		form#goodsBannerModal.pf(method="post" action="/admin/banner/save" enctype="multipart/form-data")
+			h5
+				i.icon-upload.mr10
+				span#gbmAttributes
+				| 海报更新
+			ul
+				li
+					h6.fs14 海报地址：
+					div#gbmImg
+					input(type="file" name="uploadPoster" accept="image/*")
+				li
+					h6.fs14 属性描述：
+					textarea#gbmTextarea(name="googsbanner[description]")
+					input#gbmId(type="hidden" name="googsbanner[id]")
+					input#gbmId(type="hidden" name="googsbanner[attributes]" value=bannertype)
+				li.pt10
+					button.button.button-small.button-glow.button-primary.button-rounded.button-raised.button-primary() 确认更新
+	script.
+		$('.editGoodsBanner').click(function(){
+			var $modal = $(this),
+				id = $modal.attr('data-id')
+			if($("input[name='googsbanner[id]']").val() === id) return $.toggleModal($modal)
+			$('#gbmImg').removeAttr('style')
+			$('#gbmTextarea').val('')
+			$("input[name='uploadPoster']").val('')
+			$.artTip({title:'loading'})
+			$.ajax({
+				type: 'get',
+				url: '/admin/banner/info/'+id
+			})
+			.done(function(results){
+				//- console.log(results)
+				if(results.success === 1){
+					$.toggleModal($modal)
+					$('#gbmId').val(results.id)
+					$('#gbmAttributes').html(results.attributes.zh_cn+'&nbsp;')
+					if(results.banner){
+						$('#gbmImg').css('background-image','url(/data/banner/'+results.banner+')')
+					}else{
+						$('#gbmImg').removeAttr('style')
+					}
+					$('#gbmTextarea').val(results.description)
+					$.closeArtTip({
+						title: '获取数据成功',
+						time: 100
+					})
+				}else{
+					$.closeArtTip({
+						title: '获取数据失败',
+						time: 1000
+					})
+					
+				}
+			})
+		})

@@ -58,7 +58,7 @@ module.exports = function(app){
 	app.post('/admin/update/checkedimagesdata', Goods.checkImageData)
 	app.post('/admin/goods/update/photo', User.signinRequired, User.adminRequired, Goods.updatephoto)
 	app.post('/admin/goods/update/content', User.signinRequired, User.adminRequired, Goods.updatecontent)
-	app.delete('/admin/product/list', User.signinRequired, User.adminRequired, Goods.del)
+	app.delete('/admin/goods/del', User.signinRequired, User.adminRequired, Goods.del)
 	
 	// shopcart
 	// app.get('/shopcart', Shopcart.matchcart, Shopcart.detail)
@@ -123,13 +123,14 @@ module.exports = function(app){
 	app.post('/admin/banner', User.signinRequired, User.adminRequired, Banner.saveImage, Banner.save)
 	app.get('/admin/banner/list', User.signinRequired, User.adminRequired, Banner.list)
 
-	app.get('/admin/goods/pstyle/banner/list', User.signinRequired, User.adminRequired, Banner.goodsbanner)
-	app.get('/admin/goods/sort/banner/list', User.signinRequired, User.adminRequired, Banner.goodsbanner)
-	app.get('/admin/goods/scene/banner/list', User.signinRequired, User.adminRequired, Banner.goodsbanner)
-	app.get('/admin/goods/material/banner/list', User.signinRequired, User.adminRequired, Banner.goodsbanner)
+	app.get('/admin/banner/:attr/list', User.signinRequired, User.adminRequired, Banner.goodsBanner)
+	// app.get('/admin/banner/style/list', User.signinRequired, User.adminRequired, Banner.goodsbanner)
+	// app.get('/admin/banner/sort/list', User.signinRequired, User.adminRequired, Banner.goodsbanner)
+	// app.get('/admin/banner/scene/list', User.signinRequired, User.adminRequired, Banner.goodsbanner)
+	// app.get('/admin/banner/material/list', User.signinRequired, User.adminRequired, Banner.goodsbanner)
 
-	app.get('/admin/goods/banner/update/:id', User.signinRequired, User.adminRequired, Banner.goodsbannerupdate)
-	app.post('/admin/goods/banner/save', User.signinRequired, User.adminRequired, Banner.saveImage, Banner.goodsbannersave)
+	app.get('/admin/banner/info/:id', User.signinRequired, User.adminRequired, Banner.getBannerInfo)
+	app.post('/admin/banner/save', User.signinRequired, User.adminRequired, Banner.saveImage, Banner.goodsBannerSave)
 	app.get('/admin/banner/update/:id', User.signinRequired, User.adminRequired, Banner.update)
 	app.delete('/admin/banner/list', User.signinRequired, User.adminRequired, Banner.del)
 

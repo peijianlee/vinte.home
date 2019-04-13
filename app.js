@@ -4,12 +4,19 @@ var mongoose = require('mongoose')
 
 var config = require('./config/config.js')
 
-var port = process.env.PORT || config.port
 var app = express()
 
 var logger = require('morgan')
 
-var dbUrl = config.dburl
+var env = process.env.NODE_ENV || 'development'
+var port = process.env.PORT || config.port
+
+var dbUrl = config.onlineDbUrl
+// console.log(process.env)
+if(env === 'development'){
+    dbUrl = config.localDbUrl
+}
+
 mongoose.connect(dbUrl, {useMongoClient: true})
 
 mongoose.connection.on('error', function(error){

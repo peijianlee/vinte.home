@@ -449,121 +449,6 @@ exports.changecategory = function(req, res){
 					}
 				})
 		})
-
-
-	// 复选框
-	// if(check.toString() === 'true'){
-	// 	// // 			p_type.push(cid)
-	// 	Goods.findOneAndUpdate(
-	// 		{'_id': pid},
-	// 		{'$push': {'material': pid}},
-	// 		function(err){
-	// 			if(err) console.log(err)
-	// 			Category.findOneAndUpdate(
-	// 				{'_id': cid},
-	// 				{$push: {'pid': pid}}, 
-	// 				function(err, pcategory){
-	// 					if(err){
-	// 						console.log(err)
-	// 						res.json({success:0})
-	// 					} else {
-	// 						res.json({success:1})
-	// 					}
-	// 				})
-	// 		})
-	// } else {
-	// 	Goods.findOneAndUpdate(
-	// 		{'_id': pid},
-	// 		{'$pull': {'material': pid}},
-	// 		function(err){
-	// 			if(err) console.log(err)
-	// 			Category.findOneAndUpdate(
-	// 				{'_id': cid},
-	// 				{'$pull': {'pid': pid}}, 
-	// 				function(err, pcategory){
-	// 					if(err){
-	// 						console.log(err)
-	// 						res.json({success:0})
-	// 					} else {
-	// 						res.json({success:1})
-	// 					}
-	// 				})
-	// 		})
-	// }
-
-
-	// Goods.findById(pid, function(err, _goods){
-	// 	if(err) console.log(err)
-
-	// 	// console.log(req.body)
-	// 	console.log(_goods)
-
-	// 	if(type==='pstyle'){
-	// 		var p_type = _goods.p_type
-	// 	}else if(type==='sort'){
-	// 		var p_type = _goods.sort
-	// 	}else if(type==='scene'){
-	// 		var p_type = _goods.scene
-	// 	}else if(type==='material'){
-	// 		var p_type = _goods.material
-	// 	}else if(type==='color'){
-	// 		var p_type = _goods.color
-	// 	}else{
-	// 		return res.json({success:0})
-	// 	}
-
-	// // 	if(e_sort_id){
-	// // 		// 单选框
-	// // 		if(p_type && e_sort_id.toString() === p_type.toString()){
-	// // 			return res.json({success:2})
-	// // 		}else{
-	// // 			Category.findByIdAndUpdate(e_sort_id, {$push: {'pid': pid}}, function(err){
-	// // 				if(err) console.log(err)
-	// // 			})
-	// // 			Category.findById(p_type, function(err, category){
-	// // 				if(err) console(err)
-	// // 				if(category){
-	// // 					var c_index = category.pid.indexOf(pid)
-	// // 					category.pid.splice(c_index, 1)
-	// // 					category.save(function(err){
-	// // 						if(err) console.log(err)
-	// // 					})
-	// // 				}
-	// // 			})
-	// // 			_goods.sort = e_sort_id
-	// // 			_goods.save(function(err,p){
-	// // 				if(err) console.log(err)
-	// // 				return res.json({success:1})
-	// // 			})
-	// // 		}
-	// // 	}else{
-	// // 		// 复选框
-	// // 		if(check.toString() === 'true'){
-	// // 			p_type.push(cid)
-	// // 			_goods.save(function(err){
-	// // 				if(err) console.log(err)
-	// // 				Category.findByIdAndUpdate(cid, {$push: {'pid': pid}}, function(err){
-	// // 					if(err) console.log(err)
-	// // 				})
-	// // 			})
-	// // 			return res.json({success:1})
-	// // 		}else{
-	// // 			var index = p_type.indexOf(cid)
-	// // 			p_type.splice(index,1)
-	// // 			_goods.save(function(err){
-	// // 				if(err) console(err)
-	// // 				Category.findOneAndUpdate(
-	// // 					{'_id': cid},
-	// // 					{'$pull':{'pid': pid}}, 
-	// // 					function(err, pcategory){
-	// // 						if(err) console.log(err)
-	// // 					})
-	// // 			})
-	// // 			return res.json({success:1})
-	// // 		}
-	// // 	}
-	// // })
-	// })
 }
 
 exports.checkImageData = function(req, res){
@@ -680,42 +565,21 @@ function CartGoods(user, cart){
 exports.del = function(req,res){
 	var id = req.query.id
 
-	if(id){
-		Goods.findById(id,function(err,product){
+	// Goods.findOne({_id: id}, function(err, _goods){
+	// Goods.findA
+	Category.update(
+		{pid: id},
+		{$pull: {pid: id}},
+		{multi: true},
+		function(err){
 			if(err) console.log(err)
-
-			// 查找到所以分类的id
-			var product_id = []
-			product_id.push(product.sort)
-
-			for_cat_id(product.scene)
-			for_cat_id(product.material)
-			for_cat_id(product.color)
-			function for_cat_id(obj){
-				for(var i=0; i<obj.length; i++){
-					product_id.push(obj[i])
-				}
-			}
-			console.log(product_id)
-
-			for(var i=0; i<product_id.length; i++){
-				Category.findById(product_id[i],function(err,category){
-					// 在分类pid数组中查找该值所在位置并删除 保存
-					var index = category.pid.indexOf(id)
-					category.pid.splice(index,1)
-					category.save(function(err){
-						if(err) console.log(err)
-					})
-
-				})
-			}
 			// 删除
-			Goods.remove({_id: id},function(err,product){
+			Goods.remove({_id: id},function(err){
 				if(err){
 					console.log(err)
 					res.json({success:0})
 				}else{
-					rmdirSync(__dirname + '/../../public/data/products/p'+id, function(err){
+					rmdirSync(__dirname + '/../../public/data/goods/'+id, function(err){
 						if(err) console.log(err)
 						console.log("删除目录以及子目录成功")
 					})
@@ -723,7 +587,51 @@ exports.del = function(req,res){
 				}
 			})
 		})
-	}
+
+	// if(id){
+	// 	Goods.findById(id,function(err,product){
+	// 		if(err) console.log(err)
+
+	// 		// 查找到所以分类的id
+	// 		var product_id = []
+	// 		product_id.push(product.sort)
+
+	// 		for_cat_id(product.scene)
+	// 		for_cat_id(product.material)
+	// 		for_cat_id(product.color)
+	// 		function for_cat_id(obj){
+	// 			for(var i=0; i<obj.length; i++){
+	// 				product_id.push(obj[i])
+	// 			}
+	// 		}
+	// 		console.log(product_id)
+
+	// 		for(var i=0; i<product_id.length; i++){
+	// 			Category.findById(product_id[i],function(err,category){
+	// 				// 在分类pid数组中查找该值所在位置并删除 保存
+	// 				var index = category.pid.indexOf(id)
+	// 				category.pid.splice(index,1)
+	// 				category.save(function(err){
+	// 					if(err) console.log(err)
+	// 				})
+
+	// 			})
+	// 		}
+	// 		// 删除
+	// 		Goods.remove({_id: id},function(err,product){
+	// 			if(err){
+	// 				console.log(err)
+	// 				res.json({success:0})
+	// 			}else{
+	// 				rmdirSync(__dirname + '/../../public/data/products/p'+id, function(err){
+	// 					if(err) console.log(err)
+	// 					console.log("删除目录以及子目录成功")
+	// 				})
+	// 				res.json({success:1})
+	// 			}
+	// 		})
+	// 	})
+	// }
 }
 
 // 删除文件夹及文件夹下的所有文件

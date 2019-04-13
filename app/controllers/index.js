@@ -56,8 +56,6 @@ exports.index = function(req,res){
 		cart = req.session.cart,
 		id=req.params.id
 
-
-
 	Category.aggregate([{
 		'$group': {
 			_id: '$name', 
@@ -180,13 +178,16 @@ function getClientIp(req) {
 
 // 后台留言列表
 exports.messageList = function(req, res){
-	Message.fetch(function(err, messages){
-		if(err) console.log(err)
-		res.render('admin/messages/list',{
-			title: "用户留言列表",
-			messages: messages
+	// Message.fetch(function(err, messages){
+	Message.find()
+		.sort({_id: -1})
+		.exec(function(err, messages){
+			if(err) console.log(err)
+			res.render('admin/messages/list',{
+				title: "用户留言列表",
+				messages: messages
+			})
 		})
-	})
 }
 // 删除留言
 exports.messageDel = function(req,res){

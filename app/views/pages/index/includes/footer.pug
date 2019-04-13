@@ -14,7 +14,7 @@ if !header_hide
 			div.footer-info
 				p
 					i.icon-quote-left.mr5
-					| 我们是一家专业的家具制造厂商，其制造范围有批量家具生产、家具定制、家具重设计，家具风格主要是以乡村风格、工业风格、宫廷风格及其他手工艺绘制风格为主，多年销往欧美及其周边多个国家。
+					| 我们是一家专业的家具制造厂商，其制造范围有批量家具生产、家具定制、家具设计，家具风格主要是以乡村风格、工业风格、日式风格及其他手工艺绘制风格为主，多年销往欧美及其周边多个国家。
 				p 如果你刚好有这方面的这方面的商务需求，或者是同行业者，都欢迎垂询，或通过右侧的留言栏发送消息给我们，我们收到信息后，将会以最短的时间内回复你。
 				p.fb
 					i.icon-phone.mr5
@@ -25,10 +25,11 @@ if !header_hide
 				p.fb
 					i.icon-map-marker.mr5
 					| 广东省，中山市，三乡镇，古鹤工业区
-			form(action="/message", method="POST")
+			//- form(action="/message", method="POST")
+			section
 				ul.footer-message
 					li(focus-tip-text="请输入公司名称或者你的名字")
-						input.f-msg-name(type="text", name="name" placeholder="请输入公司名称或者你的名字" )
+						input.f-msg-name(type="text" name="name" placeholder="请输入公司名称或者你的名字" )
 					li(focus-tip-text="请输入你的电话号码")
 						input.f-msg-phone(type="text" name="phone" placeholder="请输入你的电话号码")
 					li(focus-tip-text="请输入你的电子邮箱地址")
@@ -38,7 +39,26 @@ if !header_hide
 					li
 						if user
 							input.f-user-id(type="hidden" value=user._id)
-						button.cp.footer-message-btn(type="submit") 确认发送
+						//- button.cp.footer-message-btn(
+						//- 	data-toggle="modal" 
+						//- 	data-target="#getCaptchaModal") 确认发送
+						button.cp.footer-message-btn 确认发送
+			//- form#getCaptchaModal.imodal(style="width: 400px;margin-left:-200px")
+			//- 	input#categoryid(type="hidden" name="category[_id]")
+			//- 	.imodal-header 输入验证码
+			//- 	.imodal-body
+			//- 		.form_group
+			//- 			span.cp !{captcha.data}
+			//- 		.form_group
+			//- 			input#changeCategory_zh_cn.form_control(
+			//- 				type="text" 
+			//- 				name=""
+			//- 				placeholder="请输入验证码")
+			//- 	.imodal-footer
+			//- 		.form_group(style="margin:0")
+			//- 			label.control_label
+			//- 			button.catChangeBtn.button.button-raised.button-primary.button-small(type="sumbit") 修改
+			//- 			span.button.button-raised.button-small.popup_close(style="margin-left:15px;") 取消
 			br.clear
 	.footer-bottom
 		.wrap.tr.fs12
@@ -53,6 +73,10 @@ script.
 	//- $.artTip('加载中...', 2000)
 	//- $.closeArtTip('加载成功！', 1000)
 	//- $.artAlert('加载成功！！！', 'artAlertFrame', 'zh_cn', document.referrer, 10 )
+	//- 弹出框
+	//- $('.footer-message-btn[data-toggle="modal"]').click(function() {
+	//- 	$.toggleModal($(this))
+	//- })
 	var sendMsgConfig = [
 		{
 			element: $('.f-msg-name'),
@@ -82,6 +106,9 @@ script.
 				infomation: sendMsgConfig[3].element.val(),
 				uid: $('.f-user-id').val()
 			}
+			//- return false
+			
+			
 			$.ajax({
 				type:"POST",
 				url:"/message",
@@ -92,8 +119,8 @@ script.
 				success: function(data){
 					if(data.success === 1){
 						$.closeArtTip({
-							title: '<i class="icon-ok-sign mr10"></i>发送成功！加载成功！',
-							time: 800
+							title: '<i class="icon-ok-sign mr10"></i>发送成功！',
+							time: 1200
 						})
 						for(var i = 0; i < sendMsgConfig.length; i++){
 							sendMsgConfig[i].element.val('').next('b').removeClass()
@@ -101,7 +128,7 @@ script.
 					}else{
 						$.closeArtTip({
 							title: '<i class="icon-exclamation-sign mr10"></i>发送失败！',
-							time: 800
+							time: 1200
 						})
 					}
 				}

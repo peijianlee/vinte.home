@@ -126,7 +126,9 @@
 .sign_form_content li b.icon-ok-sign{color:#066;}
 .sign_form_content li b.icon-exclamation-sign{color:#25a6a4;}
 .sign_form_foot_info{
-	color:white;text-align:right;
+	line-height: 1.7em;
+	color:white;
+	text-align:right;
 }
 .sign_form_foot_info h6{font-size:28px;line-height:50px;height:50px;margin-top:-40px;}
 .sign_form_foot_info p{font-size:12px;}

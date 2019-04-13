@@ -4,7 +4,14 @@ html
 		meta(charset="utf-8")
 		meta(name="robots" content="nofollow")
 		title #{title}
-		include head
+		block head
+			script(src="/libs/jquery/dist/jquery.min.js")
+			script(src="/js/artalert.js")
+			link(rel="stylesheet" href="/css/buttons.css")
+			link(rel="stylesheet" href="/css/icons/font-awesome.css")
+				
+			link(href="/css/base.css" rel="stylesheet")
+			link(href="/css/admin.css" rel="stylesheet")
 	body
 		include menu
 		block content
