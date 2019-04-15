@@ -206,7 +206,9 @@ span.head-btn-style a{
 	resize:none;
 }
 
-.footer p{margin-bottom:10px;}
+.footer p{
+	margin-bottom:10px;
+}
 .footer h5{font-size:1.5em;margin-bottom:10px;color:white;}
 .footer h6{font-size:1em;margin-top:5px;}
 .footer-bottom{
@@ -271,5 +273,18 @@ span.head-btn-style a{
 	font-size:.8em;
 	display:inline-block;
 	border-top:2px solid rgba(0,0,0,.1);
-	margin-top:3px;
+	margin-top:5px;
+	padding-top:5px;
+}
+
+
+@media screen and (max-width: 1050px){
+	html,body,
+	.wrap{
+		width: 100%;
+	}
+	.wrap{
+		padding-left: 15px;
+		padding-right: 15px;
+	}
 }

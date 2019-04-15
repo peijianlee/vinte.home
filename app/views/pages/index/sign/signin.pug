@@ -1,6 +1,6 @@
 extends ../layout_index
 block append head
-	link(rel="stylesheet",href="/css/sign.css")
+	link(rel="stylesheet" href="/css/sign.css")
 block content
 	.sign_bg.blur(style=`background-image:url(images/background/${bgsrc})`)
 	form.sign_form
@@ -51,6 +51,7 @@ block content
 		i.icon-quote-left.icon-3x.pull-left
 		| #{bgword}
 	script(src="js/sign.js")
+	script(src="js/jquery.vtEnterKeyPress.js")
 	script.
 		$('#signName').focus()
 		// 设置用户登录参数
