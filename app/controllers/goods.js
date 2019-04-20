@@ -53,16 +53,16 @@ exports.material = function(req,res){
 	var user = req.session.user,
 		cart = req.session.cart
 
-	var SORT = req.params.sort,
-		CATEGORY_NAME = Object.keys(req.params)[0],
-		SORT_ZH_CN = Object.values(req.params)[0]
+	// var SORT = req.params.sort,
+	// 	CATEGORY_NAME = Object.keys(req.params)[0],
+	// 	SORT_ZH_CN = Object.values(req.params)[0]
 
 	// console.log(Object.keys(req.params)[0])
 	// console.log(Object.values(req.params)[0])
-	console.log('---- req.params ----')
-	console.log(req.params)
-	console.log(CATEGORY_NAME)
-	console.log(SORT_ZH_CN)
+	// console.log('---- req.params ----')
+	// console.log(req.params)
+	// console.log(CATEGORY_NAME)
+	// console.log(SORT_ZH_CN)
 	// console.log(req.params)
 
 
