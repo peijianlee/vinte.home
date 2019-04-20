@@ -20,10 +20,10 @@ if(env === 'development'){
 mongoose.connect(dbUrl, {useMongoClient: true})
 
 mongoose.connection.on('error', function(error){
-	console.log('数据库连接失败' + error)
+	console.log('vinte.home 数据库连接失败' + error)
 })
 mongoose.connection.on('open',function(){
-	console.log('数据库连接成功！！！')
+	console.log('vinte.home 数据库连接成功！！！')
 })
 // 访问路径、方式
 app.set('views','./app/views/pages')

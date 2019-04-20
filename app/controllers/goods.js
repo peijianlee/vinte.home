@@ -47,62 +47,25 @@ exports.favourite = function (req, res) {
 }
 
 // 商品属性
-exports.material = function(req,res){
+exports.sort = function(req,res){
 	// var sort_zh_cn=req.params.sort,
 	// 	material_zh_cn=req.params.material
 	var user = req.session.user,
 		cart = req.session.cart
 
 	// var SORT = req.params.sort,
-	// 	CATEGORY_NAME = Object.keys(req.params)[0],
-	// 	SORT_ZH_CN = Object.values(req.params)[0]
-
-	// console.log(Object.keys(req.params)[0])
-	// console.log(Object.values(req.params)[0])
-	// console.log('---- req.params ----')
-	// console.log(req.params)
-	// console.log(CATEGORY_NAME)
-	// console.log(SORT_ZH_CN)
-	// console.log(req.params)
-
-
-
-
-	res.render('index/goods/material',{
-		title: title,
-		// sort: {
-		// 	zh_cn: sort_zh_cn,
-		// 	en_us: sort_en_us
-		// },
-		category: {'attributes':
-			{
-				zh_cn: 'ttt',
-				en_us: 'aaa'
-			}
-		},
-		categories: [],
-		// goods: _category.pid,
-		// href: req._parsedUrl.search,
-		cart_goods: CartGoods(user, cart),
-		cart_goods_num: CartGoods(user, cart).length
-	})
-	
-	return false
+	var	CATEGORY_NAME = req.params.category_name
+		TARGET_ZH_CN = req.params.target_id_cn_name
 
 
 
 	var template = 'index/goods/material',
-		title = SORT_ZH_CN + '材质详情介绍'
-	// 如果是商品类型
-	if(SORT){
-		template = 'product_type'
-		title = SORT_ZH_CN + '分类'
-	}
+		title = TARGET_ZH_CN + '材质详情介绍'
 
 	Category.find({type:'goods', name: CATEGORY_NAME},function(err, categories){
 		if(err) console.log(err)
 		Category
-			.findOne({'attributes.zh_cn': SORT_ZH_CN})
+			.findOne({'attributes.zh_cn': TARGET_ZH_CN})
 			.populate({
 				path: 'pid',
 				model: 'Goods',
@@ -115,8 +78,6 @@ exports.material = function(req,res){
 			.exec(function(err, _category){
 				if(err) console.log(err)
 
-				// console.log(_category)
-
 				if(!_category){
 					console.log('该商品属性不存在或者已经被删除了。')
 					return res.render('prompt',{
@@ -126,14 +87,9 @@ exports.material = function(req,res){
 
 				res.render(template,{
 					title: title,
-					// sort: {
-					// 	zh_cn: sort_zh_cn,
-					// 	en_us: sort_en_us
-					// },
 					category: _category,
 					categories: categories,
 					goods: _category.pid,
-					// href: req._parsedUrl.search,
 					cart_goods: CartGoods(user, cart),
 					cart_goods_num: CartGoods(user, cart).length
 				})

@@ -46,7 +46,7 @@ module.exports = function(app){
 	app.get('/store', User.createCaptcha, Goods.search)
 	app.get('/goods/id/:id', User.createCaptcha, Goods.detail)
 	// app.get('/store/sort/:sort', User.createCaptcha, Global.fetchAllCategoryType, Global.categoryTypeHref, Goods.sort)
-	app.get('/store/material/:material', Goods.material)
+	app.get('/store/:category_name/:target_id_cn_name', Goods.sort)
 	app.post('/goods/favourite', Goods.favourite)
 
 	// admin goods
