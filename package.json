@@ -6,12 +6,12 @@
   "dependencies": {
     "bcryptjs": "^2.3.0",
     "body-parser": "^1.15.2",
-    "bson": "^1.0.1",
+    "bson": "^1.1.1",
     "connect-mongo": "^0.4.1",
     "connect-multiparty": "^2.0.0",
     "cookie-parser": "^1.4.3",
     "express": "^4.14.0",
-    "express-session": "^1.14.2",
+    "express-session": "^1.16.1",
     "moment": "^2.15.2",
     "mongoose": "^4.6.6",
     "morgan": "^1.7.0",
@@ -22,7 +22,7 @@
     "underscore": "^1.8.3"
   },
   "devDependencies": {
-    "grunt": "^1.0.1",
+    "grunt": "^1.0.4",
     "grunt-concurrent": "^2.3.1",
     "grunt-contrib-nodemon": "^0.5.4",
     "grunt-contrib-watch": "^1.0.0",
