@@ -1,39 +1,38 @@
-extends ../../../layout_index
+extends ../layout_index
 block append head
-	link(rel="stylesheet",href="/css/goods/item.css")
+	link(rel="stylesheet" href="/css/goods/item.css")
+	link(rel="stylesheet" href="/css/goods/material.css")
 block content
+	style.
 	.wrap.nav
 		a(href="/news")
 			i.fs14.icon-home
 		a(href="/store") 商品首页
-		//- span #{linkSort}
+		span 商品材料
 		b #{category.attributes.zh_cn}
+	section.wrap.goods-material-header
+		//- .banner
+		//- 	img(src="/data/banner/birch.jpg")
+		h1
+			| #{category.attributes.zh_cn}
+			small #{'('+category.attributes.en_us+')'}
+		//- p 桦木（学名：Betula）一般指桦木属约100种乔木和灌木的通称。单叶的边缘呈锯齿状或浅裂状，果实是小的翅果。桦木树皮平滑，含树脂，白色或杂色，有横走的皮孔，通常打横剥落成薄片，老树干的树皮厚而具深沟，开裂成不规则的片段。幼树短而纤细的枝条上举，呈窄塔形树冠。桦木的木材淡褐色至红褐色，用作地板、家具、纸浆、内部装饰材料、车船设备、胶合板等。耐寒、速生，对病虫害较有免疫力，用于重新造林、控制水土流失、防护覆盖或作保育树木。多要求湿润、肥沃的砂土或壤土，播种和嫁接繁殖。遍布于北半球寒冷地区。
+	if goods && goods.length > 0
+		section.wrap.material-frame
+			.sub-goods-frame-row4
+				.sub-header
+					i.icon-magnet.mr10
+					| 推荐商品
+				each item in goods
+					.sub-page-goods(id=item.id)
+						include ../../../themplate/goods
 	if categories && categories.length > 0
-	.goods-sort-bg(style="background-image:url(/banner/#{category.banner});")
-		.goodsSortFrame.mt15.pr
-			dl.goodsMaterial_side_nav
-				dt
-					i.icon-reorder.mr10
-					| 商品分类
-				each cats in categories
-					dd
-						if cats.id.toString() === category.id.toString()
-							a.animation.On(href="/store/#{linkSort}/#{cats.attributes.zh_cn}")
-								i.icon-angle-right.mr10
-								| #{cats.attributes.zh_cn}
-						else
-							a.animation(href="/store/#{linkSort}/#{cats.attributes.zh_cn}")
-								i.icon-angle-right.mr10
-								| #{cats.attributes.zh_cn}
-			div.goodsSort.goods-material
-				if category.description
-					h2.head: span #{category.attributes.zh_cn}
-					div.description !{category.description}
-				if products && products.length > 0
-					div.sub-goods-frame-row3
-						div.sub-goods-header
-							i.icon-magnet.mr10
-							| 推荐商品
-						each item in products
-							.sub-page-goods(id=item.id)
-								include ../../../themplate/goods
+		section.wrap.material-frame.other-material
+			.sub-header
+				i.icon-leaf.mr10
+				| 其他材料分类
+			each cats in categories
+				if cats.id.toString() !== category.id.toString()
+					a.other-material-item(href=`/store/material/${cats.attributes.zh_cn}`)
+						span #{cats.attributes.zh_cn}
+						span #{cats.attributes.en_us}

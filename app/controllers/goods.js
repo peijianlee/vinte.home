@@ -48,41 +48,49 @@ exports.favourite = function (req, res) {
 
 // 商品属性
 exports.sort = function(req,res){
-	var sort=req.params.sort,
-		material=req.params.material,
+	var sort_zh_cn=req.params.sort,
+		material_zh_cn=req.params.material,
 		user = req.session.user,
 		cart = req.session.cart
 
-	if(sort){
-		var findObj = {'attributes.zh_cn': sort},
-			linkSort = 'sort',
-			template = 'product_type',
-			title = sort+'分类'
+	var SORT = req.params.sort,
+		CATEGORY_NAME = Object.keys(req.params)[0],
+		SORT_ZH_CN = Object.values(req.params)[0]
 
-	}else{
-		var findObj = {'attributes.zh_cn': material},
-			linkSort = 'material',
-			template = 'index/goods/material',
-			title = material+'材质详情介绍'
+	// console.log(Object.keys(req.params)[0])
+	// console.log(Object.values(req.params)[0])
+	// console.log(req.params)
+	// console.log(req.params)
+	// console.log(req.params)
+	// console.log(req.params)
+	// console.log(req.params)
+	var template = 'index/goods/material',
+		title = SORT_ZH_CN + '材质详情介绍'
+	// 如果是商品类型
+	if(SORT){
+		template = 'product_type'
+		title = SORT_ZH_CN + '分类'
 	}
 
-	Category.find({type:'goods', name:linkSort},function(err, categories){
+	Category.find({type:'goods', name: CATEGORY_NAME},function(err, categories){
 		if(err) console.log(err)
 		Category
-			.findOne(findObj)
+			.findOne({'attributes.zh_cn': SORT_ZH_CN})
 			.populate({
 				path: 'pid',
 				model: 'Goods',
 				populate: {
-					path: 'scene material color',
+					path: 'attributes.scene attributes.material attributes.color]',
 					select: 'attributes',
 					model: 'Category'
 				}
 			})
-			.exec(function(err, category){
+			.exec(function(err, _category){
 				if(err) console.log(err)
 
-				if(!category){
+				// console.log(_category)
+
+				if(!_category){
 					console.log('该商品属性不存在或者已经被删除了。')
 					return res.render('prompt',{
 						message:'该商品属性不存在或者已经被删除了。'
@@ -91,11 +99,13 @@ exports.sort = function(req,res){
 
 				res.render(template,{
 					title: title,
-					linkSort: linkSort,
-					category: category,
+					// sort: {
+					// 	zh_cn: sort_zh_cn,
+					// 	en_us: sort_en_us
+					// },
+					category: _category,
 					categories: categories,
-					products: category.pid,
-					allCategoryType: req.session.allCategoryType,
+					goods: _category.pid,
 					// href: req._parsedUrl.search,
 					cart_goods: CartGoods(user, cart),
 					cart_goods_num: CartGoods(user, cart).length
@@ -490,39 +500,6 @@ exports.updatephoto = function(req,res){
 			})
 		})
 	})
-
-	// fs.readFile(filePath,function(err,data){
-
-	// 	var timestamp = Date.now()
-	// 	var type = files.type.split('/')[1] ? "jpeg" : "jpg"
-	// 	if(type == 'jpeg') type = "jpg"
-	// 	var imgsrc = timestamp + '.' +type
-	// 	// fs.mkdir(__dirname + '/../../public/images_data/'+filename,function(err){
-	// 	var newPath = path.join(__dirname, '../../', '/public/data/products/p'+id+'/'+imgsrc)
-
-	// 	fs.writeFile(newPath, data, function(err){
-	// 		if(err)console.log(err)
-	// 		// 删除旧图片
-	// 		if(cover){
-	// 			// rmdirSync(__dirname + '/../../public/data/products/p'+id+'/'+cover, function(err){
-	// 			// 	if(err) console.log(err)
-	// 			// 	console.log("删除目录以及子目录成功")
-	// 			// })
-	// 			DeletelFile('/public/data/products/p'+id+'/'+cover, function(re) {
-	// 				console.log("删除旧图片成功")
-	// 			})
-	// 		}
-	// 		// 保存新图片
-	// 		Goods.findById(id,function(err,_product){
-	// 			if(err)console.log(err)
-	// 			_product.cover = imgsrc
-	// 			_product.save(function(err){
-	// 				if(err)console.log(err)
-	// 				res.redirect('/admin/goods/update/'+id+'?edit=photo')
-	// 			})
-	// 		})
-	// 	})
-	// })
 }
 
 exports.updatecontent = function(req, res){

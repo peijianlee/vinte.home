@@ -56,14 +56,14 @@ exports.index = function(req,res){
 		cart = req.session.cart,
 		id=req.params.id
 
-	Category.aggregate([{
-		'$group': {
-			_id: '$name', 
-			cid: {$push: '$$ROOT'}
-		}
-	}], function(err, _category){
-		console.log(_category)
-	})
+	// Category.aggregate([{
+	// 	'$group': {
+	// 		_id: '$name', 
+	// 		cid: {$push: '$$ROOT'}
+	// 	}
+	// }], function(err, _category){
+	// 	console.log(_category)
+	// })
 
 	Category
 		.find({type:'goods'})
@@ -90,6 +90,7 @@ exports.index = function(req,res){
 				}
 			}
 
+			var INQUIRY_GOODS = getCartGoods(user, cart)
 
 			Goods
 				.find({})
@@ -104,14 +105,14 @@ exports.index = function(req,res){
 						sceneCategories: categoryAttributes['scene'],
 						sortCategories: categoryAttributes['sort'],
 						recommendGoods: _recommendGoods,
-						cart_goods: CartGoods(user, cart),
-						cart_goods_num: CartGoods(user, cart).length
+						cart_goods: INQUIRY_GOODS,
+						cart_goods_num: INQUIRY_GOODS.length
 					})
 				})
 		})
 }
 // 查找购物车商品数量
-function CartGoods(user, cart){
+function getCartGoods(user, cart){
 	var cartGoods = []
 	if(user){
 		cartGoods = user.shopcartgoods
@@ -123,6 +124,7 @@ function CartGoods(user, cart){
 			}
 		}
 	}
+	console.log(cartGoods)
 	return cartGoods
 }
 

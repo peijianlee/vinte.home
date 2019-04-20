@@ -23,15 +23,15 @@
 	margin-top:-15px;margin-right:10px;
 }*/
 /*-----海报----*/
-.bannerFrame,
-.banner li{
+/* .BannerFrame,
+.Banner li{
 	height:500px;width:800px;
 	overflow:hidden;
 }
-.banner{width:9999px;padding:0;}
-.banner img{width:900px;}
+.Banner{width:9999px;padding:0;}
+.Banner img{width:900px;}
 .bannerFrame{position:relative;margin-bottom:20px;}
-.banner li{
+.Banner li{
 	float:left;
 	list-style:none;
 	position:relative;
@@ -41,43 +41,42 @@
 	top:-30%;
 	width:80%;height:200%;
 	transform:rotate(-30deg);
-	/*background-color:rgba(0,0,0,0.4);*/
 	left:-200%;opacity:0;
 }
-.banner li.Stand .txtBg{
+.Banner li.Stand .txtBg{
 	animation:txtBgShow 0.5s linear;
 	animation-fill-mode:forwards;
 }
 @keyframes txtBgShow{
 	100%{opacity:0.6;left:-35%;;}
 }
-.banner li h3,
-.banner li p{
+.Banner li h3,
+.Banner li p{
 	position:absolute;
 	left:30px;color:white;opacity:0;
 	transform:translateY(20px);
 }
-.banner li h3{
+.Banner li h3{
 	bottom:35%;width:40%;padding-bottom:5px;
 	transform:translateY(20px);
 }
-.banner li p{
+.Banner li p{
 	top:66%;width:45%;font-size:14px;
 	transform:translateY(-10px);
 }
-.banner li.Stand h3,
-.banner li.Stand p{
+.Banner li.Stand h3,
+.Banner li.Stand p{
 	animation:showUp 0.2s linear;
 	animation-fill-mode:forwards;
 }
-.banner li.Stand h3{
+.Banner li.Stand h3{
 	-webkit-animation-delay:0.5s;
 	-moz-animation-delay:0.5s;
 	-o-animation-delay:0.5s;
 	-ms-animation-delay:0.5s;
 	animation-delay:0.5s;
 }
-.banner li.Stand p{
+.Banner li.Stand p{
 	-webkit-animation-delay:1s;
 	-moz-animation-delay:1s;
 	-o-animation-delay:1s;
@@ -103,7 +102,7 @@
 @keyframes onLoad{
 	80%{width:100%;}
 	100%{width:100%;}
-}
+} */
 
 .news_img_list li{
 	display:inline-block;margin-right:10px;
