@@ -47,10 +47,10 @@ exports.favourite = function (req, res) {
 }
 
 // 商品属性
-exports.sort = function(req,res){
-	var sort_zh_cn=req.params.sort,
-		material_zh_cn=req.params.material,
-		user = req.session.user,
+exports.material = function(req,res){
+	// var sort_zh_cn=req.params.sort,
+	// 	material_zh_cn=req.params.material
+	var user = req.session.user,
 		cart = req.session.cart
 
 	var SORT = req.params.sort,
@@ -64,6 +64,33 @@ exports.sort = function(req,res){
 	console.log(CATEGORY_NAME)
 	console.log(SORT_ZH_CN)
 	// console.log(req.params)
+
+
+
+
+	res.render('index/goods/material',{
+		title: title,
+		// sort: {
+		// 	zh_cn: sort_zh_cn,
+		// 	en_us: sort_en_us
+		// },
+		category: {'attributes':
+			{
+				zh_cn: 'ttt',
+				en_us: 'aaa'
+			}
+		},
+		categories: [],
+		// goods: _category.pid,
+		// href: req._parsedUrl.search,
+		cart_goods: CartGoods(user, cart),
+		cart_goods_num: CartGoods(user, cart).length
+	})
+	
+	return false
+
+
+
 	var template = 'index/goods/material',
 		title = SORT_ZH_CN + '材质详情介绍'
 	// 如果是商品类型
