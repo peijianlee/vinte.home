@@ -59,10 +59,10 @@ exports.sort = function(req,res){
 
 	// console.log(Object.keys(req.params)[0])
 	// console.log(Object.values(req.params)[0])
-	// console.log(req.params)
-	// console.log(req.params)
-	// console.log(req.params)
-	// console.log(req.params)
+	console.log('---- req.params ----')
+	console.log(req.params)
+	console.log(CATEGORY_NAME)
+	console.log(SORT_ZH_CN)
 	// console.log(req.params)
 	var template = 'index/goods/material',
 		title = SORT_ZH_CN + '材质详情介绍'
