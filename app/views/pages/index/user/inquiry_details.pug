@@ -1,0 +1,12 @@
+extends ../layout_index
+block append head
+	meta(name="robots" content="nofollow")
+	link(rel="stylesheet" href="/css/user.css")
+block content
+	.wrap.nav
+		a(href="/")
+			i.fs14.icon-home
+		a(href=`/user/${user.name}`) 我的个人中心
+		a(href=`/user/${user.name}/inquiries`) 询价单
+		b No.#{inquiry.id}
+	.user-frame.wrap

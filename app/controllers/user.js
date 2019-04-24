@@ -161,18 +161,18 @@ exports.list = function(req,res){
 }
 
 exports.signinRequired = function(req,res,next){
-	// req.session.user = {
-	// 	_id: '5c78db023a3aab2af80e213b',
-	// 	name: 'repeat',
-	// 	password: '$2a$10$Z5W36j4lycPIm8tn8h4PfuDQYThATF6Iz39x3EwMqUbT3cpRKvxBy',
-	// 	__v: 0,
-	// 	meta:
-	// 	{ updateAt: '2019-03-01T07:10:58.874Z',
-	// 	createAt: '2019-03-01T07:10:58.874Z' },
-	// 	role: 51,
-	// 	shopcartgoods: [ '5ca2da7a0ae95903bd182173', '5ca2c90046b74681cc021665' ],
-	// 	avatar: 'avatar.png'
-	// }
+	req.session.user = {
+		_id: '5c78db023a3aab2af80e213b',
+		name: 'repeat',
+		password: '$2a$10$Z5W36j4lycPIm8tn8h4PfuDQYThATF6Iz39x3EwMqUbT3cpRKvxBy',
+		__v: 0,
+		meta:
+		{ updateAt: '2019-03-01T07:10:58.874Z',
+		createAt: '2019-03-01T07:10:58.874Z' },
+		role: 51,
+		shopcartgoods: [ '5ca2da7a0ae95903bd182173', '5ca2c90046b74681cc021665' ],
+		avatar: 'avatar.png'
+	}
 	var user = req.session.user
 
 	console.log(user)
@@ -200,34 +200,34 @@ exports.adminRequired = function(req,res,next){
 
 // 用户中心
 exports.detail = function(req,res){
-	var USER = req.session.user
+	var user = req.session.user
 	
 	// 测试用
-	if(!USER){
+	if(!user){
 		return res.render('prompt',{
 			message:'非法路径或该用户不存在。'
 		})
 	}
 		
 	Inquiry
-		.find({'uid': USER._id, 'user_delete': 0})
+		.find({'uid': user._id, 'user_delete': 0})
 		.limit(5)
 		.exec(function (err, _inquiries) {
 			if(err) console.log(err)
 			console.log(_inquiries)
 			Goods
-				.find({'favourite': USER._id})
+				.find({'favourite': user._id})
 				.limit(5)
 				.populate('color material scene sort','attributes')
 				.exec(function (err, _favouritegoods) {
 					if (err) console.log(err)
 					// console.log(favouritegoods)
 					res.render('index/user',{
-						title: USER.name + '的个人中心',
-						user: USER,
+						title: user.name + '的个人中心',
+						user: user,
 						inquiries: _inquiries,
 						favouritegoods: _favouritegoods,
-						cart_goods: USER.shopcartgoods
+						cart_goods: user.shopcartgoods
 					})
 				})
 		})
@@ -235,8 +235,7 @@ exports.detail = function(req,res){
 
 // 个人中心 - 收藏列表
 exports.favourite = function(req, res) {
-	var user = req.session.user,
-		USER_NAME = req.params.name
+	var user = req.session.user
 	
 	Goods
 		.find({'favourite': user._id})
@@ -244,7 +243,7 @@ exports.favourite = function(req, res) {
 		.exec( function (err, _favouritegoods) {
 			if (err) console.log (err)
 			res.render('index/user/inquiry', {
-				title: '收藏夹 - ' + USER_NAME + '的个人中心',
+				title: '收藏夹 - ' + user.name + '的个人中心',
 				page: 'favourite',
 				favouritegoods: _favouritegoods,
 				cart_goods: user.shopcartgoods
@@ -275,7 +274,7 @@ exports.inquiries = function(req, res) {
 						message:'找不到该咨询单，可能已被删除，或是路径错误。'
 					})
 				} else {
-					res.render('index/user/inquiry_detail',{
+					res.render('index/user/inquiry_details',{
 						title: 'No.' + _inquiry._id + ' - ' + TITLE,
 						inquiry: _inquiry,
 						cart_goods: user.shopcartgoods
