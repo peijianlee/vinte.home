@@ -48,12 +48,9 @@ exports.favourite = function (req, res) {
 
 // 商品属性
 exports.sort = function(req,res){
-	// var sort_zh_cn=req.params.sort,
-	// 	material_zh_cn=req.params.material
 	var user = req.session.user,
 		cart = req.session.cart
 
-	// var SORT = req.params.sort,
 	var	CATEGORY_NAME = req.params.category_name
 		TARGET_ZH_CN = req.params.target_id_cn_name
 

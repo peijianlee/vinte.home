@@ -33,7 +33,7 @@ block content
 			if inquiry
 				dd
 					span.cGray 咨询单编号：
-					a.order_link(href=`/user/${user.name}/inquirys/${inquiry.id}` onclick="javascript:location.replace(this.href);event.returnValue=false;") #{inquiry.id}
+					a.order_link(href=`/user/${user.name}/inquiries/${inquiry.id}` onclick="javascript:location.replace(this.href);event.returnValue=false;") #{inquiry.id}
 				dd
 					span.cGray 创建时间：#{moment(inquiry.data).format('YYYY-MM-DD HH:mm:ss')}
 				dd(style="color:#088") 我们会在创建时间之后的 5 个工作内通过电子邮箱或你的联系电话回复你，请耐心等待！

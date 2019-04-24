@@ -57,7 +57,7 @@ block content
 					textarea.create_order_userinfo_textarea(placeholder="如需备注" name="inquiry.from[description]")
 				dd.pb20.tc
 					//- button#createBtn.createBtn.animation(type="sumbit") 确认创建询价单
-					button#createBtn(type="sumbit") 创建询价单
+					button#createBtn(type="sumbit" onclick="javascript:location.replace(this.href);event.returnValue=false;") 创建询价单
 			table.shopcart_list(style="width:70%;")
 				caption.shopcart_head
 					i.icon-list.mr10

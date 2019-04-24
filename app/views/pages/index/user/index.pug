@@ -1,5 +1,6 @@
 extends ../layout_index
 block append head
+	meta(name="robots" content="nofollow")
 	link(rel="stylesheet" href="/css/user.css")
 block content
 	.wrap.nav
@@ -16,7 +17,7 @@ block content
 						| 超级管理员
 					else
 						| 注册会员
-				a.user_setting_btn.animation(href=`/user/${user.name}/setting`)
+				//- a.user_setting_btn.animation(href=`/user/${user.name}/setting`)
 					i.icon-cog
 			.user_role.mt15
 				span 注册时间：#{moment(user.meta.createAt).format('YYYY / MM / DD')}

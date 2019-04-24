@@ -32,15 +32,6 @@ exports.detail = function(req, res){
 		.findOne({_id: id})
 		.populate('uid', 'name')
 		.populate('goods.sort goods.color goods.material goods.scene', 'attributes')
-		// .populate({
-		// 	path: 'products._id',
-		// 	model: 'Product',
-		// 	populate: {
-		// 		path: 'sort color material scene',
-		// 		select: 'attributes',
-		// 		model: 'Category'
-		// 	}
-		// })
 		.exec(function(err, inquiry){
 			if(err) console.log(err)
 			res.render('admin/inquiry/detail', {

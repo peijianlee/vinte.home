@@ -161,12 +161,26 @@ exports.list = function(req,res){
 }
 
 exports.signinRequired = function(req,res,next){
-	// var user = req.session.user
-
-	// if(!user){
-	// 	console.log('未登录')
-	// 	return res.redirect('/signin')
+	// req.session.user = {
+	// 	_id: '5c78db023a3aab2af80e213b',
+	// 	name: 'repeat',
+	// 	password: '$2a$10$Z5W36j4lycPIm8tn8h4PfuDQYThATF6Iz39x3EwMqUbT3cpRKvxBy',
+	// 	__v: 0,
+	// 	meta:
+	// 	{ updateAt: '2019-03-01T07:10:58.874Z',
+	// 	createAt: '2019-03-01T07:10:58.874Z' },
+	// 	role: 51,
+	// 	shopcartgoods: [ '5ca2da7a0ae95903bd182173', '5ca2c90046b74681cc021665' ],
+	// 	avatar: 'avatar.png'
 	// }
+	var user = req.session.user
+
+	console.log(user)
+
+	if(!user){
+		console.log('未登录')
+		return res.redirect('/signin')
+	}
 	next()
 }
 
@@ -186,94 +200,98 @@ exports.adminRequired = function(req,res,next){
 
 // 用户中心
 exports.detail = function(req,res){
-	var user = req.session.user
+	var USER = req.session.user
+	
+	// 测试用
+	if(!USER){
+		return res.render('prompt',{
+			message:'非法路径或该用户不存在。'
+		})
+	}
+		
+	Inquiry
+		.find({'uid': USER._id, 'user_delete': 0})
+		.limit(5)
+		.exec(function (err, _inquiries) {
+			if(err) console.log(err)
+			console.log(_inquiries)
+			Goods
+				.find({'favourite': USER._id})
+				.limit(5)
+				.populate('color material scene sort','attributes')
+				.exec(function (err, _favouritegoods) {
+					if (err) console.log(err)
+					// console.log(favouritegoods)
+					res.render('index/user',{
+						title: USER.name + '的个人中心',
+						user: USER,
+						inquiries: _inquiries,
+						favouritegoods: _favouritegoods,
+						cart_goods: USER.shopcartgoods
+					})
+				})
+		})
+}
+
+// 个人中心 - 收藏列表
+exports.favourite = function(req, res) {
+	var user = req.session.user,
+		USER_NAME = req.params.name
+	
+	Goods
+		.find({'favourite': user._id})
+		.populate('attributes.color attributes.material attributes.scene attributes.sort', 'attributes')
+		.exec( function (err, _favouritegoods) {
+			if (err) console.log (err)
+			res.render('index/user/inquiry', {
+				title: '收藏夹 - ' + USER_NAME + '的个人中心',
+				page: 'favourite',
+				favouritegoods: _favouritegoods,
+				cart_goods: user.shopcartgoods
+			})
+		})
+}
+
+// 个人中心 - 后台咨询单
+exports.inquiries = function(req, res) {
+	var user = req.session.user,
+		// USER_NAME = req.params.name,
+		TITLE = user.name + '的个人中心',
+		ID = req.params.id
+		
 	if(!user){
 		return res.render('prompt',{
 			message:'非法路径或该用户不存在。'
 		})
 	}
-
-	var	page=req.params.page,
-		orderId=req.params.id,
-		shopcartgoodsNum = user.shopcartgoods.length
-
-	User.findOne({'_id':user._id}, function (err,_user) {
-		if(err) console.log(err)
-		var title = _user.name + '的个人中心'
-		if (!page) {
-			Inquiry
-				.find({'uid': _user.id, 'user_delete': 0})
-				.limit(5)
-				.exec(function (err, inquiries) {
-					if(err) console.log(err)
-					Goods
-						.find({'favourite': _user._id})
-						.limit(5)
-						.populate('color material scene sort','attributes')
-						.exec(function (err, favouritegoods) {
-							if (err) console.log(err)
-							console.log(favouritegoods)
-							res.render('index/user',{
-								title: title,
-								user: _user,
-								inquiries: inquiries,
-								favouritegoods: favouritegoods,
-								cart_goods_num: shopcartgoodsNum
-							})
-						})
-				})
-		} else if (page.toString() === 'setting') {
-			res.render('user/setting',{
-				title: '用户设置 - ' + title,
-				user: user,
-				cart_goods_num: shopcartgoodsNum
-			})
-		} else if (page.toString() === 'inquiries' && !orderId) {
-			Inquiry.find({'uid': user._id, 'user_delete': 0},function (err, _inquiries) {
-				res.render('index/user/inquiry',{
-					title: '所有询价单 - ' + title,
-					page: 'inquiries',
-					inquiries: _inquiries,
-					cart_goods_num: shopcartgoodsNum
-				})
-			})
-		} else if (page.toString() === 'favourite') {
-			Goods
-				.find({'favourite': user._id})
-				.populate('color material scene sort', 'attributes')
-				.exec( function (err, favouritegoods) {
-					if (err) console.log (err)
-					res.render('index/user/inquiry', {
-						title: '收藏夹 - ' + title,
-						page: 'favourite',
-						favouritegoods: favouritegoods,
-						cart_goods_num: shopcartgoodsNum
+	if(ID){
+		Inquiry
+			.findOne({'_id': ID, 'user_delete': 0})
+			// .populate('attributes.scene attributes.material attributes.color','attributes')
+			.exec(function(err, _inquiry){
+				console.log(_inquiry)
+				if (!_inquiry) {
+					return res.render('prompt',{
+						message:'找不到该咨询单，可能已被删除，或是路径错误。'
 					})
-				})
-		} else if (orderId) {
-			Inquiry
-				.findOne({'_id': orderId, 'user_delete': 0})
-				.populate('goods.scene goods.material goods.color','attributes')
-				.exec(function(err, _inquiry){
-					if (!_inquiry) {
-						return res.render('prompt',{
-							message:'非法路径或该订单已经不存在。'
-						})
-					} else {
-						res.render('index/user/inquiry_detail',{
-							title: 'No.' + _inquiry._id + ' - ' + title,
-							inquiry: _inquiry,
-							cart_goods_num: shopcartgoodsNum
-						})
-					}
-				})
-		} else {
-			res.render('error', {
-				message: 'Not Found',
-				error: {status: '404', stack: 'Error: Not Found'}
+				} else {
+					res.render('index/user/inquiry_detail',{
+						title: 'No.' + _inquiry._id + ' - ' + TITLE,
+						inquiry: _inquiry,
+						cart_goods: user.shopcartgoods
+					})
+				}
 			})
-		}
-	})
+	} else {
+		Inquiry.find({'uid': user._id, 'user_delete': 0},function (err, _inquiries) {
+			res.render('index/user/inquiry',{
+				title: '所有询价单 - ' + TITLE,
+				page: 'inquiries',
+				inquiries: _inquiries,
+				cart_goods: user.shopcartgoods
+			})
+		})
+	}
 }
 
 // 后台用户详情
@@ -286,7 +304,7 @@ exports.adminDetail = function (req, res) {
 			if (err) console.log(err)
 			Goods
 				.find({'favourite': user.id})
-				.populate('color material scene sort','attributes')
+				.populate('attributes.color attributes.material attributes.scene attributes.sort','attributes')
 				.exec( function (err, products) {
 					if (err) console.log(err)
 					console.log(products)

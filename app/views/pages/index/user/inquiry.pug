@@ -1,5 +1,6 @@
 extends ../layout_index
 block append head
+	meta(name="robots" content="nofollow")
 	link(rel="stylesheet" href="/css/user.css")
 block content
 	.wrap.nav
@@ -120,10 +121,10 @@ block content
 							| 浏览商城
 
 	.bg_fixed
-	if page === 'order'
+	if page === 'inquiries'
 		script.
-			var postUrl = '/order/delete',
-				page = 'order'
+			var postUrl = '/inquiry/delete',
+				page = 'inquiries'
 	else
 		script.
 			var postUrl = '/goods/favourite',
@@ -141,7 +142,9 @@ block content
 					var delOrder = $(this).attr('del-inquiry')
 						pid = sid,
 						ptitle = delOrder ? stitle.length : stitle 
-					if(pid.length <= 0) return $.artTip('当前没有选中项', 800)
+					if(pid.length <= 0) {
+						return $.artTip({title: '当前没有选中任何项！', time: 1200})
+					}
 				} else {
 					var pid = $(this).parents('tr').attr('id'),
 						ptitle = $(this).parents('tr').attr('stitle')

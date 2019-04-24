@@ -19,7 +19,21 @@ var path = require('path')
 module.exports = function(app){
 	// pre handle user
 	app.use( function (req, res, next) {
-		var _user = req.session.user
+		// var _user = req.session.user
+
+		var _user = {
+			_id: '5c78db023a3aab2af80e213b',
+			name: 'repeat',
+			password: '$2a$10$Z5W36j4lycPIm8tn8h4PfuDQYThATF6Iz39x3EwMqUbT3cpRKvxBy',
+			__v: 0,
+			meta:
+			{ updateAt: '2019-03-01T07:10:58.874Z',
+			createAt: '2019-03-01T07:10:58.874Z' },
+			role: 51,
+			shopcartgoods: [ '5ca2da7a0ae95903bd182173', '5ca2c90046b74681cc021665' ],
+			avatar: 'avatar.png'
+		}
+
 		app.locals.user = _user
 		return next()
 	})
@@ -94,16 +108,21 @@ module.exports = function(app){
 	app.delete('/admin/news/list', User.signinRequired, User.adminRequired, News.del)
 
 	//User
-	app.get('/user/:name', User.signinRequired, User.detail)
-	app.get('/user/:name/:page', User.signinRequired, User.detail)
-	app.get('/user/:name/:page/:id', User.signinRequired, User.detail)
-	app.post('/user/changeword', User.signinRequired, User.changeword)
 	app.get('/captcha',User.createCaptcha)
-	app.post('/user/signup', User.signup, Shopcart.matchcart)
-	app.post('/user/signin', User.checkedCaptcha, User.signin, Shopcart.matchcart)
+	app.get('/user/:name', User.signinRequired, User.detail)
+	// app.get('/user/:name/:page', User.signinRequired, User.detail)
+	// app.get('/user/:name/:page/:id', User.signinRequired, User.detail)
+	app.get('/user/:name/inquiries', User.signinRequired, User.inquiries)
+	app.get('/user/:name/inquiries/:id', User.signinRequired, User.inquiries)
+	app.get('/user/:name/favourite', User.signinRequired, User.favourite)
 	app.get('/signup', User.userRequired, User.createCaptcha, User.sign)
 	app.get('/signin', User.userRequired, User.createCaptcha, User.sign)
 	app.get('/logout', User.logout)
+	app.post('/user/changeword', User.signinRequired, User.changeword)
+	app.post('/user/signup', User.signup, Shopcart.matchcart)
+	app.post('/user/signin', User.checkedCaptcha, User.signin, Shopcart.matchcart)
+
+	// 后台用户列表
 	app.get('/admin/user/list', User.signinRequired, User.adminRequired, User.list)
 	app.get('/admin/user/:name', User.signinRequired, User.adminRequired, User.adminDetail)
 	app.delete('/admin/user/del', User.signinRequired, User.adminRequired, User.del)
