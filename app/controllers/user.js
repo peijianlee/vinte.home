@@ -279,7 +279,7 @@ exports.inquiries = function(req, res) {
 						message:'找不到该咨询单，可能已被删除，或是路径错误。'
 					})
 				} else {
-					res.render('index/user/inquiry_detail',{
+					res.render('index/user/inquiry_details',{
 						title: 'No.' + _inquiry._id + ' - ' + TITLE,
 						inquiry: _inquiry,
 						cart_goods: user.shopcartgoods
