@@ -19,13 +19,11 @@ block content
 		//- p 桦木（学名：Betula）一般指桦木属约100种乔木和灌木的通称。单叶的边缘呈锯齿状或浅裂状，果实是小的翅果。桦木树皮平滑，含树脂，白色或杂色，有横走的皮孔，通常打横剥落成薄片，老树干的树皮厚而具深沟，开裂成不规则的片段。幼树短而纤细的枝条上举，呈窄塔形树冠。桦木的木材淡褐色至红褐色，用作地板、家具、纸浆、内部装饰材料、车船设备、胶合板等。耐寒、速生，对病虫害较有免疫力，用于重新造林、控制水土流失、防护覆盖或作保育树木。多要求湿润、肥沃的砂土或壤土，播种和嫁接繁殖。遍布于北半球寒冷地区。
 	if goods && goods.length > 0
 		section.wrap.material-frame
-			.sub-goods-frame-row4
-				.sub-header
-					i.icon-magnet.mr10
-					| 推荐商品
-				each item in goods
-					.sub-page-goods(id=item.id)
-						include ../../../themplate/goods
+			.sub-header
+				i.icon-magnet.mr10
+				| 推荐商品
+			each item in goods
+				include ../../../themplate/goods
 	if categories && categories.length > 0
 		section.wrap.material-frame.other-material
 			.sub-header

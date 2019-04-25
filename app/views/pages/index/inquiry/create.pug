@@ -4,7 +4,7 @@ block append head
 block content
 	.wrap
 		.nav.mt10
-			a(href="/news" )
+			a(href="/" )
 				i.fs14.icon-home
 			a(href="/store") 商城首页
 			a(href="/inquiry") 询价单列表
@@ -66,34 +66,26 @@ block content
 					tr
 						th(width="140") 商品图片
 						th.tl 描述
+						th.tc 价格
 						th 目标数量
 							i.icon-edit.ml5
 						th(width="150") 目标单价
 							i.icon-edit.ml5
 				tbody
 					if goods && goods.length>0
+						- var priceFontSize = 'fs12'
+						- var goodsSaleNoLabel = 'goods-sale-no-label'
 						each item in goods
 							tr(id=item.id)
 								td
 									img(src="/data/goods/"+item.id+"/"+item.cover)
-								td.shopcart_goods_name.vatop
+								td.shopcart_goods_name
 									ul
-										li.mb5
-											h3 #{item.title}
-										li #{formatSize(item.size)}
-										if item.material && item.material.length > 0
-											li 材质： 
-												each i_material in item.material
-													span.ml5 #{i_material.attributes.zh_cn}
-										if item.color && item.color.length > 0
-											li 颜色：
-												each i_color in item.color
-													span.ml5 #{i_color.attributes.zh_cn}
-										li.mt5
-											| 售价：
-											span.fb.base-color.fs18 #{formatPrice(item.sale || item.price)}
+										include ../../../themplate/goods_attributes
 									input(type="hidden" name="inquiry.goods[pid.id]" value=item.id)
-								td.tc.vatop
+								td.mt5
+									include ../../../themplate/goods_price
+								td.tc
 									input.fs14.orderQuantity(
 										onfocus="enterKeyPress(this,'quantity')" 
 										onblur=`blurFormatNumber(this, Quantity${item.id}, 'quantity')` 
@@ -102,11 +94,11 @@ block content
 										value="1 PCS" 
 										readonly=true 
 										oncontextmenu="return false" )
-									input(id=`Quantity${item.id}` type="hidden" name="inquiry.goods[pid.quantity]" value="1 PCS")
+									input(id=`Quantity${item.id}` type="hidden" name="inquiry.goods[pid.quantity]" value="1")
 									div.cAaa.fs11.cd.mt5
 										i.icon-lightbulb.mr5
 										span 点击数量修改
-								td.tc.vatop
+								td.tc
 									input.fs14.orderPrice(
 										onfocus="enterKeyPress(this)" 
 										onblur=`blurFormatNumber(this, Price${item.id})` 
@@ -121,4 +113,4 @@ block content
 										span 点击价格修改
 			br.clear
 	.bg_fixed
-	script(src="/js/inquiry.js")
+	script(src="/js/index/inquiry-create.js")

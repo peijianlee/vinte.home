@@ -1,0 +1,4 @@
+.fb(class=`${item.sale&&(goodsSaleNoLabel || 'goods-sale')} ${priceFontSize || 'fs16'}`)
+    span #{formatPrice(item.price)}
+    if item.sale
+        span #{formatPrice(item.sale)}

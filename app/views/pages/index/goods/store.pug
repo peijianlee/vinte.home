@@ -3,17 +3,14 @@ block append head
 	link(rel="stylesheet" href="/css/goods/item.css")
 block content
 	include ../../../themplate/fiter_bar
-	.wrap.pt10
-		.overflow-hidden.pb20
-			if goods && goods.length > 0
-				.sub-goods-frame-row4
-					each item in goods
-						.sub-page-goods(id=item.id)
-							include ../../../themplate/goods
-			else
-				.search-empty-tip.bg-slash.bg-gray
-					p 
-						i.icon-exclamation-sign.mr10
-						|没有找到相关的商品 :(
-			.page.mt20.mb10.ml10
-				include ../../../themplate/page
+	.wrap.pt10.pb20
+		if goods && goods.length > 0
+			each item in goods
+				include ../../../themplate/goods
+		else
+			.search-empty-tip.bg-slash.bg-gray
+				p 
+					i.icon-exclamation-sign.mr10
+					|没有找到相关的商品 :(
+		.page.mt20.mb10.ml10
+			include ../../../themplate/page

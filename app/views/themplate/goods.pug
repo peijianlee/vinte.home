@@ -1,42 +1,43 @@
-a.fs0.block(href="/goods/id/"+item.id)
-	img.vtLazyload(src='/default.png', data-src='/data/goods/'+item.id+'/'+item.cover)
-//- div.ip_bg
-ul.ip_description
-	li
-		a(href="/goods/id/"+item.id).ip_title
-			| #{item.title}
-			
-			if item.attributes.material && item.attributes.material.length > 0
-				|&nbsp;#{item.attributes.material[0].attributes.zh_cn}
-			//- else
-			//- 	|&nbsp;未知材料
-			|&nbsp;#{formatSize(item.size)}
-			if item.attributes.color && item.attributes.color.length > 0
-				|&nbsp;/ #{item.attributes.color[0].attributes.zh_cn}
-			//- else
-			//- 	|&nbsp;/ 未知颜色
-	li
-		if item.sale
-			span.ip_tag 特价商品
-		if (moment(item.meta.createAt).add('hour',8).fromNow()).indexOf('ago') < 0
-			span.ip_tag 新品
-		if user
-			span#ip_favourite.ip_tag.cp.ip_favourite_btn(class=`${item.favourite.indexOf(user._id) > -1 ? 'On' : ''}`)
-				i.icon-star
-				i.icon-star-empty
-				b.ip_favourite_num #{item.favourite.length}
-		else
-			span#ip_favourite.ip_tag.cp(data-toggle="modal" data-target="#signinModal")
-				i.icon-star
-				i.icon-star-empty
-				b.ip_favourite_num #{item.favourite.length}
-	li
-		span(class=`igoods_add_cart_btn ${cart_goods.indexOf(item.id) > -1 ? 'Stand' : '' + ' cp animation'}`)
-			i.icon-shopping-cart
-			input(type="hidden" name="p[id]" value=item.id)
-			input(type="hidden" name="p[quantity]" value="1")
-		if item.sale
-			small.ip_price #{formatPrice(item.sale)}
-			small.ip_old_price #{formatPrice(item.price)}
-		else
-			small.ip_price #{formatPrice(item.price)}
+.goods-item(id=item.id)
+	a.fs0.block(href="/goods/id/"+item.id)
+		img.vtLazyload(src='/default.png', data-src='/data/goods/'+item.id+'/'+item.cover)
+	//- div.ip_bg
+	ul.ip_description
+		li
+			a(href="/goods/id/"+item.id).ip_title
+				| #{item.title}
+				
+				if item.attributes.material && item.attributes.material.length > 0
+					|&nbsp;#{item.attributes.material[0].attributes.zh_cn}
+				//- else
+				//- 	|&nbsp;未知材料
+				|&nbsp;#{formatSize(item.size)}
+				if item.attributes.color && item.attributes.color.length > 0
+					|&nbsp;/ #{item.attributes.color[0].attributes.zh_cn}
+				//- else
+				//- 	|&nbsp;/ 未知颜色
+		li
+			if item.sale
+				span.ip_tag 特价商品
+			if (moment(item.meta.createAt).add('hour',8).fromNow()).indexOf('ago') < 0
+				span.ip_tag 新品
+			if user
+				span#ip_favourite.ip_tag.cp.ip_favourite_btn(class=`${item.favourite.indexOf(user._id) > -1 ? 'On' : ''}`)
+					i.icon-star
+					i.icon-star-empty
+					b.ip_favourite_num #{item.favourite.length}
+			else
+				span#ip_favourite.ip_tag.cp(data-toggle="modal" data-target="#signinModal")
+					i.icon-star
+					i.icon-star-empty
+					b.ip_favourite_num #{item.favourite.length}
+		li
+			span(class=`igoods_add_cart_btn ${cart_goods.indexOf(item.id) > -1 ? 'Stand' : '' + ' cp animation'}`)
+				i.icon-shopping-cart
+				input(type="hidden" name="p[id]" value=item.id)
+				input(type="hidden" name="p[quantity]" value="1")
+			if item.sale
+				small.ip_price #{formatPrice(item.sale)}
+				small.ip_old_price #{formatPrice(item.price)}
+			else
+				small.ip_price #{formatPrice(item.price)}

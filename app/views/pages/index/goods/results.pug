@@ -18,18 +18,15 @@ block content
 					b.base-color-dark  #{goods_total} 
 					| 件商品
 	include ../../../themplate/fiter_bar
-	.wrap.igoods_list
-		.category_list
-		.sub-goods-frame-row4
-			if goods && goods.length > 0
-				each item in goods
-					.sub-page-goods(id=item.id)
-						include ../../../themplate/goods
-			else
-				.search-empty-tip.bg-slash.bg-gray
-					p 
-						i.icon-exclamation-sign.mr10
-						|没有找到相关的商品 :(
+	.wrap.pt15
+		if goods && goods.length > 0
+			each item in goods
+				include ../../../themplate/goods
+		else
+			.search-empty-tip.bg-slash.bg-gray
+				p 
+					i.icon-exclamation-sign.mr10
+					|没有找到相关的商品 :(
 		
 		.page.mt15.mb30
 			include ../../../themplate/page

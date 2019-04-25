@@ -29,7 +29,7 @@ exports.detail = function(req,res){
 
 		Goods
 			.find({_id:{$in:session_gid}})
-			.populate('sort color material scene','attributes')
+			.populate('attributes.sort attributes.color attributes.material attributes.scene','attributes')
 			.exec(function (err,goods){
 				if(err) console.log(err)
 
@@ -57,7 +57,7 @@ exports.detail = function(req,res){
 				path: 'goods.pid',
 				model: 'Goods',
 				populate: {
-					path: 'sort color material scene',
+					path: 'attributes.sort attributes.color attributes.material attributes.scene',
 					select: 'attributes',
 					model: 'Category'
 				}
@@ -86,11 +86,11 @@ exports.createInquiryInfo = function(req, res){
 	if(User){
 		Goods
 			.find({_id: {$in: inquiryObj}})
-			.populate('sort color material scene','attributes')
-			.exec(function(err, goods){
+			.populate('attributes.sort attributes.color attributes.material attributes.scene','attributes')
+			.exec(function(err, _goods){
 				res.render('index/inquiry/create',{
 					title: '创建询价单',
-					goods: goods,
+					goods: _goods,
 					cart_goods: User.shopcartgoods
 				})
 			})

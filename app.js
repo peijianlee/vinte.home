@@ -12,7 +12,9 @@ var env = process.env.NODE_ENV || 'development'
 var port = process.env.PORT || config.port
 
 var dbUrl = config.onlineDbUrl
+// console.log('---- process.env -----')
 // console.log(process.env)
+// console.log('---- process.env -----')
 if(env === 'development'){
     dbUrl = config.localDbUrl
 }

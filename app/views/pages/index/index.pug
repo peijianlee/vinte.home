@@ -1,6 +1,7 @@
 extends layout_index
 block append head
 	//- link(rel="stylesheet",href="/css/goods.css")
+	link(rel="stylesheet" href="/css/goods/item.css")
 	link(rel="stylesheet" href="/css/index.css")
 block content
 	.index-banner-bgcolor.tc.fs0
@@ -59,16 +60,13 @@ block content
 
 	.wrap.pt50.pb50
 		.g-head-title.base-color-dark.fb.tc.mb20
-			block append head
-				link(rel="stylesheet" href="/css/goods/item.css")
 			i.icon-magnet.mr10
 			| 推荐商品
 			br
 			span Recommended Goods
 		if recommendGoods && recommendGoods.length > 0
 			each item in recommendGoods
-				.igoods(id=item.id)
-					include ../../themplate/goods
+				include ../../themplate/goods
 		br.clear
 		.tc.mt20
 			a.g-remore-btn(href="/store")

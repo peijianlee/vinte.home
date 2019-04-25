@@ -35,24 +35,22 @@ block content
                     tr
                         th(width="100") 图片
                         th 名称
-                        th(width="120") 官方定价
-                        th(width="60") 目标数量
+                        th(width="110") 官方定价
+                        th(width="100") 目标数量
                         th 目标价格
                     if inquiry.goods && inquiry.goods.length > 0
+                        - var goodsSaleNoLabel = 'goods-sale-no-label', priceFontSize = 'fs12'
                         each item in inquiry.goods
-                            //- - console.log('----')
-                            //- - console.log(item.attributes.sort || '----no----')
                             tr.fs12
                                 td
                                     img(style="width:100px;height:100px;" src=`/data/goods/${item.id}/${item.cover}`)
-                                td: ul.tl
-                                    include ../../../themplate/goods_attributes
-                                    td.fn.tc.cGray(class=item.sale&&'goods-sale-no-label')
-                                        span #{formatPrice(item.price)}
-                                        if item.sale
-                                            span #{formatPrice(item.sale)}
-                                    td.fb.tc #{item.quantity}
-                                    td.fb.tc.base-color.fs18 #{formatPrice(item.fromprice)}
+                                td
+                                    ul.tl
+                                        include ../../../themplate/goods_attributes
+                                        td.fn.tc
+                                            include ../../../themplate/goods_price
+                                        td.fb.tc.fs14 !{item.quantity + '<samll class="fs12">PCS</samll>'}
+                                        td.fb.tc.base-color.fs16 #{formatPrice(item.fromprice)}
             dl.order_detail_right
                 dt.order_detail_list_head.fb
                     i.icon-info.mr5

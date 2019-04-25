@@ -79,10 +79,8 @@ block content
 							td(style="vertical-align:top;")
 								ul.tl.fs11.cGray.line-height-normal
 									include ../../../themplate/goods_attributes
-							td.fb.fs16(class=item.sale&&'goods-sale')
-								span #{formatPrice(item.price)}
-								if item.sale
-									span #{formatPrice(item.sale)}
+							td
+								include ../../../themplate/goods_price
 							td
 								a(href=`/goods/id/${item.id}` target="_blank").base-button.b-primary.b-tiny 查看
 				else

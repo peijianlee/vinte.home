@@ -2,7 +2,8 @@
 html,body,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,p{padding:0;margin:0;}
 
 body{
-	font-family:"Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","WenQuanYi Micro Hei",sans-serif;
+	font-family: Microsoft YaHei,tahoma,arial,Hiragino Sans GB,u5b8bu4f53,sans-serif;
+	/* font-family:"Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","WenQuanYi Micro Hei",sans-serif; */
 	color:#3e3e3e;
 }
 a{text-decoration:none;color:#333;outline:0 none;}
@@ -20,6 +21,7 @@ button:visited{outline:0 none;border:0 none;}
 ul,ol,li{list-style-type:none;}
 
 /*字体颜色*/
+.base-color-light{color:#4dc7c5;}
 .base-color{color:#25a6a4;}
 .base-color-dark{color:#066;}
 a.base-color-dark:visited{color:#088;}
@@ -122,6 +124,7 @@ a.base-color-dark:hover{
 .tl{text-align:left;}
 .tr{text-align:right;}
 .tc{text-align:center;}
+.vertical-align-middle{vertical-align: middle;}
 
 .hide{display:none;}
 .block{display:block;}
