@@ -25,18 +25,45 @@ var InquirySchema = new Schema({
 			type: Number,
 			default: 0
 		},
-		scene: [{
-			type: ObjectId,
-			ref: 'Category'
-		}],
-		material: [{
-			type: ObjectId,
-			ref: 'Category'
-		}],
-		color: [{
-			type: ObjectId,
-			ref: 'Category'
-		}],
+		// scene: [{
+		// 	type: ObjectId,
+		// 	ref: 'Category'
+		// }],
+		// material: [{
+		// 	type: ObjectId,
+		// 	ref: 'Category'
+		// }],
+		// color: [{
+		// 	type: ObjectId,
+		// 	ref: 'Category'
+		// }],
+		attributes: {
+			// 风格
+			style: [{
+				type: ObjectId,
+				ref: 'Category'
+			}],
+			// 家类型
+			sort: [{
+				type: ObjectId,
+				ref: 'Category'
+			}],
+			// 使用场所
+			scene: [{
+				type: ObjectId,
+				ref: 'Category'
+			}],
+			// 材质
+			material: [{
+				type: ObjectId,
+				ref: 'Category'
+			}],
+			// 颜色
+			color: [{
+				type: ObjectId,
+				ref: 'Category'
+			}]
+		},
 		price: Number,
 		sale: {
 			type: Number,

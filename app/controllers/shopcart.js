@@ -102,20 +102,20 @@ exports.createInquiryInfo = function(req, res){
 exports.createInquiry = function(req, res){
 	var inquiryInfo = req.body.inquiry
 
-	console.log(inquiryInfo)
-	// console.log(inquiryInfo.goods)
-
-	// return false
-
 	Goods
 		.find({_id: {$in: inquiryInfo.goods.id}})
+		// .populate('attributes.color attributes.material attributes.scene attributes.sort','attributes')
 		.exec(function(err, _goods){
-			// console.log(_goods)
+			console.log(_goods[0].attributes)
+			// console.log(_goods[0].attributes.sort[0].attributes)
 			var inquiryObj = {
 				uid: inquiryInfo.uid,
 				from: inquiryInfo.from,
 				goods:[]
 			}
+
+			// return false
+
 			if(_goods && _goods.length > 0){
 				for(var i=0; i<_goods.length; i++){
 					var goodsObj = {
@@ -125,9 +125,10 @@ exports.createInquiry = function(req, res){
 						'price': _goods[i].price,
 						'size': _goods[i].size,
 						'sale': _goods[i].sale,
-						'color': _goods[i].color,
-						'material': _goods[i].material,
-						'scene': _goods[i].scene,
+						'attributes': _goods[i].attributes,
+						// 'color': _goods[i].color,
+						// 'material': _goods[i].material,
+						// 'scene': _goods[i].scene,
 						'quantity': inquiryInfo.goods.quantity[i],
 						'fromprice': inquiryInfo.goods.fromprice[i]
 					}
@@ -136,7 +137,7 @@ exports.createInquiry = function(req, res){
 				var _inquiryObj = new Inquiry(inquiryObj)
 				_inquiryObj.save(function(err, inquiry){
 					if(err) console.log(err)
-					res.redirect('/create/inquiry/success/'+inquiry.id)
+					res.redirect(301, '/create/inquiry/success/'+inquiry.id)
 					// res.render('index/inquiry/create_success',{
 					// 	title: '询价单创建成功',
 					// 	inquiry: {

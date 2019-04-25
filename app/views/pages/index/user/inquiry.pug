@@ -68,40 +68,21 @@ block content
 								th 单价
 								th(width="100") 操作
 						tbody
-							each favourite in favouritegoods
-								tr(id=favourite.id stitle=favourite.title)
+							each item in favouritegoods
+								tr(id=item.id stitle=item.title)
 									th: input.select-item.cp(type="checkbox")
 									td
-										img(src=`/data/goods/${favourite.id}/${favourite.cover}` width="80" height="80")
+										img(src=`/data/goods/${item.id}/${item.cover}` width="80" height="80")
 									td(style="vertical-align:top;")
 										ul.tl.fs11.cGray.line-height-normal
-											li
-												a.base-color-dark.fb.fs16(href=`/store/id/${favourite.id}` target="_blank") #{favourite.title}
-											li 尺寸：
-												span.ml5 #{formatSize(favourite.size)}
-											if favourite.scene && favourite.scene.length > 0
-												li 场景：
-													each scene in favourite.scene
-														span.ml5 #{scene.attributes.zh_cn}
-											if favourite.sort && favourite.sort.length > 0
-												li 类型：
-													each sort in favourite.sort
-														span.ml5 #{sort.attributes.zh_cn}
-											if favourite.material && favourite.material.length > 0
-												li 材质：
-													each material in favourite.material
-														span.ml5 #{material.attributes.zh_cn}
-											if favourite.color && favourite.color.length > 0
-												li 颜色：
-													each color in favourite.color
-														span.ml5 #{color.attributes.zh_cn}
-									td.fb.fs16(class=favourite.sale&&'goods-sale')
-										span #{formatPrice(favourite.price)}
-										if favourite.sale
-											span #{formatPrice(favourite.sale)}
+											include ../../../themplate/goods_attributes
+									td.fb.fs16(class=item.sale&&'goods-sale')
+										span #{formatPrice(item.price)}
+										if item.sale
+											span #{formatPrice(item.sale)}
 									td
-										a(href=`/store/id/${favourite.id}` target="_blank").base-button.b-primary.b-tiny 查看
-										span.mt5.base-button.b-caution.b-tiny.remove-item(ptitle=favourite.title) 移出
+										a(href=`/store/id/${item.id}` target="_blank").base-button.b-primary.b-tiny 查看
+										span.mt5.base-button.b-caution.b-tiny.remove-item(ptitle=item.title) 移出
 						tfoot
 							tr
 								td(colspan="5").tl

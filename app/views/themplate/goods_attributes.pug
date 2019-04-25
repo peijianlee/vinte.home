@@ -1,0 +1,20 @@
+
+li.mb5
+    a.base-color-dark.fs14.fb(href=`/store/id/${item.id}` target="_blank") #{item.title} 
+li.mb5.fn.cGray #{formatSize(item.size)}
+if item.attributes.scene && item.attributes.scene.length > 0 && item.attributes.scene[0].attributes
+    li.fs12.cGray 场景：
+        each scene in item.attributes.scene
+            span.mr5 #{scene.attributes.zh_cn}
+if item.attributes.sort && item.attributes.sort.length > 0 && item.attributes.sort[0].attributes
+    li.fs12.cGray 类型：
+        each sort in item.attributes.sort
+            span.mr5 #{sort.attributes.zh_cn}
+if item.attributes.material && item.attributes.material.length > 0 && item.attributes.material[0].attributes
+    li.fs12.cGray 材质：
+        each material in item.attributes.material
+            span.mr5 #{material.attributes.zh_cn}
+if item.attributes.color && item.attributes.color.length > 0 && item.attributes.color[0].attributes
+    li.fs12.cGray 颜色：
+        each color in item.attributes.color
+            span.mr5 #{color.attributes.zh_cn}

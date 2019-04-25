@@ -161,18 +161,18 @@ exports.list = function(req,res){
 }
 
 exports.signinRequired = function(req,res,next){
-	req.session.user = {
-		_id: '5c78db023a3aab2af80e213b',
-		name: 'repeat',
-		password: '$2a$10$Z5W36j4lycPIm8tn8h4PfuDQYThATF6Iz39x3EwMqUbT3cpRKvxBy',
-		__v: 0,
-		meta:
-		{ updateAt: '2019-03-01T07:10:58.874Z',
-		createAt: '2019-03-01T07:10:58.874Z' },
-		role: 51,
-		shopcartgoods: [ '5ca2da7a0ae95903bd182173', '5ca2c90046b74681cc021665' ],
-		avatar: 'avatar.png'
-	}
+	// req.session.user = {
+	// 	_id: '5c78db023a3aab2af80e213b',
+	// 	name: 'repeat',
+	// 	password: '$2a$10$Z5W36j4lycPIm8tn8h4PfuDQYThATF6Iz39x3EwMqUbT3cpRKvxBy',
+	// 	__v: 0,
+	// 	meta:
+	// 	{ updateAt: '2019-03-01T07:10:58.874Z',
+	// 	createAt: '2019-03-01T07:10:58.874Z' },
+	// 	role: 51,
+	// 	shopcartgoods: [ '5ca2da7a0ae95903bd182173', '5ca2c90046b74681cc021665' ],
+	// 	avatar: 'avatar.png'
+	// }
 	var user = req.session.user
 
 	console.log(user)
@@ -218,7 +218,7 @@ exports.detail = function(req,res){
 			Goods
 				.find({'favourite': user._id})
 				.limit(5)
-				.populate('color material scene sort','attributes')
+				.populate('attributes.color attributes.material attributes.scene attributes.sort','attributes')
 				.exec(function (err, _favouritegoods) {
 					if (err) console.log(err)
 					// console.log(favouritegoods)
@@ -266,15 +266,20 @@ exports.inquiries = function(req, res) {
 	if(ID){
 		Inquiry
 			.findOne({'_id': ID, 'user_delete': 0})
-			// .populate('attributes.scene attributes.material attributes.color','attributes')
+			// .populate({
+			// 	path: 'attributes', 
+			// 	select: 'goods.attributes.scene goods.attributes.material goods.attributes.color'
+			// })
+			.populate('goods.attributes.scene goods.attributes.material goods.attributes.color goods.attributes.sort','attributes')
+			// .populate('scene material color','attributes')
 			.exec(function(err, _inquiry){
-				console.log(_inquiry)
+				console.log(_inquiry.goods[0].attributes)
 				if (!_inquiry) {
 					return res.render('prompt',{
 						message:'找不到该咨询单，可能已被删除，或是路径错误。'
 					})
 				} else {
-					res.render('index/user/inquiry_details',{
+					res.render('index/user/inquiry_detail',{
 						title: 'No.' + _inquiry._id + ' - ' + TITLE,
 						inquiry: _inquiry,
 						cart_goods: user.shopcartgoods

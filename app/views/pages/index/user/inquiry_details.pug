@@ -1,12 +1,79 @@
 extends ../layout_index
 block append head
-	meta(name="robots" content="nofollow")
-	link(rel="stylesheet" href="/css/user.css")
+    meta(name="robots" content="nofollow")
+    link(rel="stylesheet" href="/css/user.css")
 block content
-	.wrap.nav
-		a(href="/")
-			i.fs14.icon-home
-		a(href=`/user/${user.name}`) 我的个人中心
-		a(href=`/user/${user.name}/inquiries`) 询价单
-		b No.#{inquiry.id}
-	.user-frame.wrap
+    .wrap.nav
+        a(href="/")
+            i.fs14.icon-home
+        a(href=`/user/${user.name}`) 我的个人中心
+        a(href=`/user/${user.name}/inquiries`) 询价单
+        b No.#{inquiry.id}
+    .user-frame.wrap
+        ul.user_page_menu
+            li.Stand
+                a.block(href=`/user/${user.name}/inquiries`)
+                    i.icon-reorder.mr5
+                    |询价单
+            li
+                a.block(href=`/user/${user.name}/favourite`)
+                    i.icon-star.mr5
+                    | 收藏夹
+        .user_page.p15
+            h5.order_detail_title.base-color-dark.cd
+                span.fr.fs12.fn
+                    i.icon-time.mr5
+                    | 创建时间：
+                    | #{moment(inquiry.meta.createAt).format('YYYY/MM/DD')}
+                i.icon-angle-right.mr10
+                | #{'No.' + inquiry.id}
+            .order_detail_left
+                h6.order_detail_list_head
+                    i.icon-list.mr5
+                    | 咨询单列表
+                table.table_striped.table_bordered
+                    tr
+                        th(width="100") 图片
+                        th 名称
+                        th(width="120") 官方定价
+                        th(width="60") 目标数量
+                        th 目标价格
+                    if inquiry.goods && inquiry.goods.length > 0
+                        each item in inquiry.goods
+                            //- - console.log('----')
+                            //- - console.log(item.attributes.sort || '----no----')
+                            tr.fs12
+                                td
+                                    img(style="width:100px;height:100px;" src=`/data/goods/${item.id}/${item.cover}`)
+                                td: ul.tl
+                                    include ../../../themplate/goods_attributes
+                                    td.fn.tc.cGray(class=item.sale&&'goods-sale-no-label')
+                                        span #{formatPrice(item.price)}
+                                        if item.sale
+                                            span #{formatPrice(item.sale)}
+                                    td.fb.tc #{item.quantity}
+                                    td.fb.tc.base-color.fs18 #{formatPrice(item.fromprice)}
+            dl.order_detail_right
+                dt.order_detail_list_head.fb
+                    i.icon-info.mr5
+                    | 我的资料
+                dd
+                    i.icon-building.mr5
+                    b 公司名称：
+                    | #{inquiry.from.company}
+                dd
+                    i.icon-user.mr5
+                    b 联系人：
+                    | #{inquiry.from.user}
+                dd
+                    i.icon-envelope-alt.mr5
+                    b Email：
+                    | #{inquiry.from.email}
+                dd
+                    i.icon-comment-alt.mr5
+                    b 留言：
+                    | #{inquiry.from.description}
+                dd
+                    a(href="javascript:void(0);" oid=inquiry.id)#del-inquiry.base-button.b-caution.b-block.b-normal.b-radius 删除询价单
+            br.clear
+    .bg_fixed
