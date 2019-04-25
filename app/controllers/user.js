@@ -161,27 +161,18 @@ exports.list = function(req,res){
 }
 
 exports.signinRequired = function(req,res,next){
-	console.log('------------')
-	console.log('------------')
-	console.log('------------')
-	console.log('------------')
-	console.log(process.env.NODE_ENV)
-	console.log('------------')
-	console.log('------------')
-	
-
-	req.session.user = {
-		_id: '5c78db023a3aab2af80e213b',
-		name: 'repeat',
-		password: '$2a$10$Z5W36j4lycPIm8tn8h4PfuDQYThATF6Iz39x3EwMqUbT3cpRKvxBy',
-		__v: 0,
-		meta:
-		{ updateAt: '2019-03-01T07:10:58.874Z',
-		createAt: '2019-03-01T07:10:58.874Z' },
-		role: 51,
-		shopcartgoods: [ '5ca2da7a0ae95903bd182173', '5ca2c90046b74681cc021665' ],
-		avatar: 'avatar.png'
-	}
+	// req.session.user = {
+	// 	_id: '5c78db023a3aab2af80e213b',
+	// 	name: 'repeat',
+	// 	password: '$2a$10$Z5W36j4lycPIm8tn8h4PfuDQYThATF6Iz39x3EwMqUbT3cpRKvxBy',
+	// 	__v: 0,
+	// 	meta:
+	// 	{ updateAt: '2019-03-01T07:10:58.874Z',
+	// 	createAt: '2019-03-01T07:10:58.874Z' },
+	// 	role: 51,
+	// 	shopcartgoods: [ '5ca2da7a0ae95903bd182173', '5ca2c90046b74681cc021665' ],
+	// 	avatar: 'avatar.png'
+	// }
 	var user = req.session.user
 
 	console.log(user)
