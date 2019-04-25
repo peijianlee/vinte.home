@@ -185,16 +185,16 @@ exports.signinRequired = function(req,res,next){
 }
 
 exports.adminRequired = function(req,res,next){
-	// var user = req.session.user
+	var user = req.session.user
 
 	// console.log(user)
 
-	// if(user.role <=10){
-	// 	console.log('没有权限')
-	// 	return res.render('prompt',{
-	// 		message:'你的权限不够，无法访问该页面！'
-	// 	})
-	// }
+	if(user.role <=10){
+		console.log('没有权限')
+		return res.render('prompt',{
+			message:'你的权限不够，无法访问该页面！'
+		})
+	}
 	next()
 }
 

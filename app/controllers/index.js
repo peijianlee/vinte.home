@@ -53,17 +53,7 @@ exports.send = function(req, res) {
 //index page
 exports.index = function(req,res){
 	var user = req.session.user,
-		cart = req.session.cart,
-		id=req.params.id
-
-	// Category.aggregate([{
-	// 	'$group': {
-	// 		_id: '$name', 
-	// 		cid: {$push: '$$ROOT'}
-	// 	}
-	// }], function(err, _category){
-	// 	console.log(_category)
-	// })
+		cart = req.session.cart
 
 	Category
 		.find({type:'goods'})
