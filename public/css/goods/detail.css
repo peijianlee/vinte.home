@@ -115,6 +115,10 @@
 	background-color:#efefef;
 	box-shadow:inset 1px 1px white;
 }
+.view-over-goods-wrap{
+	padding-top: 8px;
+	padding-left: 5px;
+}
 
 /*-----侧边导航栏-----*/
 .goods-side-nav{

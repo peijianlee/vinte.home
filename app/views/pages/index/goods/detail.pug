@@ -97,9 +97,8 @@ block content
 			h5
 				i.icon-magnet.ml5.mr5
 				| 浏览过的商品
-			.sub-goods-frame-row4
+			.view-over-goods-wrap
 				each item in find_view_goods
-					.sub-page-goods(id=item.id)
-						include ../../../themplate/goods
+					include ../../../themplate/goods
 	.bg_fixed
 	script(src="/js/shopcart.js")
