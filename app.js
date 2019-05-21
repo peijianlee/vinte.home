@@ -108,10 +108,10 @@ if('development' === app.get('env')){
 require('./config/routes')(app)
 
 // 获取静态资源路径
-app.use('/', express.static(path.join(__dirname, 'dest')))
-// app.use('/data/', express.static(path.join(__dirname, 'public')))
-app.use('/images', express.static(path.join(__dirname, 'public')))
-app.use('/cssfont', express.static(path.join(__dirname, 'public/css/icons')))
+// app.use('/', express.static(path.join(__dirname, 'dest')))
+app.use('/data/', express.static(path.join(__dirname, 'public')))
+// app.use('/images', express.static(path.join(__dirname, 'public')))
+// app.use('/cssfont', express.static(path.join(__dirname, 'public/css/icons')))
 
 
 
