@@ -108,17 +108,18 @@ if('development' === app.get('env')){
 require('./config/routes')(app)
 
 // 获取静态资源路径
-if(env === 'development'){
-    // app.use('/', express.static(path.join(__dirname, 'public')))
-    app.use('/', express.static(path.join(__dirname, 'dest')))
-} else {
-    app.use('/', express.static(path.join(__dirname, 'dest')))
-}
-app.use('/images', express.static(path.join(__dirname, 'public')))
-app.use('/cssfont', express.static(path.join(__dirname, 'public/css/icons')))
-// app.use('/', express.static(path.join(__dirname, 'dest')))
+/*
+    在 nginx 会配置 img 标签默认地址为 /public
+        /public/data 文件夹主要是放上传的图片文件
+        /public/images 是站内的静态图片资源，如logo
+    / 路径为 css js 的文件路径
+        本地会用/public路径
+        服务器会/dest路径
+*/
+app.use('/data', express.static(path.join(__dirname, 'public/data')))
+app.use('/images', express.static(path.join(__dirname, 'public/images')))
+app.use('/', express.static(path.join(__dirname, 'public')))
 // app.use('/data/', express.static(path.join(__dirname, 'public')))
-// app.use('/images', express.static(path.join(__dirname, 'public')))
 
 
 

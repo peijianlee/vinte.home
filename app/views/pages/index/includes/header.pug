@@ -25,8 +25,8 @@ if !header_hide
 				a.navbar-link.mr5(href="/logout")
 					i.icon-signout.mr5
 					| 退出登录
-	- if(recommendProducts) var headerHasBgcolor = 'index-banner-bgcolor'
-	div(class=`${headerHasBgcolor} header`)
+	//- - if(recommendProducts) var headerHasBgcolor = 'index-banner-bgcolor'
+	div(class=`header`)
 		.wrap
 			h2.logo
 				| 梵特家具网
@@ -39,9 +39,9 @@ if !header_hide
 					b.head_shopcart_num #{cart_goods.length}
 				else
 					b.head_shopcart_num 0
-			form(method="GET", action="/results")
+			form(method="GET" action="/results")
 				.head-search.fr
-					input(type="text",name="q",value=searchword)
+					input(type="text" name="q" value=searchword)
 					button.h_search_btn.icon-search(type="submit")
 
 			ul.hmenu

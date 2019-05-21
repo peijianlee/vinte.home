@@ -34,8 +34,9 @@ module.exports=function(grunt){
 				}
 			}
 		},
+		// 删除 js 和 css 文件夹
 		clean: {
-			src: ['dest/js/*', 'dest/css/*']
+			src: ['dest/js', 'dest/css']
 		},
         //压缩css
         cssmin:{
@@ -54,7 +55,19 @@ module.exports=function(grunt){
                 dest:'dest/css/', // 处理后的文件名或所在目录。
 				ext: '.css' // 处理后的文件后缀名。 
 			}
-        },
+		},
+		// 复制css字体文件
+		copy: {
+			icons: {
+				expand: true,
+				cwd: 'public/css/icons/',
+				src: [
+					'*.css',
+					'font/*'
+				],
+				dest: 'dest/css/icons/'
+			}
+		},
 		uglify: {
 			files: {
 				expand: true,
@@ -81,6 +94,7 @@ module.exports=function(grunt){
 	grunt.loadNpmTasks('grunt-nodemon')
 	grunt.loadNpmTasks('grunt-concurrent')
 
+	grunt.loadNpmTasks('grunt-contrib-copy')
 	grunt.loadNpmTasks('grunt-contrib-clean')
 	grunt.loadNpmTasks('grunt-contrib-uglify')
 	grunt.loadNpmTasks('grunt-contrib-cssmin')
@@ -91,6 +105,7 @@ module.exports=function(grunt){
 	grunt.registerTask('build', [
 		'clean',
 		'uglify',
-		'cssmin'
+		'cssmin',
+		'copy'
 	])
 }
