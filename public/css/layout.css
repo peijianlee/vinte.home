@@ -48,7 +48,7 @@
 .logo-icon{
 	height:35px;width:180px;
 	display:inline-block;
-	background-image:url(../images/logo-index.png);
+	background-image:url(/images/images/logo-index.png);
 	position:relative;
 }
 .logo-icon i{

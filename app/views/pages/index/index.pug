@@ -5,7 +5,7 @@ block append head
 	link(rel="stylesheet" href="/css/index.css")
 block content
 	.index-banner-bgcolor.tc.fs0
-		img.vtLazyload(src="default.png" data-src="/images/banner-1.png" alt="")
+		img.vtLazyload(src="/images/default.png" data-src="/images/images/banner-1.png" alt="")
 	if pstyleCategories && pstyleCategories.length > 0
 		.bgBlue.bg-slash
 			.wrap.pt50.pb50.tc
@@ -16,7 +16,7 @@ block content
 					span Furniture style
 				each pstyle in pstyleCategories
 					.i-furniture-type
-						img.vtLazyload(src="default.png" data-src=`/data/banner/${pstyle.banner}` )
+						img.vtLazyload(src="/images/default.png" data-src=`/images/data/banner/${pstyle.banner}` )
 						h6 #{pstyle.attributes.zh_cn}
 						p #{pstyle.description.length<116?pstyle.description:pstyle.description.substring(0, 116)+'...'}
 	if materialCategories && materialCategories.length > 0
