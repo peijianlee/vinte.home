@@ -83,7 +83,7 @@ module.exports=function(grunt){
 			}
 		},
 		concurrent:{
-			tasks:['uglify', 'cssmin', 'nodemon','watch'],
+			tasks:['nodemon','watch'],
 			options:{
 				logConcurrentOutput: true
 			}

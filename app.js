@@ -116,26 +116,16 @@ require('./config/routes')(app)
         本地会用/public路径
         服务器会/dest路径
 */
-app.use('/data', express.static(path.join(__dirname, 'public/data')))
-app.use('/images', express.static(path.join(__dirname, 'public/images')))
-app.use('/', express.static(path.join(__dirname, 'public')))
+if(env === 'development'){
+    app.use('/data', express.static(path.join(__dirname, 'public/data')))
+    app.use('/images', express.static(path.join(__dirname, 'public/images')))
+    app.use('/', express.static(path.join(__dirname, 'dest')))
+}
 // app.use('/data/', express.static(path.join(__dirname, 'public')))
 
 
 
-var methodPug = require('./config/method_for_pug.js')
 app.locals.moment = require('moment')
-// 格式化价格
-// app.locals.formatPrice = function(price) {
-//     // toLocaleString API 的调用方法
-//     // https://www.colabug.com/2626489.html
-//     var Price = '￥' + price.toLocaleString('zh', {
-//         minimumFractionDigits: 2, 
-//         maximumFractionDigits: 2, 
-//         useGrouping: true 
-//     })
-//     return Price
-// }
 app.locals.global = require('./config/method_for_pug.js')
 
 app.listen(port)
