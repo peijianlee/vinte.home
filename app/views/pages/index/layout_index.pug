@@ -5,9 +5,9 @@ html
 		//- meta(name="viewport" content="width=device-width,initial-scale=1.0")
 		meta(name="viewport" content="width=1050")
 		if title
-			title #{title + ' - ' + baseInfo.title}
+			title #{title + ' - ' + global.baseInfo.title}
 		else
-			title #{baseInfo.title}
+			title #{global.baseInfo.title}
 
 		- var _keywords = "梵特家具网,中山梵特家具网,乡村风格家具,中山乡村风格家具,仿古家具,中山仿古家具"
 		- var _description = "梵特家具是一家专业的家具制造厂商，其制造范围有批量家具生产、家具定制、家具重设计，家具风格主要是以乡村风格、工业风格、宫廷风格及其他手工艺绘制风格为主，多年销往欧美及其周边多个国家。"
@@ -25,6 +25,7 @@ html
 			link(href="/css/base.css" rel="stylesheet")
 			link(href="/css/style.css" rel="stylesheet")
 			link(href="/css/icons/font-awesome.css" rel="stylesheet")
+			script(src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js")
 	body
 		include ./includes/header
 		block content

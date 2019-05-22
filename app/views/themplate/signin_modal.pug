@@ -29,7 +29,8 @@ form.sign_form#signinModal.pf
 		button.button.button-raised.button-primary#signinBtn(signtype="signin", type="submit") 登 录
 		.sign_form_foot_info
 			h6(style="color:#25a6a4") VINTE
-			p(style="color:#25a6a4") 备案编号:110105000501<br />Copyright © 2017 www.vinte.xin All Rights Reserved
+			- var YEAR = new Date().getFullYear()
+			p(style="color:#25a6a4") Copyright © 2017 - #{YEAR}<br/>www.vinte.xin All Rights Reserved
 script(src="/js/sign.js")
 script.
 	$(function(){
@@ -63,7 +64,7 @@ script.
 		})
 
 		// 弹出框
-		$('.ip_tag[data-toggle="modal"]').click(function() {
+		$('[data-toggle="modal"]').click(function() {
 			var $modal = $(this),
 				pageName = $modal.attr('page-name')
 			if (pageName === 'inquiry') {

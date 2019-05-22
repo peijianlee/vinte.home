@@ -18,9 +18,9 @@ block content
 					b.base-color-dark  #{goods_total} 
 					| 件商品
 	include ../../../themplate/fiter_bar
-	.wrap.pt15
+	#goods-wrap.wrap.pt15
 		if goods && goods.length > 0
-			each item in goods
+			each item,index in goods
 				include ../../../themplate/goods
 		else
 			.search-empty-tip.bg-slash.bg-gray

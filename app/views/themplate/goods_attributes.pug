@@ -2,7 +2,7 @@
 li.mb5
     a.base-color-dark.fs14.fb(href=`/goods/id/${item.id}` target="_blank") #{item.title} 
 if !attrHideSize
-    li.mb5.fn.cGray #{formatSize(item.size)}
+    li.mb5.fn.cGray #{global.formatSize(item.size)}
 if item.attributes.scene && item.attributes.scene.length > 0 && item.attributes.scene[0].attributes
     li.fs12.cGray 场景：
         each scene in item.attributes.scene

@@ -3,9 +3,9 @@ block append head
 	link(rel="stylesheet" href="/css/goods/item.css")
 block content
 	include ../../../themplate/fiter_bar
-	.wrap.pt10.pb20
+	#goods-wrap.wrap.pt10.pb20
 		if goods && goods.length > 0
-			each item in goods
+			each item,index in goods
 				include ../../../themplate/goods
 		else
 			.search-empty-tip.bg-slash.bg-gray

@@ -94,21 +94,21 @@ span.igoods_add_cart_btn.Stand{
 	box-shadow:none;
 }
 /*收藏按键*/
-#ip_favourite{position:relative;}
-#ip_favourite i.icon-star{display:none;}
-#ip_favourite.On{color:#c66;}
-#ip_favourite.On i.icon-star{
+.ip_favourite{position:relative;}
+.ip_favourite i.icon-star{display:none;}
+.ip_favourite.On{color:#c66;}
+.ip_favourite.On i.icon-star{
 	display:inline;
 	/* color:#888; */
 	color:#c66;
 }
-#ip_favourite.On i.icon-star-empty{display:none;}
-.ip_favourite_btn:hover{
+.ip_favourite.On i.icon-star-empty{display:none;}
+.ip_favourite:hover{
 	color:#555;
 	border-color:#999;
 }
-.ip_favourite_btn.On{background-color:#f6f6f6;}
-.ip_favourite_num{
+.ip_favourite.On{background-color:#f6f6f6;}
+.ip_favourite b{
 	font-weight:normal;
 	margin-left:3px;
 }

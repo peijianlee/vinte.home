@@ -141,6 +141,34 @@
 			event判断是否是全选的checkbox
 		--*/
 		checkBoxSelect: function (dom, fn) {
+			// $.checkBoxSelect(['.select-goods', '#select-all', 'tbody tr', '#select-num', '#remove-all'], function (info) {
+			// var obj ={
+			// 	parent : '.shopcart_list',
+			// 	checkbox : '.select-goods',
+			// 	selectNum : '#select-num'
+			// }
+			// var OBJ = obj,
+			// 	$PARENT = $(OBJ.parent),
+			// 	$CHECKBOX = $(OBJ.checkbox),
+			// 	CHECKBOX_NUM = $CHECKBOX.length,
+			// 	$SELECTNUM = $(OBJ.selectNum)
+			// 	// checkbox_length = $PARENT.find('.select-goods:checked').length
+			// // $PARENT.delegate($CHECKBOX, 'click', function(){
+			// // 	console.log($(this))
+			// // })
+			// $CHECKBOX.bind({
+			// 	"click": function(event) {
+			// 		matchCheckBoxNum()
+			// 	}
+			// })
+
+			// function matchCheckBoxNum(){
+			// 	var s_num = $PARENT.find(OBJ.checkbox + ':checked').length
+			// 	console.log(s_num === CHECKBOX_NUM)
+			// 	$SELECTNUM.text(s_num)
+			// }
+
+			// // old
 			CheckBox()
 			$(dom[0] + ',' +dom[4]).bind({
 				"click": function() { CheckBox() }

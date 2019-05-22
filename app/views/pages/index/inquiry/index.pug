@@ -52,7 +52,7 @@ block content
 								td.shopcart_goods_name.vertical-align-middle
 									ul
 										include ../../../themplate/goods_attributes
-								td.tc.vertical-align-middle #{formatSize(item.size)}
+								td.tc.vertical-align-middle #{global.formatSize(item.size)}
 								td.tc.vertical-align-middle
 									include ../../../themplate/goods_price
 								td.tc.vertical-align-middle #{item.quantity || 1}
@@ -101,7 +101,10 @@ block content
 		script.
 			$('#createOrderBtn').click(function(){
 				if(!CheckboxIsChecked()){
-					$.artTip('<i class="icon-exclamation-sign mr5"></i>请选择商品 !', 1000)
+					$.artTip({
+						title: '<i class="icon-exclamation-sign mr5"></i>请选择商品 !', 
+						time: 800
+					})
 					return false
 				}
 			})

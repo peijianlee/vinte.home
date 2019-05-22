@@ -104,7 +104,7 @@ block content
 										onblur=`blurFormatNumber(this, Price${item.id})` 
 										maxlength="11" 
 										type="text" 
-										value=`${formatPrice(item.sale || item.price)}` 
+										value=`${global.formatPrice(item.sale || item.price)}` 
 										readonly=true 
 										oncontextmenu="return false" )
 									input(id=`Price${item.id}` type="hidden" name="inquiry.goods[pid.fromprice]" value=`${item.sale || item.price}`)
