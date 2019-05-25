@@ -161,6 +161,7 @@ exports.list = function(req,res){
 }
 
 exports.signinRequired = function(req,res,next){
+	// console.log(app)
 	// req.session.user = {
 	// 	_id: '5c78db023a3aab2af80e213b',
 	// 	name: 'repeat',

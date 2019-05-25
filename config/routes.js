@@ -1,5 +1,5 @@
 // 引入controllers的控制器
-var _ = require('underscore')
+// var _ = require('underscore')
 var Index = require('../app/controllers/index')
 var News = require('../app/controllers/news')
 var Goods = require('../app/controllers/goods')
@@ -12,13 +12,27 @@ var Shopcart = require('../app/controllers/shopcart')
 var Inquiry = require('../app/controllers/inquiry')
 var Global = require('../app/controllers/global')
 var Api = require('../app/controllers/api')
-var ueditor = require('ueditor')
+// var ueditor = require('ueditor')
 
-var path = require('path')
+// var path = require('path')
 
 module.exports = function(app){
 	// pre handle user
 	app.use( function (req, res, next) {
+		if(app.get('env') === 'development'){
+			req.session.user = {
+				_id: '5c78db023a3aab2af80e213b',
+				name: 'repeat',
+				password: '$2a$10$Z5W36j4lycPIm8tn8h4PfuDQYThATF6Iz39x3EwMqUbT3cpRKvxBy',
+				__v: 0,
+				meta:
+				{ updateAt: '2019-03-01T07:10:58.874Z',
+				createAt: '2019-03-01T07:10:58.874Z' },
+				role: 51,
+				shopcartgoods: [ '5ca2da7a0ae95903bd182173', '5ca2c90046b74681cc021665' ],
+				avatar: 'avatar.png'
+			}
+		}
 		var _user = req.session.user
 		app.locals.user = _user
 		return next()

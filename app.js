@@ -12,9 +12,6 @@ var env = process.env.NODE_ENV || 'development'
 var port = process.env.PORT || config.port
 
 var dbUrl = config.onlineDbUrl
-// console.log('---- process.env -----')
-// console.log(process.env)
-// console.log('---- process.env -----')
 if(env === 'development'){
     dbUrl = config.localDbUrl
 }
@@ -64,7 +61,6 @@ app.use(session({
 //ueditor
 var ueditor = require('ueditor')
 app.use("/libs/ueditor/ue", ueditor(path.join(__dirname, 'public'), function (req, res, next) {
-
     // 判断当前是哪个页面
     var ueditortype = req.session.ueditortype.type
     var uedirname = req.session.ueditortype.dirname
@@ -124,16 +120,13 @@ if(env === 'development'){
 // app.use('/data/', express.static(path.join(__dirname, 'public')))
 
 
-
+// 引入页面函数方法
 app.locals.moment = require('moment')
-app.locals.global = require('./config/method_for_pug.js')
-
-// app.locals.pototype.nowNum = function(n){
-//     console.log(n)
-// }
-// var aaa = {}
-// console.log(aaa.constructor.prototype)
-// console.log(aaa.__proto__)
+// app.locals.global = require('./config/method_for_pug.js')
+var methodForPug = require('./config/method_for_pug.js')
+app.locals.baseInfo = methodForPug.baseInfo
+app.locals.formatPrice = methodForPug.formatPrice
+app.locals.formatSize = methodForPug.formatSize
 
 app.listen(port)
 

@@ -16,7 +16,7 @@ if index === 0
 					|&nbsp;#{item.attributes.material[0].attributes.zh_cn}
 				//- else
 				//- 	|&nbsp;未知材料
-				|&nbsp;#{global.formatSize(item.size)}
+				|&nbsp;#{formatSize(item.size)}
 				if item.attributes.color && item.attributes.color.length > 0
 					|&nbsp;/ #{item.attributes.color[0].attributes.zh_cn}
 				//- else
@@ -42,7 +42,7 @@ if index === 0
 				input(type="hidden" name="p[id]" value=item.id)
 				input(type="hidden" name="p[quantity]" value="1")
 			if item.sale
-				small.ip_price #{global.formatPrice(item.sale)}
-				small.ip_old_price #{global.formatPrice(item.price)}
+				small.ip_price #{formatPrice(item.sale)}
+				small.ip_old_price #{formatPrice(item.price)}
 			else
-				small.ip_price #{global.formatPrice(item.price)}
+				small.ip_price #{formatPrice(item.price)}

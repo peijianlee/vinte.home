@@ -1,4 +1,4 @@
 .fb(class=`${item.sale&&(goodsSaleNoLabel || 'goods-sale')} ${priceFontSize || 'fs16'}`)
-    span #{global.formatPrice(item.price)}
+    span #{formatPrice(item.price)}
     if item.sale
-        span #{global.formatPrice(item.sale)}
+        span #{formatPrice(item.sale)}
