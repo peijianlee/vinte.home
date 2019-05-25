@@ -6,6 +6,20 @@
 .index-banner-bgcolor img{
 	height:440px;
 }
+/* swiper css 自定义 */
+.swiper-pagination-bullet{
+	width: 30px;
+	height: 4px;
+	border-radius: 2px;
+}
+.swiper-pagination-bullet-active{
+	background-color: #25a6a4;
+}
+.swiper-container-horizontal>.swiper-pagination-bullets{
+	bottom: 15px;
+}
+
+
 #loading{
 	visibility:visible;
 	position:absolute;

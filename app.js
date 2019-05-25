@@ -119,7 +119,7 @@ require('./config/routes')(app)
 if(env === 'development'){
     app.use('/data', express.static(path.join(__dirname, 'public/data')))
     app.use('/images', express.static(path.join(__dirname, 'public/images')))
-    app.use('/', express.static(path.join(__dirname, 'dest')))
+    app.use('/', express.static(path.join(__dirname, 'public')))
 }
 // app.use('/data/', express.static(path.join(__dirname, 'public')))
 
@@ -127,6 +127,13 @@ if(env === 'development'){
 
 app.locals.moment = require('moment')
 app.locals.global = require('./config/method_for_pug.js')
+
+// app.locals.pototype.nowNum = function(n){
+//     console.log(n)
+// }
+// var aaa = {}
+// console.log(aaa.constructor.prototype)
+// console.log(aaa.__proto__)
 
 app.listen(port)
 

@@ -2,10 +2,41 @@ extends layout_index
 block append head
 	//- link(rel="stylesheet",href="/css/goods.css")
 	//- link(rel="stylesheet" href="/css/goods/item.css")
+	script(src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/js/swiper.min.js")
+	link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/css/swiper.min.css")
 	link(rel="stylesheet" href="/css/index.css")
 block content
-	.index-banner-bgcolor.tc.fs0
-		img.vtLazyload(src="/images/default.png" data-src="/images/banner-1.png" alt="")
+	.swiper-container.index-banner-bgcolor.tc.fs0
+		.swiper-wrapper
+			.swiper-slide
+				img(src="/images/banner-1.png" class="swiper-lazy")
+				.swiper-lazy-preloader
+			.swiper-slide(style="background-color:#fef9f5;")
+				img(src="/images/banner-2.png" class="swiper-lazy")
+				.swiper-lazy-preloader
+			.swiper-slide(style="background-color:#f7f2f0;")
+				img(src="/images/banner-3.png" class="swiper-lazy")
+				.swiper-lazy-preloader
+		.swiper-pagination#index-banner-pagination
+	script.
+		var mySwiper = new Swiper('.swiper-container', {
+			//- watchSlidesProgress: true,
+			//- effect : 'coverflow'
+			//- speed:2500,
+			loop : true,
+			autoplay: {
+				delay: 3000,
+				disableOnInteraction: false,
+				//- waitForTransition: false,
+			},
+			lazy: {
+				loadPrevNext: true,
+				loadOnTransitionStart: true
+			},
+			pagination: {
+				el: '.swiper-pagination',
+			}
+		})
 	if pstyleCategories && pstyleCategories.length > 0
 		.bgBlue.bg-slash
 			.wrap.pt50.pb50.tc
@@ -28,7 +59,8 @@ block content
 				span Material Introduction
 			.i-material-list.mb30.mt20
 				each material in materialCategories
-					a(href="/store/material/"+material.attributes.zh_cn style="background-image:url(/banner/#{material.banner})")
+					//- a(href="/store/material/"+material.attributes.zh_cn style="background-image:url(/banner/#{material.banner})")
+					a(href="/store/material/"+material.attributes.zh_cn)
 						span.i-material-frame.base-color-dark
 							span.imaterial #{material.attributes.zh_cn}
 								b #{material.pid.length}
