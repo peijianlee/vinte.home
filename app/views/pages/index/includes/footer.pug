@@ -40,9 +40,8 @@ if !header_hide
 			br.clear
 	.footer-bottom
 		.wrap.tr.fs12
-			- var YEAR = new Date().getFullYear()
-			a.cWhite(href="http://www.beian.miit.gov.cn" target="_blank") 粤ICP备17070570号
-			|	Copyright © 2017 - #{YEAR}, All Rights Reserved
+			a.cWhite(href=baseInfo.beianUrl target="_blank") #{baseInfo.beianNum}
+			|	#{baseInfo.Copyright('www.')}
 	//- - console.log('captcha:'+!captcha)
 	if !urser && captcha
 		include ../../../themplate/signin_modal

@@ -46,7 +46,8 @@ block content
 				h6 VINTE
 				p
 					a.cWhite.fs12(href=baseInfo.beianUrl target="_blank") #{baseInfo.beianNum}
-					p Copyright © 2017 #{baseInfo.domain} All Rights Reserved
+					- var YEAR = new Date().getFullYear()
+					p #{baseInfo.Copyright()}
 	//- h3.bgword
 		i.icon-quote-left.icon-3x.pull-left
 		| #{bgword}
