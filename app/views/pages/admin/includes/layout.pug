@@ -5,12 +5,13 @@ html
 		meta(name="robots" content="nofollow")
 		title #{title}
 		block head
-			script(src="/js/artalert.js")
 			link(rel="stylesheet" href="/css/buttons.css")
-			link(rel="stylesheet" href="/cssfont/font-awesome.css")
+			link(href="/css/icons/font-awesome.css" rel="stylesheet")
 				
 			link(href="/css/base.css" rel="stylesheet")
 			link(href="/css/admin.css" rel="stylesheet")
+			script(src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js")
+			script(src="/js/jquery_art_alert.js")
 	body
 		include menu
 		block content
