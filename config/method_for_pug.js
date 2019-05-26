@@ -1,5 +1,6 @@
 module.exports = {
     'baseInfo': {
+        domain: 'www.vinte.xin',
         title: '梵特家具网',
         description: [
             '我们是一家专业的家具制造厂商，其制造范围有批量家具生产、家具定制、家具设计，家具风格主要是以乡村风格、工业风格、日式风格及其他手工艺绘制风格为主，多年销往欧美及其周边多个国家。',
@@ -7,7 +8,9 @@ module.exports = {
         ],
         email: 'business@vinte.xin',
         telephone: '0760 86697781',
-        addr: '广东省，中山市，三乡镇，古鹤工业区'
+        addr: '广东省，中山市，三乡镇，古鹤工业区',
+        beianNum: '粤ICP备17070570号',
+        beianUrl: 'http://www.beian.miit.gov.cn'
     },
     // 格式化价格
     'formatPrice': function(price) {
