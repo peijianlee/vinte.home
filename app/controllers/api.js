@@ -7,12 +7,17 @@ var c_type = 'application/json;charset=utf-8'
 exports.products = function(req,res){
 	// var _callback = req.query.callback
 	Goods.find({})
-		.populate('color material scene sort', 'attributes')
+		// .populate('attributes.color attributes.material attributes.scene attributes.sort', 'attributes')
+		.populate({
+			path: 'attributes.scene attributes.material attributes.color',
+			select: 'attributes',
+			model: 'Category'
+		})
 		.exec(function(err, products){
 			if(err) console.log(err)
 			var data = {
-				'start': 0,
-				'count': 10,
+				// 'start': 0,
+				// 'count': 10,
 				'total': products.length,
 				'targets': products
 			}

@@ -67,7 +67,7 @@ exports.sort = function(req,res){
 				path: 'pid',
 				model: 'Goods',
 				populate: {
-					path: 'attributes.scene attributes.material attributes.color]',
+					path: 'attributes.scene attributes.material attributes.color',
 					select: 'attributes',
 					model: 'Category'
 				}

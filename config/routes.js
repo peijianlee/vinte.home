@@ -155,7 +155,7 @@ module.exports = function(app){
 
 
 	// api接口
-	// app.get('/api/products', Api.products)
+	app.get('/api/products', Api.products)
 	// app.get('/api/product/:id', Api.product)
 	app.get('/api/categories', Api.categories)
 	app.get('/api/categories/:sort', Api.sort)
