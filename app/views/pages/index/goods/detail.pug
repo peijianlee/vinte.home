@@ -45,7 +45,7 @@ block content
 					dd.panel_sort
 						h6.fs14 商品尺寸：
 						a.sort_btn
-							span #{global.formatSize(goods.size)}
+							span #{formatSize(goods.size)}
 					dd.panel_sort
 						h6.fs14 商品材质：
 						each item in goods.attributes.material
@@ -55,12 +55,12 @@ block content
 						div
 							if goods.sale
 								span.panel_price.line_through.fs12.pl10 零售价：
-									b #{global.formatPrice(goods.price)}
+									b #{formatPrice(goods.price)}
 								span.panel_price.fs12.pl10.mt10 折扣价：
-									b.fs18.cRed #{global.formatPrice(goods.sale)}
+									b.fs18.cRed #{formatPrice(goods.sale)}
 							else
 								span.panel_price.fs12.pl10 零售价：
-									b.fs18.cRed #{global.formatPrice(goods.price)}
+									b.fs18.cRed #{formatPrice(goods.price)}
 							a.igoods_add_cart_btn.fr.cp
 								i.icon-shopping-cart.mr10
 								| 加入询价单
@@ -74,7 +74,7 @@ block content
 						b #{goods.title}
 				tr
 					th 尺寸规格：
-					td #{global.formatSize(goods.size)}
+					td #{formatSize(goods.size)}
 				if goods.attributes.material && goods.attributes.material.length > 0
 					tr
 						th 商品材质：

@@ -19,20 +19,20 @@ var Api = require('../app/controllers/api')
 module.exports = function(app){
 	// pre handle user
 	app.use( function (req, res, next) {
-		// if(app.get('env') === 'development'){
-		// 	req.session.user = {
-		// 		_id: '5c78db023a3aab2af80e213b',
-		// 		name: 'repeat',
-		// 		password: '$2a$10$Z5W36j4lycPIm8tn8h4PfuDQYThATF6Iz39x3EwMqUbT3cpRKvxBy',
-		// 		__v: 0,
-		// 		meta:
-		// 		{ updateAt: '2019-03-01T07:10:58.874Z',
-		// 		createAt: '2019-03-01T07:10:58.874Z' },
-		// 		role: 51,
-		// 		shopcartgoods: [ '5ca2da7a0ae95903bd182173', '5ca2c90046b74681cc021665' ],
-		// 		avatar: 'avatar.png'
-		// 	}
-		// }
+		if(app.get('env') === 'development'){
+			req.session.user = {
+				_id: '5c78db023a3aab2af80e213b',
+				name: 'repeat',
+				password: '$2a$10$Z5W36j4lycPIm8tn8h4PfuDQYThATF6Iz39x3EwMqUbT3cpRKvxBy',
+				__v: 0,
+				meta:
+				{ updateAt: '2019-03-01T07:10:58.874Z',
+				createAt: '2019-03-01T07:10:58.874Z' },
+				role: 51,
+				shopcartgoods: [ '5ca2da7a0ae95903bd182173', '5ca2c90046b74681cc021665' ],
+				avatar: 'avatar.png'
+			}
+		}
 		var _user = req.session.user
 		app.locals.user = _user
 		return next()

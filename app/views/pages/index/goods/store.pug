@@ -2,6 +2,13 @@ extends ../layout_index
 //- block append head
 //- 	link(rel="stylesheet" href="/css/goods/item.css")
 block content
+	//- - var getStyleId = url_href.substring(6)
+	//- - var bannerArray = ['5c78e7ad773e3c2244fe80d2','5c78e6e4773e3c2244fe80d1','5c78dd3fd633c71cc0020ada']
+	//- - var bannerBgColor = ['#f9f9f9','#fef9f5','#f7f2f0']
+	//- - var bannerIndex = bannerArray.indexOf(getStyleId)
+	//- if bannerIndex > -1
+	//- 	.sub-banner(style=`background-color:${bannerBgColor[bannerIndex]};background-image:url(/images/banner-${bannerIndex + 1}.png)`)
+	//- 		img.vtLazyload(src='/images/default.png' data-src=`/images/banner-${bannerIndex + 1}.png`)
 	include ../../../themplate/fiter_bar
 	#goods-wrap.wrap.pt10.pb20
 		if goods && goods.length > 0
