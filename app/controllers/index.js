@@ -85,7 +85,7 @@ exports.index = function(req,res){
 			Goods
 				.find({})
 				.limit(8)
-				.sort({'pv': -1})
+				.sort({_id: -1})
 				.populate('attributes.color attributes.material attributes.scene attributes.sort','attributes')
 				.exec(function(err, _recommendGoods){
 					if(err)console.log(err)
