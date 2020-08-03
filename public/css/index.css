@@ -257,11 +257,16 @@
 }
 
 /* index material introduction */
-.i-material-list{height:150px;}
+.i-material-list{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	/* height:150px; */
+}
 .i-material-list a{
 	font-size:14px;color:white;
 	width:33.333333%;height:150px;
-	float:left;
+	/* float:left; */
 	box-shadow:
 		inset 12px 12px rgba(255,255,255,.15),
 		inset -12px 12px rgba(255,255,255,.15),
