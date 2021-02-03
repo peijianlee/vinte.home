@@ -4,10 +4,37 @@ var Shopcart = require('../models/shopcart')
 
 var c_type = 'application/json;charset=utf-8'
 
-exports.products = function(req,res){
+
+exports.products = function(req, res){
 	// var _callback = req.query.callback
-	Goods.find({})
-		// .populate('attributes.color attributes.material attributes.scene attributes.sort', 'attributes')
+	// console.log('reqBodyGoods sss', JSON.parse(JSON.stringify(reqBodyGoods)))
+	let num = req.query.page? parseInt(req.query.page) : 0
+	let NUM = num > 0? (num - 1) : 0
+	let	LIMIT = req.query.limit? parseInt(req.query.limit) : 12,
+		SKIP = NUM * LIMIT,
+		q = req.query.q,
+		param = {}
+
+	if (q) {
+		param.title = new RegExp( q+'.*','i' )
+	}
+
+	// Goods
+	// 	.find(goods_attributes)
+	// 	.sort({_id: -1})
+	// 	.skip(SKIP)
+	// 	.limit(LIMIT)
+	// 	.populate({
+	// 		path: 'attributes.sort attributes.color attributes.material attributes.scene',
+	// 		select: 'name attributes',
+	// 		model: 'Category'
+	// 	})
+	// 	.exec(function(err, _goods){
+	Goods
+		.find(param)
+		.sort({_id: -1})
+		.skip(SKIP)
+		.limit(LIMIT)
 		.populate({
 			path: 'attributes.scene attributes.material attributes.color',
 			select: 'attributes',
