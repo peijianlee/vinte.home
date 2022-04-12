@@ -10,7 +10,7 @@ module.exports = {
         telephone: '0760 86697781',
         addr: '广东省，中山市，三乡镇，古鹤工业区',
         beianNum: '粤ICP备17070570号',
-        beianUrl: 'http://www.beian.miit.gov.cn',
+        beianUrl: 'https://beian.miit.gov.cn/',
         Copyright: function(subdomain){
             var DOMAIN = subdomain? subdomain + this.domain : this.domain
             return 'Copyright © 2017 - ' + new Date().getFullYear() +' '+ DOMAIN+' All Rights Reserved'
